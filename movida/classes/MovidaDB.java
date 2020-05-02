@@ -7,23 +7,45 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.BufferedReader;
 
+import Movie;
+
 public class MovidaDB implements movida.interfaces.IMovidaDB {
+  private LinkedList<Movie> movies;
+
+  public MovieDB(){
+    movies = new LinkedList<Movie>();
+  }
+
   @Override
   public void loadFromFile(File f){
     System.out.println("START STREAM");
 
     try{
-
-      // Creates a FileReader Object
-      // FileReader fr = new FileReader(file);
-      // char [] a = new char[50];
-      // fr.read(a);   // reads the content to the array
-
       BufferedReader br = new BufferedReader(new FileReader(f));
+      String [] movie = new String [5], [] line = new String [2];
+      int i = 0;
+      String stream = "";
 
-      String st;
-      while ((st = br.readLine()) != null)
+      while ((stream = br.readLine()) != null){
         System.out.println(st);
+
+        line = stream.split(':');
+
+        // Using a switch so even though the movie is describe in a unordered way
+        //  it'll still be right
+        switch(line[0]){
+          case "Title": movie[0] = line[1].trim(); break;
+          case "Year": movie[1] = line[1].trim(); break;
+          case "Director": movie[2] = line[1].trim(); break;
+          case "Cast": movie[3] = line[1].trim(); break;
+          case "Votes": movie[4] = line[1].trim(); break;
+          case "":{
+            movies
+
+          }
+        }
+
+      }
 
       br.close();
     }
