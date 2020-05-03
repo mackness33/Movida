@@ -56,5 +56,17 @@ public class Movie {
 		return this.director;
 	}
 
+	public String toString(){
+		String s = "Title => " + this.title + "\n\rYear => " + this.year + "\n\rVotes => " + this.votes + "\n\rDirector => " + this.director.getName() + "\n\rCast => ";
 
+		System.out.println("Cast: " + this.cast.length);
+		for (Person p : this.cast){
+			if (p == null)
+				break;
+
+			s += p.getName() + ", ";
+		}
+
+		return s;
+	}
 }
