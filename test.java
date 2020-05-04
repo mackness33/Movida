@@ -1,7 +1,7 @@
-import movida.classes.MovidaDB;
+import movida.mackseverini.MovidaDB;
 import java.io.File;
 import java.util.LinkedList;
-import movida.classes.Movie;
+import movida.commons.Movie;
 
 public class test {
 

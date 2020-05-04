@@ -6,7 +6,7 @@
  * Laurea in Informatica, UniBO, a.a. 2019/2020
  *
 */
-package movida.classes;
+package movida.commons;
 
 /**
  * Classe usata per rappresentare una persona, attore o regista,

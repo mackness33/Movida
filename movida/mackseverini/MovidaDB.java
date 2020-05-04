@@ -1,4 +1,4 @@
-package movida.classes;
+package movida.mackseverini;
 
 import java.util.LinkedList;
 import java.util.ArrayList;
@@ -8,11 +8,11 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.BufferedReader;
 
-import movida.classes.Movie;
-import movida.classes.Person;
+import movida.commons.Movie;
+import movida.commons.Person;
 import java.lang.Integer;
 
-public class MovidaDB implements movida.interfaces.IMovidaDB {
+public class MovidaDB implements movida.commons.IMovidaDB {
   private LinkedList<Movie> movies;
 
   public MovidaDB(){

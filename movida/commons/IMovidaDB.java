@@ -6,11 +6,11 @@
  * Laurea in Informatica, UniBO, a.a. 2019/2020
  *
 */
-package movida.interfaces;
+package movida.commons;
 
 import java.io.File;
-import movida.classes.Movie;
-import movida.classes.Person;
+import movida.commons.Movie;
+import movida.commons.Person;
 
 /**
  *
