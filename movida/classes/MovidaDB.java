@@ -24,7 +24,7 @@ public class MovidaDB implements movida.interfaces.IMovidaDB {
   }
 
   public void printMovies(){
-    System.out.println("Before print!");
+    // System.out.println("Before print!");
     System.out.println("Film uploaded: " + this.movies.size());
     Iterator<Movie> iterator = this.movies.iterator();
     while (iterator.hasNext()) {
@@ -34,7 +34,7 @@ public class MovidaDB implements movida.interfaces.IMovidaDB {
     }
     // for (Movie film : this.movies.iterator())
     //   System.out.println(film);
-    System.out.println("After print!");
+    // System.out.println("After print!");
   }
 
   @Override
