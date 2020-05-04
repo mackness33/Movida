@@ -14,13 +14,21 @@ import java.lang.Integer;
 
 public class MovidaDB implements movida.commons.IMovidaDB {
   private LinkedList<Movie> movies;
+  private LinkedList<Person> people;
 
   public MovidaDB(){
     this.movies = null;
+    this.people = null;
   }
 
-  public MovidaDB(LinkedList<Movie> M){
+  public MovidaDB(LinkedList<Movie> M, LinkedList<Person> P){
     this.movies = M;
+    this.people = P;
+  }
+
+  public void init_class(){
+    this.movies = new LinkedList<Movie>();
+    this.people = new LinkedList<Person>();
   }
 
   public void printMovies(){
