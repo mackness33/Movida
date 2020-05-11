@@ -26,10 +26,12 @@ public class test {
     for (int i = min; i <= max; i++)
       M.add(i);
 
-    Integer result = Search.binarySearch(M, randomNum);
-    
+    Integer rst_binary = Search.binarySearch(M, randomNum);
+    Integer rst_dumb = Search.dumbSearch(M, randomNum);
+
     System.out.println("size = " + M.size());
     System.out.println("random = " + randomNum);
-    System.out.println("result = " + result);
+    System.out.println("result binary = " + rst_binary);
+    System.out.println("result dumb = " + rst_dumb);
   }
 }

@@ -12,6 +12,7 @@ import java.lang.Integer;
 public class Search{
 
   //Search use to understand if the obj is in the list and where
+  //TODO: if necessary make it generics for generical use
   public static /*<T extends Integer/*extends Comparable<T>*/ Integer binarySearch(List<Integer> map, Integer el){
     // Object [] array = map.toArray();     //the array must be already sorted!
     Integer [] array = new Integer [80];     //the array must be already sorted!
@@ -19,16 +20,16 @@ public class Search{
     Integer first = 0, last = map.size() - 1, middle = last/2 + 1;
 
     while (first <= last){
+      System.out.println("first = " + first);
+      System.out.println("last = " + last);
+      System.out.println("middle = " + middle);
+
       if (first == el)
         return first;
       else if (last == el)
         return last;
       else if (middle == el)
         return middle;
-
-      System.out.println("first = " + first);
-      System.out.println("last = " + last);
-      System.out.println("middle = " + middle);
 
       //`middle == first` == `first == last` so not needed
       if (first == last || middle == last || first > last)
@@ -45,6 +46,19 @@ public class Search{
       }
     }
 
+    return new Integer(-1);
+  }
+
+  //Search use to understand if the obj is in the list and where
+  //TODO: if necessary make it generics for generical use
+  public static <T /*extends Comparable<T>*/> Integer dumbSearch(List<T> map, T el){
+    int i = 0;
+    for (T node : map)
+    // if (el.compereTo(node))
+      if (el == node)
+        return new Integer (i);
+      else
+        i++;
     return new Integer(-1);
   }
 }
