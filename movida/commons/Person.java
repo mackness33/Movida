@@ -39,9 +39,9 @@ public class Person implements Comparable<Person>{
 	@Override
 	public int compareTo(Person obj){
 		// System.out.println("Comparing");
-		// System.out.println("Actual Title: " + this.title);
-		// System.out.println("Comparing to: " + obj.title);
-		// System.out.println("Result of title compare: " + obj.title.compareTo(this.title));
+		// System.out.println("Actual Name: " + this.name);
+		// System.out.println("Comparing to: " + obj.name);
+		// System.out.println("Result of name compare: " + obj.name.compareTo(this.name));
 		return obj.name.compareTo(this.name);
 	}
 

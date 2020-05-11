@@ -8,9 +8,6 @@ import java.util.concurrent.ThreadLocalRandom;
 public class test {
 
   public static void main(String args[]){
-    // LinkedList<Movie> M = new LinkedList<Movie>();
-    // LinkedList<Person> P = new LinkedList<Person>();
-    // MovidaDB mb = new MovidaDB(M, P);
     MovidaDB mb = new MovidaDB();
     mb.init_class();
 
@@ -18,6 +15,8 @@ public class test {
 
     mb.printMovies();
     mb.printPeople();
+
+    //test I use, can be cleaned!
 
     // int min = 1, max = 70;
     // LinkedList<Integer> M = new LinkedList<Integer>();

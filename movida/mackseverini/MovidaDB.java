@@ -33,28 +33,24 @@ public class MovidaDB implements movida.commons.IMovidaDB {
   }
 
   public void printMovies(){
-    // System.out.println("Before print!");
-    System.out.println("Film uploaded: " + this.movies.size());
     Iterator<Movie> iterator = this.movies.iterator();
+
+    System.out.println("Film uploaded: " + this.movies.size());
+
     while (iterator.hasNext()) {
       System.out.println(iterator.next());
       System.out.println();
 
     }
-    // for (Movie film : this.movies.iterator())
-    //   System.out.println(film);
-    // System.out.println("After print!");
   }
 
   public void printPeople(){
-    // System.out.println("Before print!");
-    System.out.println("People added: " + this.people.size());
     Iterator<Person> iterator = this.people.iterator();
+
+    System.out.println("People added: " + this.people.size());
+
     while (iterator.hasNext())
       System.out.println(iterator.next());
-    // for (Movie film : this.movies.iterator())
-    //   System.out.println(film);
-    // System.out.println("After print!");
   }
 
   @Override
@@ -83,7 +79,6 @@ public class MovidaDB implements movida.commons.IMovidaDB {
           case "": this.addMovie(movie); break;
           default: System.out.println("Something went wrong!");
         }
-
       }
 
       this.addMovie(movie);
@@ -106,7 +101,6 @@ public class MovidaDB implements movida.commons.IMovidaDB {
     this.addPerson(movie[4]);
 
     for(int i = 0; i < 10; i++){
-      // System.out.println("i : " + i);
       if (i < useless.length){
         this.addPerson(useless[i].trim());
         people[i] = new Person(useless[i].trim());

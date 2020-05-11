@@ -52,12 +52,15 @@ public class Search{
   //Search use to understand if the obj is in the list and where
   public static <T, S extends Comparable<T>> int dumbSearch(List<S> map, T elem){
     int i = 0;
-    for (S node : map){
+
+    //checkin each element in the list returnin the position if found else -1
+    for (S node : map)
       if (node.compareTo(elem) == 0)
         return i;
       else
         i++;
-    }
+
+
     return -1;
   }
 }
