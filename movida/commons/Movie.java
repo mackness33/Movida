@@ -87,10 +87,10 @@ public class Movie implements Comparable<Movie>{
 
 	@Override
 	public int compareTo(Movie obj){
-		System.out.println("Comparing");
-		System.out.println("Actual Title: " + this.title);
-		System.out.println("Comparing to: " + obj.title);
-		System.out.println("Result of title compare: " + obj.title.compareTo(this.title));
+		// System.out.println("Comparing");
+		// System.out.println("Actual Title: " + this.title);
+		// System.out.println("Comparing to: " + obj.title);
+		// System.out.println("Result of title compare: " + obj.title.compareTo(this.title));
 		return obj.title.compareTo(this.title);
 	}
 }

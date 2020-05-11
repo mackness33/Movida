@@ -46,6 +46,17 @@ public class MovidaDB implements movida.commons.IMovidaDB {
     // System.out.println("After print!");
   }
 
+  public void printPeople(){
+    // System.out.println("Before print!");
+    System.out.println("People added: " + this.people.size());
+    Iterator<Person> iterator = this.people.iterator();
+    while (iterator.hasNext())
+      System.out.println(iterator.next());
+    // for (Movie film : this.movies.iterator())
+    //   System.out.println(film);
+    // System.out.println("After print!");
+  }
+
   @Override
   public void loadFromFile(File f){
     System.out.println("START STREAM");
@@ -92,28 +103,45 @@ public class MovidaDB implements movida.commons.IMovidaDB {
     int pos = -1;
     Movie temp = null;
 
+    this.addPerson(movie[4]);
+
     for(int i = 0; i < 10; i++){
       // System.out.println("i : " + i);
-      if (i < useless.length)
+      if (i < useless.length){
+        this.addPerson(useless[i].trim());
         people[i] = new Person(useless[i].trim());
+      }
       else
         people[i] = null;
     }
-    // for (String actor : movie[3].split(",")){
-    //   i++;
-    // }
+
     temp = new Movie(movie[0], new Integer(movie[1]), new Integer(movie[2]), people, new Person(movie[4]));
     pos = Search.<Movie, Movie>dumbSearch(movies, temp);
 
     System.out.println("pos: " + pos);
     if (pos < 0)
       movies.add(temp);
-    else{
-      System.out.println("Before update!");
+    else
       movies.get(pos).update(temp);
-    }
 
-    System.out.println("Add the ugly asses up!");
+
+    // System.out.println("Add the ugly asses up!");
+  }
+
+  private void addPerson(String name){
+    Person temp = null;
+    int pos = -1;
+    temp = new Person(name);
+    pos = Search.<Person, Person>dumbSearch(people, temp);
+
+    System.out.println("pos: " + pos);
+    if (pos < 0)
+      people.add(temp);
+    else
+      System.out.println("ALREADY THERE");
+
+
+    System.out.println("Add of person!");
   }
 
   @Override

@@ -20,7 +20,7 @@ package movida.commons;
  * La classe pu� essere modicata o estesa ma deve implementare il metodo getName().
  *
  */
-public class Person {
+public class Person implements Comparable<Person>{
 
 	private String name;
 
@@ -30,6 +30,19 @@ public class Person {
 
 	public String getName(){
 		return this.name;
+	}
+
+	public String toString(){
+		return "Name : " + this.name;
+	}
+
+	@Override
+	public int compareTo(Person obj){
+		// System.out.println("Comparing");
+		// System.out.println("Actual Title: " + this.title);
+		// System.out.println("Comparing to: " + obj.title);
+		// System.out.println("Result of title compare: " + obj.title.compareTo(this.title));
+		return obj.name.compareTo(this.name);
 	}
 
 }

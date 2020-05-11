@@ -17,6 +17,7 @@ public class test {
     mb.loadFromFile(new File("movida/assets/esempio-formato-dati.txt"));
 
     mb.printMovies();
+    mb.printPeople();
 
     // int min = 1, max = 70;
     // LinkedList<Integer> M = new LinkedList<Integer>();
