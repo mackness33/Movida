@@ -11,6 +11,7 @@ import java.io.BufferedReader;
 import movida.commons.Movie;
 import movida.commons.Person;
 import java.lang.Integer;
+import movida.mackseverini.Search;
 
 public class MovidaDB implements movida.commons.IMovidaDB {
   private LinkedList<Movie> movies;
@@ -68,27 +69,13 @@ public class MovidaDB implements movida.commons.IMovidaDB {
           case "Votes": movie[2] = line[1].trim(); break;
           case "Cast": movie[3] = line[1].trim(); break;
           case "Director": movie[4] = line[1].trim(); break;
-          case "": {
-            Person [] people = new Person [10];
-            String [] useless = movie[3].split(",");
-            for(int i = 0; i < 10; i++){
-              // System.out.println("i : " + i);
-              if (i < useless.length)
-                people[i] = new Person(useless[i].trim());
-              else
-                people[i] = null;
-            }
-            // for (String actor : movie[3].split(",")){
-            //   i++;
-            // }
-
-            movies.add(new Movie(movie[0], new Integer(movie[1]), new Integer(movie[2]), people, new Person(movie[4])));
-            // System.out.println("Add the ugly asses up!");
-          }; break;
+          case "": this.addMovie(movie); break;
           default: System.out.println("Something went wrong!");
         }
 
       }
+
+      this.addMovie(movie);
 
       br.close();
     }
@@ -97,6 +84,36 @@ public class MovidaDB implements movida.commons.IMovidaDB {
     }
 
     System.out.println("END STREAM");
+  }
+
+  private void addMovie(String [] movie){
+    Person [] people = new Person [10];
+    String [] useless = movie[3].split(",");
+    int pos = -1;
+    Movie temp = null;
+
+    for(int i = 0; i < 10; i++){
+      // System.out.println("i : " + i);
+      if (i < useless.length)
+        people[i] = new Person(useless[i].trim());
+      else
+        people[i] = null;
+    }
+    // for (String actor : movie[3].split(",")){
+    //   i++;
+    // }
+    temp = new Movie(movie[0], new Integer(movie[1]), new Integer(movie[2]), people, new Person(movie[4]));
+    pos = Search.<Movie, Movie>dumbSearch(movies, temp);
+
+    System.out.println("pos: " + pos);
+    if (pos < 0)
+      movies.add(temp);
+    else{
+      System.out.println("Before update!");
+      movies.get(pos).update(temp);
+    }
+
+    System.out.println("Add the ugly asses up!");
   }
 
   @Override

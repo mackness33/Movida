@@ -51,14 +51,20 @@ public class Search{
 
   //Search use to understand if the obj is in the list and where
   //TODO: if necessary make it generics for generical use
-  public static <T /*extends Comparable<T>*/> Integer dumbSearch(List<T> map, T el){
+  // public static <T, S extends Comparable<T>> Integer dumbSearch(List<? extends S> map, S el){
+  public static <T, S extends Comparable<T>> int dumbSearch(List<S> map, T elem){
+  // public static int dumbSearch(List<Movie> map, Movie el){
     int i = 0;
-    for (T node : map)
-    // if (el.compereTo(node))
-      if (el == node)
-        return new Integer (i);
+    int res = 0;
+    for (S node : map){
+      System.out.println("i: " + i);
+      res = node.compareTo(elem);
+      System.out.println("res: " + res);
+      if (res == 0)
+        return i;
       else
         i++;
-    return new Integer(-1);
+    }
+    return -1;
   }
 }

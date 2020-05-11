@@ -19,7 +19,7 @@ package movida.commons;
  * per recupare le informazioni caratterizzanti di un film.
  *
  */
-public class Movie {
+public class Movie implements Comparable<Movie>{
 
 	private String title;
 	private Integer year;
@@ -27,13 +27,20 @@ public class Movie {
 	private Person[] cast;
 	private Person director;
 
-	public Movie(String title, Integer year, Integer votes,
-			Person[] cast, Person director) {
+	public Movie(String title, Integer year, Integer votes, Person[] cast, Person director) {
 		this.title = title;
 		this.year = year;
 		this.votes = votes;
 		this.cast = cast;
 		this.director = director;
+	}
+
+	public Movie(Movie obj){
+		this.title = obj.title;
+		this.year = obj.year;
+		this.votes = obj.votes;
+		this.cast = obj.cast;
+		this.director = obj.director;
 	}
 
 	public String getTitle() {
@@ -68,5 +75,22 @@ public class Movie {
 		}
 
 		return s;
+	}
+
+	public void update(Movie obj){
+		this.title = obj.title;
+		this.year = obj.year;
+		this.votes = obj.votes;
+		this.cast = obj.cast;
+		this.director = obj.director;
+	}
+
+	@Override
+	public int compareTo(Movie obj){
+		System.out.println("Comparing");
+		System.out.println("Actual Title: " + this.title);
+		System.out.println("Comparing to: " + obj.title);
+		System.out.println("Result of title compare: " + obj.title.compareTo(this.title));
+		return obj.title.compareTo(this.title);
 	}
 }
