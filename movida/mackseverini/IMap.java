@@ -1,12 +1,12 @@
-package mackseverini;
+package movida.mackseverini;
 
-public interface IMap {
+public interface IMap<T> {
 
-  public boolean insert(int obj);
+  public boolean insert(T obj);
 
-  public boolean delete(int obj);
+  public boolean delete(T obj);
 
-  public int search(int obj);
+  public T search(T obj);
 
-  public boolean update(int obj);
+  public boolean update(T obj);
 }
