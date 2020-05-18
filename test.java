@@ -1,3 +1,4 @@
+import movida.mackseverini.Example;
 import movida.mackseverini.MovidaDB;
 import movida.mackseverini.MovidaCore;
 import movida.mackseverini.Search;
@@ -10,12 +11,20 @@ public class test {
 
   public static void main(String args[]){
     // MovidaDB mb = new MovidaDB();
-    MovidaCore mb = new MovidaCore();
-    mb.init_class();
+    // MovidaCore mb = new MovidaCore();
+    // mb.init_class();
+    //
+    // mb.loadFromFile(new File("movida/assets/esempio-formato-dati.txt"));
+    //
+    // mb.printMovies();
+    // mb.printPeople();
 
-    mb.loadFromFile(new File("movida/assets/esempio-formato-dati.txt"));
+    Example example = new Example();
 
-    mb.printMovies();
-    mb.printPeople();
+    if (example.insert(Integer.valueOf(10)))
+      System.out.println("INSERTED!!!");
+    else
+      System.out.println("NOT inserted!!!");
+
   }
 }
