@@ -1,10 +1,9 @@
-import movida.mackseverini.Example;
-import movida.mackseverini.MovidaDB;
-import movida.mackseverini.MovidaCore;
-import movida.mackseverini.Search;
+import movida.mackseverini.*;
+import movida.commons.*;
+
 import java.io.File;
+
 import java.util.LinkedList;
-import movida.commons.Movie;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class test {
@@ -19,12 +18,21 @@ public class test {
     // mb.printMovies();
     // mb.printPeople();
 
-    Example example = new Example();
+    System.out.println("CONSTRUCTION");
 
-    if (example.insert(Integer.valueOf(10)))
-      System.out.println("INSERTED!!!");
-    else
-      System.out.println("NOT inserted!!!");
+    IntHash hash = new IntHash();
+    int max = 50;
+    int min = 0;
 
+    System.out.println("LET'S ADD UP");
+
+    for (int i = 0; i < 35; i++)
+      hash.insert(ThreadLocalRandom.current().nextInt(min, max));
+
+    System.out.println("LET'S PRINT!");
+
+    hash.print();
+
+    System.out.println("THE END");
   }
 }
