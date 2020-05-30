@@ -22,7 +22,7 @@ public class test {
 
     IntHash hash = new IntHash();
     int max = 50;
-    int min = -50;
+    int min = -49;
 
     System.out.println("LET'S ADD UP");
 

@@ -24,7 +24,24 @@ public class IntHash implements movida.mackseverini.IHash<Integer> {
   @Override
   public boolean insert(Integer obj){
     IntNode node = new IntNode(this.hash(obj), obj * 100);
-    dom[node.getKey()] = node;
+
+    System.out.println("KEY: " + node.getKey());
+    if (dom[node.getKey()].getValue() != -1){
+      IntNode head = dom[node.getKey()];
+
+      if (head.getNext() != null)
+        System.out.println("Head: " + head);
+        System.out.println("Next: " + head.getNext());
+
+      for (; head.getNext() != null; head = head.getNext()){
+        System.out.println("Head: " + head);
+        System.out.println("Next: " + head.getNext());
+      }
+
+      head.setNext(node);
+    }
+    else
+      dom[node.getKey()] = node;
 
     return true;
   }
@@ -51,7 +68,7 @@ public class IntHash implements movida.mackseverini.IHash<Integer> {
       // System.out.println("Node: " + this.dom[i]);
       // System.out.println("KEY => " + this.dom[i].getKey());
       // System.out.println("VALUE => " + this.dom[i].getValue() );
-      System.out.println("Node: KEY => " + this.dom[i].getKey() + "  VALUE => " + this.dom[i].getValue() );
+      this.dom[i].print();
     }
   }
 }
