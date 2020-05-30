@@ -17,6 +17,9 @@ public class IntHash implements movida.mackseverini.IHash<Integer> {
       this.dom[i] = new IntNode(i, -1);
   }
 
+  // BUG: wrong way of use hash. hash should be:
+  //      h_key = hash(el_key)    | h_key in K, el_key in X, K << U
+  // it should'nt create a new Node 
   protected IntNode hash (int input){
     return new IntNode(Math.abs(input), input * 100);
   }
@@ -24,7 +27,6 @@ public class IntHash implements movida.mackseverini.IHash<Integer> {
   @Override
   public boolean insert(Integer obj){
     IntNode node = hash(obj);
-    // System.out.println("Node: KEY => " + node.getKey() + "  VALUE => " + node.getValue() );
     dom[node.getKey()] = node;
 
     return true;
