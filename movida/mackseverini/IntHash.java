@@ -90,6 +90,23 @@ public class IntHash implements movida.mackseverini.IHash<Integer> {
     return -1;
   }
 
+  public Integer search(Integer k, Integer obj){
+    Integer key = this.hash(k);
+
+    if (this.dom[key].getValue() != -1){
+      for (IntNode head = dom[key]; head != null; head = head.getNext()){
+        System.out.println("Head: " + head + " val: " + head.getValue());
+        System.out.println("Next: " + head.getNext());
+
+        if (head.getValue() == obj){
+          return head.getValue();
+        }
+      }
+    }
+
+    return -1;
+  }
+
   @Override
   public boolean update(Integer obj){
     return true;

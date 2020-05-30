@@ -27,19 +27,24 @@ public class test {
     System.out.println("LET'S ADD UP");
 
     for (int i = 0; i < 35; i++)
-      hash.<Integer>insert(ThreadLocalRandom.current().nextInt(min, max), ThreadLocalRandom.current().nextInt(-1000, 1001));
+      hash.insert(ThreadLocalRandom.current().nextInt(min, max), ThreadLocalRandom.current().nextInt(-1000, 1001));
 
-    hash.<Integer>insert(33, 0);
-    hash.<Integer>insert(33, 1);
-    hash.<Integer>insert(33, 2);
-    hash.<Integer>insert(33, 3);
+    hash.insert(33, 0);
+    hash.insert(33, 1);
+    hash.insert(33, 2);
+    hash.insert(33, 3);
 
     System.out.println("DELETING!");
 
     hash.delete(33, 0);
-    hash.delete(33, 1);
     hash.delete(33, 2);
-    hash.delete(33, 3);
+
+    System.out.println("SEARCH: " + hash.search(33, 3));
+    System.out.println("SEARCH: " + hash.search(33, 8));
+    System.out.println("SEARCH: " + hash.search(33, 1));
+    System.out.println("SEARCH: " + hash.search(33, 0));
+
+
 
     System.out.println("LET'S PRINT!");
 
