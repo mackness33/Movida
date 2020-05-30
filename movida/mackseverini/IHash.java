@@ -2,9 +2,9 @@ package movida.mackseverini;
 
 public interface IHash<T> extends movida.mackseverini.IMap<T> {
   // protected INode<T> hash (T input);
-  // 
-  // @Override
-  // public boolean insert(T obj);
+  //
+
+  // public <K> boolean insert(K key,T obj);
   //
   // @Override
   // public boolean delete(T obj);

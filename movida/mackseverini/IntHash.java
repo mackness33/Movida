@@ -1,5 +1,7 @@
 package movida.mackseverini;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 import movida.mackseverini.IntHash;
 
 public class IntHash implements movida.mackseverini.IHash<Integer> {
@@ -17,13 +19,18 @@ public class IntHash implements movida.mackseverini.IHash<Integer> {
       this.dom[i] = new IntNode(i, -1);
   }
 
-  protected Integer hash (int input){
+  protected Integer hash (Integer input){
     return Math.abs(input);
   }
 
   @Override
   public boolean insert(Integer obj){
-    IntNode node = new IntNode(this.hash(obj), obj * 100);
+    return true;
+  }
+
+  // @Override
+  public boolean insert(Integer key, Integer obj){
+    IntNode node = new IntNode(this.hash(new Integer(key)), obj);
 
     System.out.println("KEY: " + node.getKey());
     if (dom[node.getKey()].getValue() != -1){
@@ -49,6 +56,33 @@ public class IntHash implements movida.mackseverini.IHash<Integer> {
   @Override
   public boolean delete(Integer obj){
     return true;
+  }
+
+  public boolean delete(Integer k, Integer obj){
+    Integer key = this.hash(k);
+
+    if (this.dom[key].getValue() != -1){
+      IntNode head = dom[key];
+
+      // if it's the head of the list
+      if (head.getValue() == obj){
+        dom[key] = (head.getNext() == null) ? new IntNode(k, -1) : head.getNext();
+        head = null;          // handle by the garbage collector
+        return true;
+      }
+
+      for (IntNode searcher = head.getNext(); head.getNext() != null; head = head.getNext(), searcher = searcher.getNext()){
+        System.out.println("Head: " + head + " val: " + head.getValue());
+        System.out.println("Searcher: " + searcher + " val: " + searcher.getValue());
+
+        if (searcher.getValue() == obj){
+          head.setNext(searcher.getNext());
+          return true;
+        }
+      }
+    }
+
+    return false;
   }
 
   @Override
