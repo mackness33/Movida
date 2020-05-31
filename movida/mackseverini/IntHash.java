@@ -2,21 +2,22 @@ package movida.mackseverini;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-import movida.mackseverini.IntHash;
+import movida.mackseverini.Node;
+import movida.mackseverini.Array;
 
 public class IntHash implements movida.mackseverini.IHash<Integer> {
-  private IntNode [] dom;
+  private Array<Node<Integer>> dom;
 
   // constructor resides
-  public IntHash(Integer [] array) {}
+  @SuppressWarnings("unchecked")
   public IntHash() {
-    this.dom = new IntNode [50];
+    this.dom = new Array<Node<Integer>> (50);
     this.init_app();
   }
 
   public void init_app() {
     for (int i = 0; i < this.dom.length; i++)
-      this.dom[i] = new IntNode(i, -1);
+      this.dom.set(i, new Node<Integer>(i, -1));
   }
 
   protected Integer hash (Integer input){
@@ -30,16 +31,17 @@ public class IntHash implements movida.mackseverini.IHash<Integer> {
 
   // @Override
   public boolean insert(Integer key, Integer obj){
-    IntNode node = new IntNode(this.hash(new Integer(key)), obj);
+    Node<Integer> node = new Node<Integer>(this.hash(new Integer(key)), obj);
 
     System.out.println("KEY: " + node.getKey());
-    if (dom[node.getKey()].getValue() != -1){
-      IntNode head = dom[node.getKey()];
+    if (dom.get(node.getKey()).getValue() != -1){
+      Node<Integer> head = dom.get(node.getKey());
 
       if (head.getNext() != null)
         System.out.println("Head: " + head);
         System.out.println("Next: " + head.getNext());
 
+      // shift to tail
       for (; head.getNext() != null; head = head.getNext()){
         System.out.println("Head: " + head);
         System.out.println("Next: " + head.getNext());
@@ -48,7 +50,7 @@ public class IntHash implements movida.mackseverini.IHash<Integer> {
       head.setNext(node);
     }
     else
-      dom[node.getKey()] = node;
+      dom.set(node.getKey(), node);
 
     return true;
   }
@@ -61,17 +63,17 @@ public class IntHash implements movida.mackseverini.IHash<Integer> {
   public boolean delete(Integer k, Integer obj){
     Integer key = this.hash(k);
 
-    if (this.dom[key].getValue() != -1){
-      IntNode head = dom[key];
+    if (this.dom.get(key).getValue() != -1){
+      Node<Integer> head = dom.get(key);
 
       // if it's the head of the list
       if (head.getValue() == obj){
-        dom[key] = (head.getNext() == null) ? new IntNode(k, -1) : head.getNext();
+        dom.set(key, (head.getNext() == null) ? new Node<Integer>(k, -1) : head.getNext());
         head = null;          // handle by the garbage collector
         return true;
       }
 
-      for (IntNode searcher = head.getNext(); head.getNext() != null; head = head.getNext(), searcher = searcher.getNext()){
+      for (Node<Integer> searcher = head.getNext(); head.getNext() != null; head = head.getNext(), searcher = searcher.getNext()){
         System.out.println("Head: " + head + " val: " + head.getValue());
         System.out.println("Searcher: " + searcher + " val: " + searcher.getValue());
 
@@ -93,8 +95,8 @@ public class IntHash implements movida.mackseverini.IHash<Integer> {
   public Integer search(Integer k, Integer obj){
     Integer key = this.hash(k);
 
-    if (this.dom[key].getValue() != -1){
-      for (IntNode head = dom[key]; head != null; head = head.getNext()){
+    if (this.dom.get(key).getValue() != -1){
+      for (Node<Integer> head = dom.get(key); head != null; head = head.getNext()){
         System.out.println("Head: " + head + " val: " + head.getValue());
         System.out.println("Next: " + head.getNext());
 
@@ -119,7 +121,7 @@ public class IntHash implements movida.mackseverini.IHash<Integer> {
       // System.out.println("Node: " + this.dom[i]);
       // System.out.println("KEY => " + this.dom[i].getKey());
       // System.out.println("VALUE => " + this.dom[i].getValue() );
-      this.dom[i].print();
+      this.dom.get(i).print();
     }
   }
 }
