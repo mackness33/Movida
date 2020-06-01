@@ -1,6 +1,6 @@
 package movida.mackseverini;
 
-public class Node<T> implements movida.mackseverini.INode<T>{
+public class Node<T extends Comparable<T>> implements movida.mackseverini.INode<T>{
   private int key;
   private T value;
   private Node<T> next;
