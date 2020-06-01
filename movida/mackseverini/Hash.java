@@ -4,11 +4,13 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import movida.mackseverini.Node;
 import movida.mackseverini.Array;
+import movida.mackseverini.Set;
 
 // BUG: Comparable cannot be used.
 // SOLUTION: Comparable cannot be used.
 public class Hash<T extends Comparable<T>> extends ComparableStatic implements movida.mackseverini.IHash<T> {
   private Array<ListNode<T>> dom;
+  private Array<Set<T>> keys;
 
   // constructor resides
   @SuppressWarnings("unchecked")
@@ -16,6 +18,10 @@ public class Hash<T extends Comparable<T>> extends ComparableStatic implements m
     this.dom = new Array<ListNode<T>> (50);
     for (int i = 0; i < this.dom.length; i++)
       this.dom.set(i, new ListNode<T>(i, null));
+
+    this.sets = new Array<Set<T>> (50);
+    for (int i = 0; i < this.sets.length; i++)
+      this.sets.set(i, new Set<T>(i, null));
   }
 
 
@@ -51,6 +57,16 @@ public class Hash<T extends Comparable<T>> extends ComparableStatic implements m
     else
       dom.set(node.getKey(), node);
 
+    return true;
+  }
+
+
+  public boolean addKey(String k){
+    //Create new Set with key set
+    // Iterate in the array of Elements orderBy the key
+    // Add the Set to the Array
+    // Cost O(n)
+    // keys.set(this.)
     return true;
   }
 
@@ -127,25 +143,31 @@ public class Hash<T extends Comparable<T>> extends ComparableStatic implements m
 
   private class ListNode<T extends Comparable<T>> extends Node<T>{
     private ListNode<T> next;
+    private ListNode<T> tail;
 
     public ListNode(){
       super();
       this.next = null;
+      this.tail = null;
     }
 
     public ListNode(int k, T v){
       super(k, v);
       this.next = null;
+      this.tail = null;
     }
 
-    public ListNode(int k, T v, ListNode<T> n){
+    public ListNode(int k, T v, ListNode<T> n, ListNode<T> t){
       super(k, v);
       this.next = n;
+      this.tail = t;
     }
 
     public ListNode<T> getNext () { return this.next; }
+    public ListNode<T> getTail () { return this.tail; }
 
     public void setNext (ListNode<T> n) { this.next = n; }
+    public void setTail (ListNode<T> t) { this.tail = t; }
 
     public void print(){
       super.print();
