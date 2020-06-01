@@ -51,6 +51,29 @@ public class test {
 
     hash.print();
 
+    hash.insert(33, 0);
+    hash.insert(33, 1);
+    hash.insert(33, 2);
+    hash.insert(33, 3);
+    hash.insert(33, 3);
+
+    System.out.println("LET'S PRINT!");
+
+    hash.print();
+
+    System.out.println("DELETING!");
+
+    System.out.println("SEARCH: " + hash.search(33, 1));
+    hash.delete(33, 0);
+    hash.delete(33, 2);
+    hash.delete(33, 3);
+
+    System.out.println("SEARCH: " + hash.search(33, 3));
+
+    System.out.println("LET'S PRINT!");
+
+    hash.print();
+
     System.out.println("THE END");
   }
 }
