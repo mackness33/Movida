@@ -20,7 +20,7 @@ public class test {
 
     System.out.println("CONSTRUCTION");
 
-    IntHash hash = new IntHash();
+    Hash<Integer> hash = new Hash<Integer>();
     int max = 50;
     int min = -49;
 
@@ -36,6 +36,7 @@ public class test {
 
     System.out.println("DELETING!");
 
+    System.out.println("SEARCH: " + hash.search(33, 1));
     hash.delete(33, 0);
     hash.delete(33, 2);
 
