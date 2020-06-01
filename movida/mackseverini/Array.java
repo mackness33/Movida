@@ -32,28 +32,3 @@ public class Array<E> {
 		return Arrays.toString(arr);
 	}
 }
-
-// class Main
-// {
-// 	// Program to create a generic array in Java
-// 	public static void main(String[] args)
-// 	{
-// 		final int length = 5;
-//
-// 		// create an Integer array of given length
-// 		Array<Integer> intArray = new Array(length);
-//
-// 		for (int i = 0; i < length; i++)
-// 			intArray.set(i, i + 1);
-//
-// 		System.out.println(intArray);
-//
-// 		// create a String array of given length
-// 		Array<String> strArray = new Array(length);
-//
-// 		for (int i = 0; i < length; i++)
-// 			strArray.set(i, String.valueOf((char)(i + 65)));
-//
-// 		System.out.println(strArray);
-// 	}
-// }

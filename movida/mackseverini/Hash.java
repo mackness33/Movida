@@ -8,14 +8,14 @@ import movida.mackseverini.Array;
 // BUG: Comparable cannot be used.
 // SOLUTION: Comparable cannot be used.
 public class Hash<T extends Comparable<T>> extends ComparableStatic implements movida.mackseverini.IHash<T> {
-  private Array<Node<T>> dom;
+  private Array<ListNode<T>> dom;
 
   // constructor resides
   @SuppressWarnings("unchecked")
   public Hash() {
-    this.dom = new Array<Node<T>> (50);
+    this.dom = new Array<ListNode<T>> (50);
     for (int i = 0; i < this.dom.length; i++)
-      this.dom.set(i, new Node<T>(i, null));
+      this.dom.set(i, new ListNode<T>(i, null));
   }
 
 
@@ -30,11 +30,11 @@ public class Hash<T extends Comparable<T>> extends ComparableStatic implements m
 
   // @Override
   public  boolean insert(Integer key, T obj){
-    Node<T> node = new Node<T>(this.hash(new Integer(key)), obj);
+    ListNode<T> node = new ListNode<T>(this.hash(new Integer(key)), obj);
 
     System.out.println("KEY: " + node.getKey());
     if (dom.get(node.getKey()).getValue() != null){
-      Node<T> head = dom.get(node.getKey());
+      ListNode<T> head = dom.get(node.getKey());
 
       if (head.getNext() != null)
         System.out.println("Head: " + head);
@@ -63,16 +63,16 @@ public class Hash<T extends Comparable<T>> extends ComparableStatic implements m
     Integer key = this.hash(k);
 
     if (this.dom.get(key).getValue() != null){
-      Node<T> head = dom.get(key);
+      ListNode<T> head = dom.get(key);
 
       // if it's the head of the list
       if (this.compare(head.getValue(), obj) == 0){
-        dom.set(key, (head.getNext() == null) ? new Node<T>(k, null) : head.getNext());
+        dom.set(key, (head.getNext() == null) ? new ListNode<T>(k, null) : head.getNext());
         head = null;          // handle by the garbage collector
         return true;
       }
 
-      for (Node<T> searcher = head.getNext(); head.getNext() != null; head = head.getNext(), searcher = searcher.getNext()){
+      for (ListNode<T> searcher = head.getNext(); head.getNext() != null; head = head.getNext(), searcher = searcher.getNext()){
         System.out.println("Head: " + head + " val: " + head.getValue());
         System.out.println("Searcher: " + searcher + " val: " + searcher.getValue());
 
@@ -96,7 +96,7 @@ public class Hash<T extends Comparable<T>> extends ComparableStatic implements m
     Integer key = this.hash(k);
 
     if (this.dom.get(key).getValue() != null){
-      for (Node<T> head = dom.get(key); head != null; head = head.getNext()){
+      for (ListNode<T> head = dom.get(key); head != null; head = head.getNext()){
         System.out.println("Head: " + head + " val: " + head.getValue());
         System.out.println("Next: " + head.getNext());
 
@@ -122,6 +122,36 @@ public class Hash<T extends Comparable<T>> extends ComparableStatic implements m
       // System.out.println("KEY => " + this.dom[i].getKey());
       // System.out.println("VALUE => " + this.dom[i].getValue() );
       this.dom.get(i).print();
+    }
+  }
+
+  private class ListNode<T extends Comparable<T>> extends Node<T>{
+    private ListNode<T> next;
+
+    public ListNode(){
+      super();
+      this.next = null;
+    }
+
+    public ListNode(int k, T v){
+      super(k, v);
+      this.next = null;
+    }
+
+    public ListNode(int k, T v, ListNode<T> n){
+      super(k, v);
+      this.next = n;
+    }
+
+    public ListNode<T> getNext () { return this.next; }
+
+    public void setNext (ListNode<T> n) { this.next = n; }
+
+    public void print(){
+      super.print();
+
+      if(this.next != null)
+          this.next.print();
     }
   }
 }
