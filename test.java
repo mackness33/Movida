@@ -78,29 +78,39 @@ public class test {
 
     System.out.println("CONSTRUCTION");
 
-    Set<Integer, IntegerTest> hash = new Set<Integer, IntegerTest>(5, value);
+    Set<Integer, Integer> set = new Set<Integer, Integer>("value");
     int max = 50;
     int min = -49;
 
     System.out.println("LET'S ADD UP");
 
+    // for (int i = 0; i < 35; i++)
+    //   hash.insert(ThreadLocalRandom.current().nextInt(min, max), ThreadLocalRandom.current().nextInt(-1000, 1001));
+
     for (int i = 0; i < 35; i++)
-      hash.insert(ThreadLocalRandom.current().nextInt(min, max), ThreadLocalRandom.current().nextInt(-1000, 1001));
+      set.makeSet(ThreadLocalRandom.current().nextInt(0, 45), ThreadLocalRandom.current().nextInt(-2000, 2000));
 
-    set.makeSet(44);
-    set.makeSet(52);
-    set.makeSet(88);
-    set.makeSet(21);
-    set.makeSet(10);
-    set.makeSet(77);
-    set.makeSet(64);
-    set.makeSet(8);
-    set.makeSet(14);
-
+    set.makeSet(45, 0);
+    set.makeSet(46, 1);
+    set.makeSet(47, 2);
+    set.makeSet(48, 3);
+    set.makeSet(49, 4);
     System.out.println("LET'S PRINT!");
 
     set.print();
 
+    System.out.println("FIND 46: " + set.find(46));
+    System.out.println("FIND 48: " + set.find(48));
+
+    System.out.println("Union 2 with 1");
+    set.union(47, 46);
+    System.out.println("Union 4 with 2");
+    set.union(49, 47);
+
+
+    System.out.println("LET'S PRINT!");
+
+    set.print();
 
     // System.out.println("SEARCH: " + hash.search(33, 1));
     // hash.delete(33, 0);

@@ -2,13 +2,13 @@ package movida.mackseverini;
 
 
 
-public class Node<T extends Comparable<T> & movida.mackseverini.IType> implements movida.mackseverini.INode<T>, Comparable<Node<T>>{
+public class Node<T extends Comparable<T>> implements movida.mackseverini.INode<T>, Comparable<Node<T>>{
   protected Integer key;
   protected T value;
   protected Node<T> next;
 
   public Node(){
-    this.key = 0;
+    this.key = -1;
     this.value = null;
     this.next = null;
   }
@@ -38,7 +38,7 @@ public class Node<T extends Comparable<T> & movida.mackseverini.IType> implement
   public Node<T> getNext () { return this.next; }
 
   @Override
-  public void setKey (int k) { this.key = k; }
+  public void setKey (Integer k) { this.key = k; }
   @Override
   public void setValue (T v) { this.value = v; }
   public void setNext (Node<T> n) { this.next = n; }
@@ -46,27 +46,15 @@ public class Node<T extends Comparable<T> & movida.mackseverini.IType> implement
   @Override
   public int compareTo (Node<T> input) {
     int res = this.key.compareTo(input.getKey());
-    return (res == 0) ? this.value.compareTo(input) : res;
+    return (res == 0) ? this.value.compareTo(input.getValue()) : res;
   }
 
   public void print(){
-    try{
-      System.out.println("Node: KEY => " + this.key + "  VALUE => ");
-      this.value.print();
-    }
-    catch(Exception e){
-      System.out.println("Node: KEY => " + this.key + "  VALUE => " + this.value);
-    }
+    System.out.println("Node: KEY => " + this.key + "  VALUE => " + this.value);
   }
 
   public void printAll(){
-    try{
-      System.out.println("Node: KEY => " + this.key + "  VALUE => ");
-      this.value.print();
-    }
-    catch(Exception e){
-      System.out.println("Node: KEY => " + this.key + "  VALUE => " + this.value);
-    }
+    this.print();
 
     if (this.next != null)
       this.next.printAll();

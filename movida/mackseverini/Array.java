@@ -23,6 +23,7 @@ public class Array<E> {
 	}
 
 	// Function to set a value e at index i in the array
+	@SuppressWarnings("unchecked")
 	void set(int i, E e) {
 		arr[i] = e;
 	}

@@ -1,5 +1,5 @@
 package movida.mackseverini;
 
 public interface IType {
-  public <?> get (String name);
+  public <K> K get (String name);
 }
