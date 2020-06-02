@@ -1,6 +1,8 @@
 package movida.mackseverini;
 
-public class Node<T extends Comparable<T>> implements movida.mackseverini.INode<T>, Comparable<Node<T>>{
+
+
+public class Node<T extends Comparable<T> & movida.mackseverini.IType> implements movida.mackseverini.INode<T>, Comparable<Node<T>>{
   protected Integer key;
   protected T value;
   protected Node<T> next;
@@ -42,7 +44,10 @@ public class Node<T extends Comparable<T>> implements movida.mackseverini.INode<
   public void setNext (Node<T> n) { this.next = n; }
 
   @Override
-  public void compareTo (Node<T> input) { return this.key.compareTo(input.getKey()); }
+  public int compareTo (Node<T> input) {
+    int res = this.key.compareTo(input.getKey());
+    return (res == 0) ? this.value.compareTo(input) : res;
+  }
 
   public void print(){
     try{
