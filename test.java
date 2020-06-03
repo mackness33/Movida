@@ -107,6 +107,8 @@ public class test {
     System.out.println("Union 4 with 2");
     set.union(49, 47);
 
+    for (int i = 0; i < 35; i++)
+      set.union(ThreadLocalRandom.current().nextInt(0, 45), ThreadLocalRandom.current().nextInt(0, 45));
 
     System.out.println("LET'S PRINT!");
 

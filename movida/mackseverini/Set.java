@@ -105,7 +105,7 @@ public class Set<K extends Comparable<K>, E extends Comparable<E>> {
 	// Function to get Object present at index i in the array
 	public SetLeaderNode<E> findLeader(K filter) {
 		SetNode<E> temp = this.els.get(this.hash(filter));
-		return temp.getKey() <= 0 ? null : this.les.get(temp.getKey());
+		return temp == null ? null : (temp.getKey() <= -1 ? null : this.les.get(temp.getKey()));
 	}
 
 	public Integer hash (K filter){
@@ -130,6 +130,10 @@ public class Set<K extends Comparable<K>, E extends Comparable<E>> {
 	public void union (K x, K y) {
 		SetLeaderNode<E> xSet = this.findLeader(x);
 		SetLeaderNode<E> ySet = this.findLeader(y);
+		System.out.println("UNION of: " + x + " & " + y);
+
+		if (xSet == null || ySet == null || xSet == ySet)
+			return;
 
 		System.out.println("X: ");
 		xSet.print();
@@ -206,6 +210,7 @@ public class Set<K extends Comparable<K>, E extends Comparable<E>> {
 			this.tail.setNext(leader.getHead());
 			leader.newLeader(this.head);
 			this.tail = leader.getTail();
+			this.size += leader.getSize();
 		}
 
 		public void setHead (SetNode<E> h) { this.head = h; }
@@ -214,7 +219,6 @@ public class Set<K extends Comparable<K>, E extends Comparable<E>> {
 
     public void print (){
 			System.out.println("LEADER: ");
-			this.head.print();
       if(this.head != null)
         this.head.printAll();
     }
@@ -226,8 +230,8 @@ public class Set<K extends Comparable<K>, E extends Comparable<E>> {
 
     public SetNode (){
       super();
-      this.leader = this;
 			this.next = null;
+      this.leader = this;
 		}
 
 		@SuppressWarnings("unchecked")

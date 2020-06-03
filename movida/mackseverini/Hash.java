@@ -10,7 +10,7 @@ import movida.mackseverini.Set;
 // SOLUTION: Comparable cannot be used.
 public class Hash<T extends Comparable<T>> extends ComparableStatic implements movida.mackseverini.IHash<T> {
   private Array<ListNode<T>> dom;
-  private Array<Set<T>> keys;
+  private Array<Set<T>> sets;
 
   // constructor resides
   @SuppressWarnings("unchecked")
@@ -19,7 +19,7 @@ public class Hash<T extends Comparable<T>> extends ComparableStatic implements m
     for (int i = 0; i < this.dom.length; i++)
       this.dom.set(i, new ListNode<T>(i, null));
 
-    this.sets = new Array<Set<T>> (50);
+    this.sets = new Array<Set<T>> (10);
     for (int i = 0; i < this.sets.length; i++)
       this.sets.set(i, new Set<T>(i, null));
   }
