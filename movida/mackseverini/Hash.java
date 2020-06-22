@@ -9,34 +9,30 @@ import movida.mackseverini.Set;
 // BUG: Comparable cannot be used.
 // SOLUTION: Comparable cannot be used.
 public class Hash<T extends Comparable<T>> extends ComparableStatic implements movida.mackseverini.IHash<T> {
-  private Array<ListNode<T>> dom;
-  private Array<Set<T>> sets;
+  protected Array<ListNode<T>> dom;
+  protected int MAX_LENGTH = 50;
 
   // constructor resides
   @SuppressWarnings("unchecked")
   public Hash() {
-    this.dom = new Array<ListNode<T>> (50);
+    this.dom = new Array<ListNode<T>> (MAX_LENGTH);
     for (int i = 0; i < this.dom.length; i++)
       this.dom.set(i, new ListNode<T>(i, null));
-
-    this.sets = new Array<Set<T>> (10);
-    for (int i = 0; i < this.sets.length; i++)
-      this.sets.set(i, new Set<T>(i, null));
   }
 
 
-  protected Integer hash (Integer input){
-    return Math.abs(input);
+  protected Integer hash (T input){
+    if (input instanceof Integer)
+      return Math.abs((Integer)input) % MAX_LENGTH;
+    else if (input instanceof String)
+      return 1;
+
+    return 0;
   }
 
   @Override
   public boolean insert(T obj){
-    return true;
-  }
-
-  // @Override
-  public  boolean insert(Integer key, T obj){
-    ListNode<T> node = new ListNode<T>(this.hash(new Integer(key)), obj);
+    ListNode<T> node = new ListNode<T>(this.hash(obj), obj);
 
     System.out.println("KEY: " + node.getKey());
     if (dom.get(node.getKey()).getValue() != null){
@@ -60,30 +56,16 @@ public class Hash<T extends Comparable<T>> extends ComparableStatic implements m
     return true;
   }
 
-
-  public boolean addKey(String k){
-    //Create new Set with key set
-    // Iterate in the array of Elements orderBy the key
-    // Add the Set to the Array
-    // Cost O(n)
-    // keys.set(this.)
-    return true;
-  }
-
   @Override
   public boolean delete(T obj){
-    return true;
-  }
-
-  public boolean delete(Integer k, T obj){
-    Integer key = this.hash(k);
+    Integer key = this.hash(obj);
 
     if (this.dom.get(key).getValue() != null){
       ListNode<T> head = dom.get(key);
 
       // if it's the head of the list
       if (this.compare(head.getValue(), obj) == 0){
-        dom.set(key, (head.getNext() == null) ? new ListNode<T>(k, null) : head.getNext());
+        dom.set(key, (head.getNext() == null) ? new ListNode<T>(key, null) : head.getNext());
         head = null;          // handle by the garbage collector
         return true;
       }
@@ -105,11 +87,7 @@ public class Hash<T extends Comparable<T>> extends ComparableStatic implements m
 
   @Override
   public T search(T obj){
-    return null;
-  }
-
-  public T search(Integer k, T obj){
-    Integer key = this.hash(k);
+    Integer key = this.hash(obj);
 
     if (this.dom.get(key).getValue() != null){
       for (ListNode<T> head = dom.get(key); head != null; head = head.getNext()){
