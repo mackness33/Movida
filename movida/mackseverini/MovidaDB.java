@@ -12,9 +12,10 @@ import movida.commons.Movie;
 import movida.commons.Person;
 import java.lang.Integer;
 import movida.mackseverini.Search;
+import movida.mackseverini.MovieHash;
 
 public class MovidaDB implements movida.commons.IMovidaDB {
-  private LinkedList<Movie> movies;
+  private MovieHash movies;
   private LinkedList<Person> people;
 
   public MovidaDB(){
@@ -22,26 +23,22 @@ public class MovidaDB implements movida.commons.IMovidaDB {
     this.people = null;
   }
 
-  public MovidaDB(LinkedList<Movie> M, LinkedList<Person> P){
+  public MovidaDB(MovieHash M, LinkedList<Person> P){
     this.movies = M;
     this.people = P;
   }
 
   public void init_class(){
-    this.movies = new LinkedList<Movie>();
+    this.movies = new MovieHash();
     this.people = new LinkedList<Person>();
   }
 
   public void printMovies(){
-    Iterator<Movie> iterator = this.movies.iterator();
+    // Iterator<Movie> iterator = this.movies.iterator();
 
-    System.out.println("Film uploaded: " + this.movies.size());
+    System.out.println("Film uploaded: " + this.movies.getSize());
 
-    while (iterator.hasNext()) {
-      System.out.println(iterator.next());
-      System.out.println();
-
-    }
+    movies.print();
   }
 
   public void printPeople(){
@@ -110,14 +107,14 @@ public class MovidaDB implements movida.commons.IMovidaDB {
     }
 
     temp = new Movie(movie[0], new Integer(movie[1]), new Integer(movie[2]), people, new Person(movie[4]));
-    pos = Search.<Movie, Movie>dumbSearch(movies, temp);
-
-    System.out.println("pos: " + pos);
-    if (pos < 0)
-      movies.add(temp);
-    else
-      movies.get(pos).update(temp);
-
+    // pos = Search.<Movie, Movie>dumbSearch(movies, temp);
+    // pos = movies.search(temp);
+    //
+    // System.out.println("pos: " + pos);
+    movies.upsert(temp);
+    // if (movies.search(temp))
+    // else
+    //   movies.insert(temp);
 
     // System.out.println("Add the ugly asses up!");
   }

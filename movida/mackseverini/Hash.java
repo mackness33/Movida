@@ -11,14 +11,19 @@ import movida.mackseverini.Set;
 public class Hash<T extends Comparable<T>> extends ComparableStatic implements movida.mackseverini.IHash<T> {
   protected Array<ListNode<T>> dom;
   protected int MAX_LENGTH = 50;
+  protected int size;
 
   // constructor resides
   @SuppressWarnings("unchecked")
   public Hash() {
+    this.size = 0;
     this.dom = new Array<ListNode<T>> (MAX_LENGTH);
     for (int i = 0; i < this.dom.length; i++)
       this.dom.set(i, new ListNode<T>(i, null));
+
   }
+
+  protected int getSize() { return this.size; }
 
 
   protected Integer hash (T input){
@@ -53,6 +58,8 @@ public class Hash<T extends Comparable<T>> extends ComparableStatic implements m
     else
       dom.set(node.getKey(), node);
 
+    size++;
+
     return true;
   }
 
@@ -67,6 +74,7 @@ public class Hash<T extends Comparable<T>> extends ComparableStatic implements m
       if (this.compare(head.getValue(), obj) == 0){
         dom.set(key, (head.getNext() == null) ? new ListNode<T>(key, null) : head.getNext());
         head = null;          // handle by the garbage collector
+        size--;
         return true;
       }
 
@@ -77,6 +85,7 @@ public class Hash<T extends Comparable<T>> extends ComparableStatic implements m
         if (this.compare(searcher.getValue(), obj) == 0){
           head.setNext(searcher.getNext());
           searcher = null;
+          size--;
           return true;
         }
       }
@@ -86,7 +95,7 @@ public class Hash<T extends Comparable<T>> extends ComparableStatic implements m
   }
 
   @Override
-  public T search(T obj){
+  public boolean search(T obj){
     Integer key = this.hash(obj);
 
     if (this.dom.get(key).getValue() != null){
@@ -95,12 +104,12 @@ public class Hash<T extends Comparable<T>> extends ComparableStatic implements m
         System.out.println("Next: " + head.getNext());
 
         if (this.compare(head.getValue(), obj) == 0){
-          return head.getValue();
+          return true;
         }
       }
     }
 
-    return null;
+    return false;
   }
 
   @Override
@@ -119,7 +128,7 @@ public class Hash<T extends Comparable<T>> extends ComparableStatic implements m
     }
   }
 
-  private class ListNode<T extends Comparable<T>> extends Node<T>{
+  protected class ListNode<T extends Comparable<T>> extends Node<T>{
     private ListNode<T> next;
     private ListNode<T> tail;
 

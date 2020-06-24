@@ -6,7 +6,7 @@ public interface IMap<T> {
 
   public boolean delete(T obj);
 
-  public T search(T obj);
+  public boolean search(T obj);
 
   public boolean update(T obj);
 }

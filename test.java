@@ -9,72 +9,72 @@ import java.util.concurrent.ThreadLocalRandom;
 public class test {
 
   public static void main(String args[]){
-    // MovidaDB mb = new MovidaDB();
+    MovidaDB mb = new MovidaDB();
     // MovidaCore mb = new MovidaCore();
-    // mb.init_class();
+    mb.init_class();
+
+    mb.loadFromFile(new File("movida/assets/esempio-formato-dati.txt"));
+
+    mb.printMovies();
+    mb.printPeople();
+
+    // System.out.println("CONSTRUCTION");
     //
-    // mb.loadFromFile(new File("movida/assets/esempio-formato-dati.txt"));
+    // Hash<Integer> hash = new Hash<Integer>();
+    // int max = 50;
+    // int min = -49;
     //
-    // mb.printMovies();
-    // mb.printPeople();
-
-    System.out.println("CONSTRUCTION");
-
-    Hash<Integer> hash = new Hash<Integer>();
-    int max = 50;
-    int min = -49;
-
-    System.out.println("LET'S ADD UP");
-
-    for (int i = 0; i < 35; i++)
-      hash.insert(ThreadLocalRandom.current().nextInt(-1000, 1001));
-
-    hash.insert(33);
-    hash.insert(133);
-    hash.insert(233);
-    hash.insert(333);
-
-    System.out.println("DELETING!");
-
-    System.out.println("SEARCH: " + hash.search(133));
-    hash.delete(33);
-    hash.delete(233);
-
-    System.out.println("SEARCH: " + hash.search(333));
-    System.out.println("SEARCH: " + hash.search(833));
-    System.out.println("SEARCH: " + hash.search(133));
-    System.out.println("SEARCH: " + hash.search(33));
-
-
-
-    System.out.println("LET'S PRINT!");
-
-    hash.print();
-
-    hash.insert(33);
-    hash.insert(133);
-    hash.insert(233);
-    hash.insert(333);
-    hash.insert(333);
-
-    System.out.println("LET'S PRINT!");
-
-    hash.print();
-
-    System.out.println("DELETING!");
-
-    System.out.println("SEARCH: " + hash.search(133));
-    hash.delete(33);
-    hash.delete(233);
-    hash.delete(333);
-
-    System.out.println("SEARCH: " + hash.search(333));
-
-    System.out.println("LET'S PRINT!");
-
-    hash.print();
-
-    System.out.println("THE END");
+    // System.out.println("LET'S ADD UP");
+    //
+    // for (int i = 0; i < 35; i++)
+    //   hash.insert(ThreadLocalRandom.current().nextInt(-1000, 1001));
+    //
+    // hash.insert(33);
+    // hash.insert(133);
+    // hash.insert(233);
+    // hash.insert(333);
+    //
+    // System.out.println("DELETING!");
+    //
+    // System.out.println("SEARCH: " + hash.search(133));
+    // hash.delete(33);
+    // hash.delete(233);
+    //
+    // System.out.println("SEARCH: " + hash.search(333));
+    // System.out.println("SEARCH: " + hash.search(833));
+    // System.out.println("SEARCH: " + hash.search(133));
+    // System.out.println("SEARCH: " + hash.search(33));
+    //
+    //
+    //
+    // System.out.println("LET'S PRINT!");
+    //
+    // hash.print();
+    //
+    // hash.insert(33);
+    // hash.insert(133);
+    // hash.insert(233);
+    // hash.insert(333);
+    // hash.insert(333);
+    //
+    // System.out.println("LET'S PRINT!");
+    //
+    // hash.print();
+    //
+    // System.out.println("DELETING!");
+    //
+    // System.out.println("SEARCH: " + hash.search(133));
+    // hash.delete(33);
+    // hash.delete(233);
+    // hash.delete(333);
+    //
+    // System.out.println("SEARCH: " + hash.search(333));
+    //
+    // System.out.println("LET'S PRINT!");
+    //
+    // hash.print();
+    //
+    // System.out.println("THE END");
 
     // System.out.println("CONSTRUCTION");
     //
