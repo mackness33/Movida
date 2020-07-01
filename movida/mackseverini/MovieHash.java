@@ -30,15 +30,6 @@ public class MovieHash<Movie extends Comparable<Movie>> extends Hash<Movie> {
     // for (int i = 0; i < this.sets.length; i++)
     //   this.sets.set(i, new Set<String>(i, null));
   }
-  
-  public boolean addKey(String k){
-    //Create new Set with key set
-    // Iterate in the array of Elements orderBy the key
-    // Add the Set to the Array
-    // Cost O(n)
-    // keys.set(this.)
-    return true;
-  }
 
   public boolean upsert(Movie obj){
     Integer key = this.hash(obj);
@@ -58,16 +49,5 @@ public class MovieHash<Movie extends Comparable<Movie>> extends Hash<Movie> {
     this.insert(obj);
 
     return false;
-  }
-
-  public void print (){
-    System.out.println("Length: " + this.dom.length);
-    for (int i = 0; i < this.dom.length; i++){
-      // System.out.println("i: " + i);
-      // System.out.println("Node: " + this.dom[i]);
-      // System.out.println("KEY => " + this.dom[i].getKey());
-      // System.out.println("VALUE => " + this.dom[i].getValue() );
-      this.dom.get(i).print();
-    }
   }
 }
