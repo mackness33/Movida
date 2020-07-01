@@ -30,41 +30,7 @@ public class MovieHash<Movie extends Comparable<Movie>> extends Hash<Movie> {
     // for (int i = 0; i < this.sets.length; i++)
     //   this.sets.set(i, new Set<String>(i, null));
   }
-
-  protected Integer hash (movida.commons.Movie in){
-    String dir = in.getDirector().getName();
-
-    return Math.abs(dir.codePointAt(0)) % this.MAX_LENGTH;
-  }
-
-  @Override
-  public  boolean insert(Movie obj){
-    ListNode<Movie> node = new ListNode<Movie>(this.hash(obj), obj);
-
-    System.out.println("KEY: " + node.getKey());
-    if (dom.get(node.getKey()).getValue() != null){
-      ListNode<Movie> head = dom.get(node.getKey());
-
-      if (head.getNext() != null)
-        System.out.println("Head: " + head);
-        System.out.println("Next: " + head.getNext());
-
-      // shift to tail
-      for (; head.getNext() != null; head = head.getNext()){
-        System.out.println("Head: " + head);
-        System.out.println("Next: " + head.getNext());
-      }
-
-      head.setNext(node);
-    }
-    else
-      dom.set(node.getKey(), node);
-
-    this.size++;
-    return true;
-  }
-
-
+  
   public boolean addKey(String k){
     //Create new Set with key set
     // Iterate in the array of Elements orderBy the key
@@ -74,67 +40,13 @@ public class MovieHash<Movie extends Comparable<Movie>> extends Hash<Movie> {
     return true;
   }
 
-  @Override
-  public boolean delete(Movie obj){
-    Integer key = this.hash(obj);
-
-    if (this.dom.get(key).getValue() != null){
-      ListNode<Movie> head = dom.get(key);
-
-      // if it's the head of the list
-      if (this.compare(head.getValue(), obj) == 0){
-        dom.set(key, (head.getNext() == null) ? new ListNode<Movie>(key, null) : head.getNext());
-        head = null;          // handle by the garbage collector
-        return true;
-      }
-
-      for (ListNode<Movie> searcher = head.getNext(); head.getNext() != null; head = head.getNext(), searcher = searcher.getNext()){
-        System.out.println("Head: " + head + " val: " + head.getValue());
-        System.out.println("Searcher: " + searcher + " val: " + searcher.getValue());
-
-        if (this.compare(searcher.getValue(), obj) == 0){
-          head.setNext(searcher.getNext());
-          searcher = null;
-          return true;
-        }
-      }
-    }
-
-    return false;
-  }
-
-  @Override
-  public boolean search(Movie obj){
-    return this.search(obj.getTitle());
-  }
-
-  @Override
-  public boolean update(Movie obj){
-    Integer key = this.hash(obj);
-
-    if (this.dom.get(key).getValue() != null){
-      for (ListNode<Movie> head = dom.get(key); head != null; head = head.getNext()){
-        System.out.println("Head: " + head + " val: " + head.getValue());
-        System.out.println("Next: " + head.getNext());
-
-        if (this.compare(head.getValue(), obj) == 0){
-          head.setValue(obj);
-          return true;
-        }
-      }
-    }
-
-    return false;
-  }
-
-
   public boolean upsert(Movie obj){
     Integer key = this.hash(obj);
 
     if (this.dom.get(key).getValue() != null){
       for (ListNode<Movie> head = dom.get(key); head != null; head = head.getNext()){
-        System.out.println("Head: " + head + " val: " + head.getValue());
-        System.out.println("Next: " + head.getNext());
+        // System.out.println("Head: " + head + " val: " + head.getValue());
+        // System.out.println("Next: " + head.getNext());
 
         if (this.compare(head.getValue(), obj) == 0){
           head.setValue(obj);

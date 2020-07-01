@@ -5,6 +5,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import movida.mackseverini.Node;
 import movida.mackseverini.Array;
 import movida.mackseverini.Set;
+import movida.commons.Movie;
 
 // BUG: Comparable cannot be used.
 // SOLUTION: Comparable cannot be used.
@@ -26,13 +27,20 @@ public class Hash<T extends Comparable<T>> extends ComparableStatic implements m
   protected int getSize() { return this.size; }
 
 
+  // @Override
   protected Integer hash (T input){
+    System.out.println("INSIDE input!!");
+
     if (input instanceof Integer)
       return Math.abs((Integer)input) % MAX_LENGTH;
     else if (input instanceof String)
-      return 1;
+      return Math.abs(((String)input).codePointAt(0)) % this.MAX_LENGTH;
+    else if (input instanceof Movie)
+      return Math.abs(((Movie)input).getTitle().codePointAt(0)) % this.MAX_LENGTH;
+    else if (input instanceof Person)
+      return Math.abs(((Person)input).getName().codePointAt(0)) % this.MAX_LENGTH;
 
-    return 0;
+    return input.hashCode() % this.MAX_LENGTH;
   }
 
   @Override
@@ -44,13 +52,13 @@ public class Hash<T extends Comparable<T>> extends ComparableStatic implements m
       ListNode<T> head = dom.get(node.getKey());
 
       if (head.getNext() != null)
-        System.out.println("Head: " + head);
-        System.out.println("Next: " + head.getNext());
+        // System.out.println("Head: " + head);
+        // System.out.println("Next: " + head.getNext());
 
       // shift to tail
       for (; head.getNext() != null; head = head.getNext()){
-        System.out.println("Head: " + head);
-        System.out.println("Next: " + head.getNext());
+        // System.out.println("Head: " + head);
+        // System.out.println("Next: " + head.getNext());
       }
 
       head.setNext(node);
@@ -79,8 +87,8 @@ public class Hash<T extends Comparable<T>> extends ComparableStatic implements m
       }
 
       for (ListNode<T> searcher = head.getNext(); head.getNext() != null; head = head.getNext(), searcher = searcher.getNext()){
-        System.out.println("Head: " + head + " val: " + head.getValue());
-        System.out.println("Searcher: " + searcher + " val: " + searcher.getValue());
+        // System.out.println("Head: " + head + " val: " + head.getValue());
+        // System.out.println("Searcher: " + searcher + " val: " + searcher.getValue());
 
         if (this.compare(searcher.getValue(), obj) == 0){
           head.setNext(searcher.getNext());
@@ -100,8 +108,8 @@ public class Hash<T extends Comparable<T>> extends ComparableStatic implements m
 
     if (this.dom.get(key).getValue() != null){
       for (ListNode<T> head = dom.get(key); head != null; head = head.getNext()){
-        System.out.println("Head: " + head + " val: " + head.getValue());
-        System.out.println("Next: " + head.getNext());
+        // System.out.println("Head: " + head + " val: " + head.getValue());
+        // System.out.println("Next: " + head.getNext());
 
         if (this.compare(head.getValue(), obj) == 0){
           return true;
