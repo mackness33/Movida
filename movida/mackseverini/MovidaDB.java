@@ -13,41 +13,35 @@ import movida.commons.Person;
 import java.lang.Integer;
 import movida.mackseverini.Search;
 import movida.mackseverini.MovieHash;
+import movida.mackseverini.PeopleHash;
 
 public class MovidaDB implements movida.commons.IMovidaDB {
   private MovieHash movies;
-  private LinkedList<Person> people;
+  private PeopleHash people;
 
   public MovidaDB(){
     this.movies = null;
     this.people = null;
   }
 
-  public MovidaDB(MovieHash M, LinkedList<Person> P){
+  public MovidaDB(MovieHash M, PeopleHash P){
     this.movies = M;
     this.people = P;
   }
 
   public void init_class(){
     this.movies = new MovieHash();
-    this.people = new LinkedList<Person>();
+    this.people = new PeopleHash();
   }
 
   public void printMovies(){
-    // Iterator<Movie> iterator = this.movies.iterator();
-
     System.out.println("Film uploaded: " + this.movies.getSize());
-
     movies.print();
   }
 
   public void printPeople(){
-    Iterator<Person> iterator = this.people.iterator();
-
-    System.out.println("People added: " + this.people.size());
-
-    while (iterator.hasNext())
-      System.out.println(iterator.next());
+    System.out.println("People added: " + this.people.getSize());
+    people.print();
   }
 
   @Override
@@ -90,44 +84,34 @@ public class MovidaDB implements movida.commons.IMovidaDB {
   }
 
   private void addMovie(String [] movie){
-    Person [] people = new Person [10];
-    String [] useless = movie[3].split(",");
+    Person [] cast = new Person [10];
+    String [] cast_name = movie[3].split(",");
     int pos = -1;
     Movie temp = null;
 
     this.addPerson(movie[4]);
 
     for(int i = 0; i < 10; i++){
-      if (i < useless.length){
-        this.addPerson(useless[i].trim());
-        people[i] = new Person(useless[i].trim());
+      if (i < cast_name.length){
+        this.addPerson(cast_name[i].trim());
+        cast[i] = new Person(cast_name[i].trim());
       }
       else
-        people[i] = null;
+        cast[i] = null;
     }
 
-    temp = new Movie(movie[0], new Integer(movie[1]), new Integer(movie[2]), people, new Person(movie[4]));
-    // pos = Search.<Movie, Movie>dumbSearch(movies, temp);
-    // pos = movies.search(temp);
-    //
-    // System.out.println("pos: " + pos);
+    temp = new Movie(movie[0], new Integer(movie[1]), new Integer(movie[2]), cast, new Person(movie[4]));
+
     movies.upsert(temp);
-    // if (movies.search(temp))
-    // else
-    //   movies.insert(temp);
 
     // System.out.println("Add the ugly asses up!");
   }
 
   private void addPerson(String name){
-    Person temp = null;
-    int pos = -1;
-    temp = new Person(name);
-    pos = Search.<Person, Person>dumbSearch(people, temp);
-
-    System.out.println("pos: " + pos);
-    if (pos < 0)
-      people.add(temp);
+    Person temp = new Person(name);
+    
+    if (!people.search(temp))
+      people.insert(temp);
     else
       System.out.println("ALREADY THERE");
 

@@ -6,6 +6,7 @@ import movida.mackseverini.Node;
 import movida.mackseverini.Array;
 import movida.mackseverini.Set;
 import movida.commons.Movie;
+import movida.commons.Person;
 
 // BUG: Comparable cannot be used.
 // SOLUTION: Comparable cannot be used.
@@ -29,7 +30,6 @@ public class Hash<T extends Comparable<T>> extends ComparableStatic implements m
 
   // @Override
   protected Integer hash (T input){
-    System.out.println("INSIDE input!!");
 
     if (input instanceof Integer)
       return Math.abs((Integer)input) % MAX_LENGTH;

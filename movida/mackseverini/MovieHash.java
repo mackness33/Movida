@@ -39,6 +39,7 @@ public class MovieHash<Movie extends Comparable<Movie>> extends Hash<Movie> {
         // System.out.println("Head: " + head + " val: " + head.getValue());
         // System.out.println("Next: " + head.getNext());
 
+        // System.out.println("Compare: " + (this.compare(head.getValue(), obj) == 0));
         if (this.compare(head.getValue(), obj) == 0){
           head.setValue(obj);
           return true;
