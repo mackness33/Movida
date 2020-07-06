@@ -3,13 +3,14 @@ package movida.mackseverini;
 import java.util.Arrays;
 import movida.mackseverini.Array;
 import movida.mackseverini.Node;
+import movida.mackseverini.List;
 
 public class Set<K extends Comparable<K>, E extends Comparable<E>> {
 
 	protected Array<SetLeaderNode<E>> les;
 	protected Array<SetNode<E>> els;
 	protected Array<Integer> keys;
-	protected final Integer MAX_LENGTH = 50;
+	protected final Integer MAX_LENGTH = 500;
 	protected final String key_name;
 	// protected final Class<K> key_type;
 	protected Integer size;
@@ -18,17 +19,11 @@ public class Set<K extends Comparable<K>, E extends Comparable<E>> {
 	public Set (){
 		this.size = 0;
 		this.key_name = "self";
-		// this.key_type = K.getClass();
+
 		this.les = new Array<SetLeaderNode<E>>(this.MAX_LENGTH);
 		this.els = new Array<SetNode<E>>(this.MAX_LENGTH);
 
-		for (int i = 0; i < this.MAX_LENGTH; i++)
-		// this.els.set(i, new SetNode<E>());
-      this.els.set(i, null);
-
-		for (int i = 0; i < this.MAX_LENGTH; i++)
-		// this.les.set(i, new SetLeaderNode<E>());
-      this.les.set(i, null);
+		this.reset();
 	}
 
 	public Set (int length){
@@ -36,17 +31,9 @@ public class Set<K extends Comparable<K>, E extends Comparable<E>> {
 		this.key_name = "self";
 		// this.key_type = K.getClass();
 		this.les = new Array<SetLeaderNode<E>>(this.MAX_LENGTH);
-		for (int i = 0; i < this.MAX_LENGTH; i++)
-			this.les.set(i, null);
-      // this.les.set(i, new SetLeaderNode<E>());
-
 		this.els = new Array<SetNode<E>>(this.MAX_LENGTH);
 
-		for (int i = 0; i < this.MAX_LENGTH; i++)
-			this.els.set(i, null);
-
-      // this.els.set(i, new SetNode<E>());
-
+		this.reset();
 	}
 
 	public Set (int length, String name){
@@ -56,14 +43,7 @@ public class Set<K extends Comparable<K>, E extends Comparable<E>> {
 		this.les = new Array<SetLeaderNode<E>>(this.MAX_LENGTH);
 		this.els = new Array<SetNode<E>>(this.MAX_LENGTH);
 
-		for (int i = 0; i < this.MAX_LENGTH; i++)
-			this.els.set(i, null);
-			// this.els.set(i, new SetNode<E>());
-
-		for (int i = 0; i < this.MAX_LENGTH; i++)
-			this.les.set(i, null);
-
-      // this.les.set(i, new SetLeaderNode<E>());
+		this.reset();
 	}
 
 	public Set (String name){
@@ -73,14 +53,7 @@ public class Set<K extends Comparable<K>, E extends Comparable<E>> {
 		this.les = new Array<SetLeaderNode<E>>(this.MAX_LENGTH);
 		this.els = new Array<SetNode<E>>(this.MAX_LENGTH);
 
-		for (int i = 0; i < this.MAX_LENGTH; i++)
-			this.els.set(i, null);
-			// this.els.set(i, new SetNode<E>());
-
-		for (int i = 0; i < this.MAX_LENGTH; i++)
-			this.les.set(i, null);
-
-      // this.les.set(i, new SetLeaderNode<E>());
+		this.reset();
 	}
 
 
@@ -89,7 +62,7 @@ public class Set<K extends Comparable<K>, E extends Comparable<E>> {
 		this.els.set(key, new SetNode(key, element));
 		SetNode<E> newNode = this.els.get(key);
 		this.les.set(key, new SetLeaderNode(newNode, newNode, 1, key));
-		size++;
+		this.size++;
 	}
 
 
@@ -116,14 +89,9 @@ public class Set<K extends Comparable<K>, E extends Comparable<E>> {
 			return Math.abs(((Integer)filter) % this.MAX_LENGTH);
 		}
 		else if (filter instanceof String)
-			return Math.abs(Integer.valueOf((String)filter) % this.MAX_LENGTH);
-		else {
-			String [] svalue = filter.toString().split("@");
-			if (svalue.length > 1)
-				return Math.abs(Integer.valueOf(svalue[svalue.length - 1]) & this.MAX_LENGTH);
+			return Math.abs((filter.hashCode()) % this.MAX_LENGTH);
 
-			return Math.abs(Integer.valueOf(svalue[0]) & this.MAX_LENGTH);
-		}
+		return Math.abs(filter.hashCode() & this.MAX_LENGTH);
 	}
 
 	// Function to set a value e at index i in the array
@@ -168,6 +136,13 @@ public class Set<K extends Comparable<K>, E extends Comparable<E>> {
 			if (leader != null)
 				if (leader.getKey() >= 0)
 					leader.print();
+		}
+	}
+
+	public void reset () {
+		for (int i = 0; i < this.MAX_LENGTH; i++){
+			this.els.set(i, null);
+			this.les.set(i, null);
 		}
 	}
 
@@ -224,7 +199,7 @@ public class Set<K extends Comparable<K>, E extends Comparable<E>> {
     }
   }
 
-	private class SetNode<E extends Comparable<E>> extends Node<E>{
+	protected class SetNode<E extends Comparable<E>> extends Node<E>{
     private SetNode<E> leader;
 		protected SetNode<E> next;
 

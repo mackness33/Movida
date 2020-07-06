@@ -1,7 +1,5 @@
 package movida.mackseverini;
 
-
-
 public class Node<T extends Comparable<T>> implements movida.mackseverini.INode<T>, Comparable<Node<T>>{
   protected Integer key;
   protected T value;
@@ -35,12 +33,14 @@ public class Node<T extends Comparable<T>> implements movida.mackseverini.INode<
   public Integer getKey () { return this.key; }
   @Override
   public T getValue () { return this.value; }
+  @Override
   public Node<T> getNext () { return this.next; }
 
   @Override
   public void setKey (Integer k) { this.key = k; }
   @Override
   public void setValue (T v) { this.value = v; }
+  @Override
   public void setNext (Node<T> n) { this.next = n; }
 
   @Override
