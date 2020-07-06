@@ -2,7 +2,7 @@ package movida.mackseverini;
 
 public class Node2<T extends Comparable<T>> implements movida.mackseverini.INode2<T>, Comparable<Node2<T>>{
   protected T value;
-  protected Node2<T> next;
+  protected INode2<T> next;
 
   public Node2(){
     this.value = null;
@@ -11,7 +11,7 @@ public class Node2<T extends Comparable<T>> implements movida.mackseverini.INode
 
   public Node2(Node2<T> shallow){
     this.value = shallow.getValue();
-    this.next = (Node2)shallow.getNext();
+    this.next = shallow.getNext();
   }
 
   public Node2(T v){
@@ -34,7 +34,7 @@ public class Node2<T extends Comparable<T>> implements movida.mackseverini.INode
   @Override
   public void setValue (T v) { this.value = v; }
   @Override
-  public void setNext (INode2<T> n) { this.next = (Node2)n; }
+  public void setNext (INode2<T> n) { this.next = n; }
   public void setNext (Node2<T> n) { this.next = n; }
 
   @Override
@@ -50,6 +50,6 @@ public class Node2<T extends Comparable<T>> implements movida.mackseverini.INode
     this.print();
 
     if (this.next != null)
-      this.next.printAll();
+      ((Node2<T>)this.next).printAll();
   }
 }

@@ -4,8 +4,8 @@ import movida.mackseverini.INode2;
 import movida.mackseverini.Array;
 
 public class List<E extends Comparable<E>>{
-  protected Node2<E> head;
-  protected Node2<E> tail;
+  protected INode2<E> head;
+  protected INode2<E> tail;
   protected Integer size;
 
   public List (){
@@ -21,13 +21,13 @@ public class List<E extends Comparable<E>>{
   }
 
   public List (List<E> shallow){
-    this.head = shallow.getHead();
-    this.tail = shallow.getTail();
+    this.head = (Node2<E>)shallow.getHead();
+    this.tail = (Node2<E>)shallow.getTail();
     this.size = shallow.getSize();
   }
 
-  public Node2<E> getHead () { return this.head; }
-  public Node2<E> getTail () { return this.tail; }
+  public INode2<E> getHead () { return this.head; }
+  public INode2<E> getTail () { return this.tail; }
   public Integer getSize () { return this.size; }
 
   public void addHead (E el){
@@ -74,7 +74,7 @@ public class List<E extends Comparable<E>>{
 
     int i = 1;
     Node2<E> iter = null;
-    for (iter = this.head; iter.getNext() != null && i < pos; iter = (Node2<E>)iter.getNext(), i++);
+    for (iter = (Node2<E>)this.head; iter.getNext() != null && i < pos; iter = (Node2<E>)iter.getNext(), i++);
 
     if (i == pos){
       Node2<E> temp = new Node2<E>(el);
@@ -111,7 +111,7 @@ public class List<E extends Comparable<E>>{
     }
 
     Node2<E> iter;
-    for (iter = this.head; iter.getNext() != this.tail; iter = (Node2<E>)iter.getNext());
+    for (iter = (Node2<E>)this.head; iter.getNext() != this.tail; iter = (Node2<E>)iter.getNext());
 
     iter.setNext(null);
     this.tail = iter;
@@ -131,7 +131,7 @@ public class List<E extends Comparable<E>>{
       return;
     }
 
-    for (Node2<E> prev = this.head, iter = (Node2<E>)this.head.getNext(); iter.getNext() != null; iter = (Node2<E>)iter.getNext(), prev = (Node2<E>)prev.getNext()){
+    for (Node2<E> prev = (Node2<E>)this.head, iter = (Node2<E>)this.head.getNext(); iter.getNext() != null; iter = (Node2<E>)iter.getNext(), prev = (Node2<E>)prev.getNext()){
       if (el.compareTo(iter.getValue()) == 0){
         prev.setNext(iter.getNext());
         iter = null;
@@ -160,7 +160,7 @@ public class List<E extends Comparable<E>>{
 
     int i = 1;
     Node2<E> iter = null, prev = null;
-    for (prev = this.head, iter = (Node2<E>)this.head.getNext(); iter.getNext() != null && i < pos; iter = (Node2<E>)iter.getNext(), prev = (Node2<E>)prev.getNext(), i++);
+    for (prev = (Node2<E>)this.head, iter = (Node2<E>)this.head.getNext(); iter.getNext() != null && i < pos; iter = (Node2<E>)iter.getNext(), prev = (Node2<E>)prev.getNext(), i++);
 
     if (i == pos){
       prev.setNext(iter.getNext());
@@ -188,7 +188,7 @@ public class List<E extends Comparable<E>>{
 
     int i = 0;
     Node2<E> iter = null;
-    for (iter = this.head; iter.getNext() != null && i < pos; iter = (Node2<E>)iter.getNext(), i++);
+    for (iter = (Node2<E>)this.head; iter.getNext() != null && i < pos; iter = (Node2<E>)iter.getNext(), i++);
 
     if (i == pos)
       iter.setValue(el);
@@ -215,7 +215,7 @@ public class List<E extends Comparable<E>>{
     final Array<E> array = new Array<E>(this.size);
 
     int i = 0;
-    for (Node2<E> iter = this.head; iter != null; iter = (Node2)iter.getNext(), i++ )
+    for (Node2<E> iter = (Node2<E>)this.head; iter != null; iter = (Node2)iter.getNext(), i++ )
       array.set(i, iter.getValue());
 
     return array;
@@ -223,6 +223,6 @@ public class List<E extends Comparable<E>>{
 
   public void print (){
     if(this.head != null)
-      this.head.printAll();
+      ((Node2<E>)this.head).printAll();
   }
 }

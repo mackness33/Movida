@@ -2,7 +2,7 @@ package movida.mackseverini;
 
 import java.util.Arrays;
 import movida.mackseverini.Array;
-import movida.mackseverini.Node;
+import movida.mackseverini.Node2;
 import movida.mackseverini.List;
 
 public class Set<K extends Comparable<K>, E extends Comparable<E>> {
@@ -60,10 +60,11 @@ public class Set<K extends Comparable<K>, E extends Comparable<E>> {
 	public void makeSet (K filter, E element){
 		Integer key = this.hash(filter);
 		this.els.set(key, new SetNode(key, element));
-		SetNode<E> newNode = this.els.get(key);
-		this.les.set(key, new SetLeaderNode(newNode, newNode, 1, key));
+		this.les.set(key, new SetLeaderNode(this.els.get(key), key));
 		this.size++;
 	}
+
+	public Integer getSize() { return this.size; }
 
 
 	// Function to get Object present at index i in the array
@@ -76,16 +77,20 @@ public class Set<K extends Comparable<K>, E extends Comparable<E>> {
 	}
 
 	// Function to get Object present at index i in the array
-	public SetLeaderNode<E> findLeader(K filter) {
+	protected SetLeaderNode<E> findLeader(K filter) {
 		SetNode<E> temp = this.els.get(this.hash(filter));
 		return temp == null ? null : (temp.getKey() <= -1 ? null : this.les.get(temp.getKey()));
+	}
+
+	protected List<E> findSet(K filter) {
+		SetNode<E> temp = this.els.get(this.hash(filter));
+		return temp == null ? null : (temp.getKey() <= -1 ? null : (List<E>)this.les.get(temp.getKey()));
 	}
 
 	public Integer hash (K filter){
 		System.out.println("FILTER: " + filter);
 		// System.out.println("instance: " + (filter instanceof Integer));
 		if (filter instanceof Integer){
-			System.out.println("LENGTH: " + (((Integer)filter) % this.MAX_LENGTH));
 			return Math.abs(((Integer)filter) % this.MAX_LENGTH);
 		}
 		else if (filter instanceof String)
@@ -110,7 +115,6 @@ public class Set<K extends Comparable<K>, E extends Comparable<E>> {
 
 		System.out.println("X size: " + xSet.getSize());
 		System.out.println("Y size: " + ySet.getSize());
-
 
 		if (xSet.getSize() < 0 || ySet.getSize() < 0)
 			return;
@@ -146,45 +150,49 @@ public class Set<K extends Comparable<K>, E extends Comparable<E>> {
 		}
 	}
 
-	private class SetLeaderNode<E extends Comparable<E>>{
-		protected SetNode<E> head;
-		protected SetNode<E> tail;
+	private class SetLeaderNode<E extends Comparable<E>> extends movida.mackseverini.List<E>{
 		protected Integer key;
-		protected Integer size;
 
 		public SetLeaderNode (){
-			this.head = null;
-			this.tail = null;
-			this.size = 0;
+			super();
 			this.key = -1;
     }
 
-		public SetLeaderNode (SetNode<E> h, SetNode<E> t, int s, int k){
-			this.head = h;
-			this.tail = t;
-			this.size = s;
+		public SetLeaderNode (int k){
+			super();
 			this.key = k;
     }
 
+		public SetLeaderNode (int k, E el){
+			super(el);
+			this.key = k;
+    }
+
+		public SetLeaderNode (SetNode<E> l, int k){
+			// super();
+			this.head = l;
+			this.tail = l;
+			this.key = k;
+			this.size = 1;
+    }
+
 		public SetLeaderNode (SetLeaderNode<E> L){
-			this.head = L.getHead();
-			this.tail = L.getTail();
-			this.size = L.getSize();
+			super((List<E>)L);
 			this.key = L.getKey();
     }
 
-		public void newLeader(SetNode<E> l){ this.head.setLeader(l); }
+		public void newLeader(SetNode<E> l){ ((SetNode<E>)this.head).setLeader(l); }
 
-		public SetNode<E> getHead () { return this.head; }
-		public SetNode<E> getTail () { return this.tail; }
-		public Integer getSize () { return this.size; }
 		public Integer getKey () { return this.key; }
 
 		// BUG: change count!!!!
 		public void addNode (SetLeaderNode<E> leader) {
-			this.tail.setNext(leader.getHead());
-			leader.newLeader(this.head);
-			this.tail = leader.getTail();
+			if (leader.getHead() == null)
+				return;
+
+			this.tail.setNext((SetNode<E>)leader.getHead());
+			leader.newLeader((SetNode<E>)this.head);
+			this.tail = (SetNode<E>)leader.getTail();
 			this.size += leader.getSize();
 		}
 
@@ -192,68 +200,72 @@ public class Set<K extends Comparable<K>, E extends Comparable<E>> {
 		public void setTail (SetNode<E> t) { this.tail = t; }
 		public void setSize (Integer s) { this.size = s; }
 
+		public List<E> toList(){
+			return (List<E>)this;
+		}
+
     public void print (){
 			System.out.println("LEADER: ");
       if(this.head != null)
-        this.head.printAll();
+        ((SetNode<E>)this.head).printAll();
     }
   }
 
-	protected class SetNode<E extends Comparable<E>> extends Node<E>{
-    private SetNode<E> leader;
-		protected SetNode<E> next;
+	protected class SetNode<E extends Comparable<E>> extends Node2<E>{
+		protected SetNode<E> leader;
+		protected Integer key;
 
     public SetNode (){
       super();
 			this.next = null;
-      this.leader = this;
-		}
-
-		@SuppressWarnings("unchecked")
-    public SetNode (Node<E> el){
-      super(el);
-			this.next = null;
 			this.leader = this;
+      this.key = -1;
 		}
 
-		@SuppressWarnings("unchecked")
-		public SetNode (Node<E> el, SetNode<E> l){
-      super(el);
-			this.next = new SetNode(el.getNext(), l);
-			this.leader = l;
-		}
-
-		@SuppressWarnings("unchecked")
-		public SetNode (Integer k, E v, SetNode<E> n, SetNode<E> l){
-      super(k, v);
-			this.next = n;
-			this.leader = l;
-		}
+		// @SuppressWarnings("unchecked")
+		// public SetNode (INode2<E> n, INode2<E> l){
+    //   super();
+		// 	this.next = (SetNode<E>)n;
+		// 	this.leader = (SetNode<E>)l;
+		// }
+		//
+		// @SuppressWarnings("unchecked")
+		// public SetNode (Integer k, E v, SetNode<E> n, SetNode<E> l){
+    //   super(k, v);
+		// 	this.next = n;
+		// 	this.leader = l;
+		// }
 
 		public SetNode (Integer k, E v){
-      super(k, v);
+      super(v);
 			this.next = null;
 			this.leader = this;
+			this.key = k;
 		}
 
 		public void printAll(){
 			this.print();
 
 			if (this.next != null)
-				this.next.printAll();
+				((SetNode<E>)this.next).printAll();
+		}
+
+		public void print(){
+			System.out.println("Node2: KEY => " + this.key + "	VALUE => " + this.value);
 		}
 
 		public SetNode<E> getLeader () { return this.leader; }
-		public SetNode<E> setNext () { return this.next; }
+		public Integer getKey () { return this.key; }
 
 		public void setNext (SetNode<E> n) { this.next = n; }
+		public void setKey (Integer k) { this.key = k; }
     public void setLeader (SetNode<E> l) {
 			this.leader = l;
 			this.key = l.getKey();
 			if (this.next != null)
-				this.next.setLeader(this.leader);
+				((SetNode<E>)this.next).setLeader(this.leader);
 		}
 
-		public Node<E> getNode () { return (Node<E>) this; }
+		public Node2<E> getNode () { return (Node2<E>) this; }
   }
 }
