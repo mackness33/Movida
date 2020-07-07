@@ -4,10 +4,11 @@ import java.util.Arrays;
 import movida.mackseverini.Array;
 import movida.mackseverini.Node2;
 import movida.mackseverini.List;
+import movida.mackseverini.IList;
 
 public class Set<K extends Comparable<K>, E extends Comparable<E>> {
 
-	protected Array<SetLeaderNode<E>> les;
+	protected List<IList<E>> les;
 	protected Array<SetNode<E>> els;
 	protected Array<Integer> keys;
 	protected final Integer MAX_LENGTH = 500;
@@ -20,7 +21,7 @@ public class Set<K extends Comparable<K>, E extends Comparable<E>> {
 		this.size = 0;
 		this.key_name = "self";
 
-		this.les = new Array<SetLeaderNode<E>>(this.MAX_LENGTH);
+		this.les = new List<IList<E>>();
 		this.els = new Array<SetNode<E>>(this.MAX_LENGTH);
 
 		this.reset();
@@ -30,7 +31,7 @@ public class Set<K extends Comparable<K>, E extends Comparable<E>> {
 		this.size = 0;
 		this.key_name = "self";
 		// this.key_type = K.getClass();
-		this.les = new Array<SetLeaderNode<E>>(this.MAX_LENGTH);
+		this.les = new List<IList<E>>();
 		this.els = new Array<SetNode<E>>(this.MAX_LENGTH);
 
 		this.reset();
@@ -40,7 +41,7 @@ public class Set<K extends Comparable<K>, E extends Comparable<E>> {
 		this.size = 0;
 		this.key_name = name;
 		// this.key_type = K.getClass();
-		this.les = new Array<SetLeaderNode<E>>(this.MAX_LENGTH);
+		this.les = new List<IList<E>>();
 		this.els = new Array<SetNode<E>>(this.MAX_LENGTH);
 
 		this.reset();
@@ -50,7 +51,7 @@ public class Set<K extends Comparable<K>, E extends Comparable<E>> {
 		this.size = 0;
 		this.key_name = name;
 		// this.key_type = K.getClass();
-		this.les = new Array<SetLeaderNode<E>>(this.MAX_LENGTH);
+		this.les = new List<IList<E>>();
 		this.els = new Array<SetNode<E>>(this.MAX_LENGTH);
 
 		this.reset();
@@ -60,7 +61,7 @@ public class Set<K extends Comparable<K>, E extends Comparable<E>> {
 	public void makeSet (K filter, E element){
 		Integer key = this.hash(filter);
 		this.els.set(key, new SetNode(key, element));
-		this.les.set(key, new SetLeaderNode(this.els.get(key), key));
+		this.les.addTail(new SetLeaderNode(this.els.get(key), key));
 		this.size++;
 	}
 
@@ -79,12 +80,12 @@ public class Set<K extends Comparable<K>, E extends Comparable<E>> {
 	// Function to get Object present at index i in the array
 	protected SetLeaderNode<E> findLeader(K filter) {
 		SetNode<E> temp = this.els.get(this.hash(filter));
-		return temp == null ? null : (temp.getKey() <= -1 ? null : this.les.get(temp.getKey()));
+		return temp == null ? null : (temp.getKey() <= -1 ? null : this.getLeaderbyKey(temp.getKey()));
 	}
 
-	protected List<E> findSet(K filter) {
+	protected IList<E> findSet(K filter) {
 		SetNode<E> temp = this.els.get(this.hash(filter));
-		return temp == null ? null : (temp.getKey() <= -1 ? null : (List<E>)this.les.get(temp.getKey()));
+		return temp == null ? null : (temp.getKey() <= -1 ? null : this.getLeaderbyKey(temp.getKey()));
 	}
 
 	public Integer hash (K filter){
@@ -121,12 +122,12 @@ public class Set<K extends Comparable<K>, E extends Comparable<E>> {
 
 		if (xSet.getSize() >= ySet.getSize()){
 			xSet.addNode(ySet);
-			this.les.set(this.hash(y), null);
+			this.les.delEl(ySet);
 			ySet = null;
 		}
 		else{
 			ySet.addNode(xSet);
-			this.les.set(this.hash(x), null);
+			this.les.delEl(xSet);
 			xSet = null;
 		}
 
@@ -134,19 +135,28 @@ public class Set<K extends Comparable<K>, E extends Comparable<E>> {
 	}
 
 	public void print () {
-		SetLeaderNode<E> leader;
-		for (int i = 0; i < les.length; i++){
-			leader = les.get(i);
-			if (leader != null)
-				if (leader.getKey() >= 0)
-					leader.print();
+		for (INode2<IList<E>> leader = this.les.getHead(); leader != null; leader = leader.getNext()){
+			((SetLeaderNode<E>)leader.getValue()).print();
 		}
+	}
+
+	protected SetLeaderNode<E> getLeaderbyKey(int key){
+		INode2<IList<E>> iter = this.les.getHead();
+
+    if (iter == null)
+			return null;
+
+    for (; iter != null; iter = iter.getNext())
+			if (((SetLeaderNode<E>)iter.getValue()).getKey() == key)
+				return (SetLeaderNode<E>)iter.getValue();
+
+    return null;
+
 	}
 
 	public void reset () {
 		for (int i = 0; i < this.MAX_LENGTH; i++){
 			this.els.set(i, null);
-			this.les.set(i, null);
 		}
 	}
 

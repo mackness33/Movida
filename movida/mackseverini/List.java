@@ -3,7 +3,7 @@ import movida.mackseverini.Node2;
 import movida.mackseverini.INode2;
 import movida.mackseverini.Array;
 
-public class List<E extends Comparable<E>>{
+public class List<E extends Comparable<E>> implements IList<E>{
   protected INode2<E> head;
   protected INode2<E> tail;
   protected Integer size;
@@ -26,10 +26,14 @@ public class List<E extends Comparable<E>>{
     this.size = shallow.getSize();
   }
 
+  @Override
   public INode2<E> getHead () { return this.head; }
+  @Override
   public INode2<E> getTail () { return this.tail; }
+  @Override
   public Integer getSize () { return this.size; }
 
+  @Override
   public void addHead (E el){
     if (this.size <= 0){
       this.head = new Node2<E>(el);
@@ -44,6 +48,7 @@ public class List<E extends Comparable<E>>{
     this.size++;
   }
 
+  @Override
   public void addTail (E el){
     if (this.size <= 0){
       this.head = new Node2<E>(el);
@@ -58,6 +63,7 @@ public class List<E extends Comparable<E>>{
     this.size++;
   }
 
+  @Override
   public void addAt (E el, int pos){
     if (pos <= 0 || pos >= size){
       if (pos == 0){
@@ -84,6 +90,7 @@ public class List<E extends Comparable<E>>{
     }
   }
 
+  @Override
   public void delHead (){
     if (this.size <= 0)
       return;
@@ -99,6 +106,7 @@ public class List<E extends Comparable<E>>{
     this.size--;
   }
 
+  @Override
   public void delTail (){
     if (this.size <= 0)
       return;
@@ -118,6 +126,7 @@ public class List<E extends Comparable<E>>{
     this.size--;
   }
 
+  @Override
   public void delEl (E el){
     if (this.size <= 0)
       return;
@@ -141,6 +150,7 @@ public class List<E extends Comparable<E>>{
     }
   }
 
+  @Override
   public void delAt (int pos){
     if (this.size <= 0)
       return;
@@ -169,6 +179,7 @@ public class List<E extends Comparable<E>>{
     }
   }
 
+  @Override
   public void update (E el, int pos){
     if (this.size <= 0)
       return;
@@ -194,6 +205,7 @@ public class List<E extends Comparable<E>>{
       iter.setValue(el);
   }
 
+  @Override
   public Integer search (E el){
     if (this.size <= 0)
       return -1;
@@ -211,6 +223,28 @@ public class List<E extends Comparable<E>>{
     return -1;
   }
 
+  @Override
+  public E getAt (int pos){
+    if (pos <= 0 || pos >= size){
+      if (pos == 0)
+        return this.head.getValue();
+      else if (pos == size)
+        return this.tail.getValue();
+      return null;
+    }
+
+    int i = 1;
+    Node2<E> iter = null;
+    for (iter = (Node2<E>)this.head; iter.getNext() != null && i < pos; iter = (Node2<E>)iter.getNext(), i++);
+
+    if (i == pos){
+      return iter.getValue();
+    }
+
+    return null;
+  }
+
+  @Override
   public Array<E> toArray(){
     final Array<E> array = new Array<E>(this.size);
 
@@ -221,6 +255,23 @@ public class List<E extends Comparable<E>>{
     return array;
   }
 
+  @Override
+  public void reset (){
+    if (this.size <= 0)
+      return;
+
+    for (int i = 0; i < this.size; i++)
+      this.delHead();
+
+    return;
+  }
+
+  @Override
+  public int compareTo (IList<E> el){
+    return this.hashCode() - el.hashCode();
+  }
+
+  @Override
   public void print (){
     if(this.head != null)
       ((Node2<E>)this.head).printAll();
