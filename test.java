@@ -1,4 +1,8 @@
-import movida.mackseverini.*;
+// import movida.mackseverini.*;
+import movida.mackseverini.MovidaDB;
+import movida.mackseverini.Hash2;
+import movida.mackseverini.MovieHash;
+import movida.mackseverini.PeopleHash;
 import movida.mackseverini.List;
 import movida.mackseverini.Node2;
 import movida.commons.*;
@@ -59,18 +63,18 @@ public class test {
     // for(int i = 0; i < test.length; i++)
     //   System.out.println(test.get(i));
 
-    // MovidaDB mb = new MovidaDB();
-    // // MovidaCore mb = new MovidaCore();
-    // mb.init_class();
-    //
-    // mb.loadFromFile(new File("movida/assets/esempio-formato-dati.txt"));
-    //
-    // mb.printMovies();
-    // mb.printPeople();
+    MovidaDB mb = new MovidaDB();
+    // MovidaCore mb = new MovidaCore();
+    mb.init_class();
+
+    mb.loadFromFile(new File("movida/assets/esempio-formato-dati.txt"));
+
+    mb.printMovies();
+    mb.printPeople();
 
     // System.out.println("CONSTRUCTION");
     //
-    // Hash<Integer> hash = new Hash<Integer>();
+    // Hash2<Integer> hash = new Hash2<Integer>();
     // int max = 50;
     // int min = -49;
     //
@@ -133,45 +137,45 @@ public class test {
     // int min = -49;
     //
     // System.out.println("LET'S ADD UP");
-
+    //
     // for (int i = 0; i < 35; i++)
     //   hash.insert(ThreadLocalRandom.current().nextInt(min, max), ThreadLocalRandom.current().nextInt(-1000, 1001));
 
-    System.out.println("CONSTRUCTION");
-
-    Set<Integer, Integer> set = new Set<Integer, Integer>();
-
-    for (int i = 0; i < 35; i++)
-      set.makeSet(ThreadLocalRandom.current().nextInt(0, 45), ThreadLocalRandom.current().nextInt(-2000, 2000));
-
-    set.makeSet(45, 0);
-    set.makeSet(46, 1);
-    set.makeSet(47, 2);
-    set.makeSet(48, 3);
-    set.makeSet(49, 4);
-    set.makeSet(49, 15);
-    set.makeSet(49, 78);
-    System.out.println("LET'S PRINT!");
-
-    set.print();
-
-    System.out.println("FIND 46: " + set.find(46));
-    System.out.println("FIND 48: " + set.find(48));
-    System.out.println("FIND 49: " + set.find(49));
-
-    System.out.println("Union 2 with 1");
-    set.union(47, 46);
-    System.out.println("Union 4 with 2");
-    set.union(49, 47);
-
-    for (int i = 0; i < 35; i++)
-      set.union(ThreadLocalRandom.current().nextInt(0, 45), ThreadLocalRandom.current().nextInt(0, 45));
-
-    System.out.println("LET'S PRINT!");
-
-    set.print();
-
-    System.out.println("SIZE: " + set.getSize());
+    // System.out.println("CONSTRUCTION");
+    //
+    // Set<Integer, Integer> set = new Set<Integer, Integer>();
+    //
+    // for (int i = 0; i < 35; i++)
+    //   set.makeSet(ThreadLocalRandom.current().nextInt(0, 45), ThreadLocalRandom.current().nextInt(-2000, 2000));
+    //
+    // set.makeSet(45, 0);
+    // set.makeSet(46, 1);
+    // set.makeSet(47, 2);
+    // set.makeSet(48, 3);
+    // set.makeSet(49, 4);
+    // set.makeSet(49, 15);
+    // set.makeSet(49, 78);
+    // System.out.println("LET'S PRINT!");
+    //
+    // set.print();
+    //
+    // System.out.println("FIND 46: " + set.find(46));
+    // System.out.println("FIND 48: " + set.find(48));
+    // System.out.println("FIND 49: " + set.find(49));
+    //
+    // System.out.println("Union 2 with 1");
+    // set.union(47, 46);
+    // System.out.println("Union 4 with 2");
+    // set.union(49, 47);
+    //
+    // for (int i = 0; i < 35; i++)
+    //   set.union(ThreadLocalRandom.current().nextInt(0, 45), ThreadLocalRandom.current().nextInt(0, 45));
+    //
+    // System.out.println("LET'S PRINT!");
+    //
+    // set.print();
+    //
+    // System.out.println("SIZE: " + set.getSize());
 
     // System.out.println("SEARCH: " + hash.search(33, 1));
     // hash.delete(33, 0);

@@ -47,7 +47,7 @@ public class MovidaDB implements movida.commons.IMovidaDB {
   @Override
   public void loadFromFile(File f){
     System.out.println("START STREAM");
-
+    Integer i = 0;
     try{
       BufferedReader br = new BufferedReader(new FileReader(f));
       String [] movie = new String [5];
@@ -62,12 +62,12 @@ public class MovidaDB implements movida.commons.IMovidaDB {
         // Using a switch so even though the movie is describe in a unordered way
         //  it'll still be right
         switch(line[0]){
-          case "Title": movie[0] = line[1].trim(); break;
-          case "Year": movie[1] = line[1].trim(); break;
-          case "Votes": movie[2] = line[1].trim(); break;
-          case "Cast": movie[3] = line[1].trim(); break;
-          case "Director": movie[4] = line[1].trim(); break;
-          case "": this.addMovie(movie); break;
+          case "Title": movie[0] = line[1].trim();i++; break;
+          case "Year": movie[1] = line[1].trim();i++; break;
+          case "Votes": movie[2] = line[1].trim();i++; break;
+          case "Cast": movie[3] = line[1].trim();i++; break;
+          case "Director": movie[4] = line[1].trim();i++; break;
+          case "": this.addMovie(movie); i = 0; break;
           default: System.out.println("Something went wrong!");
         }
       }
@@ -78,6 +78,7 @@ public class MovidaDB implements movida.commons.IMovidaDB {
     }
     catch(Exception e){
       System.out.println(e);
+      System.out.println("FASE: " + i);
     }
 
     System.out.println("END STREAM");
@@ -91,14 +92,24 @@ public class MovidaDB implements movida.commons.IMovidaDB {
 
     this.addPerson(movie[4]);
 
+    System.out.println("HOLA");
+
     for(int i = 0; i < 10; i++){
+      System.out.println("i: " + i);
+      System.out.println("cast length: " + cast_name.length);
       if (i < cast_name.length){
+        System.out.println("greate" + cast_name[i]);
         this.addPerson(cast_name[i].trim());
+        System.out.println("so");
         cast[i] = new Person(cast_name[i].trim());
       }
-      else
+      else{
+        System.out.println("shit");
         cast[i] = null;
+      }
+      System.out.println("END ADD OF PEOPLE");
     }
+
 
     temp = new Movie(movie[0], new Integer(movie[1]), new Integer(movie[2]), cast, new Person(movie[4]));
 
@@ -109,9 +120,12 @@ public class MovidaDB implements movida.commons.IMovidaDB {
 
   private void addPerson(String name){
     Person temp = new Person(name);
-    
-    if (!people.search(temp))
+
+    System.out.println("PROBLEM HERE " + temp);
+    if (!people.search(temp)){
+      System.out.println("PROBLEM HERE!!!!");
       people.insert(temp);
+    }
     else
       System.out.println("ALREADY THERE");
 
