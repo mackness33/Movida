@@ -16,7 +16,7 @@ import movida.mackseverini.MovieHash;
 import movida.mackseverini.PeopleHash;
 
 public class MovidaDB implements movida.commons.IMovidaDB {
-  private MovieHash movies;
+  private MovieHash<Movie> movies;
   private PeopleHash people;
 
   public MovidaDB(){
@@ -62,12 +62,12 @@ public class MovidaDB implements movida.commons.IMovidaDB {
         // Using a switch so even though the movie is describe in a unordered way
         //  it'll still be right
         switch(line[0]){
-          case "Title": movie[0] = line[1].trim();i++; break;
-          case "Year": movie[1] = line[1].trim();i++; break;
-          case "Votes": movie[2] = line[1].trim();i++; break;
-          case "Cast": movie[3] = line[1].trim();i++; break;
-          case "Director": movie[4] = line[1].trim();i++; break;
-          case "": this.addMovie(movie); i = 0; break;
+          case "Title": movie[0] = line[1].trim(); break;
+          case "Year": movie[1] = line[1].trim(); break;
+          case "Votes": movie[2] = line[1].trim(); break;
+          case "Cast": movie[3] = line[1].trim(); break;
+          case "Director": movie[4] = line[1].trim(); break;
+          case "": this.addMovie(movie); break;
           default: System.out.println("Something went wrong!");
         }
       }
@@ -78,7 +78,6 @@ public class MovidaDB implements movida.commons.IMovidaDB {
     }
     catch(Exception e){
       System.out.println(e);
-      System.out.println("FASE: " + i);
     }
 
     System.out.println("END STREAM");
@@ -92,22 +91,14 @@ public class MovidaDB implements movida.commons.IMovidaDB {
 
     this.addPerson(movie[4]);
 
-    System.out.println("HOLA");
-
     for(int i = 0; i < 10; i++){
-      System.out.println("i: " + i);
-      System.out.println("cast length: " + cast_name.length);
       if (i < cast_name.length){
-        System.out.println("greate" + cast_name[i]);
         this.addPerson(cast_name[i].trim());
-        System.out.println("so");
         cast[i] = new Person(cast_name[i].trim());
       }
       else{
-        System.out.println("shit");
         cast[i] = null;
       }
-      System.out.println("END ADD OF PEOPLE");
     }
 
 
@@ -115,15 +106,13 @@ public class MovidaDB implements movida.commons.IMovidaDB {
 
     movies.upsert(temp);
 
-    // System.out.println("Add the ugly asses up!");
+    System.out.println("Add the ugly asses up!" + temp.getYear());
   }
 
   private void addPerson(String name){
     Person temp = new Person(name);
 
-    System.out.println("PROBLEM HERE " + temp);
     if (!people.search(temp)){
-      System.out.println("PROBLEM HERE!!!!");
       people.insert(temp);
     }
     else

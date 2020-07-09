@@ -16,11 +16,13 @@ public class Hash2<E extends Comparable<E>> extends ComparableStatic implements 
   protected IList<IList<Integer>> major;
   protected int MAX_LENGTH = 100;
   protected int size;
+  protected int length;
 
   // constructor resides
   @SuppressWarnings("unchecked")
   public Hash2() {
     this.size = 0;
+    this.length = 0;
     this.dom = new Array<E> (this.MAX_LENGTH);
     for (int i = 0; i < this.dom.length; i++)
       this.dom.set(i, null);
@@ -29,10 +31,11 @@ public class Hash2<E extends Comparable<E>> extends ComparableStatic implements 
   }
 
   protected int getSize() { return this.size; }
+  protected int getLength() { return this.length; }
 
 
   // @Override
-  protected Integer hash (E input){
+  protected <K> Integer hash (K input){
 
     if (input instanceof Integer)
       return Math.abs((Integer)input) % this.MAX_LENGTH;
@@ -48,42 +51,21 @@ public class Hash2<E extends Comparable<E>> extends ComparableStatic implements 
 
   @Override
   public boolean insert(E obj){
-    Integer hash_res = this.hash(obj);
-    IList<Integer> node = null;
-    // HashNode<Integer> date = new HashNode<Integer>(this.hash(obj), obj.getDate());
-
-    // System.out.println("KEY: " + dates.getKey());
     this.dom.set(this.size, obj);
+    System.out.println("INSERT HASHT!: ");
 
-    if ((node = ((HashList<IList<Integer>>)this.major).getByKey(hash_res)) == null){
-      ((HashList<IList<Integer>>)this.major).addTail(hash_res, new HashList());
-      node = ((HashList<IList<Integer>>)this.major).getTail().getValue();
+    Integer hash_key = this.hash(obj.hashCode());
+    IList<Integer> list_key = null;
+
+    if ((list_key = ((HashList<IList<Integer>>)this.major).getByKey(hash_key)) == null){
+      ((HashList<IList<Integer>>)this.major).addTail(hash_key, new HashList(hash_key));
+      list_key = ((HashList<IList<Integer>>)this.major).getTail().getValue();
     }
 
-    ((HashList<Integer>)node).addTail(this.size, obj.hashCode());
-
+    ((HashList<Integer>)list_key).addTail(this.size, obj.hashCode());
 
     this.size++;
-    // List<Integer> year = this.dates.getEl(obj);
-    // if (dom.get(node.getKey()).getValue() != null){
-    //   HashNode<E> head = dom.get(node.getKey());
-    //
-    //   if (head.getNext() != null)
-    //     // System.out.println("Head: " + head);
-    //     // System.out.println("Next: " + head.getNext());
-    //
-    //   // shift to tail
-    //   for (; head.getNext() != null; head = head.getNext()){
-    //     // System.out.println("Head: " + head);
-    //     // System.out.println("Next: " + head.getNext());
-    //   }
-    //
-    //   head.setNext(node);
-    // }
-    // else
-    //   dom.set(node.getKey(), node);
-    //
-    // size++;
+    this.length++;
 
     return true;
   }
@@ -100,34 +82,9 @@ public class Hash2<E extends Comparable<E>> extends ComparableStatic implements 
       if (node.getSize() <= 0)
         this.major.delEl(node);
 
+      this.length--;
       return true;
     }
-
-
-    // if ()
-    // if (this.dom.get(key).getValue() != null){
-    //   HashNode<E> head = dom.get(key);
-    //
-    //   // if it's the head of the list
-    //   if (this.compare(head.getValue(), obj) == 0){
-    //     dom.set(key, (head.getNext() == null) ? new HashNode<E>(key, null) : head.getNext());
-    //     head = null;          // handle by the garbage collector
-    //     size--;
-    //     return true;
-    //   }
-    //
-    //   for (HashNode<E> searcher = head.getNext(); head.getNext() != null; head = head.getNext(), searcher = searcher.getNext()){
-    //     // System.out.println("Head: " + head + " val: " + head.getValue());
-    //     // System.out.println("Searcher: " + searcher + " val: " + searcher.getValue());
-    //
-    //     if (this.compare(searcher.getValue(), obj) == 0){
-    //       head.setNext(searcher.getNext());
-    //       searcher = null;
-    //       size--;
-    //       return true;
-    //     }
-    //   }
-    // }
 
     return false;
   }
@@ -137,31 +94,14 @@ public class Hash2<E extends Comparable<E>> extends ComparableStatic implements 
     Integer key = this.hash(obj);
     IList<Integer> node = null;
 
-    System.out.println("DAFUQ?");
     if ((node = ((HashList<IList<Integer>>)this.major).getByKey(key)) != null){
       // System.out.println("Node: " + node);
-      System.out.println("DAMN? " + obj.hashCode());
       Integer el_key = ((HashList<Integer>)node).searchKey(obj.hashCode());
       // System.out.println("Key: " + el_key);
-      System.out.println("wassup? " + el_key);
       if (el_key != null)
         return this.dom.get(el_key) != null ? true : false;
 
-      System.out.println("DOlly");
     }
-
-
-    // if (this.dom.get(key).getValue() != null){
-    //   for (HashNode<E> head = dom.get(key); head != null; head = head.getNext()){
-    //     // System.out.println("Head: " + head + " val: " + head.getValue());
-    //     // System.out.println("Next: " + head.getNext());
-    //
-    //     if (this.compare(head.getValue(), obj) == 0){
-    //       return true;
-    //     }
-    //   }
-    // }
-    System.out.println("NASTY");
 
     return false;
   }
@@ -238,6 +178,13 @@ public class Hash2<E extends Comparable<E>> extends ComparableStatic implements 
       this.key = k;
     }
 
+    public HashList (Integer k){
+      this.head = null;
+      this.tail = null;
+      this.size = 0;
+      this.key = k;
+    }
+
     public HashList (HashList<E> shallow){
       this.head = (HashNode<E>)shallow.getHead();
       this.tail = (HashNode<E>)shallow.getTail();
@@ -299,13 +246,10 @@ public class Hash2<E extends Comparable<E>> extends ComparableStatic implements 
       if (this.size <= 0)
         return null;
 
-        System.out.println("BROTHA");
       if (el.compareTo(this.head.getValue()) == 0)
         return ((HashNode<E>)this.head).getKey();
       else if (el.compareTo(this.tail.getValue()) == 0)
         return ((HashNode<E>)this.tail).getKey();
-
-        System.out.println("DONT");
 
       if((HashNode<E>)this.head.getNext() == null)
         return null;
