@@ -140,6 +140,9 @@ public class List<E extends Comparable<E>> implements IList<E>{
       return;
     }
 
+    if((Node2<E>)this.head.getNext() == null)
+      return;
+
     for (Node2<E> prev = (Node2<E>)this.head, iter = (Node2<E>)this.head.getNext(); iter.getNext() != null; iter = (Node2<E>)iter.getNext(), prev = (Node2<E>)prev.getNext()){
       if (el.compareTo(iter.getValue()) == 0){
         prev.setNext(iter.getNext());
@@ -214,6 +217,9 @@ public class List<E extends Comparable<E>> implements IList<E>{
       return 0;
     else if (el.compareTo(this.tail.getValue()) == 0)
       return this.size-1;
+
+    if((Node2<E>)this.head.getNext() == null)
+      return null;
 
     int i = 1;
     for (Node2<E> iter = (Node2<E>)this.head.getNext(); iter.getNext() != null && i < this.size; iter = (Node2<E>)iter.getNext(), i++)

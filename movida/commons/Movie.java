@@ -51,6 +51,10 @@ public class Movie implements Comparable<Movie>{
 		return this.year;
 	}
 
+	public Integer getBellooo() {
+		return 5;
+	}
+
 	public Integer getVotes() {
 		return this.votes;
 	}

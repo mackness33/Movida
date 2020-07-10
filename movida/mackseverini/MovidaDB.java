@@ -16,7 +16,7 @@ import movida.mackseverini.MovieHash;
 import movida.mackseverini.PeopleHash;
 
 public class MovidaDB implements movida.commons.IMovidaDB {
-  private MovieHash movies;
+  private MovieHash<Movie> movies;
   private PeopleHash people;
 
   public MovidaDB(){
@@ -47,7 +47,7 @@ public class MovidaDB implements movida.commons.IMovidaDB {
   @Override
   public void loadFromFile(File f){
     System.out.println("START STREAM");
-
+    Integer i = 0;
     try{
       BufferedReader br = new BufferedReader(new FileReader(f));
       String [] movie = new String [5];
@@ -96,22 +96,25 @@ public class MovidaDB implements movida.commons.IMovidaDB {
         this.addPerson(cast_name[i].trim());
         cast[i] = new Person(cast_name[i].trim());
       }
-      else
+      else{
         cast[i] = null;
+      }
     }
+
 
     temp = new Movie(movie[0], new Integer(movie[1]), new Integer(movie[2]), cast, new Person(movie[4]));
 
     movies.upsert(temp);
 
-    // System.out.println("Add the ugly asses up!");
+    System.out.println("Add the ugly asses up!" + temp.getYear());
   }
 
   private void addPerson(String name){
     Person temp = new Person(name);
-    
-    if (!people.search(temp))
+
+    if (!people.search(temp)){
       people.insert(temp);
+    }
     else
       System.out.println("ALREADY THERE");
 
