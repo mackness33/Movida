@@ -72,6 +72,10 @@ public class test {
     mb.printMovies();
     mb.printPeople();
 
+    mb.deleteMovieByTitle("Taxi Driver");
+
+    mb.printMovies();
+
     // System.out.println("CONSTRUCTION");
     //
     // Hash2<Integer> hash = new Hash2<Integer>();

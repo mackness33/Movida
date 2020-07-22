@@ -35,12 +35,12 @@ public class MovidaDB implements movida.commons.IMovidaDB {
   }
 
   public void printMovies(){
-    System.out.println("Film uploaded: " + this.movies.getSize());
+    System.out.println("Film uploaded: " + this.movies.getLength());
     movies.print();
   }
 
   public void printPeople(){
-    System.out.println("People added: " + this.people.getSize());
+    System.out.println("People added: " + this.people.getLength());
     people.print();
   }
 
@@ -126,16 +126,19 @@ public class MovidaDB implements movida.commons.IMovidaDB {
 	public void saveToFile(File f){}
 
 	@Override
-	public void clear(){}
+	public void clear(){
+    movies.reset();
+    people.reset();
+  }
 
 	@Override
-	public int countMovies(){ return 0; }
+	public int countMovies(){ return movies.getLength(); }
 
 	@Override
-	public int countPeople(){ return 0; }
+	public int countPeople(){ return people.getLength(); }
 
 	@Override
-	public boolean deleteMovieByTitle(String title){ return false; }
+	public boolean deleteMovieByTitle(String title){ return movies.delete(title); }
 
   @Override
 	public Movie getMovieByTitle(String title){ return null; }

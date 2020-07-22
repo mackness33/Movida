@@ -35,6 +35,14 @@ public class Hash2<E extends Comparable<E>> extends ComparableStatic implements 
 
 
   // @Override
+  public void reset (){
+    this.major.reset();
+
+    for (int i = 0; i < this.dom.length; i++)
+      this.dom.set(i, null);
+  }
+
+  // @Override
   protected <K> Integer hash (K input){
 
     if (input instanceof Integer)

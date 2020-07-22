@@ -45,6 +45,7 @@ public class MovieHash<E extends Movie> extends Hash2<Movie> {
     this.addHashKey(obj.getYear(), this.dates);
 
     this.size++;
+    this.length++;
 
     return true;
   }
@@ -75,6 +76,12 @@ public class MovieHash<E extends Movie> extends Hash2<Movie> {
     return true;
   }
 
+  public void reset (){
+    this.major.reset();
+    this.dates.reset();
+    super.reset();
+  }
+
   public boolean delete(String title){
     System.out.println("SHUT THE DELETE UP!: ");
 
@@ -97,6 +104,12 @@ public class MovieHash<E extends Movie> extends Hash2<Movie> {
 
     this.delHashKey(movie_to_be_deleted.getYear(), this.dates);
     // this.delHashKey(obj.getYear(), this.dates);
+
+    System.out.println("BEFORE MOVIE LENGTH!: " + this.length);
+
+    this.length--;
+
+    System.out.println("BEFORE MOVIE LENGTH!: " + this.length);
 
     return true;
   }
@@ -133,6 +146,7 @@ public class MovieHash<E extends Movie> extends Hash2<Movie> {
     this.addHashKey(obj.getYear(), this.dates);
 
     this.size++;
+    this.length++;
 
     return false;
   }
