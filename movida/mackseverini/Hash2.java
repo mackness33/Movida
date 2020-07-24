@@ -161,10 +161,22 @@ public class Hash2<E extends Comparable<E>> extends ComparableStatic implements 
     if (this.length < 0)
       return null;
 
-    Array<E> arr = this.toArray();
+    final Array<E> array = new Array<E>(this.length);
+    int i = 0;
+    System.out.println("BRUH: " + i);
+    HashNode<IList<Integer>> damn = (HashNode<IList<Integer>>)((HashList<IList<Integer>>)this.major).getHead();
+    System.out.println("DAMN: " + damn);
 
-    E[] prim = arr.toPrimitive();
-    return prim;
+    for (HashNode<IList<Integer>> iter = (HashNode<IList<Integer>>)((HashList<IList<Integer>>)this.major).getHead(); iter != null; iter = (HashNode<IList<Integer>>)iter.getNext()){
+      System.out.println("ITER KEY: " + iter.getKey());
+      for (HashNode<Integer> nodeIter = (HashNode<Integer>)((HashList<Integer>)iter.getValue()).getHead(); nodeIter != null; nodeIter = (HashNode<Integer>)nodeIter.getNext(), i++){
+        System.out.println("NODEITER KEY: " + nodeIter.getKey());
+        if (nodeIter.getKey() != null && nodeIter.getValue() != null)
+          array.set(i, this.dom.get(nodeIter.getKey()));
+      }
+    }
+
+    return array;
   }
 
   protected class HashNode<E extends Comparable<E>> extends Node2<E>{

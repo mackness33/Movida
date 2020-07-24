@@ -150,8 +150,9 @@ public class MovidaDB implements movida.commons.IMovidaDB {
 
   @Override
   public Movie[] getAllMovies(){
-    Movie[] s = movies.toPrimitive();
-    return new Movie[10];
+    // Movie[] s = movies.toPrimitive();
+    // return new Movie[10];
+    return movies.toPrimitive();
   }
 	// public Movie[] getAllMovies(){ return movies.toPrimitive(); }
 

@@ -81,10 +81,10 @@ public class test {
     //
     Movie[] movies = mb.getAllMovies();
 
-    // System.out.println("ARRAY LENGTH: " + movies.length);
-    // System.out.println("TO ARRAY: ");
-    // for(int i = 0; i < movies.length; i++)
-    //   System.out.println(movies[i]);
+    System.out.println("ARRAY LENGTH: " + movies.length);
+    System.out.println("TO ARRAY: ");
+    for(int i = 0; i < movies.length; i++)
+      System.out.println(movies[i]);
 
 
       // Array<Movie> movies = mb.getAllMoviesArray();
