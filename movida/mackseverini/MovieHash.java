@@ -180,4 +180,22 @@ public class MovieHash<E extends Movie> extends Hash2<Movie> {
     return false;
   }
 
+
+  public Movie search(String title){
+    Integer key = this.hash(title);
+    IList<String> node = null;
+
+    if ((node = ((HashList<IList<String>>)this.major).getByKey(key)) != null){
+      // System.out.println("Node: " + node);
+      Integer el_key = ((HashList<String>)node).searchKey(title);
+      // System.out.println("Key: " + el_key);
+      if (el_key != null)
+        return this.dom.get(el_key);
+    }
+
+    return null;
+  }
+
+  public Movies[] toArray() { return false; }
+
 }

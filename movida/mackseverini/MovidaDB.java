@@ -141,7 +141,7 @@ public class MovidaDB implements movida.commons.IMovidaDB {
 	public boolean deleteMovieByTitle(String title){ return movies.delete(title); }
 
   @Override
-	public Movie getMovieByTitle(String title){ return null; }
+	public Movie getMovieByTitle(String title){ return movies.search(title); }
 
   @Override
 	public Person getPersonByName(String name){ return null; }

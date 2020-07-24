@@ -76,6 +76,9 @@ public class test {
 
     mb.printMovies();
 
+    System.out.println("Hello buddy: " + mb.getMovieByTitle("Cape Fear"));
+
+
     // System.out.println("CONSTRUCTION");
     //
     // Hash2<Integer> hash = new Hash2<Integer>();

@@ -23,4 +23,19 @@ public class PeopleHash<Person extends Comparable<Person>> extends Hash2<Person>
   public PeopleHash() {
     super();
   }
+
+  // public Person search(String name){
+  //   Integer key = this.hash(title);
+  //   IList<Integer> node = null;
+  //
+  //   if ((node = ((HashList<IList<Integer>>)this.major).getByKey(key)) != null){
+  //     // System.out.println("Node: " + node);
+  //     Integer el_key = ((HashList<Integer>)node).searchKey(name);
+  //     // System.out.println("Key: " + el_key);
+  //     if (el_key != null)
+  //       return this.dom.get(el_key);
+  //   }
+  //
+  //   return false;
+  // }
 }
