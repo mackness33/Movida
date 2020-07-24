@@ -24,8 +24,8 @@ public class Array<E> {
 	}
 
 	// Function to get Object present at index i in the array
+	@SuppressWarnings("unchecked")
 	public E get(int i) {
-		@SuppressWarnings("unchecked")
 		final E e = (E)arr[i];
 		return e;
 	}

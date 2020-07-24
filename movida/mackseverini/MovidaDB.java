@@ -146,8 +146,14 @@ public class MovidaDB implements movida.commons.IMovidaDB {
   @Override
 	public Person getPersonByName(String name){ return null; }
 
+	public Array<Movie> getAllMoviesArray(){ return movies.toArray(); }
+
   @Override
-	public Movie[] getAllMovies(){ return null; }
+  public Movie[] getAllMovies(){
+    Movie[] s = movies.toPrimitive();
+    return new Movie[10];
+  }
+	// public Movie[] getAllMovies(){ return movies.toPrimitive(); }
 
 	@Override
 	public Person[] getAllPeople(){ return null; }

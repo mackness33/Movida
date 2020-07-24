@@ -135,6 +135,38 @@ public class Hash2<E extends Comparable<E>> extends ComparableStatic implements 
     this.major.print();
   }
 
+  public Array<E> toArray() {
+    if (this.length < 0)
+      return null;
+
+    final Array<E> array = new Array<E>(this.length);
+    int i = 0;
+    System.out.println("BRUH: " + i);
+    HashNode<IList<Integer>> damn = (HashNode<IList<Integer>>)((HashList<IList<Integer>>)this.major).getHead();
+    System.out.println("DAMN: " + damn);
+
+    for (HashNode<IList<Integer>> iter = (HashNode<IList<Integer>>)((HashList<IList<Integer>>)this.major).getHead(); iter != null; iter = (HashNode<IList<Integer>>)iter.getNext()){
+      System.out.println("ITER KEY: " + iter.getKey());
+      for (HashNode<Integer> nodeIter = (HashNode<Integer>)((HashList<Integer>)iter.getValue()).getHead(); nodeIter != null; nodeIter = (HashNode<Integer>)nodeIter.getNext(), i++){
+        System.out.println("NODEITER KEY: " + nodeIter.getKey());
+        if (nodeIter.getKey() != null && nodeIter.getValue() != null)
+          array.set(i, this.dom.get(nodeIter.getKey()));
+      }
+    }
+
+    return array;
+  }
+
+  public E[] toPrimitive() {
+    if (this.length < 0)
+      return null;
+
+    Array<E> arr = this.toArray();
+
+    E[] prim = arr.toPrimitive();
+    return prim;
+  }
+
   protected class HashNode<E extends Comparable<E>> extends Node2<E>{
     protected Integer key;
 

@@ -196,6 +196,41 @@ public class MovieHash<E extends Movie> extends Hash2<Movie> {
     return null;
   }
 
-  public Movies[] toArray() { return false; }
+  @Override
+  public Array<Movie> toArray() {
+    if (this.length < 0)
+      return null;
 
+    final Array<Movie> array = new Array<Movie>(this.length);
+    int i = 0;
+    System.out.println("BRUH: " + i);
+    HashNode<IList<String>> damn = (HashNode<IList<String>>)((HashList<IList<String>>)this.major).getHead();
+    System.out.println("DAMN: " + damn);
+
+    for (HashNode<IList<String>> iter = (HashNode<IList<String>>)((HashList<IList<String>>)this.major).getHead(); iter != null; iter = (HashNode<IList<String>>)iter.getNext()){
+      System.out.println("ITER KEY: " + iter.getKey());
+      for (HashNode<String> nodeIter = (HashNode<String>)((HashList<String>)iter.getValue()).getHead(); nodeIter != null; nodeIter = (HashNode<String>)nodeIter.getNext(), i++){
+        System.out.println("NODEITER KEY: " + nodeIter.getKey());
+        if (nodeIter.getKey() != null && nodeIter.getValue() != null)
+          array.set(i, this.dom.get(nodeIter.getKey()));
+      }
+    }
+
+    return array;
+  }
+
+  @Override
+  public Movie[] toPrimitive() {
+    if (this.length < 0)
+      return null;
+
+    Array<Movie> arr = this.toArray();
+
+    Object[] prim = arr.toPrimitive();
+    System.out.println("ARRAY LENGTH: " + prim.length);
+    System.out.println("TO ARRAY: ");
+    for(int i = 0; i < prim.length; i++)
+      System.out.println(prim[i]);
+    return null;
+  }
 }

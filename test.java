@@ -5,6 +5,7 @@ import movida.mackseverini.MovieHash;
 import movida.mackseverini.PeopleHash;
 import movida.mackseverini.List;
 import movida.mackseverini.Node2;
+import movida.mackseverini.Array;
 import movida.commons.*;
 
 import java.io.File;
@@ -77,8 +78,21 @@ public class test {
     mb.printMovies();
 
     System.out.println("Hello buddy: " + mb.getMovieByTitle("Cape Fear"));
+    //
+    Movie[] movies = mb.getAllMovies();
+
+    // System.out.println("ARRAY LENGTH: " + movies.length);
+    // System.out.println("TO ARRAY: ");
+    // for(int i = 0; i < movies.length; i++)
+    //   System.out.println(movies[i]);
 
 
+      // Array<Movie> movies = mb.getAllMoviesArray();
+      //
+      // System.out.println("ARRAY LENGTH: " + movies.length);
+      // System.out.println("TO ARRAY: ");
+      // for(int i = 0; i < movies.length; i++)
+      //   System.out.println(movies.get(i));
     // System.out.println("CONSTRUCTION");
     //
     // Hash2<Integer> hash = new Hash2<Integer>();
