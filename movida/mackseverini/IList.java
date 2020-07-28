@@ -28,4 +28,6 @@ public interface IList<E extends Comparable<E>> extends Comparable<IList<E>>{
   public int compareTo (IList<E> el);
 
   public Array<E> toArray();
+
+  public E[] toPrimitive();
 }

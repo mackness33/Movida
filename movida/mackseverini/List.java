@@ -262,6 +262,18 @@ public class List<E extends Comparable<E>> implements IList<E>{
   }
 
   @Override
+  public E[] toPrimitive(){
+    // final E[] array = new E[this.size];
+    //
+    // int i = 0;
+    // for (Node2<E> iter = (Node2<E>)this.head; iter != null; iter = (Node2)iter.getNext(), i++ )
+    //   array[i] =  iter.getValue();
+    //
+    // return array;
+    return null;
+  }
+
+  @Override
   public void reset (){
     if (this.size <= 0)
       return;

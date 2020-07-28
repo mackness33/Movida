@@ -1,5 +1,6 @@
 // import movida.mackseverini.*;
 import movida.mackseverini.MovidaDB;
+import movida.mackseverini.MovidaCore;
 import movida.mackseverini.Hash2;
 import movida.mackseverini.MovieHash;
 import movida.mackseverini.PeopleHash;
@@ -64,7 +65,7 @@ public class test {
     // for(int i = 0; i < test.length; i++)
     //   System.out.println(test.get(i));
 
-    MovidaDB mb = new MovidaDB();
+    MovidaCore mb = new MovidaCore();
     // MovidaCore mb = new MovidaCore();
     mb.init_class();
 
@@ -86,6 +87,12 @@ public class test {
     for(int i = 0; i < movies.length; i++)
       System.out.println(movies[i]);
 
+
+    System.out.println("SEARCHBYKEY YEAR: ");
+    Movie[] years = mb.searchMoviesInYear(1997);
+
+    for(int i = 0; i < years.length; i++)
+      System.out.println(years[i]);
 
       // Array<Movie> movies = mb.getAllMoviesArray();
       //

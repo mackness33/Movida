@@ -196,6 +196,36 @@ public class MovieHash<E extends Movie> extends Hash2<Movie> {
     return null;
   }
 
+  public <K extends Comparable<K>> Movie[] searchByKey(K input){
+    IList<Movie> out = null;
+    Array<Movie> transition_array = null;
+
+    if (input instanceof Integer)
+      out = this.genericSearchByKey((Integer)input, dates);
+    // elseif (input instanceof String)
+    //   out = genericSearchByKey(new Person(input), directors);
+
+    return (out != null) ?  listToPrimitive(out) : null;
+  }
+
+  protected <K extends Comparable<K>> IList<Movie> genericSearchByKey(K input, IList<IList<K>> key_hash){
+    Integer key = this.hash(input);
+    IList<K> node = null;
+    IList<Movie> output = new HashList<Movie>();
+
+
+    if ((node = ((HashList<IList<K>>)key_hash).getByKey(key)) != null)
+      // System.out.println("Node: " + node);
+      for (HashNode<K> iter = (HashNode<K>)node.getHead(); iter != null; iter = (HashNode<K>)iter.getNext())
+        // System.out.println("Iter: " + iter);
+        if (input.compareTo(iter.getValue()) == 0)
+          // System.out.println("Key: " + iter.getKey());
+          output.addTail(this.dom.get(iter.getKey()));
+
+
+    return (output.getSize() <= 0) ? null : output;
+  }
+
   @Override
   public Array<Movie> toArray() {
     if (this.length < 0)
@@ -240,5 +270,15 @@ public class MovieHash<E extends Movie> extends Hash2<Movie> {
     }
 
     return array;
+  }
+
+  protected Movie[] listToPrimitive (IList<Movie> list){
+    Movie[] prim = new Movie[list.getSize()];
+
+    int i = 0;
+    for (INode2<Movie> iter = list.getHead(); iter != null; iter = iter.getNext(), i++)
+      prim[i] = iter.getValue();
+
+    return prim;
   }
 }

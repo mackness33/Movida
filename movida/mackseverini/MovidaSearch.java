@@ -1,6 +1,118 @@
 package movida.mackseverini;
 
 import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.Iterator;
 
-public class MovidaSearch implements movida.commons.IMovidaSearch {}
+import java.io.File;
+import java.io.FileReader;
+import java.io.BufferedReader;
+
+import movida.commons.Movie;
+import movida.commons.Person;
+import java.lang.Integer;
+import movida.mackseverini.Search;
+import movida.mackseverini.MovieHash;
+import movida.mackseverini.PeopleHash;
+
+public class MovidaSearch implements movida.commons.IMovidaSearch {
+
+	/**
+	 * Ricerca film per titolo.
+	 *
+	 * Restituisce i film il cui titolo contiene la stringa
+	 * <code>title</code> passata come parametro.
+	 *
+	 * Per il match esatto usare il metodo <code>getMovieByTitle(String s)</code>
+	 *
+	 * Restituisce un vettore vuoto se nessun film rispetta il criterio di ricerca.
+	 *
+	 * @param title titolo del film da cercare
+	 * @return array di film
+	 */
+	public Movie[] searchMoviesByTitle(String title){
+
+  }
+
+	/**
+	 * Ricerca film per anno.
+	 *
+	 * Restituisce i film usciti in sala nell'anno
+	 * <code>anno</code> passato come parametro.
+	 *
+	 * Restituisce un vettore vuoto se nessun film rispetta il criterio di ricerca.
+	 *
+	 * @param year anno del film da cercare
+	 * @return array di film
+	 */
+	public Movie[] searchMoviesInYear(Integer year){
+
+	}
+
+	/**
+	 * Ricerca film per regista.
+	 *
+	 * Restituisce i film diretti dal regista il cui nome � passato come parametro.
+	 *
+	 * Restituisce un vettore vuoto se nessun film rispetta il criterio di ricerca.
+	 *
+	 * @param name regista del film da cercare
+	 * @return array di film
+	 */
+	public Movie[] searchMoviesDirectedBy(String name);
+
+	/**
+	 * Ricerca film per attore.
+	 *
+	 * Restituisce i film a cui ha partecipato come attore
+	 * la persona il cui nome � passato come parametro.
+	 *
+	 * Restituisce un vettore vuoto se nessun film rispetta il criterio di ricerca.
+	 *
+	 * @param name attore coinvolto nel film da cercare
+	 * @return array di film
+	 */
+	public Movie[] searchMoviesStarredBy(String name);
+
+	/**
+	 * Ricerca film pi� votati.
+	 *
+	 * Restituisce gli <code>N</code> film che hanno
+	 * ricevuto pi� voti, in ordine decrescente di voti.
+	 *
+	 * Se il numero di film totali � minore di N restituisce tutti i film,
+	 * comunque in ordine.
+	 *
+	 * @param N numero di film che la ricerca deve resistuire
+	 * @return array di film
+	 */
+	public Movie[] searchMostVotedMovies(Integer N);
+
+	/**
+	 * Ricerca film pi� recenti.
+	 *
+	 * Restituisce gli <code>N</code> film pi� recenti,
+	 * in base all'anno di uscita in sala confrontato con l'anno corrente.
+	 *
+	 * Se il numero di film totali � minore di N restituisce tutti i film,
+	 * comunque in ordine.
+	 *
+	 * @param N numero di film che la ricerca deve resistuire
+	 * @return array di film
+	 */
+	public Movie[] searchMostRecentMovies(Integer N);
+
+	/**
+	 * Ricerca gli attori pi� attivi.
+	 *
+	 * Restituisce gli <code>N</code> attori che hanno partecipato al numero
+	 * pi� alto di film
+	 *
+	 * Se il numero di attori � minore di N restituisce tutti gli attori,
+	 * comunque in ordine.
+	 *
+	 * @param N numero di attori che la ricerca deve resistuire
+	 * @return array di attori
+	 */
+	public Person[] searchMostActiveActors(Integer N);
+}
