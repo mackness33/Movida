@@ -208,10 +208,17 @@ public class Hash2<E extends Comparable<E>> extends ComparableStatic implements 
       System.out.println("HashNode: KEY => " + this.key + " VALUE => " + this.value);
     }
 
-    @Override
-    public String toString(){
-      return "HashNode: KEY => " + this.key + " VALUE => " + this.value;
+    public void printAll(){
+      System.out.println("HashList: KEY => " + this.key + " VALUE => " + this.value);
+
+      if (this.next != null)
+        ((HashNode<E>)this.next).printAll();
     }
+
+    // @Override
+    // public String toString(){
+    //   return "HashNode: KEY => " + this.key + " VALUE => " + this.value;
+    // }
   }
 
   protected class HashList<E extends Comparable<E>> extends List<E>{
@@ -245,10 +252,21 @@ public class Hash2<E extends Comparable<E>> extends ComparableStatic implements 
       this.key = shallow.getKey();
     }
 
+    // @Override
+    // public String toString(){
+    //   this.print();
+    //   return "HashList: KEY => " + this.key + " HEAD => " + this.head;
+    // }
+
     @Override
-    public String toString(){
-      this.print();
-      return "HashList: KEY => " + this.key + " HEAD => " + this.head;
+    public void print(){
+      System.out.println("HashList: KEY => " + this.key + " HEAD => " + this.head);
+    }
+
+    public void printAll(){
+      System.out.println("HashList: KEY => " + this.key + " HEAD => " + this.head);
+        if (this.head != null && this.head instanceof HashNode)
+        ((HashNode<E>)this.head).printAll();
     }
 
     public Integer getKey() { return this.key; }

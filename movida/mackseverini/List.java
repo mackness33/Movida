@@ -79,8 +79,8 @@ public class List<E extends Comparable<E>> implements IList<E>{
     }
 
     int i = 1;
-    Node2<E> iter = null;
-    for (iter = (Node2<E>)this.head; iter.getNext() != null && i < pos; iter = (Node2<E>)iter.getNext(), i++);
+    INode2<E> iter = null;
+    for (iter = this.head; iter.getNext() != null && i < pos; iter = iter.getNext(), i++);
 
     if (i == pos){
       Node2<E> temp = new Node2<E>(el);
@@ -291,6 +291,14 @@ public class List<E extends Comparable<E>> implements IList<E>{
 
   @Override
   public void print (){
+    System.out.println("HashList: HEAD => " + this.head);
+    if(this.head != null)
+      ((Node2<E>)this.head).printAll();
+  }
+
+  @Override
+  public void printAll (){
+    System.out.println("HashList: HEAD => " + this.head);
     if(this.head != null)
       ((Node2<E>)this.head).printAll();
   }

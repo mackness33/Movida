@@ -18,6 +18,7 @@ public class MovieHash<E extends Movie> extends Hash2<Movie> {
   // protected Set<Integer> dates;
   // protected Set<Integer> rates;
   protected IList<IList<Integer>> dates;
+  protected IList<Integer> rates;
   protected IList<IList<String>> major;
   // protected IList<Integer> rates;
 
@@ -32,6 +33,7 @@ public class MovieHash<E extends Movie> extends Hash2<Movie> {
     // this.rates = new Set<Integer> ();
     // for (int i = 0; i < this.sets.length; i++)
     this.dates = new HashList<IList<Integer>>();
+    this.rates = new HashList<Integer>();
     this.major = new HashList<IList<String>>();
     //   this.sets.set(i, new Set<String>(i, null));
   }
@@ -43,6 +45,7 @@ public class MovieHash<E extends Movie> extends Hash2<Movie> {
 
     this.addHashKey(obj.getTitle(), this.major);
     this.addHashKey(obj.getYear(), this.dates);
+    ((HashList<Integer>)this.rates).addTail(this.size, obj.getVotes());
 
     this.size++;
     this.length++;
@@ -69,7 +72,8 @@ public class MovieHash<E extends Movie> extends Hash2<Movie> {
       return false;
 
     this.delHashKey(obj.getYear(), this.dates);
-    // this.delHashKey(obj.getYear(), this.dates);
+
+    this.rates.delEl(obj.getVotes());
 
     this.length--;
 
@@ -79,6 +83,7 @@ public class MovieHash<E extends Movie> extends Hash2<Movie> {
   public void reset (){
     this.major.reset();
     this.dates.reset();
+    this.rates.reset();
     super.reset();
   }
 
@@ -103,6 +108,8 @@ public class MovieHash<E extends Movie> extends Hash2<Movie> {
       return false;
 
     this.delHashKey(movie_to_be_deleted.getYear(), this.dates);
+    this.rates.delEl(movie_to_be_deleted.getVotes());
+
     // this.delHashKey(obj.getYear(), this.dates);
 
     System.out.println("BEFORE MOVIE LENGTH!: " + this.length);
@@ -115,9 +122,11 @@ public class MovieHash<E extends Movie> extends Hash2<Movie> {
   }
 
   public void print (){
-    this.major.print();
+    this.major.printAll();
     System.out.println("YEAR!: ");
-    this.dates.print();
+    this.dates.printAll();
+    System.out.println("VOTES!: ");
+    this.rates.printAll();
   }
 
   // TRUE => UPDATE!!
@@ -144,6 +153,7 @@ public class MovieHash<E extends Movie> extends Hash2<Movie> {
     ((HashList<String>)node).addTail(this.size, obj.getTitle());
 
     this.addHashKey(obj.getYear(), this.dates);
+    ((HashList<Integer>)this.rates).addTail(this.size, obj.getVotes());
 
     this.size++;
     this.length++;
@@ -180,7 +190,6 @@ public class MovieHash<E extends Movie> extends Hash2<Movie> {
     return false;
   }
 
-
   public Movie search(String title){
     Integer key = this.hash(title);
     IList<String> node = null;
@@ -198,7 +207,6 @@ public class MovieHash<E extends Movie> extends Hash2<Movie> {
 
   public <K extends Comparable<K>> Movie[] searchByKey(K input){
     IList<Movie> out = null;
-    Array<Movie> transition_array = null;
 
     if (input instanceof Integer)
       out = this.genericSearchByKey((Integer)input, dates);

@@ -22,6 +22,7 @@ public interface IList<E extends Comparable<E>> extends Comparable<IList<E>>{
   public E getAt (int pos);
 
   public void print ();
+  public void printAll ();
 
   public void reset ();
 
