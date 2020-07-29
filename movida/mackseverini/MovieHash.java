@@ -234,6 +234,48 @@ public class MovieHash<E extends Movie> extends Hash2<Movie> {
     return (output.getSize() <= 0) ? null : output;
   }
 
+  public Movie[] searchMostOf(Integer num, String type){
+    IList<Movie> out = null;
+
+    switch (type.toLowerCase()){
+        case "votes": out = this.genericSearchMostOf(num, this.rates);break;
+        default: System.out.println("Wrong input");
+    }
+
+    return (out != null) ?  this.listToPrimitive(out) : null;
+  }
+
+  protected <K extends Comparable<K>> IList<Movie> genericSearchMostOf(Integer num, IList<K> key_hash){
+    IList<Movie> output = new HashList<Movie>();
+    int i = 0;
+
+    for (HashNode<K> iter = (HashNode<K>)key_hash.getHead(); iter != null && i < num; iter = (HashNode<K>)iter.getNext(), i++)
+      output.addTail(this.dom.get(iter.getKey()));
+
+
+    return (output.getSize() <= 0) ? null : output;
+  }
+
+  public <K extends Comparable<K>> Movie[] searchContains(String title){
+    IList<Movie> out = null;
+
+    out = this.genericSearchContains(title, this.major);
+
+    return (out != null) ?  this.listToPrimitive(out) : null;
+  }
+
+  protected IList<Movie> genericSearchContains(String input, IList<IList<String>> key_hash){
+    IList<Movie> output = new HashList<Movie>();
+    int i = 0;
+
+    for (INode2<IList<String>> iter = key_hash.getHead(); iter != null; iter = iter.getNext())
+      for (HashNode<String> iterNode = (HashNode<String>)iter.getValue().getHead(); iterNode != null; iterNode = (HashNode<String>)iterNode.getNext())
+        if (iterNode.getValue().contains(input))
+          output.addTail(this.dom.get(iterNode.getKey()));
+
+    return (output.getSize() <= 0) ? null : output;
+  }
+
   @Override
   public Array<Movie> toArray() {
     if (this.length < 0)

@@ -174,7 +174,7 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
 	 */
   @Override
 	public Movie[] searchMoviesByTitle(String title){
-    return null;
+    return movies.searchContains(title);
   }
 
 	/**
@@ -189,9 +189,7 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
 	 * @return array di film
 	 */
   @Override
-	public Movie[] searchMoviesInYear(Integer year){
-    return movies.searchByKey(year);
-	}
+	public Movie[] searchMoviesInYear(Integer year){ return movies.searchByKey(year); }
 
 	/**
 	 * Ricerca film per regista.
@@ -233,7 +231,7 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
 	 * @return array di film
 	 */
 	@Override
-  public Movie[] searchMostVotedMovies(Integer N){ return null; }
+  public Movie[] searchMostVotedMovies(Integer N){ return movies.searchMostOf(N, "votes"); }
 
 	/**
 	 * Ricerca film pi� recenti.

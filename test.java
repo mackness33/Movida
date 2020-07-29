@@ -88,11 +88,30 @@ public class test {
       System.out.println(movies[i]);
 
 
-    System.out.println("SEARCHBYKEY YEAR: ");
+    System.out.println("\n\rSEARCHBYKEY YEAR: ");
     Movie[] years = mb.searchMoviesInYear(1997);
 
     for(int i = 0; i < years.length; i++)
       System.out.println(years[i]);
+
+
+    System.out.println("\n\rSEARCHMOSTOF RATES: ");
+    Movie[] rates = mb.searchMostVotedMovies(2);
+
+    for(int i = 0; i < rates.length; i++)
+      System.out.println(rates[i]);
+
+    System.out.println("\n\rSEARCHCONTAINS TITLE: ");
+    Movie[] tites = mb.searchMoviesByTitle("tive");
+
+    String fug = "The Punitive";
+    System.out.println("TEST: " + fug.contains("tive"));
+    if (tites == null)
+      System.out.println("NO MOVIES");
+    else{
+      for(int i = 0; i < tites.length; i++)
+      System.out.println(tites[i]);
+    }
 
       // Array<Movie> movies = mb.getAllMoviesArray();
       //
