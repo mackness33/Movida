@@ -25,12 +25,12 @@ public class KeyHash<E extends Comparable<E>> extends Hash2<E>{
     return true;
   }
 
-  protected <K extends Comparable<K>> boolean delHashKey(K key, IList<IList<K>> list){
+  protected <K extends Comparable<K>> boolean delHashKey(K key, IList<IList<K>> list, Integer dom_pos){
     Integer hash_key = this.hash(key);
     IList<K> node = null;
 
     if ((node = ((HashList<IList<K>>)list).getByKey(hash_key)) != null){
-      node.delEl(key);
+      ((HashList<K>)node).delByKey(dom_pos);
 
       if (node.getSize() <= 0)
         list.delEl(node);
@@ -47,14 +47,25 @@ public class KeyHash<E extends Comparable<E>> extends Hash2<E>{
     IList<E> output = new HashList<E>();
 
 
-    if ((node = ((HashList<IList<K>>)key_hash).getByKey(key)) != null)
-      // System.out.println("Node: " + node);
-      for (HashNode<K> iter = (HashNode<K>)node.getHead(); iter != null; iter = (HashNode<K>)iter.getNext())
-        // System.out.println("Iter: " + iter);
-        if (input.compareTo(iter.getValue()) == 0)
-          // System.out.println("Key: " + iter.getKey());
+    if ((node = ((HashList<IList<K>>)key_hash).getByKey(key)) != null){
+      System.out.println("Node: " + node);
+      for (HashNode<K> iter = (HashNode<K>)node.getHead(); iter != null; iter = (HashNode<K>)iter.getNext()){
+        System.out.println("Iter: " + iter);
+        System.out.println("Iter value: " + iter.getValue());
+        System.out.println("At the pos: " + this.dom.get(iter.getKey()));
+        if (input.compareTo(iter.getValue()) == 0){
+          System.out.println("Key: " + iter.getKey());
           output.addTail(this.dom.get(iter.getKey()));
+        }
+      }
+    }
 
+    System.out.println("Size: " + output.getSize());
+
+    if (output.getHead().getValue() == null)
+    //   ((HashNode<E>)output.getHead()).printAll();
+    // else
+      System.out.println("HEAD IS NULL: " + this.dom.get(1));
 
     return (output.getSize() <= 0) ? null : output;
   }

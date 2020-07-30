@@ -6,6 +6,8 @@ import movida.mackseverini.Node2;
 import movida.mackseverini.Array;
 import movida.mackseverini.Set;
 import movida.mackseverini.Hash2;
+import movida.mackseverini.Utils;
+import movida.mackseverini.KeyHash;
 
 import movida.commons.Movie;
 import movida.commons.Person;
@@ -17,9 +19,10 @@ public class MovieHash<E extends Movie> extends KeyHash<Movie> {
   // protected Set<String> directors;
   // protected Set<Integer> dates;
   // protected Set<Integer> rates;
-  protected IList<IList<Integer>> dates;
   protected IList<Integer> rates;
   protected IList<IList<String>> major;
+  protected IList<IList<Integer>> dates;
+  protected IList<IList<String>> directors;
   // protected IList<Integer> rates;
 
   // constructor residesHash<Movie>
@@ -35,6 +38,7 @@ public class MovieHash<E extends Movie> extends KeyHash<Movie> {
     this.dates = new HashList<IList<Integer>>();
     this.rates = new HashList<Integer>();
     this.major = new HashList<IList<String>>();
+    this.directors = new HashList<IList<String>>();
     //   this.sets.set(i, new Set<String>(i, null));
   }
 
@@ -45,6 +49,7 @@ public class MovieHash<E extends Movie> extends KeyHash<Movie> {
 
     this.addHashKey(obj.getTitle(), this.major);
     this.addHashKey(obj.getYear(), this.dates);
+    this.addHashKey(obj.getDirector().getName(), this.directors);
     ((HashList<Integer>)this.rates).addTail(this.size, obj.getVotes());
 
     this.size++;
@@ -59,21 +64,22 @@ public class MovieHash<E extends Movie> extends KeyHash<Movie> {
 
     Integer hash_key = this.hash(obj.getTitle());
     IList<String> node = null;
+    Integer pos = -1;
 
     if ((node = ((HashList<IList<String>>)this.major).getByKey(hash_key)) != null){
-      this.dom.set(((HashList<String>)node).searchKey(obj.getTitle()), null);
+      pos = ((HashList<String>)node).searchKey(obj.getTitle());
+      this.dom.set(pos, null);
       ((HashList<String>)node).delEl(obj.getTitle());
 
       if (node.getSize() <= 0)
         this.major.delEl(node);
-
     }
     else
       return false;
 
-    this.delHashKey(obj.getYear(), this.dates);
-
-    this.rates.delEl(obj.getVotes());
+    this.delHashKey(obj.getYear(), this.dates, pos);
+    this.delHashKey(obj.getDirector().getName(), this.directors, pos);
+    ((HashList<Integer>)this.rates).delByKey(pos);
 
     this.length--;
 
@@ -83,6 +89,7 @@ public class MovieHash<E extends Movie> extends KeyHash<Movie> {
   public void reset (){
     this.major.reset();
     this.dates.reset();
+    this.directors.reset();
     this.rates.reset();
     super.reset();
   }
@@ -90,14 +97,14 @@ public class MovieHash<E extends Movie> extends KeyHash<Movie> {
   public boolean delete(String title){
     System.out.println("SHUT THE DELETE UP!: ");
 
-    Integer hash_key = this.hash(title);
+    Integer hash_key = this.hash(title), pos = 0;
     IList<String> node = null;
     Movie movie_to_be_deleted = null;
 
     if ((node = ((HashList<IList<String>>)this.major).getByKey(hash_key)) != null){
-      Integer pos_el =((HashList<String>)node).searchKey(title);
-      movie_to_be_deleted = this.dom.get(pos_el);
-      this.dom.set(pos_el, null);
+      pos = ((HashList<String>)node).searchKey(title);
+      movie_to_be_deleted = this.dom.get(pos);
+      this.dom.set(pos, null);
       node.delEl(title);
 
       if (node.getSize() <= 0)
@@ -107,8 +114,9 @@ public class MovieHash<E extends Movie> extends KeyHash<Movie> {
     else
       return false;
 
-    this.delHashKey(movie_to_be_deleted.getYear(), this.dates);
-    this.rates.delEl(movie_to_be_deleted.getVotes());
+    this.delHashKey(movie_to_be_deleted.getYear(), this.dates, pos);
+    this.delHashKey(movie_to_be_deleted.getDirector().getName(), this.directors, pos);
+    ((HashList<Integer>)this.rates).delByKey(pos);
 
     // this.delHashKey(obj.getYear(), this.dates);
 
@@ -125,6 +133,8 @@ public class MovieHash<E extends Movie> extends KeyHash<Movie> {
     this.major.printAll();
     System.out.println("YEAR!: ");
     this.dates.printAll();
+    System.out.println("DIRECTOR!: ");
+    this.directors.printAll();
     System.out.println("VOTES!: ");
     this.rates.printAll();
   }
@@ -153,6 +163,7 @@ public class MovieHash<E extends Movie> extends KeyHash<Movie> {
     ((HashList<String>)node).addTail(this.size, obj.getTitle());
 
     this.addHashKey(obj.getYear(), this.dates);
+    this.addHashKey(obj.getDirector().getName(), this.directors);
     ((HashList<Integer>)this.rates).addTail(this.size, obj.getVotes());
 
     this.size++;
@@ -181,10 +192,14 @@ public class MovieHash<E extends Movie> extends KeyHash<Movie> {
 
     if (input instanceof Integer)
       out = this.searchByHashKey((Integer)input, dates);
-    // elseif (input instanceof String)
-    //   out = genericSearchByKey(new Person(input), directors);
+    else if (input instanceof String){
+      System.out.println("ENTERING DIRECtors");
+      out = this.searchByHashKey((String)input, directors);
+    }
 
-    return (out != null) ?  listToPrimitive(out) : null;
+    System.out.println("Size4: " + out.getSize());
+
+    return (out != null) ?  this.listToPrimitive(out) : null;
   }
 
   public Movie[] searchMostOf(Integer num, String type){

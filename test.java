@@ -7,6 +7,7 @@ import movida.mackseverini.PeopleHash;
 import movida.mackseverini.List;
 import movida.mackseverini.Node2;
 import movida.mackseverini.Array;
+import movida.mackseverini.KeyHash;
 import movida.commons.*;
 
 import java.io.File;
@@ -112,6 +113,12 @@ public class test {
       for(int i = 0; i < tites.length; i++)
       System.out.println(tites[i]);
     }
+
+    System.out.println("\n\rSEARCHBYKEY DIRECTORS: ");
+    Movie[] dirs = mb.searchMoviesDirectedBy("Martin Scorsese");
+
+    for(int i = 0; i < dirs.length; i++)
+      System.out.println(dirs[i]);
 
       // Array<Movie> movies = mb.getAllMoviesArray();
       //

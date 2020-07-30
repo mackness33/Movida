@@ -201,7 +201,7 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
 	 * @return array di film
 	 */
 	@Override
-  public Movie[] searchMoviesDirectedBy(String name){ return null; }
+  public Movie[] searchMoviesDirectedBy(String name){ return movies.searchByKey(name); }
 
 	/**
 	 * Ricerca film per attore.

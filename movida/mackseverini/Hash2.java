@@ -211,6 +211,9 @@ public class Hash2<E extends Comparable<E>> extends ComparableStatic implements 
     public void printAll(){
       System.out.println("HashList: KEY => " + this.key + " VALUE => " + this.value);
 
+      if (this.value instanceof IList)
+        ((HashList<E>)this.value).printAll();
+        
       if (this.next != null)
         ((HashNode<E>)this.next).printAll();
     }
