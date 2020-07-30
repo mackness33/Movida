@@ -112,9 +112,8 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
   private void addPerson(String name){
     Person temp = new Person(name);
 
-    if (!people.search(temp)){
+    if (!people.search(temp))
       people.insert(temp);
-    }
     else
       System.out.println("ALREADY THERE");
 
