@@ -92,32 +92,12 @@ public class List<E extends Comparable<E>> implements IList<E>{
 
   @Override
   public void addToEnd (IList<E> L){
-    if (this.size <= 0){
-      this.addHead(L.getHead().);
-      this.size = L.getSize();
+    if (L == null)
       return;
-    }
 
-    this.tail.setNext(L.getHead());
-    this.tail = L.getTail();
-    this.size += L.getSize();
-
-    for (iter = L.getHead(); iter.getNext() != null; iter = iter.getNext());
+    for (INode2<E> iter = L.getHead(); iter != null; iter = iter.getNext())
+      this.addTail(iter.getValue());
     return;
-  }
-
-  protected void addHead (INode2<E> el){
-    if (this.size <= 0){
-      this.head = new Node2<E>(el);
-      this.tail = this.head;
-      this.size = 1;
-      return;
-    }
-
-    Node2<E> temp = new Node2<E>(el);
-    temp.setNext(this.head);
-    this.head = temp;
-    this.size++;
   }
 
   @Override

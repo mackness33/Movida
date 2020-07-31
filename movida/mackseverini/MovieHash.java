@@ -1,3 +1,4 @@
+
 package movida.mackseverini;
 
 import java.util.concurrent.ThreadLocalRandom;
@@ -209,13 +210,17 @@ public class MovieHash<E extends Movie> extends KeyHash<Movie> {
       case "votes": out = this.searchMostOfHashKey(num, this.rates);break;
       case "year": {
         int i = 0;
-        for (HashNode<IList<Integer>> iter = (HashNode<IList<Integer>>)this.dates.getHead(); iter != null && i < num; iter = (HashNode<IList<Integer>>)iter.getNext(), i += out.getSize())
-          out.addToEnd(this.searchMostOfHashKey(num, iter.getValue()));
+        if (this.length > 0){
+          out = new List<Movie>();
+
+          for (HashNode<IList<Integer>> iter = (HashNode<IList<Integer>>)this.dates.getHead(); iter != null && i < num; iter = (HashNode<IList<Integer>>)iter.getNext(), i = out.getSize())
+            out.addToEnd(this.searchMostOfHashKey(num, iter.getValue()));
+        }
       };break;
       default: System.out.println("Wrong input");
     }
 
-    return (out != null) ?  this.listToPrimitive(out) : null;
+    return (out != null && out.getSize() > 0) ?  this.listToPrimitive(out) : null;
   }
 
   public <K extends Comparable<K>> Movie[] searchContains(String title){

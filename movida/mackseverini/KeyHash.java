@@ -74,9 +74,12 @@ public class KeyHash<E extends Comparable<E>> extends Hash2<E>{
     IList<E> output = new HashList<E>();
     int i = 0;
 
-    for (HashNode<K> iter = (HashNode<K>)key_hash.getHead(); iter != null && i < num; iter = (HashNode<K>)iter.getNext(), i++)
+    for (HashNode<K> iter = (HashNode<K>)key_hash.getHead(); iter != null && i < num; iter = (HashNode<K>)iter.getNext(), i++){
+      System.out.println("ITER: " + iter.getValue());
       output.addTail(this.dom.get(iter.getKey()));
+    }
 
+    System.out.println("OUT: " + output.getSize());
 
     return (output.getSize() <= 0) ? null : output;
   }
