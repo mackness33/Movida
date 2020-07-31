@@ -75,7 +75,7 @@ public class test {
     mb.printMovies();
     mb.printPeople();
 
-    mb.deleteMovieByTitle("Taxi Driver");
+    mb.deleteMovieByTitle("Die Hard");
 
     mb.printMovies();
 
@@ -119,6 +119,13 @@ public class test {
 
     for(int i = 0; i < dirs.length; i++)
       System.out.println(dirs[i]);
+
+
+    System.out.println("\n\rSEARCHMOSTOF YEARS: ");
+    Movie[] dates = mb.searchMostRecentMovies(7);
+
+    for(int i = 0; i < dates.length; i++)
+      System.out.println(dates[i]);
 
       // Array<Movie> movies = mb.getAllMoviesArray();
       //

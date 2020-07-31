@@ -9,6 +9,7 @@ public interface IList<E extends Comparable<E>> extends Comparable<IList<E>>{
   public void addHead (E el);
   public void addTail (E el);
   public void addAt (E el, int pos);
+  public void addToEnd (IList<E> L);
 
   public void delHead ();
   public void delTail ();

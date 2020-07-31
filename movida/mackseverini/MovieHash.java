@@ -206,8 +206,13 @@ public class MovieHash<E extends Movie> extends KeyHash<Movie> {
     IList<Movie> out = null;
 
     switch (type.toLowerCase()){
-        case "votes": out = this.searchMostOfHashKey(num, this.rates);break;
-        default: System.out.println("Wrong input");
+      case "votes": out = this.searchMostOfHashKey(num, this.rates);break;
+      case "year": {
+        int i = 0;
+        for (HashNode<IList<Integer>> iter = (HashNode<IList<Integer>>)this.dates.getHead(); iter != null && i < num; iter = (HashNode<IList<Integer>>)iter.getNext(), i += out.getSize())
+          out.addToEnd(this.searchMostOfHashKey(num, iter.getValue()));
+      };break;
+      default: System.out.println("Wrong input");
     }
 
     return (out != null) ?  this.listToPrimitive(out) : null;

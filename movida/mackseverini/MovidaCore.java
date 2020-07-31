@@ -245,7 +245,7 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
 	 * @return array di film
 	 */
 	@Override
-  public Movie[] searchMostRecentMovies(Integer N){ return null; }
+  public Movie[] searchMostRecentMovies(Integer N){ return movies.searchMostOf(N, "year"); }
 
 	/**
 	 * Ricerca gli attori pi� attivi.
