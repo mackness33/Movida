@@ -8,6 +8,8 @@ import movida.mackseverini.List;
 import movida.mackseverini.Node2;
 import movida.mackseverini.Array;
 import movida.mackseverini.KeyHash;
+import movida.mackseverini.InsertionSort;
+// import movida.mackseverini.MergeSort;
 import movida.commons.*;
 
 import java.io.File;
@@ -18,7 +20,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class test {
 
   public static void main(String args[]){
-    // List<Integer> L = new List<Integer>(20);
+    Array<Integer> A = new Array<Integer>(35);
     //
     // System.out.println("List: ");
     // L.print();
@@ -30,8 +32,20 @@ public class test {
     // System.out.println("List: ");
     // L.print();
     //
-    // for (int i = 0; i < 35; i++)
-    //   L.addAt(ThreadLocalRandom.current().nextInt(-1000, 1001), 3);
+    for (int i = 0; i < A.length; i++)
+      A.set(i, ThreadLocalRandom.current().nextInt(-1000, 1001));
+
+
+    for (int i = 0; i < A.length; i++)
+      System.out.println("POS: " + i + "  VAL: " + A.get(i));
+
+    InsertionSort is = new InsertionSort();
+    A = is.sort(A);
+
+    System.out.println("SORTED: ");
+    for (int i = 0; i < A.length; i++)
+      System.out.println("POS: " + i + "  VAL: " + A.get(i));
+
     //
     // L.addAt(400000, 3);
     //
@@ -66,83 +80,7 @@ public class test {
     // for(int i = 0; i < test.length; i++)
     //   System.out.println(test.get(i));
 
-    MovidaCore mb = new MovidaCore();
-    // MovidaCore mb = new MovidaCore();
-    mb.init_class();
 
-    mb.loadFromFile(new File("movida/assets/esempio-formato-dati.txt"));
-
-    mb.printMovies();
-    mb.printPeople();
-
-    mb.deleteMovieByTitle("Die Hard");
-
-    mb.printMovies();
-
-    System.out.println("Hello buddy: \n\r" + mb.getMovieByTitle("Cape Fear"));
-    System.out.println("Hello fam: \n\r" + mb.getPersonByName("Harrison Ford"));
-
-    Movie[] movies = mb.getAllMovies();
-    Person[] people = mb.getAllPeople();
-
-    System.out.println("ARRAY LENGTH: " + people.length);
-    System.out.println("TO ARRAY: ");
-    for(int i = 0; i < people.length; i++)
-      System.out.println(people[i]);
-
-    System.out.println("ARRAY LENGTH: " + movies.length);
-    System.out.println("TO ARRAY: ");
-    for(int i = 0; i < movies.length; i++)
-      System.out.println(movies[i]);
-
-
-    System.out.println("\n\rSEARCHBYKEY YEAR: ");
-    Movie[] years = mb.searchMoviesInYear(1997);
-
-    for(int i = 0; i < years.length; i++)
-      System.out.println(years[i]);
-
-
-    System.out.println("\n\rSEARCHMOSTOF RATES: ");
-    Movie[] rates = mb.searchMostVotedMovies(2);
-
-    for(int i = 0; i < rates.length; i++)
-      System.out.println(rates[i]);
-
-    System.out.println("\n\rSEARCHCONTAINS TITLE: ");
-    Movie[] tites = mb.searchMoviesByTitle("tive");
-
-    if (tites == null)
-      System.out.println("NO MOVIES");
-    else{
-      for(int i = 0; i < tites.length; i++)
-      System.out.println(tites[i]);
-    }
-
-    System.out.println("\n\rSEARCHBYKEY DIRECTORS: ");
-    Movie[] dirs = mb.searchMoviesDirectedBy("Martin Scorsese");
-
-    for(int i = 0; i < dirs.length; i++)
-      System.out.println(dirs[i]);
-
-
-    System.out.println("\n\rSEARCHMOSTOF YEARS: ");
-    Movie[] dates = mb.searchMostRecentMovies(7);
-
-    for(int i = 0; i < dates.length; i++)
-      System.out.println(dates[i]);
-
-    System.out.println("\n\rSEARCHMOSTOF ACTORS: ");
-    Movie[] actors = mb.searchMoviesStarredBy("Tommy Lee Jones");
-
-    for(int i = 0; i < actors.length; i++)
-      System.out.println(actors[i]);
-
-    System.out.println("\n\rSEARCHMOSTACTIVE ACTORS: ");
-    Person[] active = mb.searchMostActiveActors(5);
-
-    for(int i = 0; i < active.length; i++)
-      System.out.println(active[i]);
 
       // Array<Movie> movies = mb.getAllMoviesArray();
       //
@@ -294,5 +232,86 @@ public class test {
     // hash.print();
     //
     // System.out.println("THE END");
+  }
+
+
+  public static void movidaTest(){
+    MovidaCore mb = new MovidaCore();
+    // MovidaCore mb = new MovidaCore();
+    mb.init_class();
+
+    mb.loadFromFile(new File("movida/assets/esempio-formato-dati.txt"));
+
+    mb.printMovies();
+    mb.printPeople();
+
+    mb.deleteMovieByTitle("Die Hard");
+
+    mb.printMovies();
+
+    System.out.println("Hello buddy: \n\r" + mb.getMovieByTitle("Cape Fear"));
+    System.out.println("Hello fam: \n\r" + mb.getPersonByName("Harrison Ford"));
+
+    Movie[] movies = mb.getAllMovies();
+    Person[] people = mb.getAllPeople();
+
+    System.out.println("ARRAY LENGTH: " + people.length);
+    System.out.println("TO ARRAY: ");
+    for(int i = 0; i < people.length; i++)
+      System.out.println(people[i]);
+
+    System.out.println("ARRAY LENGTH: " + movies.length);
+    System.out.println("TO ARRAY: ");
+    for(int i = 0; i < movies.length; i++)
+      System.out.println(movies[i]);
+
+
+    System.out.println("\n\rSEARCHBYKEY YEAR: ");
+    Movie[] years = mb.searchMoviesInYear(1997);
+
+    for(int i = 0; i < years.length; i++)
+      System.out.println(years[i]);
+
+
+    System.out.println("\n\rSEARCHMOSTOF RATES: ");
+    Movie[] rates = mb.searchMostVotedMovies(2);
+
+    for(int i = 0; i < rates.length; i++)
+      System.out.println(rates[i]);
+
+    System.out.println("\n\rSEARCHCONTAINS TITLE: ");
+    Movie[] tites = mb.searchMoviesByTitle("tive");
+
+    if (tites == null)
+      System.out.println("NO MOVIES");
+    else{
+      for(int i = 0; i < tites.length; i++)
+      System.out.println(tites[i]);
+    }
+
+    System.out.println("\n\rSEARCHBYKEY DIRECTORS: ");
+    Movie[] dirs = mb.searchMoviesDirectedBy("Martin Scorsese");
+
+    for(int i = 0; i < dirs.length; i++)
+      System.out.println(dirs[i]);
+
+
+    System.out.println("\n\rSEARCHMOSTOF YEARS: ");
+    Movie[] dates = mb.searchMostRecentMovies(7);
+
+    for(int i = 0; i < dates.length; i++)
+      System.out.println(dates[i]);
+
+    System.out.println("\n\rSEARCHMOSTOF ACTORS: ");
+    Movie[] actors = mb.searchMoviesStarredBy("Tommy Lee Jones");
+
+    for(int i = 0; i < actors.length; i++)
+      System.out.println(actors[i]);
+
+    System.out.println("\n\rSEARCHMOSTACTIVE ACTORS: ");
+    Person[] active = mb.searchMostActiveActors(5);
+
+    for(int i = 0; i < active.length; i++)
+      System.out.println(active[i]);
   }
 }
