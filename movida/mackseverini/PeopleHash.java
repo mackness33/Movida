@@ -21,20 +21,63 @@ public class PeopleHash<E extends Person> extends KeyHash<Person> {
   public PeopleHash() {
     super();
     this.major = new HashList<IList<String>>();
-    this.major = new HashList<Integer>();
   }
 
-  @Override
-  public boolean insert(Person obj){
+  public boolean insert(Person obj, Integer movie){
     this.dom.set(this.size, obj);
+    // this.dom.get(this.size).addMovie(movie);
+    System.out.println("IN INSERT");
+    System.out.println("SIZE: " + this.size);
+    System.out.println("MOVIE SIZE: " + movie);
+    this.dom.get(this.size).print();
 
-    this.addHashKey(obj.getName(), this.major);
     this.addHashKey(obj.getName(), this.major);
 
     this.size++;
     this.length++;
 
     return true;
+  }
+
+  // TRUE => UPDATE!!
+  // FALSE => INSERT!!
+  public boolean upsert(Person obj, Integer movie){
+    // Person person;
+    // if (person = this.search(obj.getName()) == null)
+    //   people.insert(new Person(name, type, movies.getSize()));
+    // else{
+    //   person
+    //   System.out.println("ALREADY THERE");
+    // }
+    //
+    // Integer key = this.hash(name);
+    // IList<String> node = null;
+    //
+    // System.out.println("IN SEARCH: ");
+    // if ((node = ((HashList<IList<String>>)this.major).getByKey(key)) != null){
+    //   System.out.println("Node: " + node);
+    //   Integer el_key = ((HashList<String>)node).searchKey(name);
+    //   System.out.println("Key: " + el_key);
+    //   if ()
+    // }
+
+    Integer key = this.hash(obj.getName());
+    IList<String> node = null;
+
+    System.out.println("UPSERT!: ");
+
+    if ((node = ((HashList<IList<String>>)this.major).getByKey(key)) != null){
+      Integer el_key = ((HashList<String>)node).searchKey(obj.getName());
+      if (el_key != null){
+        this.dom.get(el_key).print();
+        this.dom.get(el_key).addMovie(movie);
+        return true;
+      }
+    }
+
+    this.insert(obj, movie);
+
+    return false;
   }
 
   @Override
@@ -105,6 +148,7 @@ public class PeopleHash<E extends Person> extends KeyHash<Person> {
 
     return array;
   }
+
 
   @Override
   public Person[] toPrimitive() {

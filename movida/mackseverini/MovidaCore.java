@@ -72,7 +72,11 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
         }
       }
 
+      // System.out.println("BEF MOVIES SIZE!!!! " + movies.getSize());
+      // System.out.println("BEF MOVIES LENGTH!!!! " + movies.getLength());
       this.addMovie(movie);
+      // System.out.println("AFT MOVIES SIZE!!!! " + movies.getSize());
+      // System.out.println("AFT MOVIES LENGTH!!!! " + movies.getLength());
 
       br.close();
     }
@@ -89,11 +93,8 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
     int pos = -1;
     Movie temp = null;
 
-    this.addPerson(movie[4]);
-
     for(int i = 0; i < 10; i++){
       if (i < cast_name.length){
-        this.addPerson(cast_name[i].trim());
         cast[i] = new Person(cast_name[i].trim());
       }
       else{
@@ -102,21 +103,17 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
     }
 
 
-    temp = new Movie(movie[0], new Integer(movie[1]), new Integer(movie[2]), cast, new Person(movie[4]));
+    temp = new Movie(movie[0], new Integer(movie[1]), new Integer(movie[2]), cast, new Person(movie[4], false, movies.getSize()));
 
-    movies.upsert(temp);
-
-    System.out.println("Add the ugly asses up!" + temp.getYear());
+    int id_el = movies.upsert(temp);
+    this.addPerson(movie[4], false, id_el);
+    for(int i = 0; i < 10; i++)
+      if (i < cast_name.length)
+        this.addPerson(cast_name[i].trim(), true, id_el);
   }
 
-  private void addPerson(String name){
-    Person temp = new Person(name);
-
-    if (people.search(name) == null)
-      people.insert(temp);
-    else
-      System.out.println("ALREADY THERE");
-
+  private void addPerson(String name, boolean type, int id){
+    people.upsert(new Person(name, type, id), id);
 
     System.out.println("Add of person!");
   }
@@ -172,9 +169,7 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
 	 * @return array di film
 	 */
   @Override
-	public Movie[] searchMoviesByTitle(String title){
-    return movies.searchContains(title);
-  }
+	public Movie[] searchMoviesByTitle(String title){ return movies.searchContains(title); }
 
 	/**
 	 * Ricerca film per anno.
@@ -215,7 +210,29 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
 	 * @return array di film
 	 */
 	@Override
-  public Movie[] searchMoviesStarredBy(String name){ return null; }
+  public Movie[] searchMoviesStarredBy(String name){
+    Person actor = people.search(name);
+
+    if (actor.getMovieSize() <= 0)
+      return null;
+
+    IList<Integer> ids = actor.getMovies();
+    Movie[] out = new Movie[ids.getSize()];
+
+    System.out.println("MOVIES LENGTH: " + movies.getLength());
+    System.out.println("MOVIES SIZE: " + movies.getSize());
+    System.out.println("MOVIE: " + movies.getFromId(11));
+    int i = 0;
+    for (INode2<Integer> iter = ids.getHead(); iter != null; iter = iter.getNext(), i++){
+      System.out.println("ID: " + iter.getValue());
+      // System.out.println("MOVIE: " + movies.getFromId(iter.getValue()));
+      out[i] = movies.getFromId(iter.getValue());
+    }
+
+    System.out.println("Size: " + out.length);
+
+    return (out.length > 0) ?  out : null;
+  }
 
 	/**
 	 * Ricerca film pi� votati.

@@ -134,6 +134,12 @@ public class test {
     for(int i = 0; i < dates.length; i++)
       System.out.println(dates[i]);
 
+    System.out.println("\n\rSEARCHMOSTOF ACTORS: ");
+    Movie[] actors = mb.searchMoviesStarredBy("Tommy Lee Jones");
+
+    for(int i = 0; i < actors.length; i++)
+      System.out.println(actors[i]);
+
       // Array<Movie> movies = mb.getAllMoviesArray();
       //
       // System.out.println("ARRAY LENGTH: " + movies.length);

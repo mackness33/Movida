@@ -9,6 +9,7 @@
 package movida.commons;
 import movida.mackseverini.IList;
 import movida.mackseverini.List;
+import movida.mackseverini.INode2;
 
 /**
  * Classe usata per rappresentare una persona, attore o regista,
@@ -40,6 +41,12 @@ public class Person implements Comparable<Person>{
 		this.movies = new List<Integer>();
 	}
 
+	public Person(String name) {
+		this.name = name;
+		this.type = false;
+		this.movies = null;
+	}
+
 	public String getName(){ return this.name; }
 
 	public boolean isActor(){ return this.type;	}
@@ -51,6 +58,13 @@ public class Person implements Comparable<Person>{
 	public Integer getMovieSize(){ return this.movies.getSize(); }
 
 	public String toString(){ return "Name : " + this.name; }
+
+	public void print(){
+		System.out.println("Name => " + this.name);
+		System.out.print("Movies => ");
+		for (INode2<Integer> iter = movies.getHead(); iter != null; iter = iter.getNext())
+			System.out.print(iter.getValue() + " + ");
+	}
 
 	@Override
 	public int compareTo(Person obj){	return obj.name.compareTo(this.name); }

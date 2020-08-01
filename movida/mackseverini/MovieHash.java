@@ -142,7 +142,7 @@ public class MovieHash<E extends Movie> extends KeyHash<Movie> {
 
   // TRUE => UPDATE!!
   // FALSE => INSERT!!
-  public boolean upsert(Movie obj){
+  public int upsert(Movie obj){
     Integer key = this.hash(obj.getTitle());
     IList<String> node = null;
 
@@ -152,7 +152,7 @@ public class MovieHash<E extends Movie> extends KeyHash<Movie> {
       Integer el_key = ((HashList<String>)node).searchKey(obj.getTitle());
       if (el_key != null){
         this.dom.set(el_key, obj);
-        return true;
+        return el_key;
       }
     }
     else{
@@ -170,7 +170,7 @@ public class MovieHash<E extends Movie> extends KeyHash<Movie> {
     this.size++;
     this.length++;
 
-    return false;
+    return this.size-1;
   }
 
   public Movie search(String title){
@@ -230,6 +230,8 @@ public class MovieHash<E extends Movie> extends KeyHash<Movie> {
 
     return (out != null) ?  this.listToPrimitive(out) : null;
   }
+
+  public Movie getFromId (Integer id){ return (id > this.size || id < 0 ) ? null : this.dom.get(id); }
 
   @Override
   public Array<Movie> toArray() {
