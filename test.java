@@ -79,9 +79,16 @@ public class test {
 
     mb.printMovies();
 
-    System.out.println("Hello buddy: " + mb.getMovieByTitle("Cape Fear"));
-    //
+    System.out.println("Hello buddy: \n\r" + mb.getMovieByTitle("Cape Fear"));
+    System.out.println("Hello fam: \n\r" + mb.getPersonByName("Harrison Ford"));
+
     Movie[] movies = mb.getAllMovies();
+    Person[] people = mb.getAllPeople();
+
+    System.out.println("ARRAY LENGTH: " + people.length);
+    System.out.println("TO ARRAY: ");
+    for(int i = 0; i < people.length; i++)
+      System.out.println(people[i]);
 
     System.out.println("ARRAY LENGTH: " + movies.length);
     System.out.println("TO ARRAY: ");

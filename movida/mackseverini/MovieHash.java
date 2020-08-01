@@ -194,11 +194,11 @@ public class MovieHash<E extends Movie> extends KeyHash<Movie> {
     if (input instanceof Integer)
       out = this.searchByHashKey((Integer)input, dates);
     else if (input instanceof String){
-      System.out.println("ENTERING DIRECtors");
+      System.out.println("ENTERING DIRECTORS");
       out = this.searchByHashKey((String)input, directors);
     }
 
-    System.out.println("Size4: " + out.getSize());
+    System.out.println("Size: " + out.getSize());
 
     return (out != null) ?  this.listToPrimitive(out) : null;
   }

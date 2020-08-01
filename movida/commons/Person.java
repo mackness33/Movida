@@ -7,6 +7,8 @@
  *
 */
 package movida.commons;
+import movida.mackseverini.IList;
+import movida.mackseverini.List;
 
 /**
  * Classe usata per rappresentare una persona, attore o regista,
@@ -23,26 +25,34 @@ package movida.commons;
 public class Person implements Comparable<Person>{
 
 	private String name;
+	private boolean type;
+	private IList<Integer> movies;
 
-	public Person(String name) {
+	public Person(String name, boolean type, Integer movie) {
 		this.name = name;
+		this.type = type;
+		this.movies = new List<Integer>(movie);
 	}
 
-	public String getName(){
-		return this.name;
+	public Person(String name, boolean type) {
+		this.name = name;
+		this.type = type;
+		this.movies = new List<Integer>();
 	}
 
-	public String toString(){
-		return "Name : " + this.name;
-	}
+	public String getName(){ return this.name; }
+
+	public boolean isActor(){ return this.type;	}
+
+	public void addMovie(Integer movie_id){ this.movies.addTail(movie_id); }
+
+	public IList<Integer> getMovies(){ return this.movies; }
+
+	public Integer getMovieSize(){ return this.movies.getSize(); }
+
+	public String toString(){ return "Name : " + this.name; }
 
 	@Override
-	public int compareTo(Person obj){
-		// System.out.println("Comparing");
-		// System.out.println("Actual Name: " + this.name);
-		// System.out.println("Comparing to: " + obj.name);
-		// System.out.println("Result of name compare: " + obj.name.compareTo(this.name));
-		return obj.name.compareTo(this.name);
-	}
+	public int compareTo(Person obj){	return obj.name.compareTo(this.name); }
 
 }

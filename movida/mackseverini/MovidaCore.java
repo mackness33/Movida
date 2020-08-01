@@ -112,7 +112,7 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
   private void addPerson(String name){
     Person temp = new Person(name);
 
-    if (!people.search(temp))
+    if (people.search(name) == null)
       people.insert(temp);
     else
       System.out.println("ALREADY THERE");
@@ -143,7 +143,7 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
 	public Movie getMovieByTitle(String title){ return movies.search(title); }
 
   @Override
-	public Person getPersonByName(String name){ return null; }
+	public Person getPersonByName(String name){ return people.search(name); }
 
 	public Array<Movie> getAllMoviesArray(){ return movies.toArray(); }
 
@@ -156,7 +156,7 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
 	// public Movie[] getAllMovies(){ return movies.toPrimitive(); }
 
 	@Override
-	public Person[] getAllPeople(){ return null; }
+	public Person[] getAllPeople(){ return people.toPrimitive(); }
 
   /**
 	 * Ricerca film per titolo.
