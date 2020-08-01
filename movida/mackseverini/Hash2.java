@@ -60,7 +60,6 @@ public class Hash2<E extends Comparable<E>> extends ComparableStatic implements 
   @Override
   public boolean insert(E obj){
     this.dom.set(this.size, obj);
-    System.out.println("INSERT HASHT!: ");
 
     Integer hash_key = this.hash(obj.hashCode());
     IList<Integer> list_key = null;
@@ -103,12 +102,9 @@ public class Hash2<E extends Comparable<E>> extends ComparableStatic implements 
     IList<Integer> node = null;
 
     if ((node = ((HashList<IList<Integer>>)this.major).getByKey(key)) != null){
-      // System.out.println("Node: " + node);
       Integer el_key = ((HashList<Integer>)node).searchKey(obj.hashCode());
-      // System.out.println("Key: " + el_key);
       if (el_key != null)
         return this.dom.get(el_key) != null ? true : false;
-
     }
 
     return false;
@@ -122,15 +118,10 @@ public class Hash2<E extends Comparable<E>> extends ComparableStatic implements 
   public void print (){
     System.out.println("Length: " + this.dom.length);
     E temp = null;
-    for (int i = 0; i < this.dom.length; i++){
-      // System.out.println("i: " + i);
-      // System.out.println("Node: " + this.dom[i]);
-      // System.out.println("KEY => " + this.dom[i].getKey());
-      // System.out.println("VALUE => " + this.dom[i].getValue() );
-      if ((temp = this.dom.get(i)) != null){
+
+    for (int i = 0; i < this.dom.length; i++)
+      if ((temp = this.dom.get(i)) != null)
         System.out.println("VALUE => " + this.dom.get(i));
-      }
-    }
 
     this.major.print();
   }
@@ -141,43 +132,13 @@ public class Hash2<E extends Comparable<E>> extends ComparableStatic implements 
 
     final Array<E> array = new Array<E>(this.length);
     int i = 0;
-    System.out.println("BRUH: " + i);
-    HashNode<IList<Integer>> damn = (HashNode<IList<Integer>>)((HashList<IList<Integer>>)this.major).getHead();
-    System.out.println("DAMN: " + damn);
 
-    for (HashNode<IList<Integer>> iter = (HashNode<IList<Integer>>)((HashList<IList<Integer>>)this.major).getHead(); iter != null; iter = (HashNode<IList<Integer>>)iter.getNext()){
-      System.out.println("ITER KEY: " + iter.getKey());
-      for (HashNode<Integer> nodeIter = (HashNode<Integer>)((HashList<Integer>)iter.getValue()).getHead(); nodeIter != null; nodeIter = (HashNode<Integer>)nodeIter.getNext(), i++){
-        System.out.println("NODEITER KEY: " + nodeIter.getKey());
+    for (HashNode<IList<Integer>> iter = (HashNode<IList<Integer>>)((HashList<IList<Integer>>)this.major).getHead(); iter != null; iter = (HashNode<IList<Integer>>)iter.getNext())
+      for (HashNode<Integer> nodeIter = (HashNode<Integer>)((HashList<Integer>)iter.getValue()).getHead(); nodeIter != null; nodeIter = (HashNode<Integer>)nodeIter.getNext(), i++)
         if (nodeIter.getKey() != null && nodeIter.getValue() != null)
           array.set(i, this.dom.get(nodeIter.getKey()));
-      }
-    }
 
     return array;
-  }
-
-  public E[] toPrimitive() {
-    // if (this.length < 0)
-    //   return null;
-    //
-    // final E[] array = new E[this.length];
-    // int i = 0;
-    // System.out.println("BRUH: " + i);
-    // HashNode<IList<Integer>> damn = (HashNode<IList<Integer>>)((HashList<IList<Integer>>)this.major).getHead();
-    // System.out.println("DAMN: " + damn);
-    //
-    // for (HashNode<IList<Integer>> iter = (HashNode<IList<Integer>>)((HashList<IList<Integer>>)this.major).getHead(); iter != null; iter = (HashNode<IList<Integer>>)iter.getNext()){
-    //   System.out.println("ITER KEY: " + iter.getKey());
-    //   for (HashNode<Integer> nodeIter = (HashNode<Integer>)((HashList<Integer>)iter.getValue()).getHead(); nodeIter != null; nodeIter = (HashNode<Integer>)nodeIter.getNext(), i++){
-    //     System.out.println("NODEITER KEY: " + nodeIter.getKey());
-    //     if (nodeIter.getKey() != null && nodeIter.getValue() != null)
-    //       array[i] = this.dom.get(nodeIter.getKey());
-    //   }
-    // }
-    //
-    // return array;
-    return null;
   }
 
   protected class HashNode<E extends Comparable<E>> extends Node2<E>{
@@ -213,7 +174,7 @@ public class Hash2<E extends Comparable<E>> extends ComparableStatic implements 
 
       if (this.value instanceof IList)
         ((HashList<E>)this.value).printAll();
-        
+
       if (this.next != null)
         ((HashNode<E>)this.next).printAll();
     }

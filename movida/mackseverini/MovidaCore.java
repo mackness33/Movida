@@ -72,11 +72,7 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
         }
       }
 
-      // System.out.println("BEF MOVIES SIZE!!!! " + movies.getSize());
-      // System.out.println("BEF MOVIES LENGTH!!!! " + movies.getLength());
       this.addMovie(movie);
-      // System.out.println("AFT MOVIES SIZE!!!! " + movies.getSize());
-      // System.out.println("AFT MOVIES LENGTH!!!! " + movies.getLength());
 
       br.close();
     }
@@ -142,15 +138,8 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
   @Override
 	public Person getPersonByName(String name){ return people.search(name); }
 
-	public Array<Movie> getAllMoviesArray(){ return movies.toArray(); }
-
   @Override
-  public Movie[] getAllMovies(){
-    // Movie[] s = movies.toPrimitive();
-    // return new Movie[10];
-    return movies.toPrimitive();
-  }
-	// public Movie[] getAllMovies(){ return movies.toPrimitive(); }
+  public Movie[] getAllMovies(){ return movies.toPrimitive(); }
 
 	@Override
 	public Person[] getAllPeople(){ return people.toPrimitive(); }
@@ -218,16 +207,10 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
 
     IList<Integer> ids = actor.getMovies();
     Movie[] out = new Movie[ids.getSize()];
-
-    System.out.println("MOVIES LENGTH: " + movies.getLength());
-    System.out.println("MOVIES SIZE: " + movies.getSize());
-    System.out.println("MOVIE: " + movies.getFromId(11));
     int i = 0;
-    for (INode2<Integer> iter = ids.getHead(); iter != null; iter = iter.getNext(), i++){
-      System.out.println("ID: " + iter.getValue());
-      // System.out.println("MOVIE: " + movies.getFromId(iter.getValue()));
+
+    for (INode2<Integer> iter = ids.getHead(); iter != null; iter = iter.getNext(), i++)
       out[i] = movies.getFromId(iter.getValue());
-    }
 
     System.out.println("Size: " + out.length);
 

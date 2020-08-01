@@ -16,31 +16,20 @@ import movida.commons.Person;
 // BUG: Comparable cannot be used.
 // SOLUTION: Comparable cannot be used.
 public class MovieHash<E extends Movie> extends KeyHash<Movie> {
-  // protected Set<String> casts;
-  // protected Set<String> directors;
-  // protected Set<Integer> dates;
-  // protected Set<Integer> rates;
   protected IList<Integer> rates;
   protected IList<IList<String>> major;
   protected IList<IList<Integer>> dates;
   protected IList<IList<String>> directors;
-  // protected IList<Integer> rates;
 
   // constructor residesHash<Movie>
   @SuppressWarnings("unchecked")
   public MovieHash() {
     super();
 
-    // this.casts = new Set<String> ();
-    // this.directors = new Set<String> ();
-    // this.dates = new Set<Integer> ();
-    // this.rates = new Set<Integer> ();
-    // for (int i = 0; i < this.sets.length; i++)
     this.dates = new HashList<IList<Integer>>();
     this.rates = new HashList<Integer>();
     this.major = new HashList<IList<String>>();
     this.directors = new HashList<IList<String>>();
-    //   this.sets.set(i, new Set<String>(i, null));
   }
 
 
@@ -96,8 +85,6 @@ public class MovieHash<E extends Movie> extends KeyHash<Movie> {
   }
 
   public boolean delete(String title){
-    System.out.println("SHUT THE DELETE UP!: ");
-
     Integer hash_key = this.hash(title), pos = 0;
     IList<String> node = null;
     Movie movie_to_be_deleted = null;
@@ -119,13 +106,7 @@ public class MovieHash<E extends Movie> extends KeyHash<Movie> {
     this.delHashKey(movie_to_be_deleted.getDirector().getName(), this.directors, pos);
     ((HashList<Integer>)this.rates).delByKey(pos);
 
-    // this.delHashKey(obj.getYear(), this.dates);
-
-    System.out.println("BEFORE MOVIE LENGTH!: " + this.length);
-
     this.length--;
-
-    System.out.println("BEFORE MOVIE LENGTH!: " + this.length);
 
     return true;
   }
@@ -145,8 +126,6 @@ public class MovieHash<E extends Movie> extends KeyHash<Movie> {
   public int upsert(Movie obj){
     Integer key = this.hash(obj.getTitle());
     IList<String> node = null;
-
-    System.out.println("UPSERT!: ");
 
     if ((node = ((HashList<IList<String>>)this.major).getByKey(key)) != null){
       Integer el_key = ((HashList<String>)node).searchKey(obj.getTitle());
@@ -178,9 +157,7 @@ public class MovieHash<E extends Movie> extends KeyHash<Movie> {
     IList<String> node = null;
 
     if ((node = ((HashList<IList<String>>)this.major).getByKey(key)) != null){
-      // System.out.println("Node: " + node);
       Integer el_key = ((HashList<String>)node).searchKey(title);
-      // System.out.println("Key: " + el_key);
       if (el_key != null)
         return this.dom.get(el_key);
     }
@@ -193,12 +170,8 @@ public class MovieHash<E extends Movie> extends KeyHash<Movie> {
 
     if (input instanceof Integer)
       out = this.searchByHashKey((Integer)input, dates);
-    else if (input instanceof String){
-      System.out.println("ENTERING DIRECTORS");
+    else if (input instanceof String)
       out = this.searchByHashKey((String)input, directors);
-    }
-
-    System.out.println("Size: " + out.getSize());
 
     return (out != null) ?  this.listToPrimitive(out) : null;
   }
@@ -240,18 +213,11 @@ public class MovieHash<E extends Movie> extends KeyHash<Movie> {
 
     final Array<Movie> array = new Array<Movie>(this.length);
     int i = 0;
-    System.out.println("BRUH: " + i);
-    HashNode<IList<String>> damn = (HashNode<IList<String>>)((HashList<IList<String>>)this.major).getHead();
-    System.out.println("DAMN: " + damn);
 
-    for (HashNode<IList<String>> iter = (HashNode<IList<String>>)((HashList<IList<String>>)this.major).getHead(); iter != null; iter = (HashNode<IList<String>>)iter.getNext()){
-      System.out.println("ITER KEY: " + iter.getKey());
-      for (HashNode<String> nodeIter = (HashNode<String>)((HashList<String>)iter.getValue()).getHead(); nodeIter != null; nodeIter = (HashNode<String>)nodeIter.getNext(), i++){
-        System.out.println("NODEITER KEY: " + nodeIter.getKey());
+    for (HashNode<IList<String>> iter = (HashNode<IList<String>>)((HashList<IList<String>>)this.major).getHead(); iter != null; iter = (HashNode<IList<String>>)iter.getNext())
+      for (HashNode<String> nodeIter = (HashNode<String>)((HashList<String>)iter.getValue()).getHead(); nodeIter != null; nodeIter = (HashNode<String>)nodeIter.getNext(), i++)
         if (nodeIter.getKey() != null && nodeIter.getValue() != null)
           array.set(i, this.dom.get(nodeIter.getKey()));
-      }
-    }
 
     return array;
   }
@@ -263,18 +229,11 @@ public class MovieHash<E extends Movie> extends KeyHash<Movie> {
 
     final Movie[] array = new Movie[this.length];
     int i = 0;
-    System.out.println("BRUH: " + i);
-    HashNode<IList<String>> damn = (HashNode<IList<String>>)((HashList<IList<String>>)this.major).getHead();
-    System.out.println("DAMN: " + damn);
 
-    for (HashNode<IList<String>> iter = (HashNode<IList<String>>)((HashList<IList<String>>)this.major).getHead(); iter != null; iter = (HashNode<IList<String>>)iter.getNext()){
-      System.out.println("ITER KEY: " + iter.getKey());
-      for (HashNode<String> nodeIter = (HashNode<String>)((HashList<String>)iter.getValue()).getHead(); nodeIter != null; nodeIter = (HashNode<String>)nodeIter.getNext(), i++){
-        System.out.println("NODEITER KEY: " + nodeIter.getKey());
+    for (HashNode<IList<String>> iter = (HashNode<IList<String>>)((HashList<IList<String>>)this.major).getHead(); iter != null; iter = (HashNode<IList<String>>)iter.getNext())
+      for (HashNode<String> nodeIter = (HashNode<String>)((HashList<String>)iter.getValue()).getHead(); nodeIter != null; nodeIter = (HashNode<String>)nodeIter.getNext(), i++)
         if (nodeIter.getKey() != null && nodeIter.getValue() != null)
           array[i] = this.dom.get(nodeIter.getKey());
-      }
-    }
 
     return array;
   }

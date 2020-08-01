@@ -112,8 +112,6 @@ public class test {
     System.out.println("\n\rSEARCHCONTAINS TITLE: ");
     Movie[] tites = mb.searchMoviesByTitle("tive");
 
-    String fug = "The Punitive";
-    System.out.println("TEST: " + fug.contains("tive"));
     if (tites == null)
       System.out.println("NO MOVIES");
     else{

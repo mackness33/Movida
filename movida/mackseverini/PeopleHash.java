@@ -26,12 +26,6 @@ public class PeopleHash<E extends Person> extends KeyHash<Person> {
 
   public boolean insert(Person obj){
     this.dom.set(this.size, obj);
-    // this.dom.get(this.size).addMovie(movie);
-    // System.out.println("IN INSERT");
-    // System.out.println("SIZE: " + this.size);
-    // System.out.println("MOVIE SIZE: " + movie);
-    // this.dom.get(this.size).print();
-
     this.addHashKey(obj.getName(), this.major);
     ((HashList<Integer>)this.active).addTail(this.size, obj.getMovieSize());
 
@@ -45,16 +39,13 @@ public class PeopleHash<E extends Person> extends KeyHash<Person> {
   // TRUE => UPDATE!!
   // FALSE => INSERT!!
   public boolean upsert(Person obj, Integer movie){
-
     Integer key = this.hash(obj.getName());
     IList<String> node = null;
-
-    System.out.println("UPSERT!: ");
 
     if ((node = ((HashList<IList<String>>)this.major).getByKey(key)) != null){
       Integer el_key = ((HashList<String>)node).searchKey(obj.getName());
       if (el_key != null){
-        this.dom.get(el_key).print();
+        // this.dom.get(el_key).print();
         this.dom.get(el_key).addMovie(movie);
         return true;
       }
@@ -66,14 +57,9 @@ public class PeopleHash<E extends Person> extends KeyHash<Person> {
   }
 
   @Override
-  public boolean delete(Person obj){
-    System.out.println("SHUT THE DELETE UP!: ");
-
-    return this.delete(obj.getName());
-  }
+  public boolean delete(Person obj){ return this.delete(obj.getName()); }
 
   public boolean delete(String name){
-    System.out.println("SHUT THE DELETE UP!: ");
 
     Integer hash_key = this.hash(name), pos = 0;
     IList<String> node = null;
@@ -106,11 +92,8 @@ public class PeopleHash<E extends Person> extends KeyHash<Person> {
     Integer key = this.hash(name);
     IList<String> node = null;
 
-    System.out.println("IN SEARCH: ");
     if ((node = ((HashList<IList<String>>)this.major).getByKey(key)) != null){
-      System.out.println("Node: " + node);
       Integer el_key = ((HashList<String>)node).searchKey(name);
-      System.out.println("Key: " + el_key);
       if (el_key != null)
         return this.dom.get(el_key);
     }
@@ -129,14 +112,9 @@ public class PeopleHash<E extends Person> extends KeyHash<Person> {
     int i = 0;
 
     for (HashNode<Integer> iter = (HashNode<Integer>)this.active.getHead(); iter != null && i < num; iter = (HashNode<Integer>)iter.getNext()){
-      System.out.println("ITER: " + iter.getValue());
-      if (this.dom.get(iter.getKey()).isActor()){
-        out.addTail(this.dom.get(iter.getKey()));
-        i++;
-      }
+      if (this.dom.get(iter.getKey()).isActor())
+        out.addTail(this.dom.get(iter.getKey())); i++;
     }
-
-    System.out.println("OUT: " + out.getSize());
 
     return (out != null && out.getSize() > 0) ?  this.listToPrimitive(out) : null;
   }
@@ -148,17 +126,11 @@ public class PeopleHash<E extends Person> extends KeyHash<Person> {
 
     final Array<Person> array = new Array<Person>(this.length);
     int i = 0;
-    HashNode<IList<String>> damn = (HashNode<IList<String>>)((HashList<IList<String>>)this.major).getHead();
-    System.out.println("DAMN: " + damn);
 
-    for (HashNode<IList<String>> iter = (HashNode<IList<String>>)((HashList<IList<String>>)this.major).getHead(); iter != null; iter = (HashNode<IList<String>>)iter.getNext()){
-      System.out.println("ITER KEY: " + iter.getKey());
-      for (HashNode<String> nodeIter = (HashNode<String>)((HashList<String>)iter.getValue()).getHead(); nodeIter != null; nodeIter = (HashNode<String>)nodeIter.getNext(), i++){
-        System.out.println("NODEITER KEY: " + nodeIter.getKey());
+    for (HashNode<IList<String>> iter = (HashNode<IList<String>>)((HashList<IList<String>>)this.major).getHead(); iter != null; iter = (HashNode<IList<String>>)iter.getNext())
+      for (HashNode<String> nodeIter = (HashNode<String>)((HashList<String>)iter.getValue()).getHead(); nodeIter != null; nodeIter = (HashNode<String>)nodeIter.getNext(), i++)
         if (nodeIter.getKey() != null && nodeIter.getValue() != null)
           array.set(i, this.dom.get(nodeIter.getKey()));
-      }
-    }
 
     return array;
   }
@@ -171,17 +143,11 @@ public class PeopleHash<E extends Person> extends KeyHash<Person> {
 
     final Person[] array = new Person[this.length];
     int i = 0;
-    HashNode<IList<String>> damn = (HashNode<IList<String>>)((HashList<IList<String>>)this.major).getHead();
-    System.out.println("DAMN: " + damn);
 
-    for (HashNode<IList<String>> iter = (HashNode<IList<String>>)((HashList<IList<String>>)this.major).getHead(); iter != null; iter = (HashNode<IList<String>>)iter.getNext()){
-      System.out.println("ITER KEY: " + iter.getKey());
-      for (HashNode<String> nodeIter = (HashNode<String>)((HashList<String>)iter.getValue()).getHead(); nodeIter != null; nodeIter = (HashNode<String>)nodeIter.getNext(), i++){
-        System.out.println("NODEITER KEY: " + nodeIter.getKey());
+    for (HashNode<IList<String>> iter = (HashNode<IList<String>>)((HashList<IList<String>>)this.major).getHead(); iter != null; iter = (HashNode<IList<String>>)iter.getNext())
+      for (HashNode<String> nodeIter = (HashNode<String>)((HashList<String>)iter.getValue()).getHead(); nodeIter != null; nodeIter = (HashNode<String>)nodeIter.getNext(), i++)
         if (nodeIter.getKey() != null && nodeIter.getValue() != null)
           array[i] = this.dom.get(nodeIter.getKey());
-      }
-    }
 
     return array;
   }
@@ -196,18 +162,4 @@ public class PeopleHash<E extends Person> extends KeyHash<Person> {
     return prim;
   }
 
-  // public <K extends Comparable<K>> Person[] searchByKey(K input){
-  //   IList<Movie> out = null;
-  //
-  //   if (input instanceof Integer)
-  //     out = this.searchByHashKey((Integer)input, dates);
-  //   else if (input instanceof String){
-  //     System.out.println("ENTERING DIRECTORS");
-  //     out = this.searchByHashKey((String)input, directors);
-  //   }
-  //
-  //   System.out.println("Size: " + out.getSize());
-  //
-  //   return (out != null) ?  this.listToPrimitive(out) : null;
-  // }
 }
