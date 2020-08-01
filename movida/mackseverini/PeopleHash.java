@@ -21,17 +21,20 @@ public class PeopleHash<E extends Person> extends KeyHash<Person> {
   public PeopleHash() {
     super();
     this.major = new HashList<IList<String>>();
+    this.active = new HashList<Integer>();
   }
 
-  public boolean insert(Person obj, Integer movie){
+  public boolean insert(Person obj){
     this.dom.set(this.size, obj);
     // this.dom.get(this.size).addMovie(movie);
-    System.out.println("IN INSERT");
-    System.out.println("SIZE: " + this.size);
-    System.out.println("MOVIE SIZE: " + movie);
-    this.dom.get(this.size).print();
+    // System.out.println("IN INSERT");
+    // System.out.println("SIZE: " + this.size);
+    // System.out.println("MOVIE SIZE: " + movie);
+    // this.dom.get(this.size).print();
 
     this.addHashKey(obj.getName(), this.major);
+    ((HashList<Integer>)this.active).addTail(this.size, obj.getMovieSize());
+
 
     this.size++;
     this.length++;
@@ -42,24 +45,6 @@ public class PeopleHash<E extends Person> extends KeyHash<Person> {
   // TRUE => UPDATE!!
   // FALSE => INSERT!!
   public boolean upsert(Person obj, Integer movie){
-    // Person person;
-    // if (person = this.search(obj.getName()) == null)
-    //   people.insert(new Person(name, type, movies.getSize()));
-    // else{
-    //   person
-    //   System.out.println("ALREADY THERE");
-    // }
-    //
-    // Integer key = this.hash(name);
-    // IList<String> node = null;
-    //
-    // System.out.println("IN SEARCH: ");
-    // if ((node = ((HashList<IList<String>>)this.major).getByKey(key)) != null){
-    //   System.out.println("Node: " + node);
-    //   Integer el_key = ((HashList<String>)node).searchKey(name);
-    //   System.out.println("Key: " + el_key);
-    //   if ()
-    // }
 
     Integer key = this.hash(obj.getName());
     IList<String> node = null;
@@ -75,7 +60,7 @@ public class PeopleHash<E extends Person> extends KeyHash<Person> {
       }
     }
 
-    this.insert(obj, movie);
+    this.insert(obj);
 
     return false;
   }
@@ -106,10 +91,16 @@ public class PeopleHash<E extends Person> extends KeyHash<Person> {
       return true;
     }
 
+    ((HashList<Integer>)this.active).delByKey(pos);
+
     return false;
   }
 
-  public void print (){ this.major.printAll(); }
+  public void print (){
+    this.major.printAll();
+    System.out.println("ACTIVE: ");
+    this.active.printAll();
+  }
 
   public Person search(String name){
     Integer key = this.hash(name);
@@ -125,6 +116,29 @@ public class PeopleHash<E extends Person> extends KeyHash<Person> {
     }
 
     return null;
+  }
+
+  public void reset (){
+    this.major.reset();
+    this.active.reset();
+    super.reset();
+  }
+
+  public Person[] searchMostOf(Integer num){
+    IList<Person> out = new List<Person>();
+    int i = 0;
+
+    for (HashNode<Integer> iter = (HashNode<Integer>)this.active.getHead(); iter != null && i < num; iter = (HashNode<Integer>)iter.getNext()){
+      System.out.println("ITER: " + iter.getValue());
+      if (this.dom.get(iter.getKey()).isActor()){
+        out.addTail(this.dom.get(iter.getKey()));
+        i++;
+      }
+    }
+
+    System.out.println("OUT: " + out.getSize());
+
+    return (out != null && out.getSize() > 0) ?  this.listToPrimitive(out) : null;
   }
 
   @Override

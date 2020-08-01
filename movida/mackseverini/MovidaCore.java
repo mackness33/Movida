@@ -277,5 +277,5 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
 	 * @return array di attori
 	 */
 	@Override
-  public Person[] searchMostActiveActors(Integer N){ return null; }
+  public Person[] searchMostActiveActors(Integer N){ return people.searchMostOf(N); }
 }

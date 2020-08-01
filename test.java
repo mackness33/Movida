@@ -140,6 +140,12 @@ public class test {
     for(int i = 0; i < actors.length; i++)
       System.out.println(actors[i]);
 
+    System.out.println("\n\rSEARCHMOSTACTIVE ACTORS: ");
+    Person[] active = mb.searchMostActiveActors(5);
+
+    for(int i = 0; i < active.length; i++)
+      System.out.println(active[i]);
+
       // Array<Movie> movies = mb.getAllMoviesArray();
       //
       // System.out.println("ARRAY LENGTH: " + movies.length);
