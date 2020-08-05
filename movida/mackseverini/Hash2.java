@@ -27,7 +27,7 @@ public class Hash2<E extends Comparable<E>> extends ComparableStatic implements 
     for (int i = 0; i < this.dom.length; i++)
       this.dom.set(i, null);
 
-    this.major = new HashList<IList<Integer>>();
+    this.major = new KeyList<IList<Integer>>();
   }
 
   protected int getSize() { return this.size; }
@@ -64,12 +64,12 @@ public class Hash2<E extends Comparable<E>> extends ComparableStatic implements 
     Integer hash_key = this.hash(obj.hashCode());
     IList<Integer> list_key = null;
 
-    if ((list_key = ((HashList<IList<Integer>>)this.major).getByKey(hash_key)) == null){
-      ((HashList<IList<Integer>>)this.major).addTail(hash_key, new HashList(hash_key));
-      list_key = ((HashList<IList<Integer>>)this.major).getTail().getValue();
+    if ((list_key = ((KeyList<IList<Integer>>)this.major).getByKey(hash_key)) == null){
+      ((KeyList<IList<Integer>>)this.major).addTail(hash_key, new KeyList(hash_key));
+      list_key = ((KeyList<IList<Integer>>)this.major).getTail().getValue();
     }
 
-    ((HashList<Integer>)list_key).addTail(this.size, obj.hashCode());
+    ((KeyList<Integer>)list_key).addTail(this.size, obj.hashCode());
 
     this.size++;
     this.length++;
@@ -82,9 +82,9 @@ public class Hash2<E extends Comparable<E>> extends ComparableStatic implements 
     Integer key = this.hash(obj);
     IList<Integer> node = null;
 
-    if ((node = ((HashList<IList<Integer>>)this.major).getByKey(key)) != null){
-      this.dom.set(((HashList<Integer>)node).searchKey(obj.hashCode()), null);
-      ((HashList<Integer>)node).delEl(obj.hashCode());
+    if ((node = ((KeyList<IList<Integer>>)this.major).getByKey(key)) != null){
+      this.dom.set(((KeyList<Integer>)node).searchKey(obj.hashCode()), null);
+      ((KeyList<Integer>)node).delEl(obj.hashCode());
 
       if (node.getSize() <= 0)
         this.major.delEl(node);
@@ -101,8 +101,8 @@ public class Hash2<E extends Comparable<E>> extends ComparableStatic implements 
     Integer key = this.hash(obj);
     IList<Integer> node = null;
 
-    if ((node = ((HashList<IList<Integer>>)this.major).getByKey(key)) != null){
-      Integer el_key = ((HashList<Integer>)node).searchKey(obj.hashCode());
+    if ((node = ((KeyList<IList<Integer>>)this.major).getByKey(key)) != null){
+      Integer el_key = ((KeyList<Integer>)node).searchKey(obj.hashCode());
       if (el_key != null)
         return this.dom.get(el_key) != null ? true : false;
     }
@@ -133,196 +133,12 @@ public class Hash2<E extends Comparable<E>> extends ComparableStatic implements 
     final Array<E> array = new Array<E>(this.length);
     int i = 0;
 
-    for (HashNode<IList<Integer>> iter = (HashNode<IList<Integer>>)((HashList<IList<Integer>>)this.major).getHead(); iter != null; iter = (HashNode<IList<Integer>>)iter.getNext())
-      for (HashNode<Integer> nodeIter = (HashNode<Integer>)((HashList<Integer>)iter.getValue()).getHead(); nodeIter != null; nodeIter = (HashNode<Integer>)nodeIter.getNext(), i++)
+    for (KeyNode<IList<Integer>> iter = (KeyNode<IList<Integer>>)((KeyList<IList<Integer>>)this.major).getHead(); iter != null; iter = (KeyNode<IList<Integer>>)iter.getNext())
+      for (KeyNode<Integer> nodeIter = (KeyNode<Integer>)((KeyList<Integer>)iter.getValue()).getHead(); nodeIter != null; nodeIter = (KeyNode<Integer>)nodeIter.getNext(), i++)
         if (nodeIter.getKey() != null && nodeIter.getValue() != null)
           array.set(i, this.dom.get(nodeIter.getKey()));
 
     return array;
   }
 
-  protected class HashNode<E extends Comparable<E>> extends Node2<E>{
-    protected Integer key;
-
-    public HashNode(){
-      super();
-      this.key = -1;
-    }
-
-    public HashNode(int k, E v){
-      super(v);
-      this.key = k;
-    }
-
-    public HashNode(int k, E v, HashNode<E> n){
-      super(v, n);
-      this.key = k;
-    }
-
-    public Integer getKey() { return this.key; }
-
-    public void setKey (Integer k) { this.key = k; }
-
-    @Override
-    public void print(){
-      // if (this.value != null)
-      System.out.println("HashNode: KEY => " + this.key + " VALUE => " + this.value);
-    }
-
-    public void printAll(){
-      System.out.println("HashList: KEY => " + this.key + " VALUE => " + this.value);
-
-      if (this.value instanceof IList)
-        ((HashList<E>)this.value).printAll();
-
-      if (this.next != null)
-        ((HashNode<E>)this.next).printAll();
-    }
-
-    // @Override
-    // public String toString(){
-    //   return "HashNode: KEY => " + this.key + " VALUE => " + this.value;
-    // }
-  }
-
-  protected class HashList<E extends Comparable<E>> extends List<E>{
-    protected Integer key;
-
-    public HashList (){
-      this.head = null;
-      this.tail = null;
-      this.size = 0;
-      this.key = null;
-    }
-
-    public HashList (Integer k, Integer el_key, E el){
-      this.head = new HashNode<E>(el_key, el);
-      this.tail = this.head;
-      this.size = 1;
-      this.key = k;
-    }
-
-    public HashList (Integer k){
-      this.head = null;
-      this.tail = null;
-      this.size = 0;
-      this.key = k;
-    }
-
-    public HashList (HashList<E> shallow){
-      this.head = (HashNode<E>)shallow.getHead();
-      this.tail = (HashNode<E>)shallow.getTail();
-      this.size = shallow.getSize();
-      this.key = shallow.getKey();
-    }
-
-    // @Override
-    // public String toString(){
-    //   this.print();
-    //   return "HashList: KEY => " + this.key + " HEAD => " + this.head;
-    // }
-
-    @Override
-    public void print(){
-      System.out.println("HashList: KEY => " + this.key + " HEAD => " + this.head);
-    }
-
-    public void printAll(){
-      System.out.println("HashList: KEY => " + this.key + " HEAD => " + this.head);
-        if (this.head != null && this.head instanceof HashNode)
-        ((HashNode<E>)this.head).printAll();
-    }
-
-    public Integer getKey() { return this.key; }
-
-    public void setKey (Integer k) { this.key = k; }
-
-    public E getByKey (Integer k){
-      if (this.size <= 0)
-        return null;
-
-      for (HashNode<E> iter = (HashNode<E>)this.head; iter != null; iter = (HashNode<E>)iter.getNext())
-        if (iter.getKey() == k)
-          return iter.getValue();
-
-      return null;
-    }
-
-    public boolean delByKey (Integer k){
-      if (this.size <= 0)
-        return false;
-
-      if (k == ((HashNode<E>)this.head).getKey()){
-        this.delHead();
-        return true;
-      }
-      else if (k == ((HashNode<E>)this.tail).getKey()){
-        this.delTail();
-        return true;
-      }
-
-      if((HashNode<E>)this.head.getNext() == null)
-        return false;
-
-      int i = 0;
-      for (HashNode<E> prev = (HashNode<E>)this.head, iter = (HashNode<E>)this.head.getNext(); iter.getNext() != null; iter = (HashNode<E>)iter.getNext(), prev = (HashNode<E>)prev.getNext()){
-        if (iter.getKey() == k){
-          prev.setNext(iter.getNext());
-          iter = null;
-          this.size--;
-          return true;
-        }
-      }
-
-      return false;
-    }
-
-    public Integer searchKey (E el){
-      if (this.size <= 0)
-        return null;
-
-      if (el.compareTo(this.head.getValue()) == 0)
-        return ((HashNode<E>)this.head).getKey();
-      else if (el.compareTo(this.tail.getValue()) == 0)
-        return ((HashNode<E>)this.tail).getKey();
-
-      if((HashNode<E>)this.head.getNext() == null)
-        return null;
-
-      int i = 1;
-      for (HashNode<E> iter = (HashNode<E>)this.head.getNext(); iter.getNext() != null && i < this.size; iter = (HashNode<E>)iter.getNext(), i++)
-        if (el.compareTo(iter.getValue()) == 0)
-          return ((HashNode<E>)iter).getKey();
-
-      return null;
-    }
-
-    public void addTail (Integer k, E el){
-      if (this.size <= 0){
-        this.head = new HashNode<E>(k, el);
-        this.tail = this.head;
-        this.size = 1;
-        return;
-      }
-
-      HashNode<E> temp = new HashNode<E>(k, el);
-      this.tail.setNext(temp);
-      this.tail = temp;
-      this.size++;
-    }
-
-    public void addHead (Integer k, E el){
-      if (this.size <= 0){
-        this.head = new HashNode<E>(k, el);
-        this.tail = this.head;
-        this.size = 1;
-        return;
-      }
-
-      HashNode<E> temp = new HashNode<E>(k, el);
-      temp.setNext(this.head);
-      this.head = temp;
-      this.size++;
-    }
-  }
 }

@@ -26,10 +26,10 @@ public class MovieHash<E extends Movie> extends KeyHash<Movie> {
   public MovieHash() {
     super();
 
-    this.dates = new HashList<IList<Integer>>();
-    this.rates = new HashList<Integer>();
-    this.major = new HashList<IList<String>>();
-    this.directors = new HashList<IList<String>>();
+    this.dates = new KeyList<IList<Integer>>();
+    this.rates = new KeyList<Integer>();
+    this.major = new KeyList<IList<String>>();
+    this.directors = new KeyList<IList<String>>();
   }
 
 
@@ -40,7 +40,7 @@ public class MovieHash<E extends Movie> extends KeyHash<Movie> {
     this.addHashKey(obj.getTitle(), this.major);
     this.addHashKey(obj.getYear(), this.dates);
     this.addHashKey(obj.getDirector().getName(), this.directors);
-    ((HashList<Integer>)this.rates).addTail(this.size, obj.getVotes());
+    ((KeyList<Integer>)this.rates).addTail(this.size, obj.getVotes());
 
     this.size++;
     this.length++;
@@ -56,10 +56,10 @@ public class MovieHash<E extends Movie> extends KeyHash<Movie> {
     IList<String> node = null;
     Integer pos = -1;
 
-    if ((node = ((HashList<IList<String>>)this.major).getByKey(hash_key)) != null){
-      pos = ((HashList<String>)node).searchKey(obj.getTitle());
+    if ((node = ((KeyList<IList<String>>)this.major).getByKey(hash_key)) != null){
+      pos = ((KeyList<String>)node).searchKey(obj.getTitle());
       this.dom.set(pos, null);
-      ((HashList<String>)node).delEl(obj.getTitle());
+      ((KeyList<String>)node).delEl(obj.getTitle());
 
       if (node.getSize() <= 0)
         this.major.delEl(node);
@@ -69,7 +69,7 @@ public class MovieHash<E extends Movie> extends KeyHash<Movie> {
 
     this.delHashKey(obj.getYear(), this.dates, pos);
     this.delHashKey(obj.getDirector().getName(), this.directors, pos);
-    ((HashList<Integer>)this.rates).delByKey(pos);
+    ((KeyList<Integer>)this.rates).delByKey(pos);
 
     this.length--;
 
@@ -89,8 +89,8 @@ public class MovieHash<E extends Movie> extends KeyHash<Movie> {
     IList<String> node = null;
     Movie movie_to_be_deleted = null;
 
-    if ((node = ((HashList<IList<String>>)this.major).getByKey(hash_key)) != null){
-      pos = ((HashList<String>)node).searchKey(title);
+    if ((node = ((KeyList<IList<String>>)this.major).getByKey(hash_key)) != null){
+      pos = ((KeyList<String>)node).searchKey(title);
       movie_to_be_deleted = this.dom.get(pos);
       this.dom.set(pos, null);
       node.delEl(title);
@@ -104,7 +104,7 @@ public class MovieHash<E extends Movie> extends KeyHash<Movie> {
 
     this.delHashKey(movie_to_be_deleted.getYear(), this.dates, pos);
     this.delHashKey(movie_to_be_deleted.getDirector().getName(), this.directors, pos);
-    ((HashList<Integer>)this.rates).delByKey(pos);
+    ((KeyList<Integer>)this.rates).delByKey(pos);
 
     this.length--;
 
@@ -127,24 +127,24 @@ public class MovieHash<E extends Movie> extends KeyHash<Movie> {
     Integer key = this.hash(obj.getTitle());
     IList<String> node = null;
 
-    if ((node = ((HashList<IList<String>>)this.major).getByKey(key)) != null){
-      Integer el_key = ((HashList<String>)node).searchKey(obj.getTitle());
+    if ((node = ((KeyList<IList<String>>)this.major).getByKey(key)) != null){
+      Integer el_key = ((KeyList<String>)node).searchKey(obj.getTitle());
       if (el_key != null){
         this.dom.set(el_key, obj);
         return el_key;
       }
     }
     else{
-      ((HashList<IList<String>>)this.major).addTail(key, new HashList(key));
-      node = ((HashList<IList<String>>)this.major).getTail().getValue();
+      ((KeyList<IList<String>>)this.major).addTail(key, new KeyList(key));
+      node = ((KeyList<IList<String>>)this.major).getTail().getValue();
     }
 
     this.dom.set(this.size, obj);
-    ((HashList<String>)node).addTail(this.size, obj.getTitle());
+    ((KeyList<String>)node).addTail(this.size, obj.getTitle());
 
     this.addHashKey(obj.getYear(), this.dates);
     this.addHashKey(obj.getDirector().getName(), this.directors);
-    ((HashList<Integer>)this.rates).addTail(this.size, obj.getVotes());
+    ((KeyList<Integer>)this.rates).addTail(this.size, obj.getVotes());
 
     this.size++;
     this.length++;
@@ -156,8 +156,8 @@ public class MovieHash<E extends Movie> extends KeyHash<Movie> {
     Integer key = this.hash(title);
     IList<String> node = null;
 
-    if ((node = ((HashList<IList<String>>)this.major).getByKey(key)) != null){
-      Integer el_key = ((HashList<String>)node).searchKey(title);
+    if ((node = ((KeyList<IList<String>>)this.major).getByKey(key)) != null){
+      Integer el_key = ((KeyList<String>)node).searchKey(title);
       if (el_key != null)
         return this.dom.get(el_key);
     }
@@ -186,7 +186,7 @@ public class MovieHash<E extends Movie> extends KeyHash<Movie> {
         if (this.length > 0){
           out = new List<Movie>();
 
-          for (HashNode<IList<Integer>> iter = (HashNode<IList<Integer>>)this.dates.getHead(); iter != null && i < num; iter = (HashNode<IList<Integer>>)iter.getNext(), i = out.getSize())
+          for (KeyNode<IList<Integer>> iter = (KeyNode<IList<Integer>>)this.dates.getHead(); iter != null && i < num; iter = (KeyNode<IList<Integer>>)iter.getNext(), i = out.getSize())
             out.addToEnd(this.searchMostOfHashKey(num, iter.getValue()));
         }
       };break;
@@ -204,7 +204,55 @@ public class MovieHash<E extends Movie> extends KeyHash<Movie> {
     return (out != null) ?  this.listToPrimitive(out) : null;
   }
 
-  public Movie getFromId (Integer id){ return (id > this.size || id < 0 ) ? null : this.dom.get(id); }
+  public Movie getFromId (Integer id){ return (id > this.size || id < 0) ? null : this.dom.get(id); }
+
+  public void sort(IAlg algorithm){
+    // this.major = this.sortListOfList(algorithm, this.major);
+    // this.dates = this.sortListOfList(algorithm, this.dates);
+    // this.directors = this.sortListOfList(algorithm, this.directors);
+    this.rates = algorithm.sort(this.rates);
+  }
+
+  protected <K extends Comparable<K>> void sortListOfList(IAlg algorithm, IList<IList<K>> list){
+    this.sortByKey(algorithm, list);
+
+    for (INode2<IList<K>> iter = list.getHead(); iter != null; iter = iter.getNext())
+      algorithm.sort(iter.getValue());
+  }
+
+  public <K extends Comparable<K>> IList<IList<K>> sortByKey(IAlg algorithm, IList<IList<K>> list) {
+    if(list.getSize() <= 1)
+      return list;
+
+    KeyList<IList<K>> copy = new KeyList<IList<K>>();
+    int j = 0, i = 1;
+    boolean over = false;
+
+    copy.addTail(((KeyNode<IList<K>>)list.getHead()).getKey(), list.getHead().getValue());
+
+    System.out.println("SIZE: " + list.getSize());
+    for(KeyNode<IList<K>> iterIN = (KeyNode<IList<K>>)list.getHead().getNext(); iterIN != null; iterIN = (KeyNode<IList<K>>)iterIN.getNext(), i++, j = 0, over = false){
+      System.out.println("i: " + i);
+      System.out.println("i: " + copy.getHead());
+      for(KeyNode<IList<K>> iterCopy = (KeyNode<IList<K>>)copy.getHead(); iterCopy != null && !over; iterCopy = (KeyNode<IList<K>>)iterCopy.getNext(), j++){
+        System.out.println("blip: " + j);
+        System.out.println("j: " + iterCopy.getNext());
+        System.out.println("ITERCOPY: " + iterCopy);
+        if(iterIN.getKey().compareTo(iterCopy.getKey()) <= 0){
+          System.out.println("SCARED");
+          copy.addBlue(iterIN.getKey(), iterIN.getValue(), j);
+          over = true;
+        }
+        System.out.println("shish: " + i);
+      }
+
+      System.out.println("qhat: " + iterIN);
+      if (!over)
+        copy.addBlue(iterIN.getKey(), iterIN.getValue(), i);
+    }
+
+    return copy;
+  }
 
   @Override
   public Array<Movie> toArray() {
@@ -214,15 +262,14 @@ public class MovieHash<E extends Movie> extends KeyHash<Movie> {
     final Array<Movie> array = new Array<Movie>(this.length);
     int i = 0;
 
-    for (HashNode<IList<String>> iter = (HashNode<IList<String>>)((HashList<IList<String>>)this.major).getHead(); iter != null; iter = (HashNode<IList<String>>)iter.getNext())
-      for (HashNode<String> nodeIter = (HashNode<String>)((HashList<String>)iter.getValue()).getHead(); nodeIter != null; nodeIter = (HashNode<String>)nodeIter.getNext(), i++)
+    for (KeyNode<IList<String>> iter = (KeyNode<IList<String>>)((KeyList<IList<String>>)this.major).getHead(); iter != null; iter = (KeyNode<IList<String>>)iter.getNext())
+      for (KeyNode<String> nodeIter = (KeyNode<String>)((KeyList<String>)iter.getValue()).getHead(); nodeIter != null; nodeIter = (KeyNode<String>)nodeIter.getNext(), i++)
         if (nodeIter.getKey() != null && nodeIter.getValue() != null)
           array.set(i, this.dom.get(nodeIter.getKey()));
 
     return array;
   }
 
-  @Override
   public Movie[] toPrimitive() {
     if (this.length < 0)
       return null;
@@ -230,8 +277,8 @@ public class MovieHash<E extends Movie> extends KeyHash<Movie> {
     final Movie[] array = new Movie[this.length];
     int i = 0;
 
-    for (HashNode<IList<String>> iter = (HashNode<IList<String>>)((HashList<IList<String>>)this.major).getHead(); iter != null; iter = (HashNode<IList<String>>)iter.getNext())
-      for (HashNode<String> nodeIter = (HashNode<String>)((HashList<String>)iter.getValue()).getHead(); nodeIter != null; nodeIter = (HashNode<String>)nodeIter.getNext(), i++)
+    for (KeyNode<IList<String>> iter = (KeyNode<IList<String>>)((KeyList<IList<String>>)this.major).getHead(); iter != null; iter = (KeyNode<IList<String>>)iter.getNext())
+      for (KeyNode<String> nodeIter = (KeyNode<String>)((KeyList<String>)iter.getValue()).getHead(); nodeIter != null; nodeIter = (KeyNode<String>)nodeIter.getNext(), i++)
         if (nodeIter.getKey() != null && nodeIter.getValue() != null)
           array[i] = this.dom.get(nodeIter.getKey());
 

@@ -4,11 +4,15 @@ import movida.mackseverini.MovidaCore;
 import movida.mackseverini.Hash2;
 import movida.mackseverini.MovieHash;
 import movida.mackseverini.PeopleHash;
+import movida.mackseverini.IList;
 import movida.mackseverini.List;
 import movida.mackseverini.Node2;
+import movida.mackseverini.INode2;
 import movida.mackseverini.Array;
 import movida.mackseverini.KeyHash;
 import movida.mackseverini.InsertionSort;
+import movida.mackseverini.KeyNode;
+import movida.mackseverini.KeyList;
 // import movida.mackseverini.MergeSort;
 import movida.commons.*;
 
@@ -20,7 +24,9 @@ import java.util.concurrent.ThreadLocalRandom;
 public class test {
 
   public static void main(String args[]){
-    Array<Integer> A = new Array<Integer>(35);
+    // test.AlgTest();
+    test.movidaTest();
+
     //
     // System.out.println("List: ");
     // L.print();
@@ -32,19 +38,6 @@ public class test {
     // System.out.println("List: ");
     // L.print();
     //
-    for (int i = 0; i < A.length; i++)
-      A.set(i, ThreadLocalRandom.current().nextInt(-1000, 1001));
-
-
-    for (int i = 0; i < A.length; i++)
-      System.out.println("POS: " + i + "  VAL: " + A.get(i));
-
-    InsertionSort is = new InsertionSort();
-    A = is.sort(A);
-
-    System.out.println("SORTED: ");
-    for (int i = 0; i < A.length; i++)
-      System.out.println("POS: " + i + "  VAL: " + A.get(i));
 
     //
     // L.addAt(400000, 3);
@@ -234,11 +227,42 @@ public class test {
     // System.out.println("THE END");
   }
 
+  public static void AlgTest(){
+    Array<Integer> A = new Array<Integer>(35);
+    IList<Integer> L = new List<Integer>();
+
+    for (int i = 0; i < A.length; i++){
+      A.set(i, ThreadLocalRandom.current().nextInt(-1000, 1001));
+      L.addTail(ThreadLocalRandom.current().nextInt(-1000, 1001));
+    }
+
+    for (int i = 0; i < A.length; i++)
+      System.out.println("POS: " + i + "  VAL: " + A.get(i));
+    int j = 0;
+    for(INode2<Integer> iterIN = L.getHead(); iterIN != null; iterIN = iterIN.getNext(), j++)
+      System.out.println("POS: " + j + "  VAL: " + iterIN.getValue());
+
+
+    InsertionSort is = new InsertionSort();
+    A = is.sort(A);
+    L = is.sort(L);
+
+    System.out.println("SORTED: ");
+    for (int i = 0; i < A.length; i++)
+      System.out.println("POS: " + i + "  VAL: " + A.get(i));
+
+    j = 0;
+    for(INode2<Integer> iterIN = L.getHead(); iterIN != null; iterIN = iterIN.getNext(), j++)
+      System.out.println("POS: " + j + "  VAL: " + iterIN.getValue());
+
+  }
+
+
 
   public static void movidaTest(){
     MovidaCore mb = new MovidaCore();
     // MovidaCore mb = new MovidaCore();
-    mb.init_class();
+    // mb.init_class();
 
     mb.loadFromFile(new File("movida/assets/esempio-formato-dati.txt"));
 

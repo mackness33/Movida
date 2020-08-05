@@ -16,12 +16,12 @@ public class KeyHash<E extends Comparable<E>> extends Hash2<E>{
     Integer hash_key = this.hash(key);
     IList<K> list_key = null;
 
-    if ((list_key = ((HashList<IList<K>>)list).getByKey(hash_key)) == null){
-      ((HashList<IList<K>>)list).addTail(hash_key, new HashList(hash_key));
-      list_key = ((HashList<IList<K>>)list).getTail().getValue();
+    if ((list_key = ((KeyList<IList<K>>)list).getByKey(hash_key)) == null){
+      ((KeyList<IList<K>>)list).addTail(hash_key, new KeyList(hash_key));
+      list_key = ((KeyList<IList<K>>)list).getTail().getValue();
     }
 
-    ((HashList<K>)list_key).addTail(this.size, key);
+    ((KeyList<K>)list_key).addTail(this.size, key);
     return true;
   }
 
@@ -29,8 +29,8 @@ public class KeyHash<E extends Comparable<E>> extends Hash2<E>{
     Integer hash_key = this.hash(key);
     IList<K> node = null;
 
-    if ((node = ((HashList<IList<K>>)list).getByKey(hash_key)) != null){
-      ((HashList<K>)node).delByKey(dom_pos);
+    if ((node = ((KeyList<IList<K>>)list).getByKey(hash_key)) != null){
+      ((KeyList<K>)node).delByKey(dom_pos);
 
       if (node.getSize() <= 0)
         list.delEl(node);
@@ -44,11 +44,11 @@ public class KeyHash<E extends Comparable<E>> extends Hash2<E>{
   protected <K extends Comparable<K>> IList<E> searchByHashKey(K input, IList<IList<K>> key_hash){
     Integer key = this.hash(input);
     IList<K> node = null;
-    IList<E> output = new HashList<E>();
+    IList<E> output = new KeyList<E>();
 
 
-    if ((node = ((HashList<IList<K>>)key_hash).getByKey(key)) != null)
-      for (HashNode<K> iter = (HashNode<K>)node.getHead(); iter != null; iter = (HashNode<K>)iter.getNext())
+    if ((node = ((KeyList<IList<K>>)key_hash).getByKey(key)) != null)
+      for (KeyNode<K> iter = (KeyNode<K>)node.getHead(); iter != null; iter = (KeyNode<K>)iter.getNext())
         if (input.compareTo(iter.getValue()) == 0)
             output.addTail(this.dom.get(iter.getKey()));
 
@@ -56,21 +56,21 @@ public class KeyHash<E extends Comparable<E>> extends Hash2<E>{
   }
 
   protected <K extends Comparable<K>> IList<E> searchMostOfHashKey(Integer num, IList<K> key_hash){
-    IList<E> output = new HashList<E>();
+    IList<E> output = new KeyList<E>();
     int i = 0;
 
-    for (HashNode<K> iter = (HashNode<K>)key_hash.getHead(); iter != null && i < num; iter = (HashNode<K>)iter.getNext(), i++)
+    for (KeyNode<K> iter = (KeyNode<K>)key_hash.getHead(); iter != null && i < num; iter = (KeyNode<K>)iter.getNext(), i++)
       output.addTail(this.dom.get(iter.getKey()));
 
     return (output.getSize() <= 0) ? null : output;
   }
 
   protected IList<E> searchContainsHashKey(String input, IList<IList<String>> key_hash){
-    IList<E> output = new HashList<E>();
+    IList<E> output = new KeyList<E>();
     int i = 0;
 
     for (INode2<IList<String>> iter = key_hash.getHead(); iter != null; iter = iter.getNext())
-      for (HashNode<String> iterNode = (HashNode<String>)iter.getValue().getHead(); iterNode != null; iterNode = (HashNode<String>)iterNode.getNext())
+      for (KeyNode<String> iterNode = (KeyNode<String>)iter.getValue().getHead(); iterNode != null; iterNode = (KeyNode<String>)iterNode.getNext())
         if (iterNode.getValue().contains(input))
           output.addTail(this.dom.get(iterNode.getKey()));
 

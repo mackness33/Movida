@@ -65,6 +65,8 @@ public class List<E extends Comparable<E>> implements IList<E>{
 
   @Override
   public void addAt (E el, int pos){
+    System.out.println("COMEDOWN: ");
+
     if (pos <= 0 || pos >= size){
       if (pos == 0){
         this.addHead(el);
@@ -289,14 +291,14 @@ public class List<E extends Comparable<E>> implements IList<E>{
 
   @Override
   public void print (){
-    System.out.println("HashList: HEAD => " + this.head);
+    System.out.println("KeyList: HEAD => " + this.head);
     if(this.head != null)
       ((Node2<E>)this.head).printAll();
   }
 
   @Override
   public void printAll (){
-    System.out.println("HashList: HEAD => " + this.head);
+    System.out.println("KeyList: HEAD => " + this.head);
     if(this.head != null)
       ((Node2<E>)this.head).printAll();
   }

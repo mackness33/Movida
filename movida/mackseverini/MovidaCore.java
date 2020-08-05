@@ -14,19 +14,23 @@ import java.lang.Integer;
 import movida.mackseverini.Search;
 import movida.mackseverini.MovieHash;
 import movida.mackseverini.PeopleHash;
+import movida.mackseverini.InsertionSort;
 
 public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMovidaSearch{
   private MovieHash<Movie> movies;
   private PeopleHash people;
+  private IAlg sortAlgorithm;
 
   public MovidaCore(){
-    this.movies = null;
-    this.people = null;
+    this.movies = new MovieHash();
+    this.people = new PeopleHash();
+    this.sortAlgorithm = new InsertionSort();
   }
 
-  public MovidaCore(MovieHash M, PeopleHash P){
+  public MovidaCore(MovieHash M, PeopleHash P ){
     this.movies = M;
     this.people = P;
+    this.sortAlgorithm = null;
   }
 
   public void init_class(){
@@ -79,6 +83,12 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
     catch(Exception e){
       System.out.println(e);
     }
+    
+    System.out.println("START SORT");
+
+    movies.sort(sortAlgorithm);
+
+    System.out.println("END SORT");
 
     System.out.println("END STREAM");
   }

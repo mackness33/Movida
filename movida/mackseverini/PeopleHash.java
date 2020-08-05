@@ -20,14 +20,14 @@ public class PeopleHash<E extends Person> extends KeyHash<Person> {
   @SuppressWarnings("unchecked")
   public PeopleHash() {
     super();
-    this.major = new HashList<IList<String>>();
-    this.active = new HashList<Integer>();
+    this.major = new KeyList<IList<String>>();
+    this.active = new KeyList<Integer>();
   }
 
   public boolean insert(Person obj){
     this.dom.set(this.size, obj);
     this.addHashKey(obj.getName(), this.major);
-    ((HashList<Integer>)this.active).addTail(this.size, obj.getMovieSize());
+    ((KeyList<Integer>)this.active).addTail(this.size, obj.getMovieSize());
 
 
     this.size++;
@@ -42,8 +42,8 @@ public class PeopleHash<E extends Person> extends KeyHash<Person> {
     Integer key = this.hash(obj.getName());
     IList<String> node = null;
 
-    if ((node = ((HashList<IList<String>>)this.major).getByKey(key)) != null){
-      Integer el_key = ((HashList<String>)node).searchKey(obj.getName());
+    if ((node = ((KeyList<IList<String>>)this.major).getByKey(key)) != null){
+      Integer el_key = ((KeyList<String>)node).searchKey(obj.getName());
       if (el_key != null){
         // this.dom.get(el_key).print();
         this.dom.get(el_key).addMovie(movie);
@@ -65,8 +65,8 @@ public class PeopleHash<E extends Person> extends KeyHash<Person> {
     IList<String> node = null;
     Person movie_to_be_deleted = null;
 
-    if ((node = ((HashList<IList<String>>)this.major).getByKey(hash_key)) != null){
-      pos = ((HashList<String>)node).searchKey(name);
+    if ((node = ((KeyList<IList<String>>)this.major).getByKey(hash_key)) != null){
+      pos = ((KeyList<String>)node).searchKey(name);
       this.dom.set(pos, null);
       node.delEl(name);
 
@@ -77,7 +77,7 @@ public class PeopleHash<E extends Person> extends KeyHash<Person> {
       return true;
     }
 
-    ((HashList<Integer>)this.active).delByKey(pos);
+    ((KeyList<Integer>)this.active).delByKey(pos);
 
     return false;
   }
@@ -92,8 +92,8 @@ public class PeopleHash<E extends Person> extends KeyHash<Person> {
     Integer key = this.hash(name);
     IList<String> node = null;
 
-    if ((node = ((HashList<IList<String>>)this.major).getByKey(key)) != null){
-      Integer el_key = ((HashList<String>)node).searchKey(name);
+    if ((node = ((KeyList<IList<String>>)this.major).getByKey(key)) != null){
+      Integer el_key = ((KeyList<String>)node).searchKey(name);
       if (el_key != null)
         return this.dom.get(el_key);
     }
@@ -111,7 +111,7 @@ public class PeopleHash<E extends Person> extends KeyHash<Person> {
     IList<Person> out = new List<Person>();
     int i = 0;
 
-    for (HashNode<Integer> iter = (HashNode<Integer>)this.active.getHead(); iter != null && i < num; iter = (HashNode<Integer>)iter.getNext()){
+    for (KeyNode<Integer> iter = (KeyNode<Integer>)this.active.getHead(); iter != null && i < num; iter = (KeyNode<Integer>)iter.getNext()){
       if (this.dom.get(iter.getKey()).isActor())
         out.addTail(this.dom.get(iter.getKey())); i++;
     }
@@ -127,8 +127,8 @@ public class PeopleHash<E extends Person> extends KeyHash<Person> {
     final Array<Person> array = new Array<Person>(this.length);
     int i = 0;
 
-    for (HashNode<IList<String>> iter = (HashNode<IList<String>>)((HashList<IList<String>>)this.major).getHead(); iter != null; iter = (HashNode<IList<String>>)iter.getNext())
-      for (HashNode<String> nodeIter = (HashNode<String>)((HashList<String>)iter.getValue()).getHead(); nodeIter != null; nodeIter = (HashNode<String>)nodeIter.getNext(), i++)
+    for (KeyNode<IList<String>> iter = (KeyNode<IList<String>>)((KeyList<IList<String>>)this.major).getHead(); iter != null; iter = (KeyNode<IList<String>>)iter.getNext())
+      for (KeyNode<String> nodeIter = (KeyNode<String>)((KeyList<String>)iter.getValue()).getHead(); nodeIter != null; nodeIter = (KeyNode<String>)nodeIter.getNext(), i++)
         if (nodeIter.getKey() != null && nodeIter.getValue() != null)
           array.set(i, this.dom.get(nodeIter.getKey()));
 
@@ -136,7 +136,6 @@ public class PeopleHash<E extends Person> extends KeyHash<Person> {
   }
 
 
-  @Override
   public Person[] toPrimitive() {
     if (this.length < 0)
       return null;
@@ -144,8 +143,8 @@ public class PeopleHash<E extends Person> extends KeyHash<Person> {
     final Person[] array = new Person[this.length];
     int i = 0;
 
-    for (HashNode<IList<String>> iter = (HashNode<IList<String>>)((HashList<IList<String>>)this.major).getHead(); iter != null; iter = (HashNode<IList<String>>)iter.getNext())
-      for (HashNode<String> nodeIter = (HashNode<String>)((HashList<String>)iter.getValue()).getHead(); nodeIter != null; nodeIter = (HashNode<String>)nodeIter.getNext(), i++)
+    for (KeyNode<IList<String>> iter = (KeyNode<IList<String>>)((KeyList<IList<String>>)this.major).getHead(); iter != null; iter = (KeyNode<IList<String>>)iter.getNext())
+      for (KeyNode<String> nodeIter = (KeyNode<String>)((KeyList<String>)iter.getValue()).getHead(); nodeIter != null; nodeIter = (KeyNode<String>)nodeIter.getNext(), i++)
         if (nodeIter.getKey() != null && nodeIter.getValue() != null)
           array[i] = this.dom.get(nodeIter.getKey());
 
