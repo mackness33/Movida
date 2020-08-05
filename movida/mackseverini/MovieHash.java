@@ -209,15 +209,18 @@ public class MovieHash<E extends Movie> extends KeyHash<Movie> {
   public void sort(IAlg algorithm){
     // this.major = this.sortListOfList(algorithm, this.major);
     // this.dates = this.sortListOfList(algorithm, this.dates);
-    // this.directors = this.sortListOfList(algorithm, this.directors);
+    this.directors = this.sortListOfList(algorithm, this.directors);
+    // this.directors = algorithm.keySort((IKeyList<IList<String>>)this.directors);
     this.rates = algorithm.sort(this.rates);
   }
 
-  protected <K extends Comparable<K>> void sortListOfList(IAlg algorithm, IList<IList<K>> list){
-    this.sortByKey(algorithm, list);
+  protected <K extends Comparable<K>> IList<IList<K>> sortListOfList(IAlg algorithm, IList<IList<K>> list){
+    list = algorithm.keySort((IKeyList)list);
 
     for (INode2<IList<K>> iter = list.getHead(); iter != null; iter = iter.getNext())
-      algorithm.sort(iter.getValue());
+      iter.setValue(algorithm.sort((IKeyList<K>)iter.getValue()));
+
+    return list;
   }
 
   public <K extends Comparable<K>> IList<IList<K>> sortByKey(IAlg algorithm, IList<IList<K>> list) {

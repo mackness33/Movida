@@ -176,10 +176,10 @@ public class KeyList<E extends Comparable<E>> extends movida.mackseverini.List<E
       KeyNode<E> temp = new KeyNode<E>(k, el);
       temp.setNext((KeyNode<E>)iter.getNext());
       iter.setNext(temp);
-      System.out.println("ITER: " + iter);
-      System.out.println("ITER NEXT: " + iter.getNext());
-      System.out.println("TEMP: " + temp);
-      System.out.println("TEMP NEXT: " + temp.getNext());
+      // System.out.println("ITER: " + iter);
+      // System.out.println("ITER NEXT: " + iter.getNext());
+      // System.out.println("TEMP: " + temp);
+      // System.out.println("TEMP NEXT: " + temp.getNext());
       this.size++;
     }
   }
