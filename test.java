@@ -26,9 +26,9 @@ public class test {
   public static void main(String args[]){
     // test.AlgTest();
     test.movidaTest();
-
-    //
-    // System.out.println("List: ");
+    // Integer a = 5;
+    // //
+    // System.out.println("res: " + a.compareTo(5));
     // L.print();
     //
     // L.addHead(5);

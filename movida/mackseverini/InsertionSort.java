@@ -2,6 +2,7 @@ package movida.mackseverini;
 
 import movida.mackseverini.IList;
 import movida.mackseverini.List;
+import movida.mackseverini.KeyList;
 import movida.mackseverini.Node2;
 import movida.mackseverini.INode2;
 import movida.mackseverini.Array;
@@ -41,22 +42,41 @@ public class InsertionSort implements IAlg{
       return list;
 
     System.out.println("CLASS LIST: " + list.getClass());
-    IList<T> copy = new List<T>(list.getHead().getValue());
+    IList<T> copy;
+    if (list instanceof KeyList){
+      // return this.keySort(list);
+      System.out.println("HERE i AM: ");
+      copy = new KeyList<T>();
+      ((KeyList<T>)copy).addTail(((KeyNode<T>)list.getHead()).getKey(), list.getHead().getValue());
+    }
+    else
+      copy = new List<T>(list.getHead().getValue());
+
     int j = 0, i = 1;
     boolean over = false;
 
     System.out.println("SIZE: " + list.getSize());
-    for(INode2<T> iterIN = list.getHead().getNext(); iterIN != null && !over; iterIN = iterIN.getNext(), i++, j = 0, over = false){
-      System.out.println("i: " + i);
+    for(INode2<T> iterIN = list.getHead().getNext(); iterIN != null; iterIN = iterIN.getNext(), i++, j = 0, over = false){
+      // System.out.println("i: " + i);
+      // System.out.println("INPUT VALUE: " + iterIN.getValue());
       for(INode2<T> iterCopy = copy.getHead(); iterCopy != null && !over; iterCopy = iterCopy.getNext(), j++){
+        // System.out.println("COPY VALUE: " + iterCopy.getValue());
+        // System.out.println("RESULT: " + iterIN.getValue().compareTo(iterCopy.getValue()));
         if(iterIN.getValue().compareTo(iterCopy.getValue()) <= 0){
-          copy.addAt(iterIN.getValue(), j);
+          if (list instanceof KeyList)
+              ((KeyList<T>)copy).addBlue(((IKeyNode<T>)iterIN).getKey(), iterIN.getValue(), j);
+          else
+            copy.addAt(iterIN.getValue(), i);
           over = true;
         }
       }
 
-      if (!over)
-        copy.addAt(iterIN.getValue(), i);
+      if (!over){
+        if (list instanceof KeyList)
+            ((KeyList<T>)copy).addBlue(((IKeyNode<T>)iterIN).getKey(), iterIN.getValue(), i);
+        else
+          copy.addAt(iterIN.getValue(), i);
+      }
     }
 
     return copy;
@@ -82,7 +102,7 @@ public class InsertionSort implements IAlg{
         System.out.println("blip: " + j);
         System.out.println("j: " + iterCopy.getNext());
         System.out.println("ITERCOPY: " + iterCopy);
-        if(iterIN.getKey().compareTo(iterCopy.getKey()) <= 0){
+        if(iterIN.getKey().compareTo(iterCopy.getKey()) >= 0){
           System.out.println("SCARED");
           copy.addBlue(iterIN.getKey(), iterIN.getValue(), j);
           over = true;
