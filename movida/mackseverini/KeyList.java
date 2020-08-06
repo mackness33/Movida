@@ -154,7 +154,7 @@ public class KeyList<E extends Comparable<E>> extends movida.mackseverini.List<E
 
   @Override
   public void addBlue (Integer k, E el, Integer pos){
-    System.out.println("COMEON: ");
+    // System.out.println("COMEON: ");
     if (pos <= 0 || pos >= size){
       if (pos == 0){
         this.addHead(k, el);
