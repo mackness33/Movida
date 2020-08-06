@@ -9,32 +9,31 @@ import movida.mackseverini.Set;
 import movida.commons.Movie;
 import movida.commons.Person;
 
-// BUG: Comparable cannot be used.
-// SOLUTION: Comparable cannot be used.
-public class Hash2<E extends Comparable<E>> extends ComparableStatic implements movida.mackseverini.IHash<E> {
-  protected Array<E> dom;
-  protected IList<IList<Integer>> major;
-  protected int MAX_LENGTH = 100;
-  protected int size;
-  protected int length;
 
-  // constructor resides
+public class Hash2<E extends Comparable<E>> extends ComparableStatic implements movida.mackseverini.IHash<E> {
+  protected Array<E> dom;                   // Array with all the elements
+  protected IList<IList<Integer>> major;    // List of list that virtually operates as the hash
+  protected int MAX_LENGTH = 100;
+  protected int size;                       // Max position occupied in the array
+  protected int length;                     // Counts the num of the elements currently in the hash
+
+
   @SuppressWarnings("unchecked")
   public Hash2() {
     this.size = 0;
     this.length = 0;
     this.dom = new Array<E> (this.MAX_LENGTH);
+    this.major = new KeyList<IList<Integer>>();
+
     for (int i = 0; i < this.dom.length; i++)
       this.dom.set(i, null);
-
-    this.major = new KeyList<IList<Integer>>();
   }
 
   protected int getSize() { return this.size; }
   protected int getLength() { return this.length; }
 
 
-  // @Override
+  // reset of all the data structure
   public void reset (){
     this.major.reset();
 
@@ -42,35 +41,40 @@ public class Hash2<E extends Comparable<E>> extends ComparableStatic implements 
       this.dom.set(i, null);
   }
 
-  // @Override
+  // hash of all the useful types of class
   protected <K> Integer hash (K input){
 
     if (input instanceof Hash2.Year)
-      return Math.abs(((Year)input).year + 79) % this.MAX_LENGTH;
+      return Math.abs(((Year)input).year + 79) % this.MAX_LENGTH;     // +79 because we this offset I can properly sort the years without using the whole number
     else if (input instanceof Integer)
       return Math.abs((Integer)input) % this.MAX_LENGTH;
     else if (input instanceof String)
-      return Math.abs(((String)input).codePointAt(0)) % this.MAX_LENGTH;
+      return Math.abs(((String)input).codePointAt(0)) % this.MAX_LENGTH;    // get the integer version of the first character of the input string
     else if (input instanceof Movie)
       return Math.abs(((Movie)input).getTitle().codePointAt(0)) % this.MAX_LENGTH;
     else if (input instanceof Person)
       return Math.abs(((Person)input).getName().codePointAt(0)) % this.MAX_LENGTH;
 
+    // last possibility is to get the hashCode of the element
     return input.hashCode() % this.MAX_LENGTH;
   }
 
+  // insert of a element. A lot similar to KeyHash.addHashKey(..)
   @Override
   public boolean insert(E obj){
     this.dom.set(this.size, obj);
 
-    Integer hash_key = this.hash(obj.hashCode());
+    Integer hash_key = this.hash(obj);
     IList<Integer> list_key = null;
 
+    // check if the list of the hashed value of the key in input already exist
     if ((list_key = ((KeyList<IList<Integer>>)this.major).getByKey(hash_key)) == null){
+      // if not create it
       ((KeyList<IList<Integer>>)this.major).addTail(hash_key, new KeyList(hash_key));
       list_key = ((KeyList<IList<Integer>>)this.major).getTail().getValue();
     }
 
+    // else add at the end
     ((KeyList<Integer>)list_key).addTail(this.size, obj.hashCode());
 
     this.size++;
@@ -79,18 +83,24 @@ public class Hash2<E extends Comparable<E>> extends ComparableStatic implements 
     return true;
   }
 
+  // delete of a element. A lot similar to KeyHash.delHashKey(..)
   @Override
   public boolean delete(E obj){
     Integer key = this.hash(obj);
     IList<Integer> node = null;
 
+    // check if the list of the hashed value of the key in input already exist
     if ((node = ((KeyList<IList<Integer>>)this.major).getByKey(key)) != null){
+      // set to null the element in the dom (array that stores all the element)
       this.dom.set(((KeyList<Integer>)node).searchKey(obj.hashCode()), null);
+      // delete the node by knowing the hashCode
       ((KeyList<Integer>)node).delEl(obj.hashCode());
 
+      // delete the whole list if it's empty
       if (node.getSize() <= 0)
         this.major.delEl(node);
 
+      // SIZE not decrement because it's used only to easy stored the first MAX_LENGTH element without having too much problem
       this.length--;
       return true;
     }
@@ -98,25 +108,31 @@ public class Hash2<E extends Comparable<E>> extends ComparableStatic implements 
     return false;
   }
 
+  // search of the element
   @Override
   public boolean search(E obj){
     Integer key = this.hash(obj);
     IList<Integer> node = null;
 
+    // check if the list of the hashed value of the key in input already exist
     if ((node = ((KeyList<IList<Integer>>)this.major).getByKey(key)) != null){
       Integer el_key = ((KeyList<Integer>)node).searchKey(obj.hashCode());
       if (el_key != null)
+        // return false if the element has been deleted or it's not present
         return this.dom.get(el_key) != null ? true : false;
     }
 
     return false;
   }
 
+  // CLEAN:
   @Override
   public boolean update(E obj){
     return true;
   }
 
+  // print of the whole hash
+  // FOR TEST USE ONLY
   public void print (){
     System.out.println("Length: " + this.dom.length);
     E temp = null;
@@ -128,17 +144,21 @@ public class Hash2<E extends Comparable<E>> extends ComparableStatic implements 
     this.major.print();
   }
 
+  // sort the virtual hash first by the hashed value, and the internal list by the values
   protected <K extends Comparable<K>> IList<IList<K>> sortListOfList(IAlg algorithm, IList<IList<K>> list){
-    list = algorithm.keySort((IKeyList)list);
+    list = algorithm.keySort((IKeyList)list);     // sort by keys
 
+    // sort by value for each list
     for (INode2<IList<K>> iter = list.getHead(); iter != null; iter = iter.getNext())
       iter.setValue(algorithm.sort((IKeyList<K>)iter.getValue()));
 
     return list;
   }
 
+  // sort of the major virtual hash
   public void sort(IAlg algorithm){ this.major = this.sortListOfList(algorithm, this.major); }
 
+  // conversion to array
   public Array<E> toArray() {
     if (this.length < 0)
       return null;
