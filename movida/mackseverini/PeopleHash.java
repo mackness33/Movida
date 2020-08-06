@@ -112,11 +112,21 @@ public class PeopleHash<E extends Person> extends KeyHash<Person> {
     int i = 0;
 
     for (KeyNode<Integer> iter = (KeyNode<Integer>)this.active.getHead(); iter != null && i < num; iter = (KeyNode<Integer>)iter.getNext()){
-      if (this.dom.get(iter.getKey()).isActor())
-        out.addTail(this.dom.get(iter.getKey())); i++;
+      if (this.dom.get(iter.getKey()).isActor()){
+        out.addTail(this.dom.get(iter.getKey()));
+        i++;
+      }
     }
 
     return (out != null && out.getSize() > 0) ?  this.listToPrimitive(out) : null;
+  }
+
+  public void sort(IAlg algorithm){
+    for (IKeyNode<Integer> iter = (IKeyNode<Integer>)this.active.getHead(); iter != null; iter = (IKeyNode<Integer>)iter.getNext())
+      iter.setValue(((Person)this.dom.get(iter.getKey())).getMovieSize());
+
+    this.major = this.sortListOfList(algorithm, this.major);
+    this.active = algorithm.sort(this.active);
   }
 
   @Override

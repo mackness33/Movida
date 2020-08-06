@@ -41,6 +41,22 @@ public class KeyHash<E extends Comparable<E>> extends Hash2<E>{
     return false;
   }
 
+  protected <K extends Comparable<K>> boolean updHashKey(K old, K key, IList<IList<K>> list, Integer dom_pos){
+    // Integer hash_key = this.hash(key);
+    // IList<K> node = null;
+    //
+    // if ((node = ((KeyList<IList<K>>)list).getByKey(hash_key)) != null){
+    //   ((KeyList<K>)node).updByKey(key, dom_pos);
+    //   return true;
+    // }
+    //
+    // return false;
+    this.delHashKey(old, list, dom_pos);
+    this.addHashKey(key, list);
+
+    return true;
+  }
+
   protected <K extends Comparable<K>> IList<E> searchByHashKey(K input, IList<IList<K>> key_hash){
     Integer key = this.hash(input);
     IList<K> node = null;
@@ -59,8 +75,10 @@ public class KeyHash<E extends Comparable<E>> extends Hash2<E>{
     IList<E> output = new KeyList<E>();
     int i = 0;
 
-    for (KeyNode<K> iter = (KeyNode<K>)key_hash.getHead(); iter != null && i < num; iter = (KeyNode<K>)iter.getNext(), i++)
+    for (KeyNode<K> iter = (KeyNode<K>)key_hash.getHead(); iter != null && i < num; iter = (KeyNode<K>)iter.getNext(), i++){
+      System.out.println("Most of: " + iter.getValue());
       output.addTail(this.dom.get(iter.getKey()));
+    }
 
     return (output.getSize() <= 0) ? null : output;
   }

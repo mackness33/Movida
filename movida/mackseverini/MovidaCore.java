@@ -83,10 +83,11 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
     catch(Exception e){
       System.out.println(e);
     }
-    
+
     System.out.println("START SORT");
 
     movies.sort(sortAlgorithm);
+    people.sort(sortAlgorithm);
 
     System.out.println("END SORT");
 

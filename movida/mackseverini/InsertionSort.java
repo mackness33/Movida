@@ -62,7 +62,7 @@ public class InsertionSort implements IAlg{
       for(INode2<T> iterCopy = copy.getHead(); iterCopy != null && !over; iterCopy = iterCopy.getNext(), j++){
         // System.out.println("COPY VALUE: " + iterCopy.getValue());
         // System.out.println("RESULT: " + iterIN.getValue().compareTo(iterCopy.getValue()));
-        if(iterIN.getValue().compareTo(iterCopy.getValue()) <= 0){
+        if(iterIN.getValue().compareTo(iterCopy.getValue()) >= 0){
           if (list instanceof KeyList)
               ((KeyList<T>)copy).addBlue(((IKeyNode<T>)iterIN).getKey(), iterIN.getValue(), j);
           else
@@ -154,7 +154,7 @@ public class InsertionSort implements IAlg{
         // System.out.println("blip: " + j);
         // System.out.println("j: " + iterCopy.getNext());
         // System.out.println("ITERCOPY: " + iterCopy);
-        if(iterIN.getKey().compareTo(iterCopy.getKey()) <= 0){
+        if(iterIN.getKey().compareTo(iterCopy.getKey()) >= 0){
           // System.out.println("SCARED");
           copy.addBlue(iterIN.getKey(), iterIN.getValue(), j);
           over = true;

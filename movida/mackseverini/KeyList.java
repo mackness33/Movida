@@ -183,4 +183,21 @@ public class KeyList<E extends Comparable<E>> extends movida.mackseverini.List<E
       this.size++;
     }
   }
+
+  public void updByKey (E el, int key){
+    if (this.size <= 0)
+      return;
+
+    if (key == ((KeyNode<E>)this.head).getKey())
+      this.head.setValue(el);
+    else if (key == ((KeyNode<E>)this.tail).getKey())
+      this.tail.setValue(el);
+
+    if((KeyNode<E>)this.head.getNext() == null)
+      return;
+
+    for (IKeyNode<E> iter = (IKeyNode<E>)this.head.getNext(); iter.getNext() != null; iter = (IKeyNode<E>)iter.getNext())
+      if (iter.getKey() == key)
+        iter.setValue(el);
+  }
 }

@@ -45,7 +45,9 @@ public class Hash2<E extends Comparable<E>> extends ComparableStatic implements 
   // @Override
   protected <K> Integer hash (K input){
 
-    if (input instanceof Integer)
+    if (input instanceof Hash2.Year)
+      return Math.abs(((Year)input).year + 79) % this.MAX_LENGTH;
+    else if (input instanceof Integer)
       return Math.abs((Integer)input) % this.MAX_LENGTH;
     else if (input instanceof String)
       return Math.abs(((String)input).codePointAt(0)) % this.MAX_LENGTH;
@@ -126,6 +128,17 @@ public class Hash2<E extends Comparable<E>> extends ComparableStatic implements 
     this.major.print();
   }
 
+  protected <K extends Comparable<K>> IList<IList<K>> sortListOfList(IAlg algorithm, IList<IList<K>> list){
+    list = algorithm.keySort((IKeyList)list);
+
+    for (INode2<IList<K>> iter = list.getHead(); iter != null; iter = iter.getNext())
+      iter.setValue(algorithm.sort((IKeyList<K>)iter.getValue()));
+
+    return list;
+  }
+
+  public void sort(IAlg algorithm){ this.major = this.sortListOfList(algorithm, this.major); }
+
   public Array<E> toArray() {
     if (this.length < 0)
       return null;
@@ -141,4 +154,15 @@ public class Hash2<E extends Comparable<E>> extends ComparableStatic implements 
     return array;
   }
 
+  protected class Year implements Comparable<Year>{
+    public Integer year;
+
+    public Year(Integer y){ this.year = y; }
+
+    @Override
+    public int compareTo(Year y){ return this.year.compareTo(y.year); }
+
+    @Override
+    public String toString(){ return Integer.toString(this.year); }
+  }
 }

@@ -293,6 +293,8 @@ public class test {
     System.out.println("\n\rSEARCHBYKEY YEAR: ");
     Movie[] years = mb.searchMoviesInYear(1997);
 
+    if (years == null)
+      System.out.println("bigass problem");
     for(int i = 0; i < years.length; i++)
       System.out.println(years[i]);
 
@@ -327,7 +329,7 @@ public class test {
       System.out.println(dates[i]);
 
     System.out.println("\n\rSEARCHMOSTOF ACTORS: ");
-    Movie[] actors = mb.searchMoviesStarredBy("Tommy Lee Jones");
+    Movie[] actors = mb.searchMoviesStarredBy("Harrison Ford");
 
     for(int i = 0; i < actors.length; i++)
       System.out.println(actors[i]);
