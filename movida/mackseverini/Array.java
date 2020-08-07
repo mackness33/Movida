@@ -2,6 +2,7 @@ package movida.mackseverini;
 
 import java.util.Arrays;
 
+// Class used to virtually implements an array without its costraints
 public class Array<E> {
 
 	private final Object[] arr;
@@ -41,6 +42,7 @@ public class Array<E> {
 		return Arrays.toString(arr);
 	}
 
+	// Function to converts the array in the actual array[] version
 	public E[] toPrimitive(){
 		final E[] primitive = (E[])arr;
 		return primitive;
