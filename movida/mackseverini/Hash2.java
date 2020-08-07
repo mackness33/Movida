@@ -166,7 +166,8 @@ public class Hash2<E extends Comparable<E>> extends ComparableStatic implements 
     final Array<E> array = new Array<E>(this.length);
     int i = 0;
 
-    for (KeyNode<IList<Integer>> iter = (KeyNode<IList<Integer>>)((KeyList<IList<Integer>>)this.major).getHead(); iter != null; iter = (KeyNode<IList<Integer>>)iter.getNext())
+    // add each node of the hash to the array
+    for (IKeyNode<IList<Integer>> iter = (KeyNode<IList<Integer>>)((KeyList<IList<Integer>>)this.major).getHead(); iter != null; iter = (KeyNode<IList<Integer>>)iter.getNext())
       for (KeyNode<Integer> nodeIter = (KeyNode<Integer>)((KeyList<Integer>)iter.getValue()).getHead(); nodeIter != null; nodeIter = (KeyNode<Integer>)nodeIter.getNext(), i++)
         if (nodeIter.getKey() != null && nodeIter.getValue() != null)
           array.set(i, this.dom.get(nodeIter.getKey()));
@@ -174,6 +175,8 @@ public class Hash2<E extends Comparable<E>> extends ComparableStatic implements 
     return array;
   }
 
+  // Special class for defining a new object Year.
+  // Created because we want to differs Integers from years so we hashed it in a different way
   protected class Year implements Comparable<Year>{
     public Integer year;
 
