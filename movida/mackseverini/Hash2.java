@@ -34,6 +34,7 @@ public class Hash2<E extends Comparable<E>> extends ComparableStatic implements 
 
 
   // reset of all the data structure
+  @Override
   public void reset (){
     this.major.reset();
 
@@ -159,6 +160,7 @@ public class Hash2<E extends Comparable<E>> extends ComparableStatic implements 
   public void sort(IAlg algorithm){ this.major = this.sortListOfList(algorithm, this.major); }
 
   // conversion to array
+  @Override
   public Array<E> toArray() {
     if (this.length < 0)
       return null;
