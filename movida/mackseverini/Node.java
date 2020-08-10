@@ -1,3 +1,4 @@
+//CLEAN:
 package movida.mackseverini;
 
 public class Node<T extends Comparable<T>> implements movida.mackseverini.INode<T>, Comparable<Node<T>>{

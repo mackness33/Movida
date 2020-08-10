@@ -10,7 +10,7 @@ import movida.commons.Movie;
 import movida.commons.Person;
 
 
-public class Hash2<E extends Comparable<E>> extends ComparableStatic implements movida.mackseverini.IHash<E> {
+public class Hash2<E extends Comparable<E>> implements movida.mackseverini.IHash<E> {
   protected Array<E> dom;                   // Array with all the elements
   protected IList<IList<Integer>> major;    // List of list that virtually operates as the hash
   protected int MAX_LENGTH = 100;
@@ -124,12 +124,6 @@ public class Hash2<E extends Comparable<E>> extends ComparableStatic implements 
     }
 
     return false;
-  }
-
-  // CLEAN:
-  @Override
-  public boolean update(E obj){
-    return true;
   }
 
   // print of the whole hash

@@ -8,9 +8,12 @@ import movida.mackseverini.INode2;
 import movida.mackseverini.Array;
 import movida.mackseverini.Hash2;
 
+
+// Class to sort a list or array by the algorithm Insertion Sort
 public class InsertionSort implements IAlg{
   public InsertionSort(){}
 
+  // sort of an array
   public <T extends Comparable<T>> Array<T> sort(Array<T> array) {
     if(array.length <= 1)
       return array;
@@ -20,8 +23,10 @@ public class InsertionSort implements IAlg{
     boolean over = false;
 
     System.out.println("LENGTH: " + array.length);
+    // cycle the array
     for (int i = 1; i < array.length; i++, j = 0, over = false){
       System.out.println("i: " + i);
+      // checks
       for(INode2<T> iter = copy.getHead(); iter != null && !over; iter = iter.getNext(), j++){
         if(array.get(i).compareTo(iter.getValue()) <= 0){
           copy.addAt(array.get(i), j);
@@ -29,23 +34,26 @@ public class InsertionSort implements IAlg{
         }
       }
 
+      // if not added at at the end of the list
       if (!over)
         copy.addAt(array.get(i), i);
 
     }
 
+    // return the list coverted to array
     return copy.toArray();
   }
 
+
+  // sort of an list
   public <T extends Comparable<T>> IList<T> sort(IList<T> list) {
     if(list.getSize() <= 1)
       return list;
 
-    System.out.println("CLASS LIST: " + list.getClass());
     IList<T> copy;
+
+    // check the type of list
     if (list instanceof KeyList){
-      // return this.keySort(list);
-      System.out.println("HERE i AM: ");
       copy = new KeyList<T>();
       ((KeyList<T>)copy).addTail(((KeyNode<T>)list.getHead()).getKey(), list.getHead().getValue());
     }
@@ -56,13 +64,16 @@ public class InsertionSort implements IAlg{
     boolean over = false;
 
     System.out.println("SIZE: " + list.getSize());
+    // for each node of the input
     for(INode2<T> iterIN = list.getHead().getNext(); iterIN != null; iterIN = iterIN.getNext(), i++, j = 0, over = false){
       // System.out.println("i: " + i);
       // System.out.println("INPUT VALUE: " + iterIN.getValue());
+      // for each node of the copy
       for(INode2<T> iterCopy = copy.getHead(); iterCopy != null && !over; iterCopy = iterCopy.getNext(), j++){
         // System.out.println("COPY VALUE: " + iterCopy.getValue());
         // System.out.println("RESULT: " + iterIN.getValue().compareTo(iterCopy.getValue()));
         if(iterIN.getValue().compareTo(iterCopy.getValue()) >= 0){
+          // different type of insert based of the type of the list
           if (list instanceof KeyList)
               ((KeyList<T>)copy).addBlue(((IKeyNode<T>)iterIN).getKey(), iterIN.getValue(), j);
           else
@@ -71,6 +82,7 @@ public class InsertionSort implements IAlg{
         }
       }
 
+      // if not added at at the end of the list
       if (!over){
         if (list instanceof KeyList)
             ((KeyList<T>)copy).addBlue(((IKeyNode<T>)iterIN).getKey(), iterIN.getValue(), i);

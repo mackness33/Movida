@@ -1,4 +1,5 @@
 package movida.mackseverini;
+
 import movida.mackseverini.INode;
 
 public interface IKeyList<E extends Comparable<E>> extends IList<E>{

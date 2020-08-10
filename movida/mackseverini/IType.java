@@ -1,3 +1,4 @@
+//CLEAN:
 package movida.mackseverini;
 
 public interface IType {

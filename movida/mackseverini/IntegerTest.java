@@ -1,3 +1,4 @@
+//CLEAN:
 package movida.mackseverini;
 
 import java.lang.Integer;

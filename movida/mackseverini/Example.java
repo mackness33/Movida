@@ -1,3 +1,5 @@
+//CLEAN:
+
 package movida.mackseverini;
 
 public class Example implements movida.mackseverini.IIntMap{

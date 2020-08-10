@@ -1,3 +1,4 @@
+//CLEAN:
 package movida.mackseverini;
 
 public class IntNode implements movida.mackseverini.INode<Integer>{
@@ -34,7 +35,7 @@ public class IntNode implements movida.mackseverini.INode<Integer>{
   public void setKey (int k) { this.key = k; }
   @Override
   public void setValue (Integer v) { this.value = v; }
-  
+
   public void setNext (IntNode n) { this.next = n; }
 
   public void print(){
