@@ -55,13 +55,15 @@ public class Hash2<E extends Comparable<E>> implements movida.mackseverini.IHash
       return Math.abs(((Movie)input).getTitle().codePointAt(0)) % this.MAX_LENGTH;
     else if (input instanceof Person)
       return Math.abs(((Person)input).getName().codePointAt(0)) % this.MAX_LENGTH;
+    else if (input == null)
+      return -1;
 
     // last possibility is to get the hashCode of the element
     return input.hashCode() % this.MAX_LENGTH;
   }
 
-  // insert of a element. A lot similar to KeyHash.addHashKey(..)
   @Override
+  // insert of a element. A lot similar to KeyHash.addHashKey(..)
   public boolean insert(E obj){
     this.dom.set(this.size, obj);
 

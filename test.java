@@ -270,6 +270,7 @@ public class test {
     mb.printPeople();
 
     mb.deleteMovieByTitle("Die Hard");
+    mb.deleteMovieByTitle(null);
 
     mb.printMovies();
 
