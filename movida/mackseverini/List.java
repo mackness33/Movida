@@ -33,6 +33,7 @@ public class List<E extends Comparable<E>> implements IList<E>{
   @Override
   public Integer getSize () { return this.size; }
 
+  // Add element as the first node of the list
   @Override
   public void addHead (E el){
     if (this.size <= 0){
@@ -48,6 +49,7 @@ public class List<E extends Comparable<E>> implements IList<E>{
     this.size++;
   }
 
+  // Add element as the last node of the list
   @Override
   public void addTail (E el){
     if (this.size <= 0){
@@ -63,10 +65,10 @@ public class List<E extends Comparable<E>> implements IList<E>{
     this.size++;
   }
 
+  // Add element at a position of the list
   @Override
   public void addAt (E el, int pos){
-    System.out.println("COMEDOWN: ");
-
+    // check if the position is valid
     if (pos <= 0 || pos >= size){
       if (pos == 0){
         this.addHead(el);
@@ -82,8 +84,10 @@ public class List<E extends Comparable<E>> implements IList<E>{
 
     int i = 1;
     INode2<E> iter = null;
+    // iterate all the list to get to the position
     for (iter = this.head; iter.getNext() != null && i < pos; iter = iter.getNext(), i++);
 
+    // if right, add to the list
     if (i == pos){
       Node2<E> temp = new Node2<E>(el);
       temp.setNext(iter.getNext());
@@ -93,6 +97,7 @@ public class List<E extends Comparable<E>> implements IList<E>{
   }
 
   @Override
+  // concatenate a list at the end
   public void addToEnd (IList<E> L){
     if (L == null)
       return;
@@ -103,6 +108,7 @@ public class List<E extends Comparable<E>> implements IList<E>{
   }
 
   @Override
+  // delete the first node of the list
   public void delHead (){
     if (this.size <= 0)
       return;
@@ -119,6 +125,7 @@ public class List<E extends Comparable<E>> implements IList<E>{
   }
 
   @Override
+  // delete the last node of the list
   public void delTail (){
     if (this.size <= 0)
       return;
@@ -131,6 +138,7 @@ public class List<E extends Comparable<E>> implements IList<E>{
     }
 
     Node2<E> iter;
+    // got to the end of the list
     for (iter = (Node2<E>)this.head; iter.getNext() != this.tail; iter = (Node2<E>)iter.getNext());
 
     iter.setNext(null);
@@ -139,10 +147,13 @@ public class List<E extends Comparable<E>> implements IList<E>{
   }
 
   @Override
+  // delete the node with the element in input
   public void delEl (E el){
+    // check if the list is empty
     if (this.size <= 0)
       return;
 
+    // compare to head and tail
     if (el.compareTo(this.head.getValue()) == 0){
       this.delHead();
       return;
@@ -152,9 +163,11 @@ public class List<E extends Comparable<E>> implements IList<E>{
       return;
     }
 
+    // check to see if there's more then one element
     if((Node2<E>)this.head.getNext() == null)
       return;
 
+      // iterate all the elements of the list
     for (Node2<E> prev = (Node2<E>)this.head, iter = (Node2<E>)this.head.getNext(); iter.getNext() != null; iter = (Node2<E>)iter.getNext(), prev = (Node2<E>)prev.getNext()){
       if (el.compareTo(iter.getValue()) == 0){
         prev.setNext(iter.getNext());
@@ -166,10 +179,12 @@ public class List<E extends Comparable<E>> implements IList<E>{
   }
 
   @Override
+  // Delete a element by its position
   public void delAt (int pos){
     if (this.size <= 0)
       return;
 
+    // check if the position is valid
     if (pos <= 0 || pos >= size-1){
       if (pos == 0){
         this.delHead();
@@ -185,8 +200,10 @@ public class List<E extends Comparable<E>> implements IList<E>{
 
     int i = 1;
     Node2<E> iter = null, prev = null;
+    // iterate all the list to get to the position
     for (prev = (Node2<E>)this.head, iter = (Node2<E>)this.head.getNext(); iter.getNext() != null && i < pos; iter = (Node2<E>)iter.getNext(), prev = (Node2<E>)prev.getNext(), i++);
 
+    // if right, delete the node from the list
     if (i == pos){
       prev.setNext(iter.getNext());
       iter = null;
@@ -195,10 +212,12 @@ public class List<E extends Comparable<E>> implements IList<E>{
   }
 
   @Override
+  // Update an element by having its position as the input
   public void update (E el, int pos){
     if (this.size <= 0)
       return;
 
+    // check if the position is valid
     if (pos <= 0 || pos >= size-1){
       if (pos == 0){
         this.head.setValue(el);
@@ -214,35 +233,43 @@ public class List<E extends Comparable<E>> implements IList<E>{
 
     int i = 0;
     Node2<E> iter = null;
+    // iterate all the list to get to the position
     for (iter = (Node2<E>)this.head; iter.getNext() != null && i < pos; iter = (Node2<E>)iter.getNext(), i++);
 
+    // if right, update
     if (i == pos)
       iter.setValue(el);
   }
 
   @Override
+  // get the position by having the element as the input
   public Integer search (E el){
     if (this.size <= 0)
-      return -1;
+      return null;
 
+    // compare the element with the first and last node of the list
     if (el.compareTo(this.head.getValue()) == 0)
       return 0;
     else if (el.compareTo(this.tail.getValue()) == 0)
       return this.size-1;
 
+    // check to see if there's more then one element
     if((Node2<E>)this.head.getNext() == null)
       return null;
 
     int i = 1;
+    // iterate all the list to compare the element
     for (Node2<E> iter = (Node2<E>)this.head.getNext(); iter.getNext() != null && i < this.size; iter = (Node2<E>)iter.getNext(), i++)
       if (el.compareTo(iter.getValue()) == 0)
         return i;
 
-    return -1;
+    return null;
   }
 
   @Override
+  // get an element at a specified position of the list
   public E getAt (int pos){
+    // check if the position is valid
     if (pos <= 0 || pos >= size){
       if (pos == 0)
         return this.head.getValue();
@@ -253,20 +280,24 @@ public class List<E extends Comparable<E>> implements IList<E>{
 
     int i = 1;
     Node2<E> iter = null;
+    // iterate all the list to get to the position
     for (iter = (Node2<E>)this.head; iter.getNext() != null && i < pos; iter = (Node2<E>)iter.getNext(), i++);
 
-    if (i == pos){
+
+    // if right, return it
+    if (i == pos)
       return iter.getValue();
-    }
 
     return null;
   }
 
   @Override
+  // trasform the list into an array object
   public Array<E> toArray(){
     final Array<E> array = new Array<E>(this.size);
 
     int i = 0;
+    // iterate all the list to add to the array
     for (Node2<E> iter = (Node2<E>)this.head; iter != null; iter = (Node2)iter.getNext(), i++ )
       array.set(i, iter.getValue());
 
@@ -285,6 +316,7 @@ public class List<E extends Comparable<E>> implements IList<E>{
   }
 
   @Override
+  // how to compare two differents list
   public int compareTo (IList<E> el){
     return this.hashCode() - el.hashCode();
   }
