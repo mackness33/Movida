@@ -1,10 +1,13 @@
 package movida.mackseverini;
+
 import movida.mackseverini.Node2;
 import movida.mackseverini.INode2;
 import movida.mackseverini.IKeyNode;
 import movida.mackseverini.KeyNode;
 import movida.mackseverini.Array;
 
+
+// Class used for list with keys. It extends the List class by adding methods for keys
 public class KeyList<E extends Comparable<E>> extends movida.mackseverini.List<E> implements movida.mackseverini.IKeyList<E>{
   protected Integer key;
 
@@ -36,16 +39,8 @@ public class KeyList<E extends Comparable<E>> extends movida.mackseverini.List<E
     this.key = shallow.getKey();
   }
 
-  // @Override
-  // public String toString(){
-  //   this.print();
-  //   return "KeyList: KEY => " + this.key + " HEAD => " + this.head;
-  // }
-
   @Override
-  public void print(){
-    System.out.println("KeyList: KEY => " + this.key + " HEAD => " + this.head);
-  }
+  public void print(){ System.out.println("KeyList: KEY => " + this.key + " HEAD => " + this.head); }
 
   public void printAll(){
     System.out.println("KeyList: KEY => " + this.key + " HEAD => " + this.head);
@@ -59,11 +54,13 @@ public class KeyList<E extends Comparable<E>> extends movida.mackseverini.List<E
   @Override
   public void setKey (Integer k) { this.key = k; }
 
+  // Get the element by having a key as the input
   @Override
   public E getByKey (Integer k){
     if (this.size <= 0)
       return null;
 
+    // iterate all the list
     for (KeyNode<E> iter = (KeyNode<E>)this.head; iter != null; iter = (KeyNode<E>)iter.getNext())
       if (iter.getKey() == k)
         return iter.getValue();
@@ -71,11 +68,13 @@ public class KeyList<E extends Comparable<E>> extends movida.mackseverini.List<E
     return null;
   }
 
+  // Delete a element by having a key as the input
   @Override
   public boolean delByKey (Integer k){
     if (this.size <= 0)
       return false;
 
+    // check wheter the key is the first or last element
     if (k == ((KeyNode<E>)this.head).getKey()){
       this.delHead();
       return true;
@@ -85,11 +84,15 @@ public class KeyList<E extends Comparable<E>> extends movida.mackseverini.List<E
       return true;
     }
 
+    // check to see if there's more then one element
     if((KeyNode<E>)this.head.getNext() == null)
       return false;
 
     int i = 0;
+
+    // iterate all the elements of the list
     for (KeyNode<E> prev = (KeyNode<E>)this.head, iter = (KeyNode<E>)this.head.getNext(); iter.getNext() != null; iter = (KeyNode<E>)iter.getNext(), prev = (KeyNode<E>)prev.getNext()){
+      // if the key match, delete the node
       if (iter.getKey() == k){
         prev.setNext(iter.getNext());
         iter = null;
@@ -102,19 +105,24 @@ public class KeyList<E extends Comparable<E>> extends movida.mackseverini.List<E
   }
 
   @Override
+  // get the key by having the element as the input
   public Integer searchKey (E el){
     if (this.size <= 0)
       return null;
 
+    // compare the element with the first and last node of the list
     if (el.compareTo(this.head.getValue()) == 0)
       return ((KeyNode<E>)this.head).getKey();
     else if (el.compareTo(this.tail.getValue()) == 0)
       return ((KeyNode<E>)this.tail).getKey();
 
+
+    // check to see if there's more then one element
     if((KeyNode<E>)this.head.getNext() == null)
       return null;
 
     int i = 1;
+    // iterate all the list to compare the element
     for (KeyNode<E> iter = (KeyNode<E>)this.head.getNext(); iter.getNext() != null && i < this.size; iter = (KeyNode<E>)iter.getNext(), i++)
       if (el.compareTo(iter.getValue()) == 0)
         return ((KeyNode<E>)iter).getKey();
@@ -123,6 +131,7 @@ public class KeyList<E extends Comparable<E>> extends movida.mackseverini.List<E
   }
 
   @Override
+  // add element and key as the last node of the list
   public void addTail (Integer k, E el){
     if (this.size <= 0){
       this.head = new KeyNode<E>(k, el);
@@ -138,6 +147,7 @@ public class KeyList<E extends Comparable<E>> extends movida.mackseverini.List<E
   }
 
   @Override
+  // add element and key as the first node of the list
   public void addHead (Integer k, E el){
     if (this.size <= 0){
       this.head = new KeyNode<E>(k, el);
@@ -153,8 +163,9 @@ public class KeyList<E extends Comparable<E>> extends movida.mackseverini.List<E
   }
 
   @Override
+  // add element and key at a specified position of the list
   public void addBlue (Integer k, E el, Integer pos){
-    // System.out.println("COMEON: ");
+    // check if the position is valid
     if (pos <= 0 || pos >= size){
       if (pos == 0){
         this.addHead(k, el);
@@ -170,32 +181,35 @@ public class KeyList<E extends Comparable<E>> extends movida.mackseverini.List<E
 
     int i = 1;
     KeyNode<E> iter = null;
+    // iterate all the list to get to the position
     for (iter = (KeyNode<E>)this.head; iter.getNext() != null && i < pos; iter = (KeyNode<E>)iter.getNext(), i++);
 
+    // if right, add to the list
     if (i == pos){
       KeyNode<E> temp = new KeyNode<E>(k, el);
       temp.setNext((KeyNode<E>)iter.getNext());
       iter.setNext(temp);
-      // System.out.println("ITER: " + iter);
-      // System.out.println("ITER NEXT: " + iter.getNext());
-      // System.out.println("TEMP: " + temp);
-      // System.out.println("TEMP NEXT: " + temp.getNext());
       this.size++;
     }
   }
 
+  // Update an element by having its key as the input
   public void updByKey (E el, int key){
     if (this.size <= 0)
       return;
 
+    // compare the element with the first and last node of the list
     if (key == ((KeyNode<E>)this.head).getKey())
       this.head.setValue(el);
     else if (key == ((KeyNode<E>)this.tail).getKey())
       this.tail.setValue(el);
 
+    // check to see if there's more then one element
     if((KeyNode<E>)this.head.getNext() == null)
       return;
 
+
+    // iterate all the list to compare the key
     for (IKeyNode<E> iter = (IKeyNode<E>)this.head.getNext(); iter.getNext() != null; iter = (IKeyNode<E>)iter.getNext())
       if (iter.getKey() == key)
         iter.setValue(el);
