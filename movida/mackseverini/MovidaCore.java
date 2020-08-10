@@ -47,7 +47,25 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
     System.out.println("People added: " + this.people.getLength());
     people.print();
   }
-
+  
+  /**
+   * Carica i dati da un file, organizzato secondo il formato MOVIDA (vedi esempio-formato-dati.txt)
+   *
+   * Un film e' identificato in modo univoco dal titolo (case-insensitive), una persona dal nome (case-insensitive).
+   * Semplificazione: non sono gestiti omonimi e film con lo stesso titolo.
+   *
+   * I nuovi dati sono aggiunti a quelli gia' caricati.
+   *
+   * Se esiste un film con lo stesso titolo il record viene sovrascritto.
+   * Se esiste una persona con lo stesso nome non ne viene creata un'altra.
+   *
+   * Se il file non rispetta il formato, i dati non sono caricati e
+   * viene sollevata un'eccezione.
+   *
+   * @param f il file da cui caricare i dati
+   *
+   * @throws MovidaFileException in caso di errore di caricamento
+   */
   @Override
   public void loadFromFile(File f){
     System.out.println("START STREAM");
@@ -125,33 +143,89 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
     System.out.println("Add of person!");
   }
 
+  /**
+  * Salva tutti i dati su un file.
+  *
+  * Il file e' sovrascritto.
+  * Se non e' possibile salvare, ad esempio per un problema di permessi o percorsi,
+  * viene sollevata un'eccezione.
+  *
+  * @param f il file su cui salvare i dati
+  *
+  * @throws MovidaFileException in caso di errore di salvataggio
+  */
   @Override
 	public void saveToFile(File f){}
 
+  /**
+  * Cancella tutti i dati.
+  *
+  * Sara' quindi necessario caricarne altri per proseguire.
+  */
 	@Override
 	public void clear(){
     movies.reset();
     people.reset();
   }
 
+  /**
+  * Restituisce il numero di film
+  *
+  * @return numero di film totali
+  */
 	@Override
 	public int countMovies(){ return movies.getLength(); }
 
+  /**
+  * Restituisce il numero di persone
+  *
+  * @return numero di persone totali
+  */
 	@Override
 	public int countPeople(){ return people.getLength(); }
 
+  /**
+  * Cancella il film con un dato titolo, se esiste.
+  *
+  * @param title titolo del film
+  * @return <code>true</code> se il film � stato trovato e cancellato,
+  * 		   <code>false</code> in caso contrario
+  */
 	@Override
 	public boolean deleteMovieByTitle(String title){ return movies.delete(title); }
 
+  /**
+  * Restituisce il record associato ad un film
+  *
+  * @param title il titolo del film
+  * @return record associato ad un film
+  */
   @Override
 	public Movie getMovieByTitle(String title){ return movies.search(title); }
 
+  /**
+  * Restituisce il record associato ad una persona, attore o regista
+  *
+  * @param name il nome della persona
+  * @return record associato ad una persona
+  */
   @Override
 	public Person getPersonByName(String name){ return people.search(name); }
 
+
+  /**
+  * Restituisce il vettore di tutti i film
+  *
+  * @return array di film
+  */
   @Override
   public Movie[] getAllMovies(){ return movies.toPrimitive(); }
 
+  /**
+  * Restituisce il vettore di tutte le persone
+  *
+  * @return array di persone
+  */
 	@Override
 	public Person[] getAllPeople(){ return people.toPrimitive(); }
 
