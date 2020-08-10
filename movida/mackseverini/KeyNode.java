@@ -1,5 +1,6 @@
 package movida.mackseverini;
 
+// class that add a key field to a Node
 public class KeyNode<E extends Comparable<E>> extends movida.mackseverini.Node2<E> implements movida.mackseverini.IKeyNode<E>{
   protected Integer key;
 
@@ -25,10 +26,7 @@ public class KeyNode<E extends Comparable<E>> extends movida.mackseverini.Node2<
   public void setKey (Integer k) { this.key = k; }
 
   @Override
-  public void print(){
-    // if (this.value != null)
-    System.out.println("KeyNode: KEY => " + this.key + " VALUE => " + this.value);
-  }
+  public void print(){ System.out.println("KeyNode: KEY => " + this.key + " VALUE => " + this.value); }
 
   public void printAll(){
     System.out.println("KeyList: KEY => " + this.key + " VALUE => " + this.value);
@@ -39,9 +37,4 @@ public class KeyNode<E extends Comparable<E>> extends movida.mackseverini.Node2<
     if (this.next != null)
       ((KeyNode<E>)this.next).printAll();
   }
-
-  // @Override
-  // public String toString(){
-  //   return "KeyNode: KEY => " + this.key + " VALUE => " + this.value;
-  // }
 }

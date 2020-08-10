@@ -1,5 +1,6 @@
 package movida.mackseverini;
 
+// Base node class. It implements a node that can be use in most data stractures
 public class Node2<T extends Comparable<T>> implements movida.mackseverini.INode2<T>{
   protected T value;
   protected INode2<T> next;
@@ -37,14 +38,7 @@ public class Node2<T extends Comparable<T>> implements movida.mackseverini.INode
   public void setNext (INode2<T> n) { this.next = n; }
   public void setNext (Node2<T> n) { this.next = n; }
 
-  // @Override
-  // public int compareTo (Node2<T> input) {
-  //   return ((Integer)input.hashCode()).compareTo(this.hashCode());
-  // }
-
-  public void print(){
-    System.out.println("Node2: VALUE => " + this.value);
-  }
+  public void print(){ System.out.println("Node2: VALUE => " + this.value); }
 
   public void printAll(){
     this.print();
