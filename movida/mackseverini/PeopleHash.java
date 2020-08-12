@@ -12,7 +12,7 @@ import movida.commons.Movie;
 import movida.commons.Person;
 
 // Class created specially for the Person
-public class PeopleHash<E extends Person> extends KeyHash<Person> {
+public class PeopleHash<E extends Person> extends KeyHash<Person> implements IPersonMap<Person>{
   protected IList<IList<String>> major;
   protected IList<Integer> active;
 
@@ -23,6 +23,7 @@ public class PeopleHash<E extends Person> extends KeyHash<Person> {
     this.active = new KeyList<Integer>();
   }
 
+  @Override
   // insert of a element in the main hash and the keys hash/array
   public boolean insert(Person obj){
     if (obj == null)
@@ -43,6 +44,7 @@ public class PeopleHash<E extends Person> extends KeyHash<Person> {
 
   // TRUE => UPDATE!!
   // FALSE => INSERT!!
+  @Override
   // update the element if it does already exist else it normally insert it
   public boolean upsert(Person obj, Integer movie){
     Integer key = this.hash(obj.getName());
@@ -73,6 +75,7 @@ public class PeopleHash<E extends Person> extends KeyHash<Person> {
     return this.delete(obj.getName());
   }
 
+  @Override
   // delete of a element in the main hash and the keys hash/array
   public boolean delete(String name){
     if (name == null)
@@ -108,6 +111,7 @@ public class PeopleHash<E extends Person> extends KeyHash<Person> {
     this.active.printAll();
   }
 
+  @Override
   // search of the element by title
   public Person search(String name){
     Integer key = this.hash(name);
@@ -123,6 +127,7 @@ public class PeopleHash<E extends Person> extends KeyHash<Person> {
     return null;
   }
 
+  @Override
   // resetting all the hashes and main array
   public void reset (){
     this.major.reset();
@@ -130,6 +135,7 @@ public class PeopleHash<E extends Person> extends KeyHash<Person> {
     super.reset();
   }
 
+  @Override
   // get N elements by key in the input
   public Person[] searchMostOf(Integer num){
     IList<Person> out = new List<Person>();
@@ -148,6 +154,7 @@ public class PeopleHash<E extends Person> extends KeyHash<Person> {
     return (out != null && out.getSize() > 0) ?  this.listToPrimitive(out) : null;
   }
 
+  @Override
   // sort all the hashes
   public void sort(IAlg algorithm){
     this.updateActive();
@@ -182,6 +189,7 @@ public class PeopleHash<E extends Person> extends KeyHash<Person> {
   }
 
 
+  @Override
   // transform the hash in an primitive array (arr[])
   public Person[] toPrimitive() {
     if (this.length < 0)

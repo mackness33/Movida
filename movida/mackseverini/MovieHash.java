@@ -13,7 +13,7 @@ import movida.commons.Movie;
 import movida.commons.Person;
 
 // Class created specially for the Movies
-public class MovieHash<E extends Movie> extends KeyHash<Movie> {
+public class MovieHash<E extends Movie> extends KeyHash<Movie> implements IMovieMap<Movie>{
   protected IList<Integer> rates;
   protected IList<IList<String>> major;
   protected IList<IList<Year>> dates;
@@ -84,6 +84,7 @@ public class MovieHash<E extends Movie> extends KeyHash<Movie> {
     return true;
   }
 
+  @Override
   // resetting all the hashes and main array
   public void reset (){
     this.major.reset();
@@ -93,6 +94,7 @@ public class MovieHash<E extends Movie> extends KeyHash<Movie> {
     super.reset();
   }
 
+  @Override
   // delete by title. just checkin the existance of a movie with that title
   public boolean delete(String title){
     return this.delete(this.search(title));
@@ -108,6 +110,7 @@ public class MovieHash<E extends Movie> extends KeyHash<Movie> {
     this.rates.printAll();
   }
 
+  @Override
   // update the element if it does already exist else it normally insert it
   public int upsert(Movie obj){
     if (obj == null)
@@ -149,6 +152,7 @@ public class MovieHash<E extends Movie> extends KeyHash<Movie> {
   }
 
 
+  @Override
   // search of the element by title
   public Movie search(String title){
     Integer key = this.hash(title);
@@ -165,6 +169,7 @@ public class MovieHash<E extends Movie> extends KeyHash<Movie> {
   }
 
 
+  @Override
   // search of the element by key in the input
   public <K extends Comparable<K>> Movie[] searchByKey(K input){
     IList<Movie> out = null;
@@ -180,6 +185,7 @@ public class MovieHash<E extends Movie> extends KeyHash<Movie> {
     return (out != null) ?  this.listToPrimitive(out) : null;
   }
 
+  @Override
   // get N elements by key in the input
   public Movie[] searchMostOf(Integer num, String type){
     IList<Movie> out = null;
@@ -203,6 +209,7 @@ public class MovieHash<E extends Movie> extends KeyHash<Movie> {
     return (out != null && out.getSize() > 0) ?  this.listToPrimitive(out) : null;
   }
 
+  @Override
   // get all the elements that contains input's string in the title
   public <K extends Comparable<K>> Movie[] searchContains(String title){
     IList<Movie> out = null;
@@ -214,9 +221,11 @@ public class MovieHash<E extends Movie> extends KeyHash<Movie> {
     return (out != null) ?  this.listToPrimitive(out) : null;
   }
 
+  @Override
   // get the element based of the id (position in the main array). Done for PersonHash.
   public Movie getFromId (Integer id){ return (id > this.size || id < 0) ? null : this.dom.get(id); }
 
+  @Override
   // sort all the hashes
   public void sort(IAlg algorithm){
     this.major = this.sortListOfList(algorithm, this.major);
@@ -244,6 +253,7 @@ public class MovieHash<E extends Movie> extends KeyHash<Movie> {
   }
 
   // transform the hash in an primitive array (arr[])
+  @Override
   public Movie[] toPrimitive() {
     if (this.length < 0)
       return null;
