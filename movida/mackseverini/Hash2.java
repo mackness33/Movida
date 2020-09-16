@@ -17,7 +17,6 @@ public class Hash2<E extends Comparable<E>> implements movida.mackseverini.IHash
   protected int size;                       // Max position occupied in the array
   protected int length;                     // Counts the num of the elements currently in the hash
 
-
   @SuppressWarnings("unchecked")
   public Hash2() {
     this.size = 0;
@@ -29,8 +28,8 @@ public class Hash2<E extends Comparable<E>> implements movida.mackseverini.IHash
       this.dom.set(i, null);
   }
 
-  protected int getSize() { return this.size; }
-  protected int getLength() { return this.length; }
+  public int getSize() { return this.size; }
+  public int getLength() { return this.length; }
 
 
   // reset of all the data structure

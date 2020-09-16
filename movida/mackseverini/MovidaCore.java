@@ -8,17 +8,21 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.BufferedReader;
 
+import java.lang.Integer;
+
 import movida.commons.Movie;
 import movida.commons.Person;
-import java.lang.Integer;
+import movida.commons.MapImplementation;
+import movida.commons.SortingAlgorithm;
+
 import movida.mackseverini.Search;
 import movida.mackseverini.MovieHash;
 import movida.mackseverini.PeopleHash;
 import movida.mackseverini.InsertionSort;
 
-public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMovidaSearch{
-  private MovieHash<Movie> movies;
-  private PeopleHash people;
+public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMovidaSearch, movida.commons.IMovidaConfig{
+  private IMovieMap<Movie> movies;
+  private IPersonMap<Person> people;
   private IAlg sortAlgorithm;
 
   public MovidaCore(){
@@ -27,7 +31,7 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
     this.sortAlgorithm = new InsertionSort();
   }
 
-  public MovidaCore(MovieHash M, PeopleHash P ){
+  public MovidaCore(IMovieMap M, IPersonMap P ){
     this.movies = M;
     this.people = P;
     this.sortAlgorithm = null;
@@ -38,16 +42,6 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
     this.people = new PeopleHash();
   }
 
-  public void printMovies(){
-    System.out.println("Film uploaded: " + this.movies.getLength());
-    movies.print();
-  }
-
-  public void printPeople(){
-    System.out.println("People added: " + this.people.getLength());
-    people.print();
-  }
-  
   /**
    * Carica i dati da un file, organizzato secondo il formato MOVIDA (vedi esempio-formato-dati.txt)
    *
@@ -346,4 +340,79 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
 	 */
 	@Override
   public Person[] searchMostActiveActors(Integer N){ return people.searchMostOf(N); }
+
+  /**
+	 * Seleziona l'implementazione del dizionario
+	 *
+	 * Se il dizionario scelto non e' supportato dall'applicazione
+	 * la configurazione non cambia
+	 *
+	 * @param m l'implementazione da selezionare
+	 * @return <code>true</code> se la configurazione e' stata modificata, <code>false</code> in caso contrario
+	 */
+	public boolean setMap(MapImplementation m){
+    MapImplementation t = null;
+
+    if ( this.movies instanceof MovieHash )
+      t = ((MovieHash)this.movies).type;
+
+    System.out.println("Map movies: " + t);
+    System.out.println("Map M: " + m);
+    if (m != MapImplementation.HashConcatenamento || m == t || m == null){ //&& m != MapImplementation.ABR){
+      return false;
+    }
+
+    Movie[] films = this.movies.toPrimitive();
+    Person[] persons = this.people.toPrimitive();
+
+    if (m == MapImplementation.HashConcatenamento){
+      this.movies = new MovieHash();
+      this.people = new PeopleHash();
+
+      for (int  i = 0; i < films.length; i++)
+        this.movies.insert(films[i]);
+
+      for (int  i = 0; i < persons.length; i++)
+        this.people.insert(persons[i]);
+    }
+
+    return true;
+  }
+
+  /**
+	 * Seleziona l'algoritmo di ordinamento.
+	 * Se l'algortimo scelto non e' supportato dall'applicazione
+	 * la configurazione non cambia
+	 *
+	 * @param a l'algoritmo da selezionare
+	 * @return <code>true</code> se la configurazione e' stata modificata, <code>false</code> in caso contrario
+	 */
+	public boolean setSort(SortingAlgorithm a){
+    MapImplementation t = null;
+
+    if ( this.movies instanceof MovieHash )
+      t = ((MovieHash)this.movies).type;
+
+    System.out.println("Map movies: " + t);
+    System.out.println("Map M: " + m);
+    if (m != MapImplementation.HashConcatenamento || m == t || m == null){ //&& m != MapImplementation.ABR){
+      return false;
+    }
+
+    Movie[] films = this.movies.toPrimitive();
+    Person[] persons = this.people.toPrimitive();
+
+    if (m == MapImplementation.HashConcatenamento){
+      this.movies = new MovieHash();
+      this.people = new PeopleHash();
+
+      for (int  i = 0; i < films.length; i++)
+        this.movies.insert(films[i]);
+
+      for (int  i = 0; i < persons.length; i++)
+        this.people.insert(persons[i]);
+    }
+
+    return true;
+  }
 }

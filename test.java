@@ -266,20 +266,18 @@ public class test {
 
     mb.loadFromFile(new File("movida/assets/esempio-formato-dati.txt"));
 
-    mb.printMovies();
-    mb.printPeople();
-
     mb.deleteMovieByTitle("Die Hard");
     mb.deleteMovieByTitle(null);
-
-    mb.printMovies();
 
     System.out.println("Hello buddy: \n\r" + mb.getMovieByTitle("Cape Fear"));
     System.out.println("Hello fam: \n\r" + mb.getPersonByName("Harrison Ford"));
 
+    System.out.println("MapChange1: \n\r" + mb.setMap(movida.commons.MapImplementation.HashConcatenamento));
+    System.out.println("MapChange1 \n\r" + mb.setMap(movida.commons.MapImplementation.ABR));
+
     Movie[] movies = mb.getAllMovies();
     Person[] people = mb.getAllPeople();
-
+/*
     System.out.println("ARRAY LENGTH: " + people.length);
     System.out.println("TO ARRAY: ");
     for(int i = 0; i < people.length; i++)
@@ -340,5 +338,6 @@ public class test {
 
     for(int i = 0; i < active.length; i++)
       System.out.println(active[i]);
+      */
   }
 }

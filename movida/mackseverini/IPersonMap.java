@@ -14,6 +14,12 @@ import movida.commons.Person;
 // Class created specially for the Movies
 public interface IPersonMap<E extends Person> extends IMap<Person> {
 
+  // retrive the amount of elements totally used
+  public int getSize ();
+
+  // retrive the amount of elements actually inside
+  public int getLength ();
+
   // update the element if it does already exist else it normally insert it
   public boolean upsert(Person obj, Integer movie);
 

@@ -18,6 +18,7 @@ public class MovieHash<E extends Movie> extends KeyHash<Movie> implements IMovie
   protected IList<IList<String>> major;
   protected IList<IList<Year>> dates;
   protected IList<IList<String>> directors;
+  public final movida.commons.MapImplementation type = movida.commons.MapImplementation.HashConcatenamento;
 
   // constructor residesHash<Movie>
   @SuppressWarnings("unchecked")

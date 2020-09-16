@@ -14,6 +14,12 @@ import movida.commons.Person;
 // Class created specially for the Movies
 public interface IMovieMap<E extends Movie> extends IMap<Movie> {
 
+  // retrive the amount of elements totally used
+  public int getSize ();
+
+  // retrive the amount of elements actually inside
+  public int getLength ();
+
   // resetting all the hashes and main array
   public void reset ();
 
