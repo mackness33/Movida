@@ -388,30 +388,19 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
 	 * @return <code>true</code> se la configurazione e' stata modificata, <code>false</code> in caso contrario
 	 */
 	public boolean setSort(SortingAlgorithm a){
-    MapImplementation t = null;
+    SortingAlgorithm t = null;
 
-    if ( this.movies instanceof MovieHash )
-      t = ((MovieHash)this.movies).type;
+    if ( this.sortAlgorithm instanceof InsertionSort )
+      t = ((InsertionSort)this.sortAlgorithm).type;
 
-    System.out.println("Map movies: " + t);
-    System.out.println("Map M: " + m);
-    if (m != MapImplementation.HashConcatenamento || m == t || m == null){ //&& m != MapImplementation.ABR){
+    System.out.println("actual Alg: " + t);
+    System.out.println("Alg A: " + a);
+    if (a != SortingAlgorithm.InsertionSort || a == t || a == null){ //&& m != MapImplementation.ABR){
       return false;
     }
 
-    Movie[] films = this.movies.toPrimitive();
-    Person[] persons = this.people.toPrimitive();
-
-    if (m == MapImplementation.HashConcatenamento){
-      this.movies = new MovieHash();
-      this.people = new PeopleHash();
-
-      for (int  i = 0; i < films.length; i++)
-        this.movies.insert(films[i]);
-
-      for (int  i = 0; i < persons.length; i++)
-        this.people.insert(persons[i]);
-    }
+    if (a == SortingAlgorithm.InsertionSort)
+      sortAlgorithm = new InsertionSort();
 
     return true;
   }

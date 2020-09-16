@@ -273,7 +273,10 @@ public class test {
     System.out.println("Hello fam: \n\r" + mb.getPersonByName("Harrison Ford"));
 
     System.out.println("MapChange1: \n\r" + mb.setMap(movida.commons.MapImplementation.HashConcatenamento));
-    System.out.println("MapChange1 \n\r" + mb.setMap(movida.commons.MapImplementation.ABR));
+    System.out.println("MapChange2: \n\r" + mb.setMap(movida.commons.MapImplementation.ABR));
+
+    System.out.println("AlgChange1: \n\r" + mb.setSort(movida.commons.SortingAlgorithm.InsertionSort));
+    System.out.println("AlgChange2: \n\r" + mb.setSort(movida.commons.SortingAlgorithm.MergeSort));
 
     Movie[] movies = mb.getAllMovies();
     Person[] people = mb.getAllPeople();
