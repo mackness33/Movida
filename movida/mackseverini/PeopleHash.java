@@ -19,8 +19,8 @@ public class PeopleHash<E extends Person> extends KeyHash<Person> implements IPe
   @SuppressWarnings("unchecked")
   public PeopleHash() {
     super();
-    this.major = new KeyList<IList<String>>();
-    this.active = new KeyList<Integer>();
+    this.major = new KeyList<IList<String>, Integer, Integer>();
+    this.active = new KeyList<Integer, Integer, Integer>();
   }
 
   @Override
@@ -33,7 +33,7 @@ public class PeopleHash<E extends Person> extends KeyHash<Person> implements IPe
     // add to main
     this.addHashKey(obj.getName(), this.major);
     // add keys
-    ((KeyList<Integer>)this.active).addTail(this.size, obj.getMovieSize());
+    ((KeyList<Integer, Integer, Integer>)this.active).addTail(this.size, obj.getMovieSize());
 
 
     this.size++;
@@ -51,8 +51,8 @@ public class PeopleHash<E extends Person> extends KeyHash<Person> implements IPe
     IList<String> node = null;
 
     // check if the list of the hashed key exist
-    if ((node = ((KeyList<IList<String>>)this.major).getByKey(key)) != null){
-      Integer el_key = ((KeyList<String>)node).searchKey(obj.getName());
+    if ((node = ((KeyList<IList<String>, Integer, Integer>)this.major).getByKey(key)) != null){
+      Integer el_key = ((KeyList<String, Integer, Integer>)node).searchKey(obj.getName());
       // if the key of the element in the hash is not null update all the data structures
       if (el_key != null){
         this.dom.get(el_key).addMovie(movie);
@@ -86,16 +86,16 @@ public class PeopleHash<E extends Person> extends KeyHash<Person> implements IPe
     Person movie_to_be_deleted = null;
 
     // check if the list of the hashed key exist
-    if ((node = ((KeyList<IList<String>>)this.major).getByKey(hash_key)) == null)
+    if ((node = ((KeyList<IList<String>, Integer, Integer>)this.major).getByKey(hash_key)) == null)
       return false;
 
     // get the position of the element in the main array of element
-    pos = ((KeyList<String>)node).searchKey(name);
+    pos = ((KeyList<String, Integer, Integer>)node).searchKey(name);
 
     // delete the element in the main and hashed hashes
     this.dom.set(pos, null);
     node.delEl(name);
-    ((KeyList<Integer>)this.active).delByKey(pos);
+    ((KeyList<Integer, Integer, Integer>)this.active).delByKey(pos);
 
     if (node.getSize() <= 0)
       this.major.delEl(node);
@@ -118,8 +118,8 @@ public class PeopleHash<E extends Person> extends KeyHash<Person> implements IPe
     IList<String> node = null;
 
     // check if the list of the hashed value of the key in input already exist
-    if ((node = ((KeyList<IList<String>>)this.major).getByKey(key)) != null){
-      Integer el_key = ((KeyList<String>)node).searchKey(name);
+    if ((node = ((KeyList<IList<String>, Integer, Integer>)this.major).getByKey(key)) != null){
+      Integer el_key = ((KeyList<String, Integer, Integer>)node).searchKey(name);
       if (el_key != null)
         return this.dom.get(el_key);
     }
@@ -144,7 +144,7 @@ public class PeopleHash<E extends Person> extends KeyHash<Person> implements IPe
     // since the only possibile search it's done with the active list
     // it is the only one implemented
     // iterate all the list till it arrives to N elements
-    for (KeyNode<Integer> iter = (KeyNode<Integer>)this.active.getHead(); iter != null && i < num; iter = (KeyNode<Integer>)iter.getNext()){
+    for (KeyNode<Integer, Integer> iter = (KeyNode<Integer, Integer>)this.active.getHead(); iter != null && i < num; iter = (KeyNode<Integer, Integer>)iter.getNext()){
       if (this.dom.get(iter.getKey()).isActor()){
         out.addTail(this.dom.get(iter.getKey()));
         i++;
@@ -165,7 +165,7 @@ public class PeopleHash<E extends Person> extends KeyHash<Person> implements IPe
 
   // update active infos
   protected void updateActive (){
-    for (IKeyNode<Integer> iter = (IKeyNode<Integer>)this.active.getHead(); iter != null; iter = (IKeyNode<Integer>)iter.getNext())
+    for (IKeyNode<Integer, Integer> iter = (IKeyNode<Integer, Integer>)this.active.getHead(); iter != null; iter = (IKeyNode<Integer, Integer>)iter.getNext())
       iter.setValue(((Person)this.dom.get(iter.getKey())).getMovieSize());
   }
 
@@ -180,8 +180,8 @@ public class PeopleHash<E extends Person> extends KeyHash<Person> implements IPe
     int i = 0;
 
     // add all the node list per list
-    for (KeyNode<IList<String>> iter = (KeyNode<IList<String>>)((KeyList<IList<String>>)this.major).getHead(); iter != null; iter = (KeyNode<IList<String>>)iter.getNext())
-      for (KeyNode<String> nodeIter = (KeyNode<String>)((KeyList<String>)iter.getValue()).getHead(); nodeIter != null; nodeIter = (KeyNode<String>)nodeIter.getNext(), i++)
+    for (KeyNode<IList<String>, Integer> iter = (KeyNode<IList<String>, Integer>)((KeyList<IList<String>, Integer, Integer>)this.major).getHead(); iter != null; iter = (KeyNode<IList<String>, Integer>)iter.getNext())
+      for (KeyNode<String, Integer> nodeIter = (KeyNode<String, Integer>)((KeyList<String, Integer, Integer>)iter.getValue()).getHead(); nodeIter != null; nodeIter = (KeyNode<String, Integer>)nodeIter.getNext(), i++)
         if (nodeIter.getKey() != null && nodeIter.getValue() != null)
           array.set(i, this.dom.get(nodeIter.getKey()));
 
@@ -200,8 +200,8 @@ public class PeopleHash<E extends Person> extends KeyHash<Person> implements IPe
 
 
     // add all the node list per list
-    for (KeyNode<IList<String>> iter = (KeyNode<IList<String>>)((KeyList<IList<String>>)this.major).getHead(); iter != null; iter = (KeyNode<IList<String>>)iter.getNext())
-      for (KeyNode<String> nodeIter = (KeyNode<String>)((KeyList<String>)iter.getValue()).getHead(); nodeIter != null; nodeIter = (KeyNode<String>)nodeIter.getNext(), i++)
+    for (KeyNode<IList<String>, Integer> iter = (KeyNode<IList<String>, Integer>)((KeyList<IList<String>, Integer, Integer>)this.major).getHead(); iter != null; iter = (KeyNode<IList<String>, Integer>)iter.getNext())
+      for (KeyNode<String, Integer> nodeIter = (KeyNode<String, Integer>)((KeyList<String, Integer, Integer>)iter.getValue()).getHead(); nodeIter != null; nodeIter = (KeyNode<String, Integer>)nodeIter.getNext(), i++)
         if (nodeIter.getKey() != null && nodeIter.getValue() != null)
           array[i] = this.dom.get(nodeIter.getKey());
 

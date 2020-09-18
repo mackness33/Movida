@@ -1,29 +1,29 @@
 package movida.mackseverini;
 
 // class that add a key field to a Node
-public class KeyNode<E extends Comparable<E>> extends movida.mackseverini.Node2<E> implements movida.mackseverini.IKeyNode<E>{
-  protected Integer key;
+public class KeyNode<E extends Comparable<E>, K extends Comparable<K>> extends movida.mackseverini.Node2<E> implements movida.mackseverini.IKeyNode<E, K>{
+  protected K key;
 
   public KeyNode(){
     super();
-    this.key = -1;
+    this.key = null;
   }
 
-  public KeyNode(int k, E v){
+  public KeyNode(K k, E v){
     super(v);
     this.key = k;
   }
 
-  public KeyNode(int k, E v, KeyNode<E> n){
+  public KeyNode(K k, E v, KeyNode<E, K> n){
     super(v, n);
     this.key = k;
   }
 
   @Override
-  public Integer getKey() { return this.key; }
+  public K getKey() { return this.key; }
 
   @Override
-  public void setKey (Integer k) { this.key = k; }
+  public void setKey (K k) { this.key = k; }
 
   @Override
   public void print(){ System.out.println("KeyNode: KEY => " + this.key + " VALUE => " + this.value); }
@@ -32,9 +32,9 @@ public class KeyNode<E extends Comparable<E>> extends movida.mackseverini.Node2<
     System.out.println("KeyList: KEY => " + this.key + " VALUE => " + this.value);
 
     if (this.value instanceof IList)
-      ((KeyList<E>)this.value).printAll();
+      ((KeyList)this.value).printAll();
 
     if (this.next != null)
-      ((KeyNode<E>)this.next).printAll();
+      ((KeyNode)this.next).printAll();
   }
 }

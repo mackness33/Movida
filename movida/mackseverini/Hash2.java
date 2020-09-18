@@ -22,7 +22,7 @@ public class Hash2<E extends Comparable<E>> implements movida.mackseverini.IHash
     this.size = 0;
     this.length = 0;
     this.dom = new Array<E> (this.MAX_LENGTH);
-    this.major = new KeyList<IList<Integer>>();
+    this.major = new KeyList<IList<Integer>, Integer, Integer>();
 
     for (int i = 0; i < this.dom.length; i++)
       this.dom.set(i, null);
@@ -70,14 +70,14 @@ public class Hash2<E extends Comparable<E>> implements movida.mackseverini.IHash
     IList<Integer> list_key = null;
 
     // check if the list of the hashed value of the key in input already exist
-    if ((list_key = ((KeyList<IList<Integer>>)this.major).getByKey(hash_key)) == null){
+    if ((list_key = ((KeyList<IList<Integer>, Integer, Integer>)this.major).getByKey(hash_key)) == null){
       // if not create it
-      ((KeyList<IList<Integer>>)this.major).addTail(hash_key, new KeyList(hash_key));
-      list_key = ((KeyList<IList<Integer>>)this.major).getTail().getValue();
+      ((KeyList<IList<Integer>, Integer, Integer>)this.major).addTail(hash_key, new KeyList(hash_key));
+      list_key = ((KeyList<IList<Integer>, Integer, Integer>)this.major).getTail().getValue();
     }
 
     // else add at the end
-    ((KeyList<Integer>)list_key).addTail(this.size, obj.hashCode());
+    ((KeyList<Integer, Integer, Integer>)list_key).addTail(this.size, obj.hashCode());
 
     this.size++;
     this.length++;
@@ -92,11 +92,11 @@ public class Hash2<E extends Comparable<E>> implements movida.mackseverini.IHash
     IList<Integer> node = null;
 
     // check if the list of the hashed value of the key in input already exist
-    if ((node = ((KeyList<IList<Integer>>)this.major).getByKey(key)) != null){
+    if ((node = ((KeyList<IList<Integer>, Integer, Integer>)this.major).getByKey(key)) != null){
       // set to null the element in the dom (array that stores all the element)
-      this.dom.set(((KeyList<Integer>)node).searchKey(obj.hashCode()), null);
+      this.dom.set(((KeyList<Integer, Integer, Integer>)node).searchKey(obj.hashCode()), null);
       // delete the node by knowing the hashCode
-      ((KeyList<Integer>)node).delEl(obj.hashCode());
+      ((KeyList<Integer, Integer, Integer>)node).delEl(obj.hashCode());
 
       // delete the whole list if it's empty
       if (node.getSize() <= 0)
@@ -117,8 +117,8 @@ public class Hash2<E extends Comparable<E>> implements movida.mackseverini.IHash
     IList<Integer> node = null;
 
     // check if the list of the hashed value of the key in input already exist
-    if ((node = ((KeyList<IList<Integer>>)this.major).getByKey(key)) != null){
-      Integer el_key = ((KeyList<Integer>)node).searchKey(obj.hashCode());
+    if ((node = ((KeyList<IList<Integer>, Integer, Integer>)this.major).getByKey(key)) != null){
+      Integer el_key = ((KeyList<Integer, Integer, Integer>)node).searchKey(obj.hashCode());
       if (el_key != null)
         // return false if the element has been deleted or it's not present
         return this.dom.get(el_key) != null ? true : false;
@@ -146,7 +146,7 @@ public class Hash2<E extends Comparable<E>> implements movida.mackseverini.IHash
 
     // sort by value for each list
     for (INode2<IList<K>> iter = list.getHead(); iter != null; iter = iter.getNext())
-      iter.setValue(algorithm.sort((IKeyList<K>)iter.getValue()));
+      iter.setValue(algorithm.sort((IKeyList<K, Integer, Integer>)iter.getValue()));
 
     return list;
   }
@@ -164,8 +164,8 @@ public class Hash2<E extends Comparable<E>> implements movida.mackseverini.IHash
     int i = 0;
 
     // add each node of the hash to the array
-    for (IKeyNode<IList<Integer>> iter = (KeyNode<IList<Integer>>)((KeyList<IList<Integer>>)this.major).getHead(); iter != null; iter = (KeyNode<IList<Integer>>)iter.getNext())
-      for (KeyNode<Integer> nodeIter = (KeyNode<Integer>)((KeyList<Integer>)iter.getValue()).getHead(); nodeIter != null; nodeIter = (KeyNode<Integer>)nodeIter.getNext(), i++)
+    for (IKeyNode<IList<Integer>, Integer> iter = (KeyNode<IList<Integer>, Integer>)((KeyList<IList<Integer>, Integer, Integer>)this.major).getHead(); iter != null; iter = (KeyNode<IList<Integer>, Integer>)iter.getNext())
+      for (KeyNode<Integer, Integer> nodeIter = (KeyNode<Integer, Integer>)((KeyList<Integer, Integer, Integer>)iter.getValue()).getHead(); nodeIter != null; nodeIter = (KeyNode<Integer, Integer>)nodeIter.getNext(), i++)
         if (nodeIter.getKey() != null && nodeIter.getValue() != null)
           array.set(i, this.dom.get(nodeIter.getKey()));
 

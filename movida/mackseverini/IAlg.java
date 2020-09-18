@@ -5,6 +5,6 @@ import movida.mackseverini.Array;
 public interface IAlg{
   public movida.commons.SortingAlgorithm type = null;
   public <T extends Comparable<T>> Array<T> sort(Array<T> array);
-  public <T extends Comparable<T>> IList<T> sort(IList<T> list);
-  public <K extends Comparable<K>> IList<K> keySort(IKeyList<K> list);
+  public <E extends Comparable<E>, T extends Comparable<T>, K extends Comparable<K>> IList<E> sort(IList<E> list);
+  public <E extends Comparable<E>, T extends Comparable<T>, K extends Comparable<K>> IList<E> keySort(IKeyList<E, T, K> list);
 }

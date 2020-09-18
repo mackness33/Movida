@@ -280,7 +280,7 @@ public class test {
 
     Movie[] movies = mb.getAllMovies();
     Person[] people = mb.getAllPeople();
-/*
+
     System.out.println("ARRAY LENGTH: " + people.length);
     System.out.println("TO ARRAY: ");
     for(int i = 0; i < people.length; i++)
@@ -341,6 +341,6 @@ public class test {
 
     for(int i = 0; i < active.length; i++)
       System.out.println(active[i]);
-      */
+      
   }
 }

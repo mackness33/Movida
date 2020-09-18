@@ -2,24 +2,24 @@ package movida.mackseverini;
 
 import movida.mackseverini.INode;
 
-public interface IKeyList<E extends Comparable<E>> extends IList<E>{
+public interface IKeyList<E extends Comparable<E>, T extends Comparable<T>, K extends Comparable<K>> extends IList<E>{
   public void print();
 
   public void printAll();
 
-  public Integer getKey();
+  public K getKey();
 
-  public void setKey (Integer k);
+  public void setKey (K k);
 
-  public E getByKey (Integer k);
+  public E getByKey (T k);
 
-  public boolean delByKey (Integer k);
+  public boolean delByKey (T k);
 
-  public Integer searchKey (E el);
+  public T searchKey (E el);
 
-  public void addTail (Integer k, E el);
+  public void addTail (T k, E el);
 
-  public void addHead (Integer k, E el);
+  public void addHead (T k, E el);
 
-  public void addBlue (Integer k, E el, Integer pos);
+  public void addBlue (T k, E el, Integer pos);
 }

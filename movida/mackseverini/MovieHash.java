@@ -25,10 +25,10 @@ public class MovieHash<E extends Movie> extends KeyHash<Movie> implements IMovie
   public MovieHash() {
     super();
 
-    this.dates = new KeyList<IList<Year>>();
-    this.rates = new KeyList<Integer>();
-    this.major = new KeyList<IList<String>>();
-    this.directors = new KeyList<IList<String>>();
+    this.dates = new KeyList<IList<Year>, Integer, Integer>();
+    this.rates = new KeyList<Integer, Integer, Integer>();
+    this.major = new KeyList<IList<String>, Integer, Integer>();
+    this.directors = new KeyList<IList<String>, Integer, Integer>();
   }
 
   @Override
@@ -44,7 +44,7 @@ public class MovieHash<E extends Movie> extends KeyHash<Movie> implements IMovie
     // add keys
     this.addHashKey(new Year(obj.getYear()), this.dates);
     this.addHashKey(obj.getDirector().getName(), this.directors);
-    ((KeyList<Integer>)this.rates).addTail(this.size, obj.getVotes());
+    ((KeyList<Integer, Integer, Integer>)this.rates).addTail(this.size, obj.getVotes());
 
     this.size++;
     this.length++;
@@ -63,14 +63,14 @@ public class MovieHash<E extends Movie> extends KeyHash<Movie> implements IMovie
     Integer pos = -1;
 
     // check if the list of the hashed key exist
-    if ((node = ((KeyList<IList<String>>)this.major).getByKey(hash_key)) == null)
+    if ((node = ((KeyList<IList<String>, Integer, Integer>)this.major).getByKey(hash_key)) == null)
       return false;
 
     // get the position of the element in the main array of element
-    pos = ((KeyList<String>)node).searchKey(obj.getTitle());
+    pos = ((KeyList<String, Integer, Integer>)node).searchKey(obj.getTitle());
     this.dom.set(pos, null);
     // delete the element in the main hash
-    ((KeyList<String>)node).delEl(obj.getTitle());
+    ((KeyList<String, Integer, Integer>)node).delEl(obj.getTitle());
 
     if (node.getSize() <= 0)
       this.major.delEl(node);
@@ -78,7 +78,7 @@ public class MovieHash<E extends Movie> extends KeyHash<Movie> implements IMovie
     // delete the keys' node in the keys hashes
     this.delHashKey(new Year(obj.getYear()), this.dates, pos);
     this.delHashKey(obj.getDirector().getName(), this.directors, pos);
-    ((KeyList<Integer>)this.rates).delByKey(pos);
+    ((KeyList<Integer, Integer, Integer>)this.rates).delByKey(pos);
 
     this.length--;
 
@@ -121,30 +121,30 @@ public class MovieHash<E extends Movie> extends KeyHash<Movie> implements IMovie
     IList<String> node = null;
 
     // check if the list of the hashed key exist
-    if ((node = ((KeyList<IList<String>>)this.major).getByKey(key)) != null){
-      Integer el_key = ((KeyList<String>)node).searchKey(obj.getTitle());
+    if ((node = ((KeyList<IList<String>, Integer, Integer>)this.major).getByKey(key)) != null){
+      Integer el_key = ((KeyList<String, Integer, Integer>)node).searchKey(obj.getTitle());
       // if the key of the element in the hash is not null update all the data structures
       if (el_key != null){
         this.updHashKey(new Year(this.dom.get(el_key).getYear()), new Year(obj.getYear()), this.dates, el_key);
         this.updHashKey(this.dom.get(el_key).getDirector().getName(), obj.getDirector().getName(), this.directors, el_key);
-        ((KeyList<Integer>)this.rates).updByKey(obj.getVotes(), el_key);
+        ((KeyList<Integer, Integer, Integer>)this.rates).updByKey(obj.getVotes(), el_key);
         this.dom.set(el_key, obj);
         return el_key;
       }
     }
     else{
       // if there's not the list of the hashed key than create it
-      ((KeyList<IList<String>>)this.major).addTail(key, new KeyList(key));
-      node = ((KeyList<IList<String>>)this.major).getTail().getValue();
+      ((KeyList<IList<String>, Integer, Integer>)this.major).addTail(key, new KeyList(key));
+      node = ((KeyList<IList<String>, Integer, Integer>)this.major).getTail().getValue();
     }
 
     // insert the new movie. Same as INSERT(Movie ..)
     this.dom.set(this.size, obj);
-    ((KeyList<String>)node).addTail(this.size, obj.getTitle());
+    ((KeyList<String, Integer, Integer>)node).addTail(this.size, obj.getTitle());
 
     this.addHashKey(new Year(obj.getYear()), this.dates);
     this.addHashKey(obj.getDirector().getName(), this.directors);
-    ((KeyList<Integer>)this.rates).addTail(this.size, obj.getVotes());
+    ((KeyList<Integer, Integer, Integer>)this.rates).addTail(this.size, obj.getVotes());
 
     this.size++;
     this.length++;
@@ -160,8 +160,8 @@ public class MovieHash<E extends Movie> extends KeyHash<Movie> implements IMovie
     IList<String> node = null;
 
     // check if the list of the hashed value of the key in input already exist
-    if ((node = ((KeyList<IList<String>>)this.major).getByKey(key)) != null){
-      Integer el_key = ((KeyList<String>)node).searchKey(title);
+    if ((node = ((KeyList<IList<String>, Integer, Integer>)this.major).getByKey(key)) != null){
+      Integer el_key = ((KeyList<String, Integer, Integer>)node).searchKey(title);
       if (el_key != null)
         return this.dom.get(el_key);
     }
@@ -200,7 +200,7 @@ public class MovieHash<E extends Movie> extends KeyHash<Movie> implements IMovie
           out = new List<Movie>();
 
           // iterate each list of hashed keys and add the ouputs till we arrive to N elements
-          for (KeyNode<IList<Year>> iter = (KeyNode<IList<Year>>)this.dates.getHead(); iter != null && i < num; iter = (KeyNode<IList<Year>>)iter.getNext(), i = out.getSize())
+          for (KeyNode<IList<Year>, Integer> iter = (KeyNode<IList<Year>, Integer>)this.dates.getHead(); iter != null && i < num; iter = (KeyNode<IList<Year>, Integer>)iter.getNext(), i = out.getSize())
             out.addToEnd(this.searchMostOfHashKey(num, iter.getValue()));
         }
       };break;
@@ -245,8 +245,8 @@ public class MovieHash<E extends Movie> extends KeyHash<Movie> implements IMovie
     int i = 0;
 
     // add all the node list per list
-    for (KeyNode<IList<String>> iter = (KeyNode<IList<String>>)((KeyList<IList<String>>)this.major).getHead(); iter != null; iter = (KeyNode<IList<String>>)iter.getNext())
-      for (KeyNode<String> nodeIter = (KeyNode<String>)((KeyList<String>)iter.getValue()).getHead(); nodeIter != null; nodeIter = (KeyNode<String>)nodeIter.getNext(), i++)
+    for (KeyNode<IList<String>, Integer> iter = (KeyNode<IList<String>, Integer>)((KeyList<IList<String>, Integer, Integer>)this.major).getHead(); iter != null; iter = (KeyNode<IList<String>, Integer>)iter.getNext())
+      for (KeyNode<String, Integer> nodeIter = (KeyNode<String, Integer>)((KeyList<String, Integer, Integer>)iter.getValue()).getHead(); nodeIter != null; nodeIter = (KeyNode<String, Integer>)nodeIter.getNext(), i++)
         if (nodeIter.getKey() != null && nodeIter.getValue() != null)
           array.set(i, this.dom.get(nodeIter.getKey()));
 
@@ -263,8 +263,8 @@ public class MovieHash<E extends Movie> extends KeyHash<Movie> implements IMovie
     int i = 0;
 
     // add all the node list per list
-    for (KeyNode<IList<String>> iter = (KeyNode<IList<String>>)((KeyList<IList<String>>)this.major).getHead(); iter != null; iter = (KeyNode<IList<String>>)iter.getNext())
-      for (KeyNode<String> nodeIter = (KeyNode<String>)((KeyList<String>)iter.getValue()).getHead(); nodeIter != null; nodeIter = (KeyNode<String>)nodeIter.getNext(), i++)
+    for (KeyNode<IList<String>, Integer> iter = (KeyNode<IList<String>, Integer>)((KeyList<IList<String>, Integer, Integer>)this.major).getHead(); iter != null; iter = (KeyNode<IList<String>, Integer>)iter.getNext())
+      for (KeyNode<String, Integer> nodeIter = (KeyNode<String, Integer>)((KeyList<String, Integer, Integer>)iter.getValue()).getHead(); nodeIter != null; nodeIter = (KeyNode<String, Integer>)nodeIter.getNext(), i++)
         if (nodeIter.getKey() != null && nodeIter.getValue() != null)
           array[i] = this.dom.get(nodeIter.getKey());
 

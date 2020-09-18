@@ -8,8 +8,8 @@ import movida.mackseverini.Array;
 
 
 // Class used for list with keys. It extends the List class by adding methods for keys
-public class KeyList<E extends Comparable<E>> extends movida.mackseverini.List<E> implements movida.mackseverini.IKeyList<E>{
-  protected Integer key;
+public class KeyList<E extends Comparable<E>, T extends Comparable<T>, K extends Comparable<K>> extends movida.mackseverini.List<E> implements movida.mackseverini.IKeyList<E, T, K>{
+  protected K key;
 
   public KeyList (){
     this.head = null;
@@ -18,23 +18,23 @@ public class KeyList<E extends Comparable<E>> extends movida.mackseverini.List<E
     this.key = null;
   }
 
-  public KeyList (Integer k, Integer el_key, E el){
-    this.head = new KeyNode<E>(el_key, el);
+  public KeyList (K k, T el_key, E el){
+    this.head = new KeyNode<E, T>(el_key, el);
     this.tail = this.head;
     this.size = 1;
     this.key = k;
   }
 
-  public KeyList (Integer k){
+  public KeyList (K k){
     this.head = null;
     this.tail = null;
     this.size = 0;
     this.key = k;
   }
 
-  public KeyList (KeyList<E> shallow){
-    this.head = (KeyNode<E>)shallow.getHead();
-    this.tail = (KeyNode<E>)shallow.getTail();
+  public KeyList (KeyList<E, T, K> shallow){
+    this.head = (KeyNode<E, T>)shallow.getHead();
+    this.tail = (KeyNode<E, T>)shallow.getTail();
     this.size = shallow.getSize();
     this.key = shallow.getKey();
   }
@@ -45,23 +45,23 @@ public class KeyList<E extends Comparable<E>> extends movida.mackseverini.List<E
   public void printAll(){
     System.out.println("KeyList: KEY => " + this.key + " HEAD => " + this.head);
     if (this.head != null && this.head instanceof KeyNode)
-      ((KeyNode<E>)this.head).printAll();
+      ((KeyNode<E, T>)this.head).printAll();
   }
 
   @Override
-  public Integer getKey() { return this.key; }
+  public K getKey() { return this.key; }
 
   @Override
-  public void setKey (Integer k) { this.key = k; }
+  public void setKey (K k) { this.key = k; }
 
   // Get the element by having a key as the input
   @Override
-  public E getByKey (Integer k){
+  public E getByKey (T k){
     if (this.size <= 0)
       return null;
 
     // iterate all the list
-    for (KeyNode<E> iter = (KeyNode<E>)this.head; iter != null; iter = (KeyNode<E>)iter.getNext())
+    for (KeyNode<E, T> iter = (KeyNode<E, T>)this.head; iter != null; iter = (KeyNode<E, T>)iter.getNext())
       if (iter.getKey() == k)
         return iter.getValue();
 
@@ -70,28 +70,28 @@ public class KeyList<E extends Comparable<E>> extends movida.mackseverini.List<E
 
   // Delete a element by having a key as the input
   @Override
-  public boolean delByKey (Integer k){
+  public boolean delByKey (T k){
     if (this.size <= 0)
       return false;
 
     // check wheter the key is the first or last element
-    if (k == ((KeyNode<E>)this.head).getKey()){
+    if (k == ((KeyNode<E, T>)this.head).getKey()){
       this.delHead();
       return true;
     }
-    else if (k == ((KeyNode<E>)this.tail).getKey()){
+    else if (k == ((KeyNode<E, T>)this.tail).getKey()){
       this.delTail();
       return true;
     }
 
     // check to see if there's more then one element
-    if((KeyNode<E>)this.head.getNext() == null)
+    if((KeyNode<E, T>)this.head.getNext() == null)
       return false;
 
     int i = 0;
 
     // iterate all the elements of the list
-    for (KeyNode<E> prev = (KeyNode<E>)this.head, iter = (KeyNode<E>)this.head.getNext(); iter.getNext() != null; iter = (KeyNode<E>)iter.getNext(), prev = (KeyNode<E>)prev.getNext()){
+    for (KeyNode<E, T> prev = (KeyNode<E, T>)this.head, iter = (KeyNode<E, T>)this.head.getNext(); iter.getNext() != null; iter = (KeyNode<E, T>)iter.getNext(), prev = (KeyNode<E, T>)prev.getNext()){
       // if the key match, delete the node
       if (iter.getKey() == k){
         prev.setNext(iter.getNext());
@@ -106,41 +106,41 @@ public class KeyList<E extends Comparable<E>> extends movida.mackseverini.List<E
 
   @Override
   // get the key by having the element as the input
-  public Integer searchKey (E el){
+  public T searchKey (E el){
     if (this.size <= 0)
       return null;
 
     // compare the element with the first and last node of the list
     if (el.compareTo(this.head.getValue()) == 0)
-      return ((KeyNode<E>)this.head).getKey();
+      return ((KeyNode<E, T>)this.head).getKey();
     else if (el.compareTo(this.tail.getValue()) == 0)
-      return ((KeyNode<E>)this.tail).getKey();
+      return ((KeyNode<E, T>)this.tail).getKey();
 
 
     // check to see if there's more then one element
-    if((KeyNode<E>)this.head.getNext() == null)
+    if((KeyNode<E, T>)this.head.getNext() == null)
       return null;
 
     int i = 1;
     // iterate all the list to compare the element
-    for (KeyNode<E> iter = (KeyNode<E>)this.head.getNext(); iter.getNext() != null && i < this.size; iter = (KeyNode<E>)iter.getNext(), i++)
+    for (KeyNode<E, T> iter = (KeyNode<E, T>)this.head.getNext(); iter.getNext() != null && i < this.size; iter = (KeyNode<E, T>)iter.getNext(), i++)
       if (el.compareTo(iter.getValue()) == 0)
-        return ((KeyNode<E>)iter).getKey();
+        return ((KeyNode<E, T>)iter).getKey();
 
     return null;
   }
 
   @Override
   // add element and key as the last node of the list
-  public void addTail (Integer k, E el){
+  public void addTail (T k, E el){
     if (this.size <= 0){
-      this.head = new KeyNode<E>(k, el);
+      this.head = new KeyNode<E, T>(k, el);
       this.tail = this.head;
       this.size = 1;
       return;
     }
 
-    KeyNode<E> temp = new KeyNode<E>(k, el);
+    KeyNode<E, T> temp = new KeyNode<E, T>(k, el);
     this.tail.setNext(temp);
     this.tail = temp;
     this.size++;
@@ -148,15 +148,15 @@ public class KeyList<E extends Comparable<E>> extends movida.mackseverini.List<E
 
   @Override
   // add element and key as the first node of the list
-  public void addHead (Integer k, E el){
+  public void addHead (T k, E el){
     if (this.size <= 0){
-      this.head = new KeyNode<E>(k, el);
+      this.head = new KeyNode<E, T>(k, el);
       this.tail = this.head;
       this.size = 1;
       return;
     }
 
-    KeyNode<E> temp = new KeyNode<E>(k, el);
+    KeyNode<E, T> temp = new KeyNode<E, T>(k, el);
     temp.setNext(this.head);
     this.head = temp;
     this.size++;
@@ -164,7 +164,7 @@ public class KeyList<E extends Comparable<E>> extends movida.mackseverini.List<E
 
   @Override
   // add element and key at a specified position of the list
-  public void addBlue (Integer k, E el, Integer pos){
+  public void addBlue (T k, E el, Integer pos){
     // check if the position is valid
     if (pos <= 0 || pos >= size){
       if (pos == 0){
@@ -180,37 +180,37 @@ public class KeyList<E extends Comparable<E>> extends movida.mackseverini.List<E
     }
 
     int i = 1;
-    KeyNode<E> iter = null;
+    KeyNode<E, T> iter = null;
     // iterate all the list to get to the position
-    for (iter = (KeyNode<E>)this.head; iter.getNext() != null && i < pos; iter = (KeyNode<E>)iter.getNext(), i++);
+    for (iter = (KeyNode<E, T>)this.head; iter.getNext() != null && i < pos; iter = (KeyNode<E, T>)iter.getNext(), i++);
 
     // if right, add to the list
     if (i == pos){
-      KeyNode<E> temp = new KeyNode<E>(k, el);
-      temp.setNext((KeyNode<E>)iter.getNext());
+      KeyNode<E, T> temp = new KeyNode<E, T>(k, el);
+      temp.setNext((KeyNode<E, T>)iter.getNext());
       iter.setNext(temp);
       this.size++;
     }
   }
 
   // Update an element by having its key as the input
-  public void updByKey (E el, int key){
+  public void updByKey (E el, T key){
     if (this.size <= 0)
       return;
 
     // compare the element with the first and last node of the list
-    if (key == ((KeyNode<E>)this.head).getKey())
+    if (key == ((KeyNode<E, T>)this.head).getKey())
       this.head.setValue(el);
-    else if (key == ((KeyNode<E>)this.tail).getKey())
+    else if (key == ((KeyNode<E, T>)this.tail).getKey())
       this.tail.setValue(el);
 
     // check to see if there's more then one element
-    if((KeyNode<E>)this.head.getNext() == null)
+    if((KeyNode<E, T>)this.head.getNext() == null)
       return;
 
 
     // iterate all the list to compare the key
-    for (IKeyNode<E> iter = (IKeyNode<E>)this.head.getNext(); iter.getNext() != null; iter = (IKeyNode<E>)iter.getNext())
+    for (IKeyNode<E, T> iter = (IKeyNode<E, T>)this.head.getNext(); iter.getNext() != null; iter = (IKeyNode<E, T>)iter.getNext())
       if (iter.getKey() == key)
         iter.setValue(el);
   }
