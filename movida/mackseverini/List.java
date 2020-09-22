@@ -294,9 +294,9 @@ public class List<E extends Comparable<E>> implements IList<E>{
   @Override
   // trasform the list into an array object
   public Array<E> toArray(){
-    if (this.length < 0)
+    if (this.size < 0)
       return null;
-      
+
     final Array<E> array = new Array<E>(this.size);
 
     int i = 0;

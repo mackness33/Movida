@@ -13,6 +13,8 @@ import movida.mackseverini.KeyHash;
 import movida.mackseverini.InsertionSort;
 import movida.mackseverini.KeyNode;
 import movida.mackseverini.KeyList;
+import movida.mackseverini.Graph;
+import movida.mackseverini.Arch;
 // import movida.mackseverini.MergeSort;
 import movida.commons.*;
 
@@ -25,7 +27,7 @@ public class test {
 
   public static void main(String args[]){
     // test.AlgTest();
-    test.movidaTest();
+    test.graphTest();
     // Integer a = 5;
     // //
     // System.out.println("res: " + a.compareTo(5));
@@ -344,7 +346,34 @@ public class test {
 
   }
 
-  public static void movidaTest(){
-          
+  public static void graphTest(){
+    Graph<Integer, Integer> G = new Graph<Integer, Integer>();
+
+    for (int i = 5; i < 40; i++){
+      // G.addVertex(ThreadLocalRandom.current().nextInt(0, 50));
+      G.addVertex(i);
+      G.addArch(new Arch<Integer, Integer>(ThreadLocalRandom.current().nextInt(5, 39), ThreadLocalRandom.current().nextInt(5, 39), ThreadLocalRandom.current().nextInt(-1000, 1001)));
+    }
+
+    G.addVertex(1);
+    G.addVertex(2);
+    G.addVertex(3);
+
+    G.addArch(new Arch<Integer, Integer>(1, 3, 1));
+    G.addArch(new Arch<Integer, Integer>(2, 3, 2));
+    G.addArch(new Arch<Integer, Integer>(3, 3, 3));
+    G.addArch(new Arch<Integer, Integer>(2, 1, 4));
+
+    Array<Arch<Integer, Integer>> A = G.getArches();
+    Array<Integer> V = G.getVerteces();
+
+    for(int i = 0; i < V.length; i++)
+      if (V.get(i) != null)
+        System.out.println("Vertex: " + V.get(i));
+
+    System.out.println();
+
+    for(int i = 0; i < A.length; i++)
+      A.get(i).print();
   }
 }

@@ -1,11 +1,12 @@
 package movida.mackseverini;
 
+import movida.mackseverini.Arch;
 import java.util.Arrays;
 
 // Class used to virtually implements an array without its costraints
-public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements IMap<E>{
+public class Graph<E extends Comparable<E>, K extends Comparable<K>>{
   protected Array<E> verteces;
-  protected IKeyList<Extreme<E>, K, Integer> arches;
+  protected IKeyList<Pair<E>, K, Integer> arches;
   protected int numVertex;
   protected int numArch;
   protected int size;                       // Max position occupied in the array
@@ -14,11 +15,14 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
 	// constructor
 	public Graph()
 	{
-    this.verteces = new Array<E>();
-    this.arches = new KeyList<Extreme<E>, K, Integer>();
+    this.verteces = new Array<E>(50);
+    this.arches = new KeyList<Pair<E>, K, Integer>();
     this.numVertex = 0;
 		this.numArch = 0;
     this.size = 0;
+
+    for (int i = 0; i < this.verteces.length; i++)
+      this.verteces.set(i, null);
 	}
 
 
@@ -32,31 +36,32 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
 	// 	this.length = shallow.length;
 	// }
 
-  // TODO: trasform Array<Arch <>> in IKeyList<Extreme<>, ..>
+  // TODO: trasform Array<Arch <>> in IKeyList<Pair<>, ..>
   // public Graph(Array<E> V, Array<Arch<E, K>> A)
 	// {
 	// 	this.verteces = new Array<E>(V);
-  //  this.arches = new IKeyList<Extreme<E>, K, Integer>();
+  //  this.arches = new IKeyList<Pair<E>, K, Integer>();
   //  this.numVertex = 0;
   //  this.numArch = 0;
   //  this.size = 0;
 	// }
 
-  public Array<E> getVerteces () { return this.vertices; }
+  public Array<E> getVerteces () { return this.verteces; }
 
   public int numVerteces() { return this.numVertex; }
   public int numArches() { return this.numArch; }
 
   // trasform the list of nodes and weight into an array of arch object
-  public Array<Arch> getArches(){
+  public Array<Arch<E, K>> getArches(){
     if (this.numArch <= 0)
       return null;
 
     final Array<Arch<E, K>> array = new Array<Arch<E, K>>(this.numArch);
-    Extreme<E> temp = null;
+    int i = 0;
+    Pair<E> temp = null;
 
     // add all the node list per list
-    for (IKeyNode<Extreme<E>, K> iter = this.arches.getHead(); iter != null; iter = iter.getNext()){
+    for (IKeyNode<Pair<E>, K> iter = (IKeyNode<Pair<E>, K>)this.arches.getHead(); iter != null; iter = (IKeyNode<Pair<E>, K>)iter.getNext(), i++){
       temp = iter.getValue();
       if (iter.getKey() != null && temp.getFirstValue() != null && temp.getSecondValue() != null)
         array.set(i, new Arch(temp.getFirstValue(), temp.getSecondValue(), iter.getKey()));
@@ -79,13 +84,28 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
     return true;
   }
 
-  public boolean addArch(Arch<E, V> arch){
-    Exteme<E> e = new Extreme<E>();
+  public boolean addArch(Arch<E, K> arch){
+    Pair<E> e = new Pair<E>(arch.getFirstVertex(), arch.getSecondVertex());
 
-    if (arch == null && this.arches.search(e))
+    if (arch == null && this.arches.search(e) == null)
       return false;
 
     this.arches.addHead(arch.getWeight(), e);
+    this.numArch++;
+
+    return true;
+  }
+
+  public boolean addArch(E vertex1, E vertex2, K weight){
+    if (vertex1 == null && vertex2 == null && weight == null)
+      return false;
+
+    Pair<E> e = new Pair<E>(vertex1, vertex2);
+
+    if (this.arches.search(e) != null)
+      return false;
+
+    this.arches.addHead(weight, e);
     this.numArch++;
 
     return true;
@@ -105,11 +125,11 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
     return false;
   }
 
-  public boolean delArch(Arch<E, V> arch){
+  public boolean delArch(Arch<E, K> arch){
   if (arch == null)
     return false;
 
-    Exteme<E> e = new Extreme<E>();
+    Pair<E> e = new Pair<E>(arch.getFirstVertex(), arch.getSecondVertex());
 
     this.arches.delEl(e);
 
@@ -123,34 +143,38 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
 
   // public boolean search(Arch<E, V> arch);
 
-  protected class Extreme <E extends Comparable<E>> implements Comparable<Extreme<E>>{
+  protected class Pair <E extends Comparable<E>> implements Comparable<Pair<E>>{
     protected E value1;
 		protected E value2;
 
-    public Extreme(){
+    public Pair(){
       this.value1 = null;
       this.value2 = null;
     }
 
-    public Extreme(E v1, E v2){
+    public Pair(E v1, E v2){
       this.value1 = v1;
       this.value2 = v2;
     }
 
-    @Override
+    //@Override
     public E getFirstValue() { return this.value1; }
-    @Override
+    //@Override
     public E getSecondValue() { return this.value2; }
 
-    @Override
+    //@Override
     public void setFirstValue (E v) { this.value1 = v; }
-    @Override
+    //@Override
     public void setSecondValue (E v) { this.value2 = v; }
 
-    @Override
-    public int compareTo (Extreme<T> input) { return this.value1.compareTo(input.getFirstVertex()) && this.value2.compareTo(input.getSecondVertex()); }
+    //@Override
+    public int compareTo (Pair<E> input) {
+      return
+        this.value1.compareTo(input.getFirstValue()) + this.value1.compareTo(input.getSecondValue()) -
+        this.value2.compareTo(input.getFirstValue()) + this.value2.compareTo(input.getSecondValue());
+    }
 
-    @Override
-    public void print(){ System.out.println("Extreme: VALUE => " + this.value1 + " VALUE2 => " + this.value2); }
+    //@Override
+    public void print(){ System.out.println("Pair: VALUE => " + this.value1 + " VALUE2 => " + this.value2); }
   }
 }
