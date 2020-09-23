@@ -169,9 +169,12 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>>{
 
     //@Override
     public int compareTo (Pair<E> input) {
-      return
-        this.value1.compareTo(input.getFirstValue()) + this.value1.compareTo(input.getSecondValue()) -
-        this.value2.compareTo(input.getFirstValue()) + this.value2.compareTo(input.getSecondValue());
+      int res = Math.abs(this.value1.compareTo(input.getFirstValue()) + this.value1.compareTo(input.getSecondValue())) -
+        Math.abs(this.value2.compareTo(input.getFirstValue()) + this.value2.compareTo(input.getSecondValue()));
+
+      System.out.println("COMPARE res: " + res);
+      return res;
+
     }
 
     //@Override
