@@ -57,7 +57,7 @@ public class KeyList<E extends Comparable<E>, T extends Comparable<T>, K extends
   // Get the element by having a key as the input
   @Override
   public E getByKey (T k){
-    if (this.size <= 0)
+    if (this.size <= 0 || k == null)
       return null;
 
     // iterate all the list
@@ -71,7 +71,7 @@ public class KeyList<E extends Comparable<E>, T extends Comparable<T>, K extends
   // Delete a element by having a key as the input
   @Override
   public boolean delByKey (T k){
-    if (this.size <= 0)
+    if (this.size <= 0 || k == null)
       return false;
 
     // check wheter the key is the first or last element
@@ -107,7 +107,7 @@ public class KeyList<E extends Comparable<E>, T extends Comparable<T>, K extends
   @Override
   // get the key by having the element as the input
   public T searchKey (E el){
-    if (this.size <= 0)
+    if (this.size <= 0 || el == null)
       return null;
 
     // compare the element with the first and last node of the list
@@ -133,7 +133,10 @@ public class KeyList<E extends Comparable<E>, T extends Comparable<T>, K extends
   @Override
   // add element and key as the last node of the list
   public void addTail (T k, E el){
-    if (this.size <= 0){
+    if (k == null || el == null)
+      return;
+
+    if (this.size <= 0 ){
       this.head = new KeyNode<E, T>(k, el);
       this.tail = this.head;
       this.size = 1;
@@ -149,6 +152,9 @@ public class KeyList<E extends Comparable<E>, T extends Comparable<T>, K extends
   @Override
   // add element and key as the first node of the list
   public void addHead (T k, E el){
+    if (k == null || el == null)
+      return;
+
     if (this.size <= 0){
       this.head = new KeyNode<E, T>(k, el);
       this.tail = this.head;
@@ -165,6 +171,9 @@ public class KeyList<E extends Comparable<E>, T extends Comparable<T>, K extends
   @Override
   // add element and key at a specified position of the list
   public void addBlue (T k, E el, Integer pos){
+    if (k == null || el == null || pos == null)
+      return;
+
     // check if the position is valid
     if (pos <= 0 || pos >= size){
       if (pos == 0){
@@ -195,6 +204,9 @@ public class KeyList<E extends Comparable<E>, T extends Comparable<T>, K extends
 
   // Update an element by having its key as the input
   public void updByKey (E el, T key){
+    if (key == null || el == null)
+      return;
+
     if (this.size <= 0)
       return;
 

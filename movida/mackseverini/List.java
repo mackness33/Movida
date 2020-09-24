@@ -36,6 +36,9 @@ public class List<E extends Comparable<E>> implements IList<E>{
   // Add element as the first node of the list
   @Override
   public void addHead (E el){
+    if (el == null)
+      return;
+
     if (this.size <= 0){
       this.head = new Node2<E>(el);
       this.tail = this.head;
@@ -52,6 +55,9 @@ public class List<E extends Comparable<E>> implements IList<E>{
   // Add element as the last node of the list
   @Override
   public void addTail (E el){
+    if (el == null)
+      return;
+
     if (this.size <= 0){
       this.head = new Node2<E>(el);
       this.tail = this.head;
@@ -68,6 +74,9 @@ public class List<E extends Comparable<E>> implements IList<E>{
   // Add element at a position of the list
   @Override
   public void addAt (E el, int pos){
+    if (el == null)
+      return;
+
     // check if the position is valid
     if (pos <= 0 || pos >= size){
       if (pos == 0){
@@ -150,7 +159,7 @@ public class List<E extends Comparable<E>> implements IList<E>{
   // delete the node with the element in input
   public void delEl (E el){
     // check if the list is empty
-    if (this.size <= 0)
+    if (this.size <= 0 || el == null)
       return;
 
     // compare to head and tail
@@ -214,7 +223,7 @@ public class List<E extends Comparable<E>> implements IList<E>{
   @Override
   // Update an element by having its position as the input
   public void update (E el, int pos){
-    if (this.size <= 0)
+    if (this.size <= 0 || el == null)
       return;
 
     // check if the position is valid
@@ -244,7 +253,7 @@ public class List<E extends Comparable<E>> implements IList<E>{
   @Override
   // get the position by having the element as the input
   public Integer search (E el){
-    if (this.size <= 0)
+    if (this.size <= 0 || el == null)
       return null;
 
     // compare the element with the first and last node of the list
