@@ -166,7 +166,7 @@ public class test {
 
     printGraph(G);
 
-    G.delArch(new Arch<Integer, Integer>(2, 1, 4));
+    // G.delArch(new Arch<Integer, Integer>(2, 1, 4));
     G.delVertex(3);
 
     printGraph(G);
@@ -183,7 +183,8 @@ public class test {
     System.out.println();
 
     for(int i = 0; i < A.length; i++)
-      A.get(i).print();
+      if (A.get(i) != null)
+        A.get(i).print();
   }
 
   public static void setTest(){

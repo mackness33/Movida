@@ -115,14 +115,60 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>>{
     if (vertex == null)
       return false;
 
-    for (int i = 0; i < this.verteces.length; i++)
+    for (int i = 0; i < this.verteces.length; i++){
       if (vertex == this.verteces.get(i)){
+        this.delArchOfVertex(this.verteces.get(i));
+
         this.verteces.set(i, null);
         this.numVertex--;
+
         return true;
       }
+    }
 
     return false;
+  }
+
+  protected void delArchOfVertex(E vertex){
+    if (vertex == null)
+      return;
+
+    Pair<E> e = this.arches.getHead().getValue();
+
+    e.print();
+
+    while (this.arches.getHead() != null){
+      e = this.arches.getHead().getValue();
+
+      System.out.println("First compare: " + (vertex.compareTo(e.getFirstValue()) != 0 && vertex.compareTo(e.getSecondValue()) != 0));
+      System.out.println("First Addend: " + (vertex.compareTo(e.getFirstValue()) != 0) + "  Val: " + e.getFirstValue());
+      System.out.println("Second Addend: " + (vertex.compareTo(e.getSecondValue()) != 0) + "  Val: " + e.getSecondValue());
+
+      if (vertex.compareTo(e.getFirstValue()) != 0 && vertex.compareTo(e.getSecondValue()) != 0)
+        break;
+
+      this.arches.delHead();
+      this.numArch--;
+    }
+
+    ((KeyNode<Pair<E>, K>)this.arches.getHead()).print();
+    ((KeyNode<Pair<E>, K>)this.arches.getHead().getNext()).print();
+
+    // iterate all the elements of the list
+    for (IKeyNode<Pair<E>, K> prev = (IKeyNode<Pair<E>, K>)this.arches.getHead(), iter = (IKeyNode<Pair<E>, K>)this.arches.getHead().getNext(); iter != null; iter = (KeyNode<Pair<E>, K>)iter.getNext()){
+      e = iter.getValue();
+
+      if (vertex.compareTo(e.getFirstValue()) == 0 || vertex.compareTo(e.getSecondValue()) == 0){
+        prev.setNext(iter.getNext());
+        iter = prev;
+        this.size--;
+      }
+
+      if (iter != prev)
+        prev = (IKeyNode<Pair<E>, K>)prev.getNext();
+    }
+
+    return;
   }
 
   public boolean delArch(Arch<E, K> arch){
