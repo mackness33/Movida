@@ -170,6 +170,20 @@ public class test {
     G.delVertex(3);
 
     printGraph(G);
+
+    System.out.println("Searchin for 3: " + G.searchVertex(3));
+    System.out.println("Searchin for 2: " + G.searchVertex(2));
+
+    System.out.println("Searchin for 3-3: " + G.searchArch(new Arch<Integer, Integer>(3,3, null)));
+    System.out.println("Searchin for 2-1: " + G.searchArch(new Arch<Integer, Integer>(2,1, null)));
+    System.out.println("Searchin for 5-5: " + G.searchArch(new Arch<Integer, Integer>(5,5, null)));
+    System.out.println("Searchin for 0-0: " + G.searchArch(new Arch<Integer, Integer>(0,0, null)));
+    System.out.println("Searchin for 2-2: " + G.searchArch(new Arch<Integer, Integer>(2,2, null)));
+    System.out.println("Searchin for 1-1: " + G.searchArch(new Arch<Integer, Integer>(1,1, null)));
+    System.out.println("Searchin for 1-3: " + G.searchArch(new Arch<Integer, Integer>(1,3, null)));
+    System.out.println("Searchin for 4-0: " + G.searchArch(new Arch<Integer, Integer>(4,0, null)));
+
+    
   }
 
   public static void printGraph(Graph g){

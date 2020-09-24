@@ -138,21 +138,22 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>>{
     e.print();
 
     while (this.arches.getHead() != null){
-      e = this.arches.getHead().getValue();
 
-      System.out.println("First compare: " + (vertex.compareTo(e.getFirstValue()) != 0 && vertex.compareTo(e.getSecondValue()) != 0));
-      System.out.println("First Addend: " + (vertex.compareTo(e.getFirstValue()) != 0) + "  Val: " + e.getFirstValue());
-      System.out.println("Second Addend: " + (vertex.compareTo(e.getSecondValue()) != 0) + "  Val: " + e.getSecondValue());
+      // System.out.println("First compare: " + (vertex.compareTo(e.getFirstValue()) != 0 && vertex.compareTo(e.getSecondValue()) != 0));
+      // System.out.println("First Addend: " + (vertex.compareTo(e.getFirstValue()) != 0) + "  Val: " + e.getFirstValue());
+      // System.out.println("Second Addend: " + (vertex.compareTo(e.getSecondValue()) != 0) + "  Val: " + e.getSecondValue());
 
       if (vertex.compareTo(e.getFirstValue()) != 0 && vertex.compareTo(e.getSecondValue()) != 0)
         break;
 
       this.arches.delHead();
       this.numArch--;
+
+      e = this.arches.getHead().getValue();
     }
 
-    ((KeyNode<Pair<E>, K>)this.arches.getHead()).print();
-    ((KeyNode<Pair<E>, K>)this.arches.getHead().getNext()).print();
+    // ((KeyNode<Pair<E>, K>)this.arches.getHead()).print();
+    // ((KeyNode<Pair<E>, K>)this.arches.getHead().getNext()).print();
 
     // iterate all the elements of the list
     for (IKeyNode<Pair<E>, K> prev = (IKeyNode<Pair<E>, K>)this.arches.getHead(), iter = (IKeyNode<Pair<E>, K>)this.arches.getHead().getNext(); iter != null; iter = (KeyNode<Pair<E>, K>)iter.getNext()){
@@ -172,8 +173,8 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>>{
   }
 
   public boolean delArch(Arch<E, K> arch){
-  if (arch == null)
-    return false;
+    if (arch == null)
+      return false;
 
     Pair<E> e = new Pair<E>(arch.getFirstVertex(), arch.getSecondVertex());
 
@@ -187,7 +188,35 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>>{
     return true;
   }
 
-  // public boolean search(Arch<E, V> arch);
+  public boolean searchArch(Arch<E, K> arch){
+    Integer res = this.arches.search(new Pair<E>(arch.getFirstVertex(), arch.getSecondVertex()));
+    System.out.println("RES: " + res);
+    return (res != null ) ? ((res == 0 ) ? true : false) : false;
+  }
+
+  public boolean searchVertex(E vertex){
+    if (vertex == null)
+      return false;
+
+    for (int i = 0; i < this.verteces.length; i++)
+      if (this.verteces.get(i) != null)
+        if (vertex.compareTo(this.verteces.get(i)) == 0)
+          return true;
+
+    return false;
+  }
+
+  // public Arch[] MSTPrim(E vertex){
+  //   if (vertex == null)
+  //     return false;
+  //
+  //   for (int i = 0; i < this.verteces.length; i++)
+  //     if (vertex.compareTo(this.verteces.get(i)) == 0)
+  //       return true;
+  //
+  //   return false;
+  // }
+
 
   protected class Pair <E extends Comparable<E>> implements Comparable<Pair<E>>{
     protected E value1;
@@ -215,12 +244,17 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>>{
 
     //@Override
     public int compareTo (Pair<E> input) {
-      int res = Math.abs(this.value1.compareTo(input.getFirstValue()) + this.value1.compareTo(input.getSecondValue())) -
-        Math.abs(this.value2.compareTo(input.getFirstValue()) + this.value2.compareTo(input.getSecondValue()));
+      int comp1 = this.value1.compareTo(input.getFirstValue()) + this.value1.compareTo(input.getSecondValue());
+      int comp2 = this.value2.compareTo(input.getFirstValue()) + this.value2.compareTo(input.getSecondValue());
+      int res = comp1 + comp2;
 
-      System.out.println("COMPARE res: " + res);
-      return res;
+      if (Math.abs(comp1) < 2 && Math.abs(comp2) < 2){
+        if (comp1 == comp2)
+          return res/2;
+        return res;
+      }
 
+      return 1;
     }
 
     //@Override
