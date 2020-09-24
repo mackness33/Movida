@@ -162,6 +162,8 @@ public class test {
     G.addArch(new Arch<Integer, Integer>(1, 3, 1));
     G.addArch(new Arch<Integer, Integer>(2, 3, 2));
     G.addArch(new Arch<Integer, Integer>(3, 3, 3));
+    G.addArch(new Arch<Integer, Integer>(2, 2, 11));
+    G.addArch(new Arch<Integer, Integer>(2, 2, 16));
     G.addArch(new Arch<Integer, Integer>(2, 1, 4));
 
     printGraph(G);
@@ -183,7 +185,7 @@ public class test {
     System.out.println("Searchin for 1-3: " + G.searchArch(new Arch<Integer, Integer>(1,3, null)));
     System.out.println("Searchin for 4-0: " + G.searchArch(new Arch<Integer, Integer>(4,0, null)));
 
-    
+
   }
 
   public static void printGraph(Graph g){
@@ -194,7 +196,7 @@ public class test {
       if (V.get(i) != null)
         System.out.println("Vertex: " + V.get(i));
 
-    System.out.println();
+    System.out.println("\n\rArch length: " + A.length);
 
     for(int i = 0; i < A.length; i++)
       if (A.get(i) != null)

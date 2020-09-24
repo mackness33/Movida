@@ -85,9 +85,12 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>>{
   }
 
   public boolean addArch(Arch<E, K> arch){
+    if (arch == null ||  this.searchVertex(arch.getFirstVertex()) == false || this.searchVertex(arch.getSecondVertex()) == false)
+      return false;
+
     Pair<E> e = new Pair<E>(arch.getFirstVertex(), arch.getSecondVertex());
 
-    if (arch == null && this.arches.search(e) == null)
+    if (this.searchArch(arch))
       return false;
 
     this.arches.addHead(arch.getWeight(), e);
@@ -102,13 +105,18 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>>{
 
     Pair<E> e = new Pair<E>(vertex1, vertex2);
 
-    if (this.arches.search(e) != null)
-      return false;
+    Integer res = this.arches.search(e);
 
-    this.arches.addHead(weight, e);
-    this.numArch++;
+    if (res != null){
+      if(res != 0){
+        this.arches.addHead(weight, e);
+        this.numArch++;
 
-    return true;
+        return true;
+      }
+    }
+
+    return false;
   }
 
   public boolean delVertex(E vertex){
@@ -130,30 +138,20 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>>{
   }
 
   protected void delArchOfVertex(E vertex){
-    if (vertex == null)
+    if (vertex == null || numArch <= 0)
       return;
 
-    Pair<E> e = this.arches.getHead().getValue();
-
-    e.print();
+    Pair<E> e = null;
 
     while (this.arches.getHead() != null){
-
-      // System.out.println("First compare: " + (vertex.compareTo(e.getFirstValue()) != 0 && vertex.compareTo(e.getSecondValue()) != 0));
-      // System.out.println("First Addend: " + (vertex.compareTo(e.getFirstValue()) != 0) + "  Val: " + e.getFirstValue());
-      // System.out.println("Second Addend: " + (vertex.compareTo(e.getSecondValue()) != 0) + "  Val: " + e.getSecondValue());
+      e = this.arches.getHead().getValue();
 
       if (vertex.compareTo(e.getFirstValue()) != 0 && vertex.compareTo(e.getSecondValue()) != 0)
         break;
 
       this.arches.delHead();
       this.numArch--;
-
-      e = this.arches.getHead().getValue();
     }
-
-    // ((KeyNode<Pair<E>, K>)this.arches.getHead()).print();
-    // ((KeyNode<Pair<E>, K>)this.arches.getHead().getNext()).print();
 
     // iterate all the elements of the list
     for (IKeyNode<Pair<E>, K> prev = (IKeyNode<Pair<E>, K>)this.arches.getHead(), iter = (IKeyNode<Pair<E>, K>)this.arches.getHead().getNext(); iter != null; iter = (KeyNode<Pair<E>, K>)iter.getNext()){
