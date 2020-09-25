@@ -204,16 +204,18 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>>{
     return false;
   }
 
-  // public Arch[] MSTPrim(E vertex){
-  //   if (vertex == null)
-  //     return false;
-  //
-  //   for (int i = 0; i < this.verteces.length; i++)
-  //     if (vertex.compareTo(this.verteces.get(i)) == 0)
-  //       return true;
-  //
-  //   return false;
-  // }
+  public Arch[] MSTPrim(E vertex){
+    if (vertex == null)
+      return false;
+
+    Arch[] A = new Arch[](this.numArch);
+
+    for(int i = 0; i < this.numArch; i++)
+      A[i] = null;
+
+
+    return false;
+  }
 
 
   protected class Pair <E extends Comparable<E>> implements Comparable<Pair<E>>{
