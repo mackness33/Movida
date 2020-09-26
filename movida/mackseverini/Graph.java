@@ -1,6 +1,7 @@
 package movida.mackseverini;
 
 import movida.mackseverini.Arch;
+import movida.mackseverini.PriorityQueue;
 import java.util.Arrays;
 
 // Class used to virtually implements an array without its costraints
@@ -204,18 +205,27 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>>{
     return false;
   }
 
-  // public Arch[] MSTPrim(E vertex){
-  //   if (vertex == null)
-  //     return false;
-  //
-  //   Arch[] A = new Arch[](this.numArch);
-  //
-  //   for(int i = 0; i < this.numArch; i++)
-  //     A[i] = null;
-  //
-  //
-  //   return false;
-  // }
+  public Arch[] MSTPrim(E vertex){
+    if (vertex == null)
+      return false;
+
+    Arch[] A = new Arch[](this.numArch);
+    E extreme = null;
+    PriorityQueue<E, K> PQ = new PriorityQueue<E,K>();
+
+    PQ.insert(vertex, 0);
+
+    while(!PQ.isEmpty()){
+      extreme = PQ.findMin();
+      PQ.delMin();
+
+      for ()
+      A[i] = null;
+    }
+
+
+    return false;
+  }
 
 
   protected class Pair <E extends Comparable<E>> implements Comparable<Pair<E>>{

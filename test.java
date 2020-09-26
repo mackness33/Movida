@@ -418,6 +418,14 @@ public class test {
     PQ.increaseKey(0, 1111);
 
     PQ.print();
+
+    System.out.println("Actual min: " + PQ.findMin());
+
+    for (int i = 0; i < 37; i++)
+      PQ.delMin();
+
+    System.out.println("Last: " + PQ.findMin());
+    System.out.println("isEmpty: " + PQ.isEmpty());
   }
 
 }
