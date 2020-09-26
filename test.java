@@ -16,6 +16,7 @@ import movida.mackseverini.KeyList;
 import movida.mackseverini.Graph;
 import movida.mackseverini.Arch;
 import movida.mackseverini.Set;
+import movida.mackseverini.PriorityQueue;
 // import movida.mackseverini.MergeSort;
 import movida.commons.*;
 
@@ -28,7 +29,8 @@ public class test {
 
   public static void main(String args[]){
     // test.AlgTest();
-    test.graphTest();
+    // test.graphTest();
+    test.priorityQueueTest();
   }
 
   public static void AlgTest(){
@@ -184,7 +186,6 @@ public class test {
     System.out.println("Searchin for 1-1: " + G.searchArch(new Arch<Integer, Integer>(1,1, null)));
     System.out.println("Searchin for 1-3: " + G.searchArch(new Arch<Integer, Integer>(1,3, null)));
     System.out.println("Searchin for 4-0: " + G.searchArch(new Arch<Integer, Integer>(4,0, null)));
-
 
   }
 
@@ -386,4 +387,33 @@ public class test {
     for(int i = 0; i < test.length; i++)
       System.out.println(test.get(i));
   }
+
+  public static void priorityQueueTest(){
+    PriorityQueue<Integer> PQ = new PriorityQueue<Integer>();
+
+
+    for (int i = 5; i < 40; i++)
+      PQ.insert(ThreadLocalRandom.current().nextInt(5, 1001));
+
+    PQ.insert(1);
+    PQ.insert(2);
+    PQ.insert(3);
+    PQ.insert(4);
+
+    System.out.println("Priority Queue: ");
+    PQ.print();
+
+    System.out.println("Delete val: " + PQ.delete(40));
+    System.out.println("Delete val: " + PQ.delete(70));
+    System.out.println("Delete val: " + PQ.delete(3));
+    System.out.println("Delete val: " + PQ.delete(1));
+
+    PQ.print();
+
+    PQ.insert(0);
+
+    PQ.print();
+    
+  }
+
 }

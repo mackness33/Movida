@@ -10,15 +10,15 @@ import movida.commons.Movie;
 import movida.commons.Person;
 import movida.mackseverini.IKeyList;
 
-public class PriorityQueue<E extends Comparable<E>> implements movida.mackseverini.IKeyList<E, K, T>{
-  protected Array<E> binaryheap;
+public class PriorityQueue<E extends Comparable<E>>{
+  protected Array<E> binaryHeap;
   protected final int MAX_LENGTH = 100;
   protected int size;
   protected int height;
 
   @SuppressWarnings("unchecked")
   public PriorityQueue() {
-    this.binaryHeap = new Array<E>(MAX_LENGTH);
+    this.binaryHeap = new Array<E>(this.MAX_LENGTH);
     this.size = 0;
     this.height = 0;
 
@@ -29,30 +29,29 @@ public class PriorityQueue<E extends Comparable<E>> implements movida.mackseveri
   public int getSize() { return this.size; }
 
   // reset of all the data structure
-  @Override
+  // @Override
   public void reset (){
     this.size = 0;
     this.height = 0;
 
-    for (int i = 0; i < this.binaryheap.length; i++)
-      this.binaryheap.set(i, null);
+    for (int i = 0; i < this.binaryHeap.length; i++)
+      this.binaryHeap.set(i, null);
   }
 
-  @Override
+  // @Override
   // insert of a element. A lot similar to KeyHash.addHashKey(..)
   public boolean insert(E obj){
     if (obj == null)
       return false;
 
 
-    this.binaryHeap.set(i, this.size);
+    this.binaryHeap.set(this.size, obj);
     this.size++;
 
-    if (this.size > (2 ** (this.height + 1) - 1))
+    if (this.size > Math.pow(2, this.height+1) - 1)
       this.height++;
 
-
-    this.moveUp(this.size);
+    this.moveUp(this.size-1);
 
     return true;
   }
@@ -60,54 +59,69 @@ public class PriorityQueue<E extends Comparable<E>> implements movida.mackseveri
   public boolean isEmpty(){ return (this.height == 0) ? true : false; }
 
   protected void moveUp(int pos){
-    if (pos >= 0 && pos < this.size)
+    if (pos >= 0 && pos < this.size){
       if (this.binaryHeap.get(pos) == null)
-        return false;
+        return;
+    }
     else
-      return false;
+      return;
 
-    for (int i = pos/2; i >= 0; i/=2){
-      if (this.binaryHeap.get(i).compareTo(is.binaryHeap.get(pos)) > 0){
+    for (int i = ((pos+1)/2)-1; i >= 0; i=((pos+1)/2)-1){
+      if (this.binaryHeap.get(pos).compareTo(this.binaryHeap.get(i)) < 0){
         E temp = this.binaryHeap.get(i);
         this.binaryHeap.set(i, this.binaryHeap.get(pos));
         this.binaryHeap.set(pos, temp);
+        pos = i;
       }
-      else
-        break;
+      else break;
     }
 
-    return true;
+    return;
   }
 
   protected void moveDown(int pos){
-    if (pos >= 0 && pos < this.size)
+    if (pos >= 0 && pos < this.size){
       if (this.binaryHeap.get(pos) == null)
-        return false;
-    else
-      return false;
+        return;
+    }
+    else return;
 
-    for (int i = pos*2; i < this.size; i*=2){
-      if (this.binaryHeap.get(i).compareTo(is.binaryHeap.get(pos)) > 0){
-        E temp = this.binaryHeap.get(i);
-        this.binaryHeap.set(i, this.binaryHeap.get(pos));
-        this.binaryHeap.set(pos, temp);
-      }
-      else if (i+1 < this.size){
-        if (this.binaryHeap.get(i+1).compareTo(is.binaryHeap.get(pos)) > 0){
-          E temp = this.binaryHeap.get(i);
-          this.binaryHeap.set(i, this.binaryHeap.get(pos));
-          this.binaryHeap.set(pos, temp);
+    for (int i = (pos*2)+1; i < this.size; i=(pos*2)+1){
+      if (i+1 < this.size){
+        if (this.binaryHeap.get(i).compareTo(this.binaryHeap.get(i+1)) < 0){
+          if (this.compareAndSwap(pos, i))
+            pos = i;
+          else break;
+        }
+        else{
+          if (this.compareAndSwap(pos, i+1))
+            pos = i+1;
+          else break;
         }
       }
-      else
-        break;
+      else{
+        if (this.compareAndSwap(pos, i))
+          pos = i;
+        else break;
+      }
     }
 
-    return true;
+    return;
+  }
+
+  private boolean compareAndSwap(int pos, int pos2){
+    if (this.binaryHeap.get(pos).compareTo(this.binaryHeap.get(pos2)) > 0){
+      E temp = this.binaryHeap.get(pos2);
+      this.binaryHeap.set(pos2, this.binaryHeap.get(pos));
+      this.binaryHeap.set(pos, temp);
+      return true;
+    }
+
+    return false;
   }
 
   // delete of a element. A lot similar to KeyHash.delHashKey(..)
-  @Override
+  // @Override
   public boolean delete(E obj){
     if (obj == null)
       return false;
@@ -123,7 +137,7 @@ public class PriorityQueue<E extends Comparable<E>> implements movida.mackseveri
 
     this.size--;
 
-    if (this.size < (2 ** (this.height)) - 1)
+    if (this.size < Math.pow(2, this.height) - 1)
       this.height--;
 
     this.moveDown(pos);
@@ -132,28 +146,26 @@ public class PriorityQueue<E extends Comparable<E>> implements movida.mackseveri
   }
 
   protected int search(E obj, int pos){
-    if (obj == null || pos < 1)
+    if (obj == null || pos < 1 || this.binaryHeap.get(pos-1) == null)
       return -1;
 
     if (obj.compareTo(this.binaryHeap.get(pos-1)) == 0)
       return pos-1;
     else if (obj.compareTo(this.binaryHeap.get(pos-1)) < 0)
-      return -1
+      return -1;
     else
-      return Math.max(this.search(obj, pos*2), this.search(obj, (pos*2)+1))
+      return Math.max(this.search(obj, pos*2), this.search(obj, (pos*2)+1));
   }
 
 
   // print of the whole hash
   // FOR TEST USE ONLY
   public void print (){
-    System.out.println("Length: " + this.dom.length);
+    System.out.println("Size: " + this.size);
     E temp = null;
 
-    for (int i = 0; i < this.dom.length; i++)
-      if ((temp = this.dom.get(i)) != null)
-        System.out.println("VALUE => " + this.dom.get(i));
-
-    this.major.print();
+    for (int i = 0; i < this.size; i++)
+      if ((temp = this.binaryHeap.get(i)) != null)
+        System.out.println("POS => " + i + " VALUE => " + temp);
   }
 }
