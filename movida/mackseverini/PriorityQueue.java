@@ -160,7 +160,41 @@ public class PriorityQueue<E extends Comparable<E>, K extends Comparable<K>>{
 
   public boolean delMin() { return this.delete(this.binaryHeap.get(0).getValue());}
 
-  // public void increaseKey(E e)
+  public boolean increaseKey(E obj, K key){
+    if (obj == null || key == null)
+      return false;
+
+    int pos = -1;
+
+    if ((pos = this.search(obj, 1)) < 0)
+      return false;
+
+    if (key.compareTo(this.binaryHeap.get(pos).getKey()) <= 0)
+      return false;
+
+    this.binaryHeap.set(pos, new Pair<E, K>(obj, key));
+    this.moveDown(pos);
+
+    return true;
+  }
+
+  public boolean decreaseKey(E obj, K key){
+    if (obj == null || key == null)
+      return false;
+
+    int pos = -1;
+
+    if ((pos = this.search(obj, 1)) < 0)
+      return false;
+
+    if (key.compareTo(this.binaryHeap.get(pos).getKey()) >= 0)
+      return false;
+
+    this.binaryHeap.set(pos, new Pair<E, K>(obj, key));
+    this.moveUp(pos);
+
+    return true;
+  }
 
   // print of the whole hash
   // FOR TEST USE ONLY

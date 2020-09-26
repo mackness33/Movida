@@ -414,6 +414,10 @@ public class test {
 
     PQ.print();
 
+    PQ.increaseKey(2, 0);
+    PQ.increaseKey(0, 1111);
+
+    PQ.print();
   }
 
 }
