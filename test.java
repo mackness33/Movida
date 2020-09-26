@@ -389,16 +389,16 @@ public class test {
   }
 
   public static void priorityQueueTest(){
-    PriorityQueue<Integer> PQ = new PriorityQueue<Integer>();
+    PriorityQueue<Integer, Integer> PQ = new PriorityQueue<Integer, Integer>();
 
 
     for (int i = 5; i < 40; i++)
-      PQ.insert(ThreadLocalRandom.current().nextInt(5, 1001));
+      PQ.insert(ThreadLocalRandom.current().nextInt(5, 1001), ThreadLocalRandom.current().nextInt(5, 40));
 
-    PQ.insert(1);
-    PQ.insert(2);
-    PQ.insert(3);
-    PQ.insert(4);
+    PQ.insert(1, 1);
+    PQ.insert(2, 2);
+    PQ.insert(3, 3);
+    PQ.insert(4, 4);
 
     System.out.println("Priority Queue: ");
     PQ.print();
@@ -410,10 +410,10 @@ public class test {
 
     PQ.print();
 
-    PQ.insert(0);
+    PQ.insert(0, 0);
 
     PQ.print();
-    
+
   }
 
 }

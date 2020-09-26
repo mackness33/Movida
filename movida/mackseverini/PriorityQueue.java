@@ -10,15 +10,15 @@ import movida.commons.Movie;
 import movida.commons.Person;
 import movida.mackseverini.IKeyList;
 
-public class PriorityQueue<E extends Comparable<E>>{
-  protected Array<E> binaryHeap;
+public class PriorityQueue<E extends Comparable<E>, K extends Comparable<K>>{
+  protected Array<Pair<E, K>> binaryHeap;
   protected final int MAX_LENGTH = 100;
   protected int size;
   protected int height;
 
   @SuppressWarnings("unchecked")
   public PriorityQueue() {
-    this.binaryHeap = new Array<E>(this.MAX_LENGTH);
+    this.binaryHeap = new Array<Pair<E, K>>(this.MAX_LENGTH);
     this.size = 0;
     this.height = 0;
 
@@ -40,12 +40,11 @@ public class PriorityQueue<E extends Comparable<E>>{
 
   // @Override
   // insert of a element. A lot similar to KeyHash.addHashKey(..)
-  public boolean insert(E obj){
-    if (obj == null)
+  public boolean insert(E obj, K key){
+    if (obj == null || key == null)
       return false;
 
-
-    this.binaryHeap.set(this.size, obj);
+    this.binaryHeap.set(this.size, new Pair<E, K>(obj, key));
     this.size++;
 
     if (this.size > Math.pow(2, this.height+1) - 1)
@@ -68,7 +67,7 @@ public class PriorityQueue<E extends Comparable<E>>{
 
     for (int i = ((pos+1)/2)-1; i >= 0; i=((pos+1)/2)-1){
       if (this.binaryHeap.get(pos).compareTo(this.binaryHeap.get(i)) < 0){
-        E temp = this.binaryHeap.get(i);
+        Pair<E, K> temp = this.binaryHeap.get(i);
         this.binaryHeap.set(i, this.binaryHeap.get(pos));
         this.binaryHeap.set(pos, temp);
         pos = i;
@@ -111,7 +110,7 @@ public class PriorityQueue<E extends Comparable<E>>{
 
   private boolean compareAndSwap(int pos, int pos2){
     if (this.binaryHeap.get(pos).compareTo(this.binaryHeap.get(pos2)) > 0){
-      E temp = this.binaryHeap.get(pos2);
+      Pair<E, K> temp = this.binaryHeap.get(pos2);
       this.binaryHeap.set(pos2, this.binaryHeap.get(pos));
       this.binaryHeap.set(pos, temp);
       return true;
@@ -131,7 +130,7 @@ public class PriorityQueue<E extends Comparable<E>>{
     if ((pos = this.search(obj, 1)) < 0)
       return false;
 
-    E temp = this.binaryHeap.get(this.size-1);
+    Pair<E, K> temp = this.binaryHeap.get(this.size-1);
     this.binaryHeap.set(pos, temp);
     this.binaryHeap.set(this.size-1, null);
 
@@ -149,23 +148,63 @@ public class PriorityQueue<E extends Comparable<E>>{
     if (obj == null || pos < 1 || this.binaryHeap.get(pos-1) == null)
       return -1;
 
-    if (obj.compareTo(this.binaryHeap.get(pos-1)) == 0)
+    if (obj.compareTo(this.binaryHeap.get(pos-1).getValue()) == 0)
       return pos-1;
-    else if (obj.compareTo(this.binaryHeap.get(pos-1)) < 0)
+    else if (obj.compareTo(this.binaryHeap.get(pos-1).getValue()) < 0)
       return -1;
     else
       return Math.max(this.search(obj, pos*2), this.search(obj, (pos*2)+1));
   }
 
+  public E findMin() { return this.binaryHeap.get(0).getValue();}
+
+  public boolean delMin() { return this.delete(this.binaryHeap.get(0).getValue());}
+
+  // public void increaseKey(E e)
 
   // print of the whole hash
   // FOR TEST USE ONLY
   public void print (){
     System.out.println("Size: " + this.size);
-    E temp = null;
+    Pair<E, K> temp = null;
 
     for (int i = 0; i < this.size; i++)
-      if ((temp = this.binaryHeap.get(i)) != null)
-        System.out.println("POS => " + i + " VALUE => " + temp);
+      if ((temp = this.binaryHeap.get(i)) != null){
+        System.out.print("POS => " + i + "  ");
+        temp.print();
+      }
+  }
+
+  protected class Pair <E extends Comparable<E>, K extends Comparable<K>> implements Comparable<Pair<E, K>>{
+    protected E value;
+		protected K key;
+
+    public Pair(){
+      this.value = null;
+      this.key = null;
+    }
+
+    public Pair(E v, K k){
+      this.value = v;
+      this.key = k;
+    }
+
+    //@Override
+    public E getValue() { return this.value; }
+    //@Override
+    public K getKey() { return this.key; }
+
+    //@Override
+    public void setValue (E v) { this.value = v; }
+    //@Override
+    public void setKey (K k) { this.key = k; }
+
+    //@Override
+    public int compareTo (Pair<E, K> input) {
+      return this.key.compareTo(input.getKey());
+    }
+
+    //@Override
+    public void print(){ System.out.println("Pair: VALUE => " + this.value + " KEY => " + this.key); }
   }
 }
