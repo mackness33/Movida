@@ -145,7 +145,7 @@ public class PriorityQueue<E extends Comparable<E>, K extends Comparable<K>>{
   }
 
   protected int search(E obj, int pos){
-    if (obj == null || pos < 1 || this.binaryHeap.get(pos-1) == null)
+    if (obj == null || pos < 1 || this.binaryHeap.get(pos-1) == null || pos > this.size)
       return -1;
 
     if (obj.compareTo(this.binaryHeap.get(pos-1).getValue()) == 0)
@@ -154,6 +154,21 @@ public class PriorityQueue<E extends Comparable<E>, K extends Comparable<K>>{
       return -1;
     else
       return Math.max(this.search(obj, pos*2), this.search(obj, (pos*2)+1));
+  }
+
+  public K getKey(E obj, int pos){
+    if (obj == null || pos < 1 || this.binaryHeap.get(pos-1) == null || pos > this.size)
+      return null;
+
+    if (obj.compareTo(this.binaryHeap.get(pos-1).getValue()) == 0)
+      return this.binaryHeap.get(pos-1).getKey();
+    else if (obj.compareTo(this.binaryHeap.get(pos-1).getValue()) < 0)
+      return null;
+    else{
+      K first = this.search(obj, pos*2);
+      K second = this.search(obj, (pos*2)+1);
+      return Math.max((first != null) ? first : -1 , (second != null) ? second : -1);
+    }
   }
 
   public E findMin() { return this.binaryHeap.get(0).getValue();}

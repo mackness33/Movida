@@ -13,8 +13,8 @@ public interface IList<E extends Comparable<E>> extends Comparable<IList<E>>{
 
   public void delHead ();
   public void delTail ();
-  public void delEl (E el);
-  public void delAt (int pos);
+  public boolean delEl (E el);
+  public boolean delAt (int pos);
 
   public void update (E el, int pos);
 

@@ -3,7 +3,7 @@ import movida.mackseverini.Node2;
 import movida.mackseverini.INode2;
 import movida.mackseverini.Array;
 
-public class List<E extends Comparable<E>> implements IList<E>{
+public class List<E extends Comparable<E>> implements movida.mackseverini.IList<E>{
   protected INode2<E> head;
   protected INode2<E> tail;
   protected Integer size;
@@ -20,7 +20,7 @@ public class List<E extends Comparable<E>> implements IList<E>{
     this.size = 1;
   }
 
-  public List (List<E> shallow){
+  public List (IList<E> shallow){
     this.head = (Node2<E>)shallow.getHead();
     this.tail = (Node2<E>)shallow.getTail();
     this.size = shallow.getSize();
@@ -157,24 +157,24 @@ public class List<E extends Comparable<E>> implements IList<E>{
 
   @Override
   // delete the node with the element in input
-  public void delEl (E el){
+  public boolean delEl (E el){
     // check if the list is empty
     if (this.size <= 0 || el == null)
-      return;
+      return false;
 
     // compare to head and tail
     if (el.compareTo(this.head.getValue()) == 0){
       this.delHead();
-      return;
+      return true;
     }
     else if (el.compareTo(this.tail.getValue()) == 0){
       this.delTail();
-      return;
+      return true;
     }
 
     // check to see if there's more then one element
     if((Node2<E>)this.head.getNext() == null)
-      return;
+      return false;
 
       // iterate all the elements of the list
     for (Node2<E> prev = (Node2<E>)this.head, iter = (Node2<E>)this.head.getNext(); iter.getNext() != null; iter = (Node2<E>)iter.getNext(), prev = (Node2<E>)prev.getNext()){
@@ -182,29 +182,31 @@ public class List<E extends Comparable<E>> implements IList<E>{
         prev.setNext(iter.getNext());
         iter = null;
         this.size--;
-        return;
+        return true;
       }
     }
+
+    return false;
   }
 
   @Override
   // Delete a element by its position
-  public void delAt (int pos){
+  public boolean delAt (int pos){
     if (this.size <= 0)
-      return;
+      return false;
 
     // check if the position is valid
     if (pos <= 0 || pos >= size-1){
       if (pos == 0){
         this.delHead();
-        return;
+        return true;
       }
       else if (pos == size-1){
         this.delTail();
-        return;
+        return true;
       }
 
-      return;
+      return false;
     }
 
     int i = 1;
@@ -217,7 +219,11 @@ public class List<E extends Comparable<E>> implements IList<E>{
       prev.setNext(iter.getNext());
       iter = null;
       this.size--;
+
+      return true;
     }
+
+    return false;
   }
 
   @Override

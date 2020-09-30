@@ -1,13 +1,17 @@
-//CLEAN:
 package movida.mackseverini;
+
+
+import movida.mackseverini.Pair;
+import movida.mackseverini.KeyList;
+import movida.mackseverini.IKeyList;
 
 public class Vertex<E extends Comparable<E>, K extends Comparable<K>> implements Comparable<Vertex<E, K>>{
   protected E value;
-  protected IList<Pair<E,K>> adiacence;
+  protected IKeyList<E, K, Integer> adiacence;
 
   public Vertex(){
     this.value = null;
-    this.adiacence = new List<Pair<E,K>>();
+    this.adiacence = new KeyList<E, K, Integer>();
   }
 
   public Vertex(Vertex<E, K> shallow){
@@ -15,26 +19,71 @@ public class Vertex<E extends Comparable<E>, K extends Comparable<K>> implements
     this.adiacence = shallow.getAdiacence();
   }
 
-  public Arch(E v){
+  public Vertex(E v){
     this.value = v;
-    this.adiacence = new List<Pair<E,K>>();
+    this.adiacence = new KeyList<E, K, Integer>();
+  }
+
+  public Vertex(E v, IKeyList<E, K, Integer> a){
+    this.value = v;
+    this.adiacence = a;
   }
 
   //@Override
-  public IList<Pair<E,K>> getAdiacence () { return this.adiacence; }
+  public IKeyList<E, K, Integer> getAdiacence () { return this.adiacence; }
   //@Override
   public E getValue () { return this.value; }
 
   //@Override
   public void setValue (E v) { this.value = v; }
 
-  public void addAdiacence (E v, K w) { this.adiacence.addHead(new Pair<E,K>(v, w)); }
+
+  public void addAdiacence (E v, K w) { this.adiacence.addHead(w, v); }
+
+  public boolean delAdiacence (E v) { return this.adiacence.delEl(v); }
 
   //@Override
-  public int compareTo (Vertex input) { return this.value.compareTo(input.getValue()); }
+  public int compareTo (Vertex<E, K> input) { return this.value.compareTo(input.getValue()); }
+
+  public int compareTo (E input) { return this.value.compareTo(input); }
 
   public void print(){
     System.out.println("Vertex: VALUE => " + this.value + " \n\r ADIACENCE => ");
     this.adiacence.print();
+  }
+
+  public String toString(){ return this.value.toString(); }
+
+  protected class Pair <E extends Comparable<E>, K extends Comparable<K>> implements Comparable<Pair<E, K>>{
+    protected E value;
+		protected K key;
+
+    public Pair(){
+      this.value = null;
+      this.key = null;
+    }
+
+    public Pair(E v, K k){
+      this.value = v;
+      this.key = k;
+    }
+
+    //@Override
+    public E getValue() { return this.value; }
+    //@Override
+    public K getKey() { return this.key; }
+
+    //@Override
+    public void setValue (E v) { this.value = v; }
+    //@Override
+    public void setKey (K k) { this.key = k; }
+
+    //@Override
+    public int compareTo (Pair<E, K> input) {
+      return this.key.compareTo(input.getKey());
+    }
+
+    //@Override
+    public void print(){ System.out.println("Pair: VALUE => " + this.value + " KEY => " + this.key); }
   }
 }

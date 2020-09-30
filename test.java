@@ -17,6 +17,7 @@ import movida.mackseverini.Graph;
 import movida.mackseverini.Arch;
 import movida.mackseverini.Set;
 import movida.mackseverini.PriorityQueue;
+import movida.mackseverini.Vertex;
 // import movida.mackseverini.MergeSort;
 import movida.commons.*;
 
@@ -29,8 +30,8 @@ public class test {
 
   public static void main(String args[]){
     // test.AlgTest();
-    // test.graphTest();
-    test.priorityQueueTest();
+    test.graphTest();
+    // test.priorityQueueTest();
   }
 
   public static void AlgTest(){
@@ -170,7 +171,7 @@ public class test {
 
     printGraph(G);
 
-    // G.delArch(new Arch<Integer, Integer>(2, 1, 4));
+    G.delArch(new Arch<Integer, Integer>(2, 2, null));
     G.delVertex(3);
 
     printGraph(G);
@@ -186,7 +187,6 @@ public class test {
     System.out.println("Searchin for 1-1: " + G.searchArch(new Arch<Integer, Integer>(1,1, null)));
     System.out.println("Searchin for 1-3: " + G.searchArch(new Arch<Integer, Integer>(1,3, null)));
     System.out.println("Searchin for 4-0: " + G.searchArch(new Arch<Integer, Integer>(4,0, null)));
-
   }
 
   public static void printGraph(Graph g){
@@ -421,10 +421,11 @@ public class test {
 
     System.out.println("Actual min: " + PQ.findMin());
 
-    for (int i = 0; i < 37; i++)
+    for (int i = 0; i < 36; i++)
       PQ.delMin();
 
     System.out.println("Last: " + PQ.findMin());
+
     System.out.println("isEmpty: " + PQ.isEmpty());
   }
 
