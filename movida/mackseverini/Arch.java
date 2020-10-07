@@ -53,6 +53,8 @@ public class Arch<E extends Comparable<E>, K extends Comparable<K>> implements C
     return 1;
   }
 
+  public void reset () { this.weight = this.vertex1 = this.vertex2 = null; }
+  
   public void print(){
     System.out.println("Arch: WEIGHT => " + this.weight + "  FIRST VERTEX => " + this.vertex1 + "  SECOND VERTEX => " + this.vertex2);
   }

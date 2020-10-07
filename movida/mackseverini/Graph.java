@@ -282,73 +282,52 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>>{
     if (vertex == null)
       return null;
 
-    Arch[] A = new Arch[this.numArch];
-    boolean[] mark = new boolean[this.numArch];
-    Integer pos_vertex = null, weight_arch = null;
-    Vertex<E, K> V = null;
-    PriorityQueue<GraphPair<Integer, Integer>, Integer> PQ = new PriorityQueue<GraphPair<Integer, Integer>, Integer>();
+    Array<Arch<E,K>> A = new Array<Arch<E,K>>(this.numArch);
+    Arch<E,K> arch = new Arch<E,K>();
+    Integer pos_vertex = null;
+    PriorityQueue<Integer, Integer> PQ = new PriorityQueue<Integer, Integer>();
 
-    for (int i = 0; i < this.verteces.length; i++){
-      if (this.verteces.get(i).compareTo(new Vertex(vertex)) == 0){
+    for (int i = 0; i < this.verteces.length; i++)
+      if (this.verteces.get(i).compareTo(new Vertex(vertex)) == 0)
         pos_vertex = i;
-        V = this.verteces.get(i);
-      }
-    }
 
-    if (V == null || pos_vertex == null)
+    if (this.verteces.get(pos_vertex) == null || pos_vertex == null)
       return null;
 
     for (int i = 0; i < A.length; i++)
       A.set(i, null);
 
-    PQ.insert(new GraphVertex<Integer, Integer>(pos_vertex, 0), 0);
+    PQ.insert(pos_vertex, 0);
 
-    GraphPair<Integer, Integer> temp = null;
-    for(int i = 0; i < A.length && !PQ.isEmpty(); i++){
+    for(Integer temp = 0, pos_arch = 0; !PQ.isEmpty(); arch.reset()){
       temp = PQ.findMin();
-      // weight_arch = PQ.getKey(temp, 1);
       PQ.delMin();
+      arch.setFirstVertex(this.verteces.get(temp).getValue());
 
-      V = this.verteces.get(temp.getFirstValue());
-      for (IKeyNode<Integer, Integer> iter = V.getAdiacence(); iter != null; iter = (IKeyNode<Integer, Integer>)iter.getNext()){
-        temp = new GraphPair<Integer, Integer>(iter.getValue(), );
-        if (mark[i] == null){
-          PQ.insert(new GraphVertex<Integer, Integer>(temp.getValue(), temp.getKey()), iter.getKey());
-          A[i] = new Arch<E, K>(V.getValue(), this.verteces.get(temp.getValue()).getValue(), iter.getKey());
+      for (IKeyNode<Integer, K> iter = (IKeyNode<Integer, K>)this.verteces.get(temp).getAdiacence().getHead(); iter != null; iter = (IKeyNode<Integer, K>)iter.getNext()){
+        arch.setSecondVertex(this.verteces.get(iter.getValue()).getValue());
+
+        for (int i = 0; i < A.length; i++){
+          if (arch.compareTo(A.get(pos_arch)) == 0){
+            arch.setWeight(A.get(i).getWeight());
+            pos_arch = i;
+            break;
+          }
         }
-        else if (iter.getKey() < A[i].getWeight()){
-          PQ.decreaseKey(this.verteces.get(temp.getValue()), A[i].getWeight() - iter.getKey())
-          A[i] = new Arch<E, K>(V.getValue(), this.verteces.get(iter.getValue()).getValue(), iter.getKey());
+
+        if (arch.getWeight() == null){
+          PQ.insert(temp, iter.getKey());
+          A.set(pos_arch, new Arch<E, K>(arch));
+        }
+        else if (iter.getKey().compareTo(A.get(pos_arch).getWeight()) < 0){
+          PQ.decreaseKey(pos_vertex, A.get(pos_arch).getWeight() - iter.getKey());
+          A.get(pos_arch).setWeight(iter.getKey());
         }
       }
     }
 
-    return null;
+    return A;
   }
-
-
-  protected class GraphVertex <E extends Comparable<E>, K extends Comparable<K>> extends Vertex<E, K>{ //implements Comparable<GraphVertex<E, K>>{
-    int final pos_in_arch;
-
-    public GraphVertex(int p){
-      super();
-      pos_in_arch = p;
-    }
-
-    public GraphVertex(Vertex<E, K> shallow, int p){
-      super(shallow);
-      pos_in_arch = p;
-    }
-
-    public GraphVertex(E v, int p){
-      super(v);
-      pos_in_arch = p;
-    }
-
-    public GraphVertex(E v, IKeyList<E, K, Integer> a, int p){
-      super(v, a);
-      pos_in_arch = p;
-    }
 
   protected class GraphPair <E extends Comparable<E>> implements Comparable<GraphPair<E>>{
     protected E value1;
