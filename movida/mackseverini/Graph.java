@@ -83,8 +83,9 @@ public class Graph<E extends Comparable<E>>{
       return false;
 
     for (int i = 0; i < this.verteces.length; i++)
-      if (vertex == this.verteces.get(i))
-        return false;
+      if (this.verteces.get(i) != null)
+        if (vertex.compareTo(this.verteces.get(i).getValue()) == 0)
+          return false;
 
     this.verteces.set(this.numVertex, new Vertex(vertex));
     this.numVertex++;

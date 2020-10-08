@@ -155,12 +155,12 @@ public class test {
     for (int i = 0; i < 40; i++){
       // G.addVertex(ThreadLocalRandom.current().nextInt(0, 50));
       G.addVertex(i);
-      G.addArch(new Arch<Integer, Double>(ThreadLocalRandom.current().nextInt(5, 39), ThreadLocalRandom.current().nextInt(5, 39), ThreadLocalRandom.current().nextDouble(-1000, 1001)));
+      G.addArch(new Arch<Integer, Double>(ThreadLocalRandom.current().nextInt(0, 20), ThreadLocalRandom.current().nextInt(0, 20), ThreadLocalRandom.current().nextDouble(-1000, 1001)));
     }
 
-    G.addVertex(1);
-    G.addVertex(2);
-    G.addVertex(3);
+    // G.addVertex(1);
+    // G.addVertex(2);
+    // G.addVertex(3);
 
     G.addArch(new Arch<Integer, Double>(1, 3, 1.0));
     G.addArch(new Arch<Integer, Double>(2, 3, 2.0));
@@ -194,9 +194,9 @@ public class test {
     if (Prim == null)
       System.out.println("Prim : null");
 
-    // for (int i = 0; i < Prim.length; i++)
-    //   if (Prim.get(i) == null)
-    //     System.out.println("Arch : null");
+    for (int i = 0; i < Prim.length; i++)
+      if (Prim.get(i) == null)
+        System.out.println("Arch : null");
   }
 
   public static void printGraph(Graph g){
