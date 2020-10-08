@@ -165,9 +165,10 @@ public class PriorityQueue<E extends Comparable<E>, K extends Comparable<K>>{
     else if (obj.compareTo(this.binaryHeap.get(pos-1).getValue()) < 0)
       return null;
     else{
-      K first = this.search(obj, pos*2);
-      K second = this.search(obj, (pos*2)+1);
-      return Math.max((first != null) ? first : -1 , (second != null) ? second : -1);
+      K first = this.getKey(obj, pos*2);
+      K second = this.getKey(obj, (pos*2)+1);
+      int p = Math.max((first != null) ? pos*2 : -1 , (second != null) ? (pos*2 + 1) : -1);
+      return (p < 0) ? null : this.binaryHeap.get(p).getKey();
     }
   }
 

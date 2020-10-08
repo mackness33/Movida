@@ -150,28 +150,28 @@ public class test {
   }
 
   public static void graphTest(){
-    Graph<Integer, Integer> G = new Graph<Integer, Integer>();
+    Graph<Integer> G = new Graph<Integer>();
 
-    for (int i = 5; i < 40; i++){
+    for (int i = 0; i < 40; i++){
       // G.addVertex(ThreadLocalRandom.current().nextInt(0, 50));
       G.addVertex(i);
-      G.addArch(new Arch<Integer, Integer>(ThreadLocalRandom.current().nextInt(5, 39), ThreadLocalRandom.current().nextInt(5, 39), ThreadLocalRandom.current().nextInt(-1000, 1001)));
+      G.addArch(new Arch<Integer, Double>(ThreadLocalRandom.current().nextInt(5, 39), ThreadLocalRandom.current().nextInt(5, 39), ThreadLocalRandom.current().nextDouble(-1000, 1001)));
     }
 
     G.addVertex(1);
     G.addVertex(2);
     G.addVertex(3);
 
-    G.addArch(new Arch<Integer, Integer>(1, 3, 1));
-    G.addArch(new Arch<Integer, Integer>(2, 3, 2));
-    G.addArch(new Arch<Integer, Integer>(3, 3, 3));
-    G.addArch(new Arch<Integer, Integer>(2, 2, 11));
-    G.addArch(new Arch<Integer, Integer>(2, 2, 16));
-    G.addArch(new Arch<Integer, Integer>(2, 1, 4));
+    G.addArch(new Arch<Integer, Double>(1, 3, 1.0));
+    G.addArch(new Arch<Integer, Double>(2, 3, 2.0));
+    G.addArch(new Arch<Integer, Double>(3, 3, 3.0));
+    G.addArch(new Arch<Integer, Double>(2, 2, 11.0));
+    G.addArch(new Arch<Integer, Double>(2, 2, 16.0));
+    G.addArch(new Arch<Integer, Double>(2, 1, 4.0));
 
     printGraph(G);
 
-    G.delArch(new Arch<Integer, Integer>(2, 2, null));
+    G.delArch(new Arch<Integer, Double>(2, 2, null));
     G.delVertex(3);
 
     printGraph(G);
@@ -179,14 +179,24 @@ public class test {
     System.out.println("Searchin for 3: " + G.searchVertex(3));
     System.out.println("Searchin for 2: " + G.searchVertex(2));
 
-    System.out.println("Searchin for 3-3: " + G.searchArch(new Arch<Integer, Integer>(3,3, null)));
-    System.out.println("Searchin for 2-1: " + G.searchArch(new Arch<Integer, Integer>(2,1, null)));
-    System.out.println("Searchin for 5-5: " + G.searchArch(new Arch<Integer, Integer>(5,5, null)));
-    System.out.println("Searchin for 0-0: " + G.searchArch(new Arch<Integer, Integer>(0,0, null)));
-    System.out.println("Searchin for 2-2: " + G.searchArch(new Arch<Integer, Integer>(2,2, null)));
-    System.out.println("Searchin for 1-1: " + G.searchArch(new Arch<Integer, Integer>(1,1, null)));
-    System.out.println("Searchin for 1-3: " + G.searchArch(new Arch<Integer, Integer>(1,3, null)));
-    System.out.println("Searchin for 4-0: " + G.searchArch(new Arch<Integer, Integer>(4,0, null)));
+    System.out.println("Searchin for 3-3: " + G.searchArch(new Arch<Integer, Double>(3,3, null)));
+    System.out.println("Searchin for 2-1: " + G.searchArch(new Arch<Integer, Double>(2,1, null)));
+    System.out.println("Searchin for 5-5: " + G.searchArch(new Arch<Integer, Double>(5,5, null)));
+    System.out.println("Searchin for 0-0: " + G.searchArch(new Arch<Integer, Double>(0,0, null)));
+    System.out.println("Searchin for 2-2: " + G.searchArch(new Arch<Integer, Double>(2,2, null)));
+    System.out.println("Searchin for 1-1: " + G.searchArch(new Arch<Integer, Double>(1,1, null)));
+    System.out.println("Searchin for 1-3: " + G.searchArch(new Arch<Integer, Double>(1,3, null)));
+    System.out.println("Searchin for 4-0: " + G.searchArch(new Arch<Integer, Double>(4,0, null)));
+
+    Array<Arch<Integer, Double>> Show = new Array<Arch<Integer, Double>>(10);
+    Array<Arch<Integer, Double>> Prim = G.MSTPrim(2);
+
+    if (Prim == null)
+      System.out.println("Prim : null");
+
+    // for (int i = 0; i < Prim.length; i++)
+    //   if (Prim.get(i) == null)
+    //     System.out.println("Arch : null");
   }
 
   public static void printGraph(Graph g){
