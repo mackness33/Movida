@@ -179,22 +179,23 @@ public class test {
     System.out.println("Searchin for 3: " + G.searchVertex(3));
     System.out.println("Searchin for 2: " + G.searchVertex(2));
 
-    System.out.println("Searchin for 3-3: " + G.searchArch(new Arch<Integer, Double>(3,3, null)));
-    System.out.println("Searchin for 2-1: " + G.searchArch(new Arch<Integer, Double>(2,1, null)));
-    System.out.println("Searchin for 5-5: " + G.searchArch(new Arch<Integer, Double>(5,5, null)));
-    System.out.println("Searchin for 0-0: " + G.searchArch(new Arch<Integer, Double>(0,0, null)));
-    System.out.println("Searchin for 2-2: " + G.searchArch(new Arch<Integer, Double>(2,2, null)));
-    System.out.println("Searchin for 1-1: " + G.searchArch(new Arch<Integer, Double>(1,1, null)));
-    System.out.println("Searchin for 1-3: " + G.searchArch(new Arch<Integer, Double>(1,3, null)));
-    System.out.println("Searchin for 4-0: " + G.searchArch(new Arch<Integer, Double>(4,0, null)));
     G.printVerteces();
+    
+    // System.out.println("Searchin for 3-3: " + G.searchArch(new Arch<Integer, Double>(3,3, null)));
+    // System.out.println("Searchin for 2-1: " + G.searchArch(new Arch<Integer, Double>(2,1, null)));
+    // System.out.println("Searchin for 5-5: " + G.searchArch(new Arch<Integer, Double>(5,5, null)));
+    // System.out.println("Searchin for 0-0: " + G.searchArch(new Arch<Integer, Double>(0,0, null)));
+    // System.out.println("Searchin for 2-2: " + G.searchArch(new Arch<Integer, Double>(2,2, null)));
+    // System.out.println("Searchin for 1-1: " + G.searchArch(new Arch<Integer, Double>(1,1, null)));
+    // System.out.println("Searchin for 1-3: " + G.searchArch(new Arch<Integer, Double>(1,3, null)));
+    // System.out.println("Searchin for 4-0: " + G.searchArch(new Arch<Integer, Double>(4,0, null)));
 
-    Array<Arch<Integer, Double>> Show = new Array<Arch<Integer, Double>>(10);
-    Array<Arch<Integer, Double>> Prim = G.MSTPrim(1);
-
-
-    if (Prim == null)
-      System.out.println("Prim : null");
+    // Array<Arch<Integer, Double>> Show = new Array<Arch<Integer, Double>>(10);
+    // Array<Arch<Integer, Double>> Prim = G.MSTPrim(1);
+    //
+    //
+    // if (Prim == null)
+    //   System.out.println("Prim : null");
 
     // for (int i = 0; i < Prim.length; i++)
     //   if (Prim.get(i) == null)

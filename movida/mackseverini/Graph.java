@@ -101,8 +101,10 @@ public class Graph<E extends Comparable<E>>{
 
     for (int i = 0; i < this.verteces.length; i++){
       if (this.verteces.get(i) != null){
-        if (arch.getFirstVertex().compareTo(this.verteces.get(i).getValue()) == 0 && arch.getSecondVertex().compareTo(this.verteces.get(i).getValue()) == 0)
+        if (arch.getFirstVertex().compareTo(this.verteces.get(i).getValue()) == 0 && arch.getSecondVertex().compareTo(this.verteces.get(i).getValue()) == 0){
           first = second = i;
+          break;
+        }
         else if (arch.getFirstVertex().compareTo(this.verteces.get(i).getValue()) == 0)
           first = i;
         else if (arch.getSecondVertex().compareTo(this.verteces.get(i).getValue()) == 0)
@@ -112,6 +114,8 @@ public class Graph<E extends Comparable<E>>{
 
     if (first == -1 || second == -1)
       return false;
+
+    System.out.println("Search of " + arch.getFirstVertex() + "-" + arch.getSecondVertex() + ": " + this.searchArch(arch));
 
     if (this.searchArch(arch))
       return false;
@@ -242,7 +246,6 @@ public class Graph<E extends Comparable<E>>{
 
     if (first == -1 || second == -1)
       return false;
-
 
     GraphPair<Integer> e = new GraphPair<Integer>(first, second);
 
