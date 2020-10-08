@@ -7,11 +7,11 @@ import movida.mackseverini.IKeyList;
 
 public class Vertex<E extends Comparable<E>, K extends Comparable<K>> implements Comparable<Vertex<E, K>>{
   protected E value;
-  protected IKeyList<E, K, Integer> adiacence;
+  protected IKeyList<Integer, K, Integer> adiacence;
 
   public Vertex(){
     this.value = null;
-    this.adiacence = new KeyList<E, K, Integer>();
+    this.adiacence = new KeyList<Integer, K, Integer>();
   }
 
   public Vertex(Vertex<E, K> shallow){
@@ -21,16 +21,16 @@ public class Vertex<E extends Comparable<E>, K extends Comparable<K>> implements
 
   public Vertex(E v){
     this.value = v;
-    this.adiacence = new KeyList<E, K, Integer>();
+    this.adiacence = new KeyList<Integer, K, Integer>();
   }
 
-  public Vertex(E v, IKeyList<E, K, Integer> a){
+  public Vertex(E v, IKeyList<Integer, K, Integer> a){
     this.value = v;
     this.adiacence = a;
   }
 
   //@Override
-  public IKeyList<E, K, Integer> getAdiacence () { return this.adiacence; }
+  public IKeyList<Integer, K, Integer> getAdiacence () { return this.adiacence; }
   //@Override
   public E getValue () { return this.value; }
 
@@ -38,9 +38,9 @@ public class Vertex<E extends Comparable<E>, K extends Comparable<K>> implements
   public void setValue (E v) { this.value = v; }
 
 
-  public void addAdiacence (E v, K w) { this.adiacence.addHead(w, v); }
+  public void addAdiacence (Integer v, K w) { this.adiacence.addHead(w, v); }
 
-  public boolean delAdiacence (E v) { return this.adiacence.delEl(v); }
+  public boolean delAdiacence (Integer v) { return this.adiacence.delEl(v); }
 
   //@Override
   public int compareTo (Vertex<E, K> input) { return this.value.compareTo(input.getValue()); }
@@ -48,8 +48,8 @@ public class Vertex<E extends Comparable<E>, K extends Comparable<K>> implements
   public int compareTo (E input) { return this.value.compareTo(input); }
 
   public void print(){
-    System.out.println("Vertex: VALUE => " + this.value + " \n\r ADIACENCE => ");
-    this.adiacence.print();
+    System.out.println("Vertex: VALUE => " + this.value + " \n\r\t ADIACENCE => ");
+    this.adiacence.printAll();
   }
 
   public String toString(){ return this.value.toString(); }
@@ -79,9 +79,7 @@ public class Vertex<E extends Comparable<E>, K extends Comparable<K>> implements
     public void setKey (K k) { this.key = k; }
 
     //@Override
-    public int compareTo (Pair<E, K> input) {
-      return this.key.compareTo(input.getKey());
-    }
+    public int compareTo (Pair<E, K> input) { return this.key.compareTo(input.getKey()); }
 
     //@Override
     public void print(){ System.out.println("Pair: VALUE => " + this.value + " KEY => " + this.key); }

@@ -119,6 +119,8 @@ public class Graph<E extends Comparable<E>>{
     GraphPair<Integer> e = new GraphPair<Integer>(first, second);
 
     this.arches.addHead(arch.getWeight(), e);
+    this.verteces.get(first).addAdiacence(second, arch.getWeight());
+    this.verteces.get(second).addAdiacence(first, arch.getWeight());
     this.numArch++;
 
     return true;
@@ -152,7 +154,8 @@ public class Graph<E extends Comparable<E>>{
     if (res != null){
       if(res != 0){
         this.arches.addHead(weight, e);
-
+        this.verteces.get(first).addAdiacence(second, weight);
+        this.verteces.get(second).addAdiacence(first, weight);
         this.numArch++;
 
         return true;
@@ -196,6 +199,8 @@ public class Graph<E extends Comparable<E>>{
         break;
 
       this.arches.delHead();
+      this.verteces.get(e.getFirstValue()).delAdiacence(e.getSecondValue());
+      this.verteces.get(e.getSecondValue()).delAdiacence(e.getFirstValue());
       this.numArch--;
     }
 
@@ -206,6 +211,8 @@ public class Graph<E extends Comparable<E>>{
       if (vertex.compareTo(e.getFirstValue()) == 0 || vertex.compareTo(e.getSecondValue()) == 0){
         prev.setNext(iter.getNext());
         iter = prev;
+        this.verteces.get(e.getFirstValue()).delAdiacence(e.getSecondValue());
+        this.verteces.get(e.getSecondValue()).delAdiacence(e.getFirstValue());
         this.size--;
       }
 
@@ -239,8 +246,11 @@ public class Graph<E extends Comparable<E>>{
 
     GraphPair<Integer> e = new GraphPair<Integer>(first, second);
 
-    if (this.arches.delEl(e));
+    if (this.arches.delEl(e));{
+      this.verteces.get(first).delAdiacence(second);
+      this.verteces.get(second).delAdiacence(first);
       this.numArch--;
+    }
 
     return true;
   }
@@ -279,6 +289,15 @@ public class Graph<E extends Comparable<E>>{
     return false;
   }
 
+  public void printVerteces(){
+    for (int i = 0; i < this.verteces.length; i++){
+      if (this.verteces.get(i) != null)
+        this.verteces.get(i).print();
+      else
+        System.out.println("Vertex: null");
+    }
+  }
+
   public Array<Arch<E, Double>> MSTPrim(E vertex){
     if (vertex == null)
       return null;
@@ -306,29 +325,39 @@ public class Graph<E extends Comparable<E>>{
     System.out.println("check");
     System.out.println("pos vertex: " + pos_vertex);
 
-    for(Integer temp = 0, pos_arch = 0; !PQ.isEmpty(); arch.reset()){
+    for(Integer temp = 0, pos_arch = 0, j = 0; !PQ.isEmpty() && j < 50; arch.reset()){
       temp = PQ.findMin();
       System.out.println("min: " + temp);
       PQ.delMin();
       arch.setFirstVertex(this.verteces.get(temp).getValue());
 
-      for (IKeyNode<Integer, Double> iter = (IKeyNode<Integer, Double>)this.verteces.get(temp).getAdiacence().getHead(); iter != null; iter = (IKeyNode<Integer, Double>)iter.getNext()){
+      System.out.println("Adiacence: " + this.verteces.get(temp).getAdiacence().getSize());
+      for (IKeyNode<Integer, Double> iter = (IKeyNode<Integer, Double>)this.verteces.get(temp).getAdiacence().getHead(); iter != null; iter = (IKeyNode<Integer, Double>)iter.getNext(), j++, arch.setWeight(null)){
+        if (iter.getValue() == null) break;
+
+        if (this.verteces.get(iter.getValue()) == null) break;
+
         arch.setSecondVertex(this.verteces.get(iter.getValue()).getValue());
+        System.out.println("vert: " + this.verteces.get(iter.getValue()).getValue());
 
         for (int i = 0; i < A.length; i++){
-          if (arch.compareTo(A.get(pos_arch)) == 0){
+          if (arch.compareTo(A.get(i)) == 0){
             arch.setWeight(A.get(i).getWeight());
             pos_arch = i;
             break;
           }
         }
+        System.out.println("pos_arch: " + pos_arch);
 
         if (arch.getWeight() == null){
-          PQ.insert(temp, iter.getKey());
-          A.set(pos_arch, new Arch<E, Double>(arch));
+          System.out.println("Inserting at " + j + ": " + iter.getValue());
+          PQ.insert(iter.getValue(), iter.getKey());
+          A.set(j, new Arch<E, Double>(arch));
         }
         else if (iter.getKey().compareTo(A.get(pos_arch).getWeight()) < 0){
-          PQ.decreaseKey(pos_vertex, A.get(pos_arch).getWeight() - iter.getKey());
+          System.out.println("Iter Weight: " + iter.getKey());
+          System.out.println("MainArch Weight: " + A.get(pos_arch).getWeight());
+          PQ.decreaseKey(iter.getValue(), A.get(pos_arch).getWeight() - iter.getKey());
           A.get(pos_arch).setWeight(iter.getKey());
         }
       }

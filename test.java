@@ -155,7 +155,7 @@ public class test {
     for (int i = 0; i < 40; i++){
       // G.addVertex(ThreadLocalRandom.current().nextInt(0, 50));
       G.addVertex(i);
-      G.addArch(new Arch<Integer, Double>(ThreadLocalRandom.current().nextInt(0, 20), ThreadLocalRandom.current().nextInt(0, 20), ThreadLocalRandom.current().nextDouble(-1000, 1001)));
+      G.addArch(new Arch<Integer, Double>(ThreadLocalRandom.current().nextInt(1, 10), ThreadLocalRandom.current().nextInt(2, 10), ThreadLocalRandom.current().nextDouble(-1000, 1001)));
     }
 
     // G.addVertex(1);
@@ -187,16 +187,18 @@ public class test {
     System.out.println("Searchin for 1-1: " + G.searchArch(new Arch<Integer, Double>(1,1, null)));
     System.out.println("Searchin for 1-3: " + G.searchArch(new Arch<Integer, Double>(1,3, null)));
     System.out.println("Searchin for 4-0: " + G.searchArch(new Arch<Integer, Double>(4,0, null)));
+    G.printVerteces();
 
     Array<Arch<Integer, Double>> Show = new Array<Arch<Integer, Double>>(10);
-    Array<Arch<Integer, Double>> Prim = G.MSTPrim(2);
+    Array<Arch<Integer, Double>> Prim = G.MSTPrim(1);
+
 
     if (Prim == null)
       System.out.println("Prim : null");
 
-    for (int i = 0; i < Prim.length; i++)
-      if (Prim.get(i) == null)
-        System.out.println("Arch : null");
+    // for (int i = 0; i < Prim.length; i++)
+    //   if (Prim.get(i) == null)
+    //     System.out.println("Arch : null");
   }
 
   public static void printGraph(Graph g){

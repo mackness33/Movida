@@ -47,7 +47,7 @@ public class PriorityQueue<E extends Comparable<E>, K extends Comparable<K>>{
     this.binaryHeap.set(this.size, new Pair<E, K>(obj, key));
     this.size++;
 
-    if (this.size > Math.pow(2, this.height+1) - 1)
+    if (this.size > Math.pow(2, this.height) - 1)
       this.height++;
 
     this.moveUp(this.size-1);
