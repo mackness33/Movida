@@ -42,15 +42,17 @@ public class Arch<E extends Comparable<E>, K extends Comparable<K>> implements C
   public int compareTo (Arch<E, K> input) {
     if (input == null)
       return 1;
-      
-    int comp1 = this.vertex1.compareTo(input.getFirstVertex()) + this.vertex1.compareTo(input.getSecondVertex());
-    int comp2 = this.vertex2.compareTo(input.getFirstVertex()) + this.vertex2.compareTo(input.getSecondVertex());
-    int res = comp1 + comp2;
+
+    int x1 = this.vertex1.compareTo(input.getFirstVertex());
+    int x2 = this.vertex1.compareTo(input.getSecondVertex());
+    int y1 = this.vertex2.compareTo(input.getFirstVertex());
+    int y2 = this.vertex2.compareTo(input.getSecondVertex());
+    int comp1 = x1 + x2, comp2 = y1 + y2;
 
     if (Math.abs(comp1) < 2 && Math.abs(comp2) < 2){
       if (comp1 == comp2)
-        return res/2;
-      return res;
+        return (comp1 + comp2) / 2;
+      return comp1 + comp2;
     }
 
     return 1;

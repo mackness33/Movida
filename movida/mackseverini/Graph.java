@@ -115,12 +115,31 @@ public class Graph<E extends Comparable<E>>{
     if (first == -1 || second == -1)
       return false;
 
+    // System.out.println("Adding (" + arch.getFirstVertex() + "-" + arch.getSecondVertex() + ")");
     System.out.println("Search of " + arch.getFirstVertex() + "-" + arch.getSecondVertex() + ": " + this.searchArch(arch));
 
     if (this.searchArch(arch))
       return false;
 
     GraphPair<Integer> e = new GraphPair<Integer>(first, second);
+
+    // Integer res = this.arches.search(e);
+    //
+    // if (res != null){
+    //   if(res == 0){
+    //     this.arches.addHead(weight, e);
+    //     this.verteces.get(first).addAdiacence(second, weight);
+    //     this.verteces.get(second).addAdiacence(first, weight);
+    //     this.numArch++;
+    //
+    //     return true;
+    //   }
+    // }
+    //
+    // return false;
+
+    // System.out.println("RES: " + res);
+    System.out.println("Holy shit");
 
     this.arches.addHead(arch.getWeight(), e);
     this.verteces.get(first).addAdiacence(second, arch.getWeight());
@@ -154,9 +173,10 @@ public class Graph<E extends Comparable<E>>{
     GraphPair<Integer> e = new GraphPair<Integer>(first, second);
 
     Integer res = this.arches.search(e);
+    System.out.println("RES: " + res);
 
     if (res != null){
-      if(res != 0){
+      if(res == 0){
         this.arches.addHead(weight, e);
         this.verteces.get(first).addAdiacence(second, weight);
         this.verteces.get(second).addAdiacence(first, weight);
@@ -276,8 +296,8 @@ public class Graph<E extends Comparable<E>>{
       return false;
 
     Integer res = this.arches.search(new GraphPair<Integer>(first, second));
-    System.out.println("RES: " + res);
-    return (res != null ) ? ((res == 0 ) ? true : false) : false;
+    // System.out.println("RES: " + res);
+    return (res != null ) ? ((res >= 0 ) ? true : false) : false;
   }
 
   public boolean searchVertex(E vertex){
@@ -296,8 +316,8 @@ public class Graph<E extends Comparable<E>>{
     for (int i = 0; i < this.verteces.length; i++){
       if (this.verteces.get(i) != null)
         this.verteces.get(i).print();
-      else
-        System.out.println("Vertex: null");
+      // else
+        // System.out.println("Vertex: null");
     }
   }
 
@@ -395,14 +415,17 @@ public class Graph<E extends Comparable<E>>{
 
     //@Override
     public int compareTo (GraphPair<E> input) {
-      int comp1 = this.value1.compareTo(input.getFirstValue()) + this.value1.compareTo(input.getSecondValue());
-      int comp2 = this.value2.compareTo(input.getFirstValue()) + this.value2.compareTo(input.getSecondValue());
-      int res = comp1 + comp2;
+      int x1 = this.value1.compareTo(input.getFirstValue());
+      int x2 = this.value1.compareTo(input.getSecondValue());
+      int y1 = this.value2.compareTo(input.getFirstValue());
+      int y2 = this.value2.compareTo(input.getSecondValue());
+      int comp1 = x1 + x2, comp2 = y1 + y2;
 
       if (Math.abs(comp1) < 2 && Math.abs(comp2) < 2){
+        // System.out.println("RES: " +  comp1, comp2);
         if (comp1 == comp2)
-          return res/2;
-        return res;
+          return (comp1 + comp2) / 2;
+        return comp1 + comp2;
       }
 
       return 1;

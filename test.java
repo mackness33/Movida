@@ -152,15 +152,15 @@ public class test {
   public static void graphTest(){
     Graph<Integer> G = new Graph<Integer>();
 
+    G.addVertex(1);
+    G.addVertex(2);
+    G.addVertex(3);
     for (int i = 0; i < 40; i++){
       // G.addVertex(ThreadLocalRandom.current().nextInt(0, 50));
-      G.addVertex(i);
-      G.addArch(new Arch<Integer, Double>(ThreadLocalRandom.current().nextInt(1, 10), ThreadLocalRandom.current().nextInt(2, 10), ThreadLocalRandom.current().nextDouble(-1000, 1001)));
+      // G.addVertex(i);
+      G.addArch(new Arch<Integer, Double>(ThreadLocalRandom.current().nextInt(1, 4), ThreadLocalRandom.current().nextInt(1, 4), ThreadLocalRandom.current().nextDouble(-1000, 1001)));
     }
 
-    // G.addVertex(1);
-    // G.addVertex(2);
-    // G.addVertex(3);
 
     G.addArch(new Arch<Integer, Double>(1, 3, 1.0));
     G.addArch(new Arch<Integer, Double>(2, 3, 2.0));
@@ -180,7 +180,7 @@ public class test {
     System.out.println("Searchin for 2: " + G.searchVertex(2));
 
     G.printVerteces();
-    
+
     // System.out.println("Searchin for 3-3: " + G.searchArch(new Arch<Integer, Double>(3,3, null)));
     // System.out.println("Searchin for 2-1: " + G.searchArch(new Arch<Integer, Double>(2,1, null)));
     // System.out.println("Searchin for 5-5: " + G.searchArch(new Arch<Integer, Double>(5,5, null)));
@@ -209,12 +209,13 @@ public class test {
     for(int i = 0; i < V.length; i++)
       if (V.get(i) != null)
         System.out.println("Vertex: " + V.get(i));
+    if (A != null){
+      System.out.println("\n\rArch length: " + A.length);
 
-    System.out.println("\n\rArch length: " + A.length);
-
-    for(int i = 0; i < A.length; i++)
-      if (A.get(i) != null)
-        A.get(i).print();
+      for(int i = 0; i < A.length; i++)
+        if (A.get(i) != null)
+          A.get(i).print(); 
+    }
   }
 
   public static void setTest(){
