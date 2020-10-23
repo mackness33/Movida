@@ -50,6 +50,11 @@ public class Arch<E extends Comparable<E>, K extends Comparable<K>> implements C
     int comp1 = x1 + x2, comp2 = y1 + y2;
 
     if (Math.abs(comp1) < 2 && Math.abs(comp2) < 2){
+      System.out.print("input: ");
+      input.print();
+      System.out.print("arch: ");
+      this.print();
+      System.out.println("RES in arch: " + comp1 + comp2);
       if (comp1 == comp2)
         return (comp1 + comp2) / 2;
       return comp1 + comp2;

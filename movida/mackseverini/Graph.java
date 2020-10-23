@@ -99,9 +99,11 @@ public class Graph<E extends Comparable<E>>{
 
     Integer first = -1, second = -1;
 
+    System.out.println("What?");
     for (int i = 0; i < this.verteces.length; i++){
       if (this.verteces.get(i) != null){
         if (arch.getFirstVertex().compareTo(this.verteces.get(i).getValue()) == 0 && arch.getSecondVertex().compareTo(this.verteces.get(i).getValue()) == 0){
+          // System.out.println("The hell?");
           first = second = i;
           break;
         }
@@ -109,17 +111,23 @@ public class Graph<E extends Comparable<E>>{
           first = i;
         else if (arch.getSecondVertex().compareTo(this.verteces.get(i).getValue()) == 0)
           second = i;
+        // System.out.println("Damn?");
       }
     }
 
-    if (first == -1 || second == -1)
+    if (first == -1 || second == -1){
+      System.out.println();
       return false;
+    }
 
-    // System.out.println("Adding (" + arch.getFirstVertex() + "-" + arch.getSecondVertex() + ")");
-    System.out.println("Search of " + arch.getFirstVertex() + "-" + arch.getSecondVertex() + ": " + this.searchArch(arch));
+    System.out.println("Search of " + arch.getFirstVertex() + "-" + arch.getSecondVertex());
+    boolean search_res = this.searchArch(arch);
+    System.out.println("Search res: " + search_res);
 
-    if (this.searchArch(arch))
+    if (search_res){
+      System.out.println();
       return false;
+    }
 
     GraphPair<Integer> e = new GraphPair<Integer>(first, second);
 
@@ -146,6 +154,7 @@ public class Graph<E extends Comparable<E>>{
     this.verteces.get(second).addAdiacence(first, arch.getWeight());
     this.numArch++;
 
+    System.out.println("Adding (" + arch.getFirstVertex() + "-" + arch.getSecondVertex() + ") \n\r");
     return true;
   }
 
@@ -176,7 +185,7 @@ public class Graph<E extends Comparable<E>>{
     System.out.println("RES: " + res);
 
     if (res != null){
-      if(res == 0){
+      if(res < 0){
         this.arches.addHead(weight, e);
         this.verteces.get(first).addAdiacence(second, weight);
         this.verteces.get(second).addAdiacence(first, weight);
@@ -421,8 +430,12 @@ public class Graph<E extends Comparable<E>>{
       int y2 = this.value2.compareTo(input.getSecondValue());
       int comp1 = x1 + x2, comp2 = y1 + y2;
 
-      if (Math.abs(comp1) < 2 && Math.abs(comp2) < 2){
-        // System.out.println("RES: " +  comp1, comp2);
+      if (Math.abs(x1) + Math.abs(x2) < 2 && Math.abs(y1) + Math.abs(y2) < 2){
+        System.out.print("input: ");
+        input.print();
+        System.out.print("GraphPair: ");
+        this.print();
+        System.out.println("RES in comp: " +  comp1 + comp2);
         if (comp1 == comp2)
           return (comp1 + comp2) / 2;
         return comp1 + comp2;

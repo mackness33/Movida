@@ -278,7 +278,7 @@ public class List<E extends Comparable<E>> implements movida.mackseverini.IList<
       if (el.compareTo(iter.getValue()) == 0)
         return i;
 
-    return null;
+    return -1;
   }
 
   @Override

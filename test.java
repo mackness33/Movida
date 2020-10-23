@@ -152,22 +152,37 @@ public class test {
   public static void graphTest(){
     Graph<Integer> G = new Graph<Integer>();
 
+    G.addVertex(0);
     G.addVertex(1);
     G.addVertex(2);
     G.addVertex(3);
-    for (int i = 0; i < 40; i++){
-      // G.addVertex(ThreadLocalRandom.current().nextInt(0, 50));
-      // G.addVertex(i);
-      G.addArch(new Arch<Integer, Double>(ThreadLocalRandom.current().nextInt(1, 4), ThreadLocalRandom.current().nextInt(1, 4), ThreadLocalRandom.current().nextDouble(-1000, 1001)));
-    }
+    G.addVertex(4);
+    G.addVertex(5);
+    G.addVertex(6);
+
+    // printGraph(G);
+
+    // for (int i = 0; i < 40; i++){
+    //   // G.addVertex(ThreadLocalRandom.current().nextInt(0, 50));
+    //   // G.addVertex(i);
+    //   G.addArch(new Arch<Integer, Double>(ThreadLocalRandom.current().nextInt(1, 4), ThreadLocalRandom.current().nextInt(1, 4), ThreadLocalRandom.current().nextDouble(-1000, 1001)));
+    // }
 
 
-    G.addArch(new Arch<Integer, Double>(1, 3, 1.0));
-    G.addArch(new Arch<Integer, Double>(2, 3, 2.0));
-    G.addArch(new Arch<Integer, Double>(3, 3, 3.0));
-    G.addArch(new Arch<Integer, Double>(2, 2, 11.0));
-    G.addArch(new Arch<Integer, Double>(2, 2, 16.0));
-    G.addArch(new Arch<Integer, Double>(2, 1, 4.0));
+    G.addArch(new Arch<Integer, Double>(5, 2, 1.0));
+    G.addArch(new Arch<Integer, Double>(2, 5, 5.0));
+    G.addArch(new Arch<Integer, Double>(1, 1, 5.0));
+    G.addArch(new Arch<Integer, Double>(3, 4, 5.0));
+    G.addArch(new Arch<Integer, Double>(6, 1, 5.0));
+    G.addArch(new Arch<Integer, Double>(3, 6, 5.0));
+    G.addArch(new Arch<Integer, Double>(3, 1, 5.0));
+    G.addArch(new Arch<Integer, Double>(6, 6, 5.0));
+    G.addArch(new Arch<Integer, Double>(5, 5, 5.0));
+    // G.addArch(new Arch<Integer, Double>(2, 3, 2.0));
+    // G.addArch(new Arch<Integer, Double>(3, 3, 3.0));
+    // G.addArch(new Arch<Integer, Double>(2, 2, 11.0));
+    // G.addArch(new Arch<Integer, Double>(2, 2, 16.0));
+    // G.addArch(new Arch<Integer, Double>(2, 1, 4.0));
 
     printGraph(G);
 
@@ -214,7 +229,7 @@ public class test {
 
       for(int i = 0; i < A.length; i++)
         if (A.get(i) != null)
-          A.get(i).print(); 
+          A.get(i).print();
     }
   }
 
