@@ -49,7 +49,7 @@ public class Arch<E extends Comparable<E>, K extends Comparable<K>> implements C
     int y2 = this.vertex2.compareTo(input.getSecondVertex());
     int comp1 = x1 + x2, comp2 = y1 + y2;
 
-    if (Math.abs(comp1) < 2 && Math.abs(comp2) < 2){
+    if (Math.abs(x1) + Math.abs(x2) < 2 && Math.abs(y1) + Math.abs(y2) < 2){
       System.out.print("input: ");
       input.print();
       System.out.print("arch: ");
