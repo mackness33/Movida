@@ -361,47 +361,52 @@ public class Graph<E extends Comparable<E>>{
 
     // insert the root vertex
     PQ.insert(pos_vertex, 0.0);
+    A.set(0, new Arch<E, Double>(this.verteces.get(pos_vertex).getValue(), this.verteces.get(pos_vertex).getValue(), 0.0));
+
     System.out.println("check");
     System.out.println("pos vertex: " + pos_vertex);
 
     // temp = pos of the vertex;  till PQ is empty;  reset the temporary arch
-    for(Integer temp = 0, pos_arch = 0, j = 0; !PQ.isEmpty() && j < 50; arch.reset()){
+    for(Integer temp = 0, pos_arch = 0, j = 1; !PQ.isEmpty(); arch.reset()){
       PQ.print();
       temp = PQ.findMin();
       System.out.println("min: " + temp);
       PQ.delMin();
 
-      arch.setFirstVertex(this.verteces.get(temp).getValue());        // set first arch vertex to the selected one
+      arch.setSecondVertex(this.verteces.get(temp).getValue());        // set first arch vertex to the selected one
 
       System.out.println("Adiacence: " + this.verteces.get(temp).getAdiacence().getSize());
 
       // for each adiacence of the vertex
-      for (IKeyNode<Integer, Double> iter = (IKeyNode<Integer, Double>)this.verteces.get(temp).getAdiacence().getHead(); iter != null; iter = (IKeyNode<Integer, Double>)iter.getNext(), j++, arch.setWeight(null)){
+      for (IKeyNode<Integer, Double> iter = (IKeyNode<Integer, Double>)this.verteces.get(temp).getAdiacence().getHead(); iter != null; iter = (IKeyNode<Integer, Double>)iter.getNext(), arch.setWeight(null)){
         // check if value is null
-        if (iter.getValue() == null || iter.getValue() == null) break;
+        if (iter.getValue() == null || iter.getKey() == null) break;
 
         // check if value is null
         if (this.verteces.get(iter.getValue()) == null) break;
 
         // set second vertex of the temporary arch
-        arch.setSecondVertex(this.verteces.get(iter.getValue()).getValue());
+        arch.setFirstVertex(this.verteces.get(iter.getValue()).getValue());
         System.out.println("vert: " + this.verteces.get(iter.getValue()).getValue());
 
         boolean same = false;
         boolean next = false;
+
         if (arch.getFirstVertex().compareTo(arch.getSecondVertex()) == 0){
-          System.out.println("Inserting same node arch at " + j + ": " + iter.getValue());
-          arch.setWeight(iter.getKey());
-          A.set(j, new Arch<E, Double>(arch));
+          System.out.println("Same node arch at " + j + ": " + iter.getValue());
+          // arch.setWeight(iter.getKey());
+          // A.set(j, new Arch<E, Double>(arch));;
           same = true;
         }
         else{
           // if the arch is already present pass to the next vertex
           for (int i = 0; i < A.length; i++){
-            System.out.println("Compare of verteches: " + arch.compareTo(A.get(i)));
-            if (arch.compareTo(A.get(i)) == 0){
+            if (A.get(i) == null)
+              break;
+            System.out.println("Compare of verteches: " + this.verteces.get(iter.getValue()).getValue().compareTo(A.get(i).getFirstVertex()));
+            if (this.verteces.get(iter.getValue()).getValue().compareTo(A.get(i).getFirstVertex()) == 0){
               arch.setWeight(A.get(i).getWeight());
-              System.out.println("Checkin " + PQ.check(iter.getValue()));
+              pos_arch = i;
               next = true;
               break;
             }
@@ -411,26 +416,29 @@ public class Graph<E extends Comparable<E>>{
         // System.out.println("next: " + next);
 
         if (same){ }
-        else if (next){ j--; }
+        // else if (next){
         else if (arch.getWeight() == null){
-          System.out.println("Checkin 2 " + PQ.check(iter.getValue()));
-          if (!PQ.check(iter.getValue())){
+          // System.out.println("Checkin 2 " + PQ.check(iter.getValue()));
+          // if (!PQ.check(iter.getValue())){
             System.out.println("Inserting at " + j + ": " + iter.getValue());
             PQ.insert(iter.getValue(), iter.getKey());
-          }
-          else{
-            System.out.println("Iter Weight: " + iter.getKey());
-            System.out.println("MainArch Weight: " + A.get(pos_arch).getWeight());
-            PQ.decreaseKey(iter.getValue(), iter.getKey());
-          }
+          // }
+          // else{
+          //   System.out.println("Iter Weight: " + iter.getKey());
+          //   System.out.println("MainArch Weight: " + A.get(pos_arch).getWeight());
+          //   PQ.decreaseKey(iter.getValue(), iter.getKey());
+          // }
           arch.setWeight(iter.getKey());
           A.set(j, new Arch<E, Double>(arch));
+          j++;
         }
         else if (iter.getKey().compareTo(A.get(pos_arch).getWeight()) < 0){
+          // BUG: deacreaseKeyNOT WORKING PROPERLY
           System.out.println("Iter Weight: " + iter.getKey());
           System.out.println("MainArch Weight: " + A.get(pos_arch).getWeight());
-          PQ.decreaseKey(iter.getValue(), iter.getKey());
           A.get(pos_arch).setWeight(iter.getKey());
+          PQ.decreaseKey(iter.getValue(), iter.getKey());
+          System.out.println("AFTER Weight: " + A.get(pos_arch).getWeight());
         }
       }
     }
