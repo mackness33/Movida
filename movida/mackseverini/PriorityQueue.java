@@ -156,6 +156,19 @@ public class PriorityQueue<E extends Comparable<E>, K extends Comparable<K>>{
       return Math.max(this.search(obj, pos*2), this.search(obj, (pos*2)+1));
   }
 
+  public boolean check(E obj){
+    if (obj == null)
+      return false;
+    System.out.println("Check obj: " + obj);
+    for (int i = 0; i < this.size; i++){
+      System.out.println("Binary at pos: " + i + "\tobj " + this.binaryHeap.get(i).getValue());
+      if (obj.compareTo(this.binaryHeap.get(i).getValue()) == 0)
+        return true;
+    }
+
+    return false;
+  }
+
   public K getKey(E obj, int pos){
     if (obj == null || pos < 1 || this.binaryHeap.get(pos-1) == null || pos > this.size)
       return null;

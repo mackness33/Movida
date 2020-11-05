@@ -331,6 +331,8 @@ public class Graph<E extends Comparable<E>>{
     }
   }
 
+  // TODO: need to add weight to arches
+  // TODO: do compareTo for object without operator(-)
   public Array<Arch<E, Double>> MSTPrim(E vertex){
     if (vertex == null)
       return null;
@@ -376,7 +378,7 @@ public class Graph<E extends Comparable<E>>{
       // for each adiacence of the vertex
       for (IKeyNode<Integer, Double> iter = (IKeyNode<Integer, Double>)this.verteces.get(temp).getAdiacence().getHead(); iter != null; iter = (IKeyNode<Integer, Double>)iter.getNext(), j++, arch.setWeight(null)){
         // check if value is null
-        if (iter.getValue() == null) break;
+        if (iter.getValue() == null || iter.getValue() == null) break;
 
         // check if value is null
         if (this.verteces.get(iter.getValue()) == null) break;
@@ -399,25 +401,35 @@ public class Graph<E extends Comparable<E>>{
             System.out.println("Compare of verteches: " + arch.compareTo(A.get(i)));
             if (arch.compareTo(A.get(i)) == 0){
               arch.setWeight(A.get(i).getWeight());
+              System.out.println("Checkin " + PQ.check(iter.getValue()));
               next = true;
               break;
             }
           }
         }
 
-        System.out.println("next: " + next);
+        // System.out.println("next: " + next);
 
         if (same){ }
         else if (next){ j--; }
         else if (arch.getWeight() == null){
-          System.out.println("Inserting at " + j + ": " + iter.getValue());
-          PQ.insert(iter.getValue(), iter.getKey());
+          System.out.println("Checkin 2 " + PQ.check(iter.getValue()));
+          if (!PQ.check(iter.getValue())){
+            System.out.println("Inserting at " + j + ": " + iter.getValue());
+            PQ.insert(iter.getValue(), iter.getKey());
+          }
+          else{
+            System.out.println("Iter Weight: " + iter.getKey());
+            System.out.println("MainArch Weight: " + A.get(pos_arch).getWeight());
+            PQ.decreaseKey(iter.getValue(), iter.getKey());
+          }
+          arch.setWeight(iter.getKey());
           A.set(j, new Arch<E, Double>(arch));
         }
         else if (iter.getKey().compareTo(A.get(pos_arch).getWeight()) < 0){
           System.out.println("Iter Weight: " + iter.getKey());
           System.out.println("MainArch Weight: " + A.get(pos_arch).getWeight());
-          PQ.decreaseKey(iter.getValue(), A.get(pos_arch).getWeight() - iter.getKey());
+          PQ.decreaseKey(iter.getValue(), iter.getKey());
           A.get(pos_arch).setWeight(iter.getKey());
         }
       }
