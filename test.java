@@ -162,11 +162,11 @@ public class test {
 
     // printGraph(G);
 
-    // for (int i = 0; i < 40; i++){
-    //   // G.addVertex(ThreadLocalRandom.current().nextInt(0, 50));
-    //   // G.addVertex(i);
-    //   G.addArch(new Arch<Integer, Double>(ThreadLocalRandom.current().nextInt(1, 4), ThreadLocalRandom.current().nextInt(1, 4), ThreadLocalRandom.current().nextDouble(-1000, 1001)));
-    // }
+    for (int i = 0; i < 40; i++){
+      // G.addVertex(ThreadLocalRandom.current().nextInt(0, 50));
+      // G.addVertex(i);
+      G.addArch(new Arch<Integer, Double>(ThreadLocalRandom.current().nextInt(1, 6), ThreadLocalRandom.current().nextInt(1, 6), ThreadLocalRandom.current().nextDouble(-1000, 1001)));
+    }
 
 
     G.addArch(new Arch<Integer, Double>(5, 2, 1.0));

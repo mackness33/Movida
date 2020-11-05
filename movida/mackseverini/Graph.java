@@ -151,7 +151,8 @@ public class Graph<E extends Comparable<E>>{
 
     this.arches.addHead(arch.getWeight(), e);
     this.verteces.get(first).addAdiacence(second, arch.getWeight());
-    this.verteces.get(second).addAdiacence(first, arch.getWeight());
+    if (first != second)
+      this.verteces.get(second).addAdiacence(first, arch.getWeight());
     this.numArch++;
 
     System.out.println("Adding (" + arch.getFirstVertex() + "-" + arch.getSecondVertex() + ") \n\r");
@@ -384,20 +385,30 @@ public class Graph<E extends Comparable<E>>{
         arch.setSecondVertex(this.verteces.get(iter.getValue()).getValue());
         System.out.println("vert: " + this.verteces.get(iter.getValue()).getValue());
 
+        boolean same = false;
         boolean next = false;
-        // if the arch is already present pass to the next vertex
-        for (int i = 0; i < A.length; i++){
-          System.out.println("Compare of verteches: " + arch.compareTo(A.get(i)));
-          if (arch.compareTo(A.get(i)) == 0){
-            arch.setWeight(A.get(i).getWeight());
-            next = true;
-            break;
+        if (arch.getFirstVertex().compareTo(arch.getSecondVertex()) == 0){
+          System.out.println("Inserting same node arch at " + j + ": " + iter.getValue());
+          arch.setWeight(iter.getKey());
+          A.set(j, new Arch<E, Double>(arch));
+          same = true;
+        }
+        else{
+          // if the arch is already present pass to the next vertex
+          for (int i = 0; i < A.length; i++){
+            System.out.println("Compare of verteches: " + arch.compareTo(A.get(i)));
+            if (arch.compareTo(A.get(i)) == 0){
+              arch.setWeight(A.get(i).getWeight());
+              next = true;
+              break;
+            }
           }
         }
 
         System.out.println("next: " + next);
 
-        if (next){ j--; }
+        if (same){ }
+        else if (next){ j--; }
         else if (arch.getWeight() == null){
           System.out.println("Inserting at " + j + ": " + iter.getValue());
           PQ.insert(iter.getValue(), iter.getKey());
