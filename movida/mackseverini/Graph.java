@@ -334,54 +334,71 @@ public class Graph<E extends Comparable<E>>{
     if (vertex == null)
       return null;
 
-    Array<Arch<E,Double>> A = new Array<Arch<E,Double>>(this.numArch);
-    Arch<E,Double> arch = new Arch<E,Double>();
-    Integer pos_vertex = null;
-    PriorityQueue<Integer, Double> PQ = new PriorityQueue<Integer, Double>();
+    Array<Arch<E,Double>> A = new Array<Arch<E,Double>>(this.numArch);        // output array
+    Arch<E,Double> arch = new Arch<E,Double>();                               // temporary arch
+    Integer pos_vertex = null;                                                // pos of the selected vertex
+    PriorityQueue<Integer, Double> PQ = new PriorityQueue<Integer, Double>(); // PriorityQueue
 
+    //  if present get vertex pos
     for (int i = 0; i < this.verteces.length; i++)
       if (this.verteces.get(i) != null)
         if (this.verteces.get(i).compareTo(new Vertex(vertex)) == 0)
           pos_vertex = i;
 
+    // if not present or the object is null return null
     if (pos_vertex == null)
       return null;
     if (this.verteces.get(pos_vertex) == null)
       return null;
 
 
+    // initialize arch array
     for (int i = 0; i < A.length; i++)
       A.set(i, null);
 
+    // insert the root vertex
     PQ.insert(pos_vertex, 0.0);
     System.out.println("check");
     System.out.println("pos vertex: " + pos_vertex);
 
+    // temp = pos of the vertex;  till PQ is empty;  reset the temporary arch
     for(Integer temp = 0, pos_arch = 0, j = 0; !PQ.isEmpty() && j < 50; arch.reset()){
+      PQ.print();
       temp = PQ.findMin();
       System.out.println("min: " + temp);
       PQ.delMin();
-      arch.setFirstVertex(this.verteces.get(temp).getValue());
+
+      arch.setFirstVertex(this.verteces.get(temp).getValue());        // set first arch vertex to the selected one
 
       System.out.println("Adiacence: " + this.verteces.get(temp).getAdiacence().getSize());
+
+      // for each adiacence of the vertex
       for (IKeyNode<Integer, Double> iter = (IKeyNode<Integer, Double>)this.verteces.get(temp).getAdiacence().getHead(); iter != null; iter = (IKeyNode<Integer, Double>)iter.getNext(), j++, arch.setWeight(null)){
+        // check if value is null
         if (iter.getValue() == null) break;
 
+        // check if value is null
         if (this.verteces.get(iter.getValue()) == null) break;
 
+        // set second vertex of the temporary arch
         arch.setSecondVertex(this.verteces.get(iter.getValue()).getValue());
         System.out.println("vert: " + this.verteces.get(iter.getValue()).getValue());
 
+        boolean next = false;
+        // if the arch is already present pass to the next vertex
         for (int i = 0; i < A.length; i++){
+          System.out.println("Compare of verteches: " + arch.compareTo(A.get(i)));
           if (arch.compareTo(A.get(i)) == 0){
             arch.setWeight(A.get(i).getWeight());
-            pos_arch = i;
+            next = true;
             break;
           }
         }
-        System.out.println("pos_arch: " + pos_arch);
 
-        if (arch.getWeight() == null){
+        System.out.println("next: " + next);
+
+        if (next){ j--; }
+        else if (arch.getWeight() == null){
           System.out.println("Inserting at " + j + ": " + iter.getValue());
           PQ.insert(iter.getValue(), iter.getKey());
           A.set(j, new Arch<E, Double>(arch));
