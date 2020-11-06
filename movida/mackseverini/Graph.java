@@ -12,12 +12,12 @@ import movida.mackseverini.KeyList;
 import java.util.Arrays;
 
 // Class used to virtually implements an array without its costraints
-public class Graph<E extends Comparable<E>>{
-  protected Array<Vertex<E, Double>> verteces;
-  protected IKeyList<GraphPair<Integer>, Double, Integer> arches;
-  protected int numVertex;
-  protected int numArch;
-  protected int size;                       // Max position occupied in the array
+public class Graph<E extends Comparable<E>> extends IGraph<E>{
+  protected Array<Vertex<E, Double>> verteces;                      // Array of verteces
+  protected IKeyList<GraphPair<Integer>, Double, Integer> arches;   // List of Arches
+  protected int numVertex;                                          // Number of Vertex inserted
+  protected int numArch;                                            // Number of Arches
+  protected int size;                                               // Max position occupied in the array
 
 
 	// constructor
@@ -32,8 +32,6 @@ public class Graph<E extends Comparable<E>>{
     for (int i = 0; i < this.verteces.length; i++)
       this.verteces.set(i, null);
 	}
-
-
 
   // TODO:
 	// constructor
@@ -55,10 +53,6 @@ public class Graph<E extends Comparable<E>>{
 	// }
 
   public Array<Vertex<E, Double>> getVerteces () { return this.verteces; }
-
-  public int numVerteces() { return this.numVertex; }
-  public int numArches() { return this.numArch; }
-
   // trasform the list of nodes and weight into an array of arch object
   public Array<Arch<E, Double>> getArches(){
     if (this.numArch <= 0)
@@ -78,32 +72,38 @@ public class Graph<E extends Comparable<E>>{
     return array;
   }
 
+  public int numVerteces() { return this.numVertex; }
+  public int numArches() { return this.numArch; }
+
+  // add a vertex
   public boolean addVertex(E vertex){
     if (vertex == null)
       return false;
 
+    // if already present do not add up
     for (int i = 0; i < this.verteces.length; i++)
       if (this.verteces.get(i) != null)
         if (vertex.compareTo(this.verteces.get(i).getValue()) == 0)
           return false;
 
+    // set a the new Vertex and increment number of vertex
     this.verteces.set(this.numVertex, new Vertex(vertex));
     this.numVertex++;
 
     return true;
   }
 
+  // add an arch
   public boolean addArch(Arch<E, Double> arch){
     if (arch == null)
       return false;
 
-    Integer first = -1, second = -1;
+    Integer first = -1, second = -1;  // pos of the first and second vertex of the arch
 
-    System.out.println("What?");
+    // search for the first and second position of the vertex
     for (int i = 0; i < this.verteces.length; i++){
       if (this.verteces.get(i) != null){
         if (arch.getFirstVertex().compareTo(this.verteces.get(i).getValue()) == 0 && arch.getSecondVertex().compareTo(this.verteces.get(i).getValue()) == 0){
-          // System.out.println("The hell?");
           first = second = i;
           break;
         }
@@ -111,51 +111,28 @@ public class Graph<E extends Comparable<E>>{
           first = i;
         else if (arch.getSecondVertex().compareTo(this.verteces.get(i).getValue()) == 0)
           second = i;
-        // System.out.println("Damn?");
       }
     }
 
+    // if one of the vertex is not present return false
     if (first == -1 || second == -1){
-      System.out.println();
       return false;
     }
 
-    System.out.println("Search of " + arch.getFirstVertex() + "-" + arch.getSecondVertex());
-    boolean search_res = this.searchArch(arch);
-    System.out.println("Search res: " + search_res);
-
-    if (search_res){
-      System.out.println();
+    // if the arch is already present return false
+    if (this.searchArch(arch))
       return false;
-    }
 
+    // create a pair with the arches
     GraphPair<Integer> e = new GraphPair<Integer>(first, second);
 
-    // Integer res = this.arches.search(e);
-    //
-    // if (res != null){
-    //   if(res == 0){
-    //     this.arches.addHead(weight, e);
-    //     this.verteces.get(first).addAdiacence(second, weight);
-    //     this.verteces.get(second).addAdiacence(first, weight);
-    //     this.numArch++;
-    //
-    //     return true;
-    //   }
-    // }
-    //
-    // return false;
-
-    // System.out.println("RES: " + res);
-    System.out.println("Holy shit");
-
+    // add the arch and add adiacences to the verteces
     this.arches.addHead(arch.getWeight(), e);
     this.verteces.get(first).addAdiacence(second, arch.getWeight());
-    if (first != second)
+    if (first != second)    // if the verteces are equal don't add it twice
       this.verteces.get(second).addAdiacence(first, arch.getWeight());
-    this.numArch++;
+    this.numArch++;         // increment number of arches
 
-    System.out.println("Adding (" + arch.getFirstVertex() + "-" + arch.getSecondVertex() + ") \n\r");
     return true;
   }
 
@@ -163,50 +140,66 @@ public class Graph<E extends Comparable<E>>{
     if (vertex1 == null && vertex2 == null && weight == null)
       return false;
 
+    Integer first = -1, second = -1;  // pos of the first and second vertex of the arch
 
-    Integer first = -1, second = -1;
-
+    // search for the first and second position of the vertex
     for (int i = 0; i < this.verteces.length; i++){
       if (this.verteces.get(i) != null){
-        if (vertex1.compareTo(this.verteces.get(i).getValue()) == 0 && vertex2.compareTo(this.verteces.get(i).getValue()) == 0)
+        if (arch.getFirstVertex().compareTo(this.verteces.get(i).getValue()) == 0 && arch.getSecondVertex().compareTo(this.verteces.get(i).getValue()) == 0){
           first = second = i;
-        else if (vertex1.compareTo(this.verteces.get(i).getValue()) == 0)
+          break;
+        }
+        else if (arch.getFirstVertex().compareTo(this.verteces.get(i).getValue()) == 0)
           first = i;
-        else if (vertex2.compareTo(this.verteces.get(i).getValue()) == 0)
+        else if (arch.getSecondVertex().compareTo(this.verteces.get(i).getValue()) == 0)
           second = i;
       }
     }
 
-    if (first == -1 || second == -1)
+    // if one of the vertex is not present return false
+    if (first == -1 || second == -1){
+      return false;
+    }
+
+    // if the arch is already present return false
+    if (this.searchArch(arch))
       return false;
 
+    // create a pair with the arches
     GraphPair<Integer> e = new GraphPair<Integer>(first, second);
 
     Integer res = this.arches.search(e);
     System.out.println("RES: " + res);
 
+    // if not present return false, else add up
     if (res != null){
-      if(res < 0){
-        this.arches.addHead(weight, e);
-        this.verteces.get(first).addAdiacence(second, weight);
-        this.verteces.get(second).addAdiacence(first, weight);
-        this.numArch++;
-
-        return true;
+      if(res > 0){
+        return false;
       }
     }
 
-    return false;
+    // add the arch and add adiacences to the verteces
+    this.arches.addHead(weight, e);
+    this.verteces.get(first).addAdiacence(second, weight);
+    if (first != second)    // if the verteces are equal don't add it twice
+      this.verteces.get(second).addAdiacence(first, weight);
+    this.numArch++;         // increment number of arches
+
+    return true;
   }
 
+  // delete of a vertex
   public boolean delVertex(E vertex){
     if (vertex == null)
       return false;
 
+    // search for the vertex
     for (int i = 0; i < this.verteces.length; i++){
+      // if present
       if (vertex.compareTo(this.verteces.get(i).getValue()) == 0){
-        this.delArchOfVertex(i);
+        this.delArchOfVertex(i);        // delete all the arches having this vertex
 
+        // delete the verteces and decrease number of verteces
         this.verteces.set(i, null);
         this.numVertex--;
 
@@ -217,21 +210,25 @@ public class Graph<E extends Comparable<E>>{
     return false;
   }
 
-  protected void delArchOfVertex(Integer vertex){
+  // delete all the arches having the (pos of the) vertex in input
+  protected boolean delArchOfVertex(Integer vertex){
+    // check if the input is valid
     if (vertex == null || numArch <= 0)
-      return;
-
+      return false;
     if (vertex < 0  || vertex >= this.verteces.length)
-      return;
+      return false;
 
     GraphPair<Integer> e = null;
 
+    // check of the head. Cycle till the head of the list have the input vertex
     while (this.arches.getHead() != null){
       e = this.arches.getHead().getValue();
 
-      if (vertex.compareTo(e.getFirstValue()) != 0 && vertex.compareTo(e.getSecondValue()) != 0)
+      // if vertex is not part of the head break
+      if (vertex != e.getFirstValue() && vertex != e.getSecondValue())
         break;
 
+      // delete arch and adiacence of the verteces
       this.arches.delHead();
       this.verteces.get(e.getFirstValue()).delAdiacence(e.getSecondValue());
       this.verteces.get(e.getSecondValue()).delAdiacence(e.getFirstValue());
@@ -242,9 +239,13 @@ public class Graph<E extends Comparable<E>>{
     for (IKeyNode<GraphPair<Integer>, Double> prev = (IKeyNode<GraphPair<Integer>, Double>)this.arches.getHead(), iter = (IKeyNode<GraphPair<Integer>, Double>)this.arches.getHead().getNext(); iter != null; iter = (KeyNode<GraphPair<Integer>, Double>)iter.getNext()){
       e = iter.getValue();
 
+      // if vertex is part of the arch
       if (vertex.compareTo(e.getFirstValue()) == 0 || vertex.compareTo(e.getSecondValue()) == 0){
+        // disconnect the node
         prev.setNext(iter.getNext());
         iter = prev;
+
+        // delete the adiacence of the verteces
         this.verteces.get(e.getFirstValue()).delAdiacence(e.getSecondValue());
         this.verteces.get(e.getSecondValue()).delAdiacence(e.getFirstValue());
         this.size--;
@@ -254,7 +255,7 @@ public class Graph<E extends Comparable<E>>{
         prev = (IKeyNode<GraphPair<Integer>, Double>)prev.getNext();
     }
 
-    return;
+    return true;
   }
 
   public boolean delArch(Arch<E, Double> arch){
