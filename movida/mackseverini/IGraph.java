@@ -12,7 +12,7 @@ import movida.mackseverini.KeyList;
 import java.util.Arrays;
 
 // Class used to virtually implements an array without its costraints
-public class IGraph<E extends Comparable<E>>{
+public interface IGraph<E extends Comparable<E>>{
   public Array<Vertex<E, Double>> getVerteces ();
   public Array<Arch<E, Double>> getArches();
 
@@ -25,7 +25,6 @@ public class IGraph<E extends Comparable<E>>{
   public boolean addArch(E vertex1, E vertex2, Double weight);
 
   public boolean delVertex(E vertex);
-  protected void delArchOfVertex(Integer vertex);
   public boolean delArch(Arch<E, Double> arch);
 
   public boolean searchArch(Arch<E, Double> arch);

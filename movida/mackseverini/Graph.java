@@ -12,7 +12,7 @@ import movida.mackseverini.KeyList;
 import java.util.Arrays;
 
 // Class used to virtually implements an array without its costraints
-public class Graph<E extends Comparable<E>> extends IGraph<E>{
+public class Graph<E extends Comparable<E>> implements movida.mackseverini.IGraph<E>{
   protected Array<Vertex<E, Double>> verteces;                      // Array of verteces
   protected IKeyList<GraphPair<Integer>, Double, Integer> arches;   // List of Arches
   protected int numVertex;                                          // Number of Vertex inserted
@@ -52,8 +52,10 @@ public class Graph<E extends Comparable<E>> extends IGraph<E>{
   //  this.size = 0;
 	// }
 
+  @Override
   public Array<Vertex<E, Double>> getVerteces () { return this.verteces; }
   // trasform the list of nodes and weight into an array of arch object
+  @Override
   public Array<Arch<E, Double>> getArches(){
     if (this.numArch <= 0)
       return null;
@@ -72,10 +74,13 @@ public class Graph<E extends Comparable<E>> extends IGraph<E>{
     return array;
   }
 
-  public int numVerteces() { return this.numVertex; }
+  @Override
   public int numArches() { return this.numArch; }
+  @Override
+  public int numVerteces() { return this.numVertex; }
 
   // add a vertex
+  @Override
   public boolean addVertex(E vertex){
     if (vertex == null)
       return false;
@@ -94,6 +99,7 @@ public class Graph<E extends Comparable<E>> extends IGraph<E>{
   }
 
   // add an arch
+  @Override
   public boolean addArch(Arch<E, Double> arch){
     if (arch == null)
       return false;
@@ -136,6 +142,7 @@ public class Graph<E extends Comparable<E>> extends IGraph<E>{
     return true;
   }
 
+  @Override
   public boolean addArch(E vertex1, E vertex2, Double weight){
     if (vertex1 == null && vertex2 == null && weight == null)
       return false;
@@ -145,13 +152,13 @@ public class Graph<E extends Comparable<E>> extends IGraph<E>{
     // search for the first and second position of the vertex
     for (int i = 0; i < this.verteces.length; i++){
       if (this.verteces.get(i) != null){
-        if (arch.getFirstVertex().compareTo(this.verteces.get(i).getValue()) == 0 && arch.getSecondVertex().compareTo(this.verteces.get(i).getValue()) == 0){
+        if (vertex1.compareTo(this.verteces.get(i).getValue()) == 0 && vertex2.compareTo(this.verteces.get(i).getValue()) == 0){
           first = second = i;
           break;
         }
-        else if (arch.getFirstVertex().compareTo(this.verteces.get(i).getValue()) == 0)
+        else if (vertex1.compareTo(this.verteces.get(i).getValue()) == 0)
           first = i;
-        else if (arch.getSecondVertex().compareTo(this.verteces.get(i).getValue()) == 0)
+        else if (vertex2.compareTo(this.verteces.get(i).getValue()) == 0)
           second = i;
       }
     }
@@ -160,10 +167,6 @@ public class Graph<E extends Comparable<E>> extends IGraph<E>{
     if (first == -1 || second == -1){
       return false;
     }
-
-    // if the arch is already present return false
-    if (this.searchArch(arch))
-      return false;
 
     // create a pair with the arches
     GraphPair<Integer> e = new GraphPair<Integer>(first, second);
@@ -189,6 +192,7 @@ public class Graph<E extends Comparable<E>> extends IGraph<E>{
   }
 
   // delete of a vertex
+  @Override
   public boolean delVertex(E vertex){
     if (vertex == null)
       return false;
@@ -258,16 +262,21 @@ public class Graph<E extends Comparable<E>> extends IGraph<E>{
     return true;
   }
 
+  // delete an arch
+  @Override
   public boolean delArch(Arch<E, Double> arch){
     if (arch == null)
       return false;
 
-    Integer first = -1, second = -1;
+    Integer first = -1, second = -1;  // pos of the first and second vertex of the arch
 
+    // search for the first and second position of the vertex
     for (int i = 0; i < this.verteces.length; i++){
       if (this.verteces.get(i) != null){
-        if (arch.getFirstVertex().compareTo(this.verteces.get(i).getValue()) == 0 && arch.getSecondVertex().compareTo(this.verteces.get(i).getValue()) == 0)
+        if (arch.getFirstVertex().compareTo(this.verteces.get(i).getValue()) == 0 && arch.getSecondVertex().compareTo(this.verteces.get(i).getValue()) == 0){
           first = second = i;
+          break;
+        }
         else if (arch.getFirstVertex().compareTo(this.verteces.get(i).getValue()) == 0)
           first = i;
         else if (arch.getSecondVertex().compareTo(this.verteces.get(i).getValue()) == 0)
@@ -275,12 +284,16 @@ public class Graph<E extends Comparable<E>> extends IGraph<E>{
       }
     }
 
-    if (first == -1 || second == -1)
+    // if one of the vertex is not present return false
+    if (first == -1 || second == -1){
       return false;
+    }
 
+    // create a pair with the arches
     GraphPair<Integer> e = new GraphPair<Integer>(first, second);
 
-    if (this.arches.delEl(e));{
+    // if the pair is found and deleted then delete the adiacence of the verteces
+    if (this.arches.delEl(e)){
       this.verteces.get(first).delAdiacence(second);
       this.verteces.get(second).delAdiacence(first);
       this.numArch--;
@@ -289,13 +302,21 @@ public class Graph<E extends Comparable<E>> extends IGraph<E>{
     return true;
   }
 
+  // search for an Arch if present return true, else false
+  @Override
   public boolean searchArch(Arch<E, Double> arch){
-    Integer first = -1, second = -1;
+    if (arch == null)
+      return false;
 
+    Integer first = -1, second = -1;  // pos of the first and second vertex of the arch
+
+    // search for the first and second position of the vertex
     for (int i = 0; i < this.verteces.length; i++){
       if (this.verteces.get(i) != null){
-        if (arch.getFirstVertex().compareTo(this.verteces.get(i).getValue()) == 0 && arch.getSecondVertex().compareTo(this.verteces.get(i).getValue()) == 0)
+        if (arch.getFirstVertex().compareTo(this.verteces.get(i).getValue()) == 0 && arch.getSecondVertex().compareTo(this.verteces.get(i).getValue()) == 0){
           first = second = i;
+          break;
+        }
         else if (arch.getFirstVertex().compareTo(this.verteces.get(i).getValue()) == 0)
           first = i;
         else if (arch.getSecondVertex().compareTo(this.verteces.get(i).getValue()) == 0)
@@ -303,18 +324,24 @@ public class Graph<E extends Comparable<E>> extends IGraph<E>{
       }
     }
 
-    if (first == -1 || second == -1)
+    // if one of the vertex is not present return false
+    if (first == -1 || second == -1){
       return false;
+    }
 
+    // search the arch, if present return true.
     Integer res = this.arches.search(new GraphPair<Integer>(first, second));
-    // System.out.println("RES: " + res);
     return (res != null ) ? ((res >= 0 ) ? true : false) : false;
   }
 
+
+  // search a vertex, if present true else false
+  @Override
   public boolean searchVertex(E vertex){
     if (vertex == null)
       return false;
 
+    // check each vertex
     for (int i = 0; i < this.verteces.length; i++)
       if (this.verteces.get(i) != null)
         if (vertex.compareTo(this.verteces.get(i).getValue()) == 0)
@@ -323,6 +350,8 @@ public class Graph<E extends Comparable<E>> extends IGraph<E>{
     return false;
   }
 
+  // print all the verteces
+  @Override
   public void printVerteces(){
     for (int i = 0; i < this.verteces.length; i++){
       if (this.verteces.get(i) != null)
@@ -334,6 +363,8 @@ public class Graph<E extends Comparable<E>> extends IGraph<E>{
 
   // TODO: need to add weight to arches
   // TODO: do compareTo for object without operator(-)
+  // it return the Minimum Spinnig Tree of the graph using Primm's algorithm
+  @Override
   public Array<Arch<E, Double>> MSTPrim(E vertex){
     if (vertex == null)
       return null;
@@ -364,19 +395,19 @@ public class Graph<E extends Comparable<E>> extends IGraph<E>{
     PQ.insert(pos_vertex, 0.0);
     A.set(0, new Arch<E, Double>(this.verteces.get(pos_vertex).getValue(), this.verteces.get(pos_vertex).getValue(), 0.0));
 
-    System.out.println("check");
-    System.out.println("pos vertex: " + pos_vertex);
+    // System.out.println("check");
+    // System.out.println("pos vertex: " + pos_vertex);
 
     // temp = pos of the vertex;  till PQ is empty;  reset the temporary arch
     for(Integer temp = 0, pos_arch = 0, j = 1; !PQ.isEmpty(); arch.reset(), pos_vertex = temp){
       PQ.print();
       temp = PQ.findMin();
-      System.out.println("min: " + temp);
+      // System.out.println("min: " + temp);
       PQ.delMin();
 
       arch.setSecondVertex(this.verteces.get(temp).getValue());        // set first arch vertex to the selected one
 
-      System.out.println("Adiacence: " + this.verteces.get(temp).getAdiacence().getSize());
+      // System.out.println("Adiacence: " + this.verteces.get(temp).getAdiacence().getSize());
 
       // for each adiacence of the vertex
       for (IKeyNode<Integer, Double> iter = (IKeyNode<Integer, Double>)this.verteces.get(temp).getAdiacence().getHead(); iter != null; iter = (IKeyNode<Integer, Double>)iter.getNext(), arch.setWeight(null)){
@@ -388,13 +419,13 @@ public class Graph<E extends Comparable<E>> extends IGraph<E>{
 
         // set second vertex of the temporary arch
         arch.setFirstVertex(this.verteces.get(iter.getValue()).getValue());
-        System.out.println("vert: " + this.verteces.get(iter.getValue()).getValue());
+        // System.out.println("vert: " + this.verteces.get(iter.getValue()).getValue());
 
         boolean same = false;
         boolean next = false;
 
         if (arch.getFirstVertex().compareTo(arch.getSecondVertex()) == 0){
-          System.out.println("Same node arch at " + j + ": " + iter.getValue());
+          // System.out.println("Same node arch at " + j + ": " + iter.getValue());
           // arch.setWeight(iter.getKey());
           // A.set(j, new Arch<E, Double>(arch));;
           same = true;
@@ -406,7 +437,7 @@ public class Graph<E extends Comparable<E>> extends IGraph<E>{
           for (int i = 0; i < A.length; i++){
             if (A.get(i) == null)
               break;
-            System.out.println("Compare of verteces: " + this.verteces.get(iter.getValue()).getValue().compareTo(A.get(i).getFirstVertex()));
+            // System.out.println("Compare of verteces: " + this.verteces.get(iter.getValue()).getValue().compareTo(A.get(i).getFirstVertex()));
             if (this.verteces.get(iter.getValue()).getValue().compareTo(A.get(i).getFirstVertex()) == 0){
               arch.setWeight(A.get(i).getWeight());
               pos_arch = i;
@@ -423,7 +454,7 @@ public class Graph<E extends Comparable<E>> extends IGraph<E>{
         else if (arch.getWeight() == null){
           // System.out.println("Checkin 2 " + PQ.check(iter.getValue()));
           // if (!PQ.check(iter.getValue())){
-            System.out.println("Inserting at " + j + ": " + iter.getValue());
+            // System.out.println("Inserting at " + j + ": " + iter.getValue());
             PQ.insert(iter.getValue(), iter.getKey());
           // }
           // else{
@@ -436,19 +467,20 @@ public class Graph<E extends Comparable<E>> extends IGraph<E>{
           j++;
         }
         else if (iter.getKey().compareTo(A.get(pos_arch).getWeight()) < 0 && PQ.check(iter.getValue())){
-          System.out.println("Check 34: " + PQ.check(iter.getValue()));
-          System.out.println("Iter Weight: " + iter.getKey());
-          System.out.println("MainArch Weight: " + A.get(pos_arch).getWeight());
+          // System.out.println("Check 34: " + PQ.check(iter.getValue()));
+          // System.out.println("Iter Weight: " + iter.getKey());
+          // System.out.println("MainArch Weight: " + A.get(pos_arch).getWeight());
           A.get(pos_arch).setWeight(iter.getKey());
           A.get(pos_arch).setSecondVertex(this.verteces.get(temp).getValue());
-          System.out.println("Decrease: " + PQ.decreaseKey(iter.getValue(), iter.getKey()));
-          System.out.println("AFTER Weight: " + A.get(pos_arch).getWeight());
+          PQ.decreaseKey(iter.getValue(), iter.getKey());
+          // System.out.println("Decrease: " + PQ.decreaseKey(iter.getValue(), iter.getKey()));
+          // System.out.println("AFTER Weight: " + A.get(pos_arch).getWeight());
         }
 
-        System.out.println("Arch end a Adiacence: ");
-        for (int i = 0; i < A.length; i++)
-          if (A.get(i) != null)
-            A.get(i).print();
+        // System.out.println("Arch end a Adiacence: ");
+        // for (int i = 0; i < A.length; i++)
+        //   if (A.get(i) != null)
+        //     A.get(i).print();
 
       }
     }
@@ -456,6 +488,7 @@ public class Graph<E extends Comparable<E>> extends IGraph<E>{
     return A;
   }
 
+  // class to handle pair of verteces
   protected class GraphPair <E extends Comparable<E>> implements Comparable<GraphPair<E>>{
     protected E value1;
 		protected E value2;
@@ -470,14 +503,10 @@ public class Graph<E extends Comparable<E>> extends IGraph<E>{
       this.value2 = v2;
     }
 
-    //@Override
     public E getFirstValue() { return this.value1; }
-    //@Override
     public E getSecondValue() { return this.value2; }
 
-    //@Override
     public void setFirstValue (E v) { this.value1 = v; }
-    //@Override
     public void setSecondValue (E v) { this.value2 = v; }
 
     // compare the input with this pair
@@ -514,7 +543,6 @@ public class Graph<E extends Comparable<E>> extends IGraph<E>{
       return 1;
     }
 
-    //@Override
     public void print(){ System.out.println("GraphPair: VALUE => " + this.value1 + " VALUE2 => " + this.value2); }
   }
 }
