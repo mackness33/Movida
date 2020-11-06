@@ -479,23 +479,35 @@ public class Graph<E extends Comparable<E>>{
     //@Override
     public void setSecondValue (E v) { this.value2 = v; }
 
-    //@Override
+    // compare the input with this pair
+    // for now it just understand if the pairs are the exactly the same
+    // TODO: decide a int for null and major and minor
+    @Override
     public int compareTo (GraphPair<E> input) {
+      // if input is null return fixed number
+      if (input == null)
+        return 1;
+
+      // compare each value with the other
       int x1 = this.value1.compareTo(input.getFirstValue());
       int x2 = this.value1.compareTo(input.getSecondValue());
       int y1 = this.value2.compareTo(input.getFirstValue());
       int y2 = this.value2.compareTo(input.getSecondValue());
       int comp1 = x1 + x2, comp2 = y1 + y2;
 
+      // if the difference between the values is minor of 2 for both the verteces
       if (Math.abs(x1) + Math.abs(x2) < 2 && Math.abs(y1) + Math.abs(y2) < 2){
         System.out.print("input: ");
         input.print();
-        System.out.print("GraphPair: ");
+        System.out.print("arch: ");
         this.print();
-        System.out.println("RES in comp: " +  comp1 + comp2);
+        System.out.println("RES in arch: " + comp1 + comp2);
+        // check to find comparison with a same-value pair
         if (comp1 == comp2)
-          return (comp1 + comp2) / 2;
-        return comp1 + comp2;
+          return Math.abs(comp1 + comp2) / 2;   // return 1 or 0
+
+        // return 0 if -1+1
+        return Math.abs(comp1 + comp2);
       }
 
       return 1;
