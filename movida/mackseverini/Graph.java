@@ -435,15 +435,14 @@ public class Graph<E extends Comparable<E>>{
           j++;
         }
         else if (iter.getKey().compareTo(A.get(pos_arch).getWeight()) < 0 && PQ.check(iter.getValue())){
-          // BUG: deacreaseKey NOT WORKING PROPERLY
           // TODO: Second vertex of arch must changed
           System.out.println("Iter Weight: " + iter.getKey());
           System.out.println("MainArch Weight: " + A.get(pos_arch).getWeight());
           A.get(pos_arch).setWeight(iter.getKey());
+          A.get(pos_arch).setSecondVertex(this.verteces.get(temp).getValue());
           System.out.println("Decrease: " + PQ.decreaseKey(iter.getValue(), iter.getKey()));
           System.out.println("AFTER Weight: " + A.get(pos_arch).getWeight());
         }
-
 
         System.out.println("Arch end a Adiacence: ");
         for (int i = 0; i < A.length; i++)
