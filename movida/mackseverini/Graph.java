@@ -367,7 +367,7 @@ public class Graph<E extends Comparable<E>>{
     System.out.println("pos vertex: " + pos_vertex);
 
     // temp = pos of the vertex;  till PQ is empty;  reset the temporary arch
-    for(Integer temp = 0, pos_arch = 0, j = 1; !PQ.isEmpty(); arch.reset()){
+    for(Integer temp = 0, pos_arch = 0, j = 1; !PQ.isEmpty(); arch.reset(), pos_vertex = temp){
       PQ.print();
       temp = PQ.findMin();
       System.out.println("min: " + temp);
@@ -398,12 +398,14 @@ public class Graph<E extends Comparable<E>>{
           // A.set(j, new Arch<E, Double>(arch));;
           same = true;
         }
-        else{
-          // if the arch is already present pass to the next vertex
+        // else if (iter.getValue() == pos_vertex){
+        //   next = true;
+        // }
+        else{  // if the arch is already present pass to the next vertex
           for (int i = 0; i < A.length; i++){
             if (A.get(i) == null)
               break;
-            System.out.println("Compare of verteches: " + this.verteces.get(iter.getValue()).getValue().compareTo(A.get(i).getFirstVertex()));
+            System.out.println("Compare of verteces: " + this.verteces.get(iter.getValue()).getValue().compareTo(A.get(i).getFirstVertex()));
             if (this.verteces.get(iter.getValue()).getValue().compareTo(A.get(i).getFirstVertex()) == 0){
               arch.setWeight(A.get(i).getWeight());
               pos_arch = i;
@@ -416,7 +418,7 @@ public class Graph<E extends Comparable<E>>{
         // System.out.println("next: " + next);
 
         if (same){ }
-        // else if (next){
+        // else if (next){}
         else if (arch.getWeight() == null){
           // System.out.println("Checkin 2 " + PQ.check(iter.getValue()));
           // if (!PQ.check(iter.getValue())){
@@ -432,14 +434,22 @@ public class Graph<E extends Comparable<E>>{
           A.set(j, new Arch<E, Double>(arch));
           j++;
         }
-        else if (iter.getKey().compareTo(A.get(pos_arch).getWeight()) < 0){
-          // BUG: deacreaseKeyNOT WORKING PROPERLY
+        else if (iter.getKey().compareTo(A.get(pos_arch).getWeight()) < 0 && PQ.check(iter.getValue())){
+          // BUG: deacreaseKey NOT WORKING PROPERLY
+          // TODO: Second vertex of arch must changed
           System.out.println("Iter Weight: " + iter.getKey());
           System.out.println("MainArch Weight: " + A.get(pos_arch).getWeight());
           A.get(pos_arch).setWeight(iter.getKey());
-          PQ.decreaseKey(iter.getValue(), iter.getKey());
+          System.out.println("Decrease: " + PQ.decreaseKey(iter.getValue(), iter.getKey()));
           System.out.println("AFTER Weight: " + A.get(pos_arch).getWeight());
         }
+
+
+        System.out.println("Arch end a Adiacence: ");
+        for (int i = 0; i < A.length; i++)
+          if (A.get(i) != null)
+            A.get(i).print();
+
       }
     }
 
