@@ -152,32 +152,32 @@ public class test {
   public static void graphTest(){
     Graph<Integer> G = new Graph<Integer>();
 
-    G.addVertex(0);
-    G.addVertex(1);
-    G.addVertex(2);
-    G.addVertex(3);
-    G.addVertex(4);
-    G.addVertex(5);
-    G.addVertex(6);
+    // G.addVertex(0);
+    // G.addVertex(1);
+    // G.addVertex(2);
+    // G.addVertex(3);
+    // G.addVertex(4);
+    // G.addVertex(5);
+    // G.addVertex(6);
 
     // printGraph(G);
 
-    for (int i = 0; i < 40; i++){
-      // G.addVertex(ThreadLocalRandom.current().nextInt(0, 50));
+    for (int i = 0; i < 50; i++){
+      G.addVertex(ThreadLocalRandom.current().nextInt(0, 10));
       // G.addVertex(i);
-      G.addArch(new Arch<Integer, Double>(ThreadLocalRandom.current().nextInt(1, 6), ThreadLocalRandom.current().nextInt(1, 6), ThreadLocalRandom.current().nextDouble(-1000, 1001)));
+      G.addArch(new Arch<Integer, Double>(ThreadLocalRandom.current().nextInt(0, 10), ThreadLocalRandom.current().nextInt(0, 10), ThreadLocalRandom.current().nextDouble(-1000, 1001)));
     }
 
 
-    G.addArch(new Arch<Integer, Double>(5, 2, 1.0));
-    G.addArch(new Arch<Integer, Double>(2, 5, 5.0));
+    // G.addArch(new Arch<Integer, Double>(5, 2, 1.0));
+    // G.addArch(new Arch<Integer, Double>(2, 5, 5.0));
     // G.addArch(new Arch<Integer, Double>(1, 1, 5.0));
     // G.addArch(new Arch<Integer, Double>(3, 4, 5.0));
-    G.addArch(new Arch<Integer, Double>(4, 3, 5.0));
-    G.addArch(new Arch<Integer, Double>(6, 1, 5.0));
-    G.addArch(new Arch<Integer, Double>(3, 6, 5.0));
-    G.addArch(new Arch<Integer, Double>(3, 1, 5.0));
-    G.addArch(new Arch<Integer, Double>(6, 5, 5.0));
+    // G.addArch(new Arch<Integer, Double>(4, 3, 5.0));
+    // G.addArch(new Arch<Integer, Double>(6, 1, 5.0));
+    // G.addArch(new Arch<Integer, Double>(3, 6, 5.0));
+    // G.addArch(new Arch<Integer, Double>(3, 1, 5.0));
+    // G.addArch(new Arch<Integer, Double>(6, 5, 5.0));
     // G.addArch(new Arch<Integer, Double>(5, 5, 5.0));
     // G.addArch(new Arch<Integer, Double>(2, 3, 2.0));
     // G.addArch(new Arch<Integer, Double>(3, 3, 3.0));

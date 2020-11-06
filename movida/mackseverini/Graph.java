@@ -435,7 +435,7 @@ public class Graph<E extends Comparable<E>>{
           j++;
         }
         else if (iter.getKey().compareTo(A.get(pos_arch).getWeight()) < 0 && PQ.check(iter.getValue())){
-          // TODO: Second vertex of arch must changed
+          System.out.println("Check 34: " + PQ.check(iter.getValue()));
           System.out.println("Iter Weight: " + iter.getKey());
           System.out.println("MainArch Weight: " + A.get(pos_arch).getWeight());
           A.get(pos_arch).setWeight(iter.getKey());
