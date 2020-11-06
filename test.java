@@ -150,7 +150,7 @@ public class test {
   }
 
   public static void graphTest(){
-    Graph<Integer> G = new Graph<Integer>();
+    Graph<Integer, Double> G = new Graph<Integer, Double>();
 
     // G.addVertex(0);
     // G.addVertex(1);

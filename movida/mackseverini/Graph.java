@@ -12,9 +12,9 @@ import movida.mackseverini.KeyList;
 import java.util.Arrays;
 
 // Class used to virtually implements an array without its costraints
-public class Graph<E extends Comparable<E>> implements movida.mackseverini.IGraph<E>{
-  protected Array<Vertex<E, Double>> verteces;                      // Array of verteces
-  protected IKeyList<GraphPair<Integer>, Double, Integer> arches;   // List of Arches
+public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements movida.mackseverini.IGraph<E, K>{
+  protected Array<Vertex<E, K>> verteces;                      // Array of verteces
+  protected IKeyList<GraphPair<Integer>, K, Integer> arches;   // List of Arches
   protected int numVertex;                                          // Number of Vertex inserted
   protected int numArch;                                            // Number of Arches
   protected int size;                                               // Max position occupied in the array
@@ -23,8 +23,8 @@ public class Graph<E extends Comparable<E>> implements movida.mackseverini.IGrap
 	// constructor
 	public Graph()
 	{
-    this.verteces = new Array<Vertex<E, Double>>(50);
-    this.arches = new KeyList<GraphPair<Integer>, Double, Integer>();
+    this.verteces = new Array<Vertex<E, K>>(50);
+    this.arches = new KeyList<GraphPair<Integer>, K, Integer>();
     this.numVertex = 0;
 		this.numArch = 0;
     this.size = 0;
@@ -53,19 +53,19 @@ public class Graph<E extends Comparable<E>> implements movida.mackseverini.IGrap
 	// }
 
   @Override
-  public Array<Vertex<E, Double>> getVerteces () { return this.verteces; }
+  public Array<Vertex<E, K>> getVerteces () { return this.verteces; }
   // trasform the list of nodes and weight into an array of arch object
   @Override
-  public Array<Arch<E, Double>> getArches(){
+  public Array<Arch<E, K>> getArches(){
     if (this.numArch <= 0)
       return null;
 
-    final Array<Arch<E, Double>> array = new Array<Arch<E, Double>>(this.numArch);
+    final Array<Arch<E, K>> array = new Array<Arch<E, K>>(this.numArch);
     int i = 0;
     GraphPair<Integer> temp = null;
 
     // add all the node list per list
-    for (IKeyNode<GraphPair<Integer>, Double> iter = (IKeyNode<GraphPair<Integer>, Double>)this.arches.getHead(); iter != null; iter = (IKeyNode<GraphPair<Integer>, Double>)iter.getNext(), i++){
+    for (IKeyNode<GraphPair<Integer>, K> iter = (IKeyNode<GraphPair<Integer>, K>)this.arches.getHead(); iter != null; iter = (IKeyNode<GraphPair<Integer>, K>)iter.getNext(), i++){
       temp = iter.getValue();
       if (iter.getKey() != null && temp.getFirstValue() != null && temp.getSecondValue() != null)
         array.set(i, new Arch(this.verteces.get(temp.getFirstValue()), this.verteces.get(temp.getSecondValue()), iter.getKey()));
@@ -100,7 +100,7 @@ public class Graph<E extends Comparable<E>> implements movida.mackseverini.IGrap
 
   // add an arch
   @Override
-  public boolean addArch(Arch<E, Double> arch){
+  public boolean addArch(Arch<E, K> arch){
     if (arch == null)
       return false;
 
@@ -143,7 +143,7 @@ public class Graph<E extends Comparable<E>> implements movida.mackseverini.IGrap
   }
 
   @Override
-  public boolean addArch(E vertex1, E vertex2, Double weight){
+  public boolean addArch(E vertex1, E vertex2, K weight){
     if (vertex1 == null && vertex2 == null && weight == null)
       return false;
 
@@ -240,7 +240,7 @@ public class Graph<E extends Comparable<E>> implements movida.mackseverini.IGrap
     }
 
     // iterate all the elements of the list
-    for (IKeyNode<GraphPair<Integer>, Double> prev = (IKeyNode<GraphPair<Integer>, Double>)this.arches.getHead(), iter = (IKeyNode<GraphPair<Integer>, Double>)this.arches.getHead().getNext(); iter != null; iter = (KeyNode<GraphPair<Integer>, Double>)iter.getNext()){
+    for (IKeyNode<GraphPair<Integer>, K> prev = (IKeyNode<GraphPair<Integer>, K>)this.arches.getHead(), iter = (IKeyNode<GraphPair<Integer>, K>)this.arches.getHead().getNext(); iter != null; iter = (KeyNode<GraphPair<Integer>, K>)iter.getNext()){
       e = iter.getValue();
 
       // if vertex is part of the arch
@@ -256,7 +256,7 @@ public class Graph<E extends Comparable<E>> implements movida.mackseverini.IGrap
       }
 
       if (iter != prev)
-        prev = (IKeyNode<GraphPair<Integer>, Double>)prev.getNext();
+        prev = (IKeyNode<GraphPair<Integer>, K>)prev.getNext();
     }
 
     return true;
@@ -264,7 +264,7 @@ public class Graph<E extends Comparable<E>> implements movida.mackseverini.IGrap
 
   // delete an arch
   @Override
-  public boolean delArch(Arch<E, Double> arch){
+  public boolean delArch(Arch<E, K> arch){
     if (arch == null)
       return false;
 
@@ -304,7 +304,7 @@ public class Graph<E extends Comparable<E>> implements movida.mackseverini.IGrap
 
   // search for an Arch if present return true, else false
   @Override
-  public boolean searchArch(Arch<E, Double> arch){
+  public boolean searchArch(Arch<E, K> arch){
     if (arch == null)
       return false;
 
@@ -365,14 +365,14 @@ public class Graph<E extends Comparable<E>> implements movida.mackseverini.IGrap
   // TODO: do compareTo for object without operator(-)
   // it return the Minimum Spinnig Tree of the graph using Primm's algorithm
   @Override
-  public Array<Arch<E, Double>> MSTPrim(E vertex){
+  public Array<Arch<E, K>> MSTPrim(E vertex){
     if (vertex == null)
       return null;
 
-    Array<Arch<E,Double>> A = new Array<Arch<E,Double>>(this.numArch);        // output array
-    Arch<E,Double> arch = new Arch<E,Double>();                               // temporary arch
-    Integer pos_vertex = null;                                                // pos of the selected vertex
-    PriorityQueue<Integer, Double> PQ = new PriorityQueue<Integer, Double>(); // PriorityQueue
+    Array<Arch<E,K>> A = new Array<Arch<E,K>>(this.numArch);        // output array
+    Arch<E,K> arch = new Arch<E,K>();                               // temporary arch
+    Integer pos_vertex = null;                                      // pos of the selected vertex
+    PriorityQueue<Integer, K> PQ = new PriorityQueue<Integer, K>(); // PriorityQueue
 
     //  if present get vertex pos
     for (int i = 0; i < this.verteces.length; i++)
@@ -392,8 +392,11 @@ public class Graph<E extends Comparable<E>> implements movida.mackseverini.IGrap
       A.set(i, null);
 
     // insert the root vertex
-    PQ.insert(pos_vertex, 0.0);
-    A.set(0, new Arch<E, Double>(this.verteces.get(pos_vertex).getValue(), this.verteces.get(pos_vertex).getValue(), 0.0));
+    // adding a random weight. at the end it will change to null
+    // random weight because with null it will all crash.
+    // the random weight won't affect the algorithm in any way
+    A.set(0, new Arch<E, K>(vertex, vertex, ((IKeyNode<E, K>)this.arches.getHead()).getKey()));
+    PQ.insert(pos_vertex, A.get(0).getWeight());
 
     // till PQ is empty;  reset the temporary arch
     for(Integer pos_arch = 0, last_arch = 1; !PQ.isEmpty(); arch.reset()){
@@ -404,7 +407,7 @@ public class Graph<E extends Comparable<E>> implements movida.mackseverini.IGrap
       arch.setSecondVertex(this.verteces.get(pos_vertex).getValue());        // set second arch vertex to the selected one
 
       // for each adiacence of the vertex
-      for (IKeyNode<Integer, Double> iter = (IKeyNode<Integer, Double>)this.verteces.get(pos_vertex).getAdiacence().getHead(); iter != null; iter = (IKeyNode<Integer, Double>)iter.getNext(), arch.setWeight(null)){
+      for (IKeyNode<Integer, K> iter = (IKeyNode<Integer, K>)this.verteces.get(pos_vertex).getAdiacence().getHead(); iter != null; iter = (IKeyNode<Integer, K>)iter.getNext(), arch.setWeight(null)){
         // checks values
         if (this.MSTchecks(iter, pos_vertex)){
           // set first vertex of the temporary arch
@@ -427,7 +430,7 @@ public class Graph<E extends Comparable<E>> implements movida.mackseverini.IGrap
           if (arch.getWeight() == null){
             PQ.insert(iter.getValue(), iter.getKey());      // insert the vertex to the PriorityQueue
             arch.setWeight(iter.getKey());                  // set the weight of the arch
-            A.set(last_arch, new Arch<E, Double>(arch));            // add the arch to the output arch
+            A.set(last_arch, new Arch<E, K>(arch));            // add the arch to the output arch
             last_arch++;                                            // increment pos of the last arch in the output array
           }
           // else if weight of the adiacence minor than the weight of the arch AND the vertex of the adiacence is in the PriorityQueue
@@ -440,10 +443,13 @@ public class Graph<E extends Comparable<E>> implements movida.mackseverini.IGrap
       }
     }
 
+    // setting the first vertex to null
+    A.get(0).setWeight(null);
+
     return A;
   }
 
-  private boolean MSTchecks(IKeyNode<Integer, Double> adiacence, Integer vertex){
+  private boolean MSTchecks(IKeyNode<Integer, K> adiacence, Integer vertex){
     // check if value is null
     if (adiacence.getValue() == null || adiacence.getKey() == null)
       return false;
