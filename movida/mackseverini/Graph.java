@@ -395,97 +395,69 @@ public class Graph<E extends Comparable<E>> implements movida.mackseverini.IGrap
     PQ.insert(pos_vertex, 0.0);
     A.set(0, new Arch<E, Double>(this.verteces.get(pos_vertex).getValue(), this.verteces.get(pos_vertex).getValue(), 0.0));
 
-    // System.out.println("check");
-    // System.out.println("pos vertex: " + pos_vertex);
-
-    // temp = pos of the vertex;  till PQ is empty;  reset the temporary arch
-    for(Integer temp = 0, pos_arch = 0, j = 1; !PQ.isEmpty(); arch.reset(), pos_vertex = temp){
-      PQ.print();
-      temp = PQ.findMin();
-      // System.out.println("min: " + temp);
+    // till PQ is empty;  reset the temporary arch
+    for(Integer pos_arch = 0, last_arch = 1; !PQ.isEmpty(); arch.reset()){
+      // find min and delete it
+      pos_vertex = PQ.findMin();
       PQ.delMin();
 
-      arch.setSecondVertex(this.verteces.get(temp).getValue());        // set first arch vertex to the selected one
-
-      // System.out.println("Adiacence: " + this.verteces.get(temp).getAdiacence().getSize());
+      arch.setSecondVertex(this.verteces.get(pos_vertex).getValue());        // set second arch vertex to the selected one
 
       // for each adiacence of the vertex
-      for (IKeyNode<Integer, Double> iter = (IKeyNode<Integer, Double>)this.verteces.get(temp).getAdiacence().getHead(); iter != null; iter = (IKeyNode<Integer, Double>)iter.getNext(), arch.setWeight(null)){
-        // check if value is null
-        if (iter.getValue() == null || iter.getKey() == null) break;
+      for (IKeyNode<Integer, Double> iter = (IKeyNode<Integer, Double>)this.verteces.get(pos_vertex).getAdiacence().getHead(); iter != null; iter = (IKeyNode<Integer, Double>)iter.getNext(), arch.setWeight(null)){
+        // checks values
+        if (this.MSTchecks(iter, pos_vertex)){
+          // set first vertex of the temporary arch
+          arch.setFirstVertex(this.verteces.get(iter.getValue()).getValue());
 
-        // check if value is null
-        if (this.verteces.get(iter.getValue()) == null) break;
-
-        // set second vertex of the temporary arch
-        arch.setFirstVertex(this.verteces.get(iter.getValue()).getValue());
-        // System.out.println("vert: " + this.verteces.get(iter.getValue()).getValue());
-
-        boolean same = false;
-        boolean next = false;
-
-        if (arch.getFirstVertex().compareTo(arch.getSecondVertex()) == 0){
-          // System.out.println("Same node arch at " + j + ": " + iter.getValue());
-          // arch.setWeight(iter.getKey());
-          // A.set(j, new Arch<E, Double>(arch));;
-          same = true;
-        }
-        // else if (iter.getValue() == pos_vertex){
-        //   next = true;
-        // }
-        else{  // if the arch is already present pass to the next vertex
+          // if the arch is already present pass to the next vertex
           for (int i = 0; i < A.length; i++){
+            // if the element at the index is null than no need to continue
             if (A.get(i) == null)
               break;
-            // System.out.println("Compare of verteces: " + this.verteces.get(iter.getValue()).getValue().compareTo(A.get(i).getFirstVertex()));
+            // if the element of the vertex is already in the output array then get its weight and remember the position
             if (this.verteces.get(iter.getValue()).getValue().compareTo(A.get(i).getFirstVertex()) == 0){
               arch.setWeight(A.get(i).getWeight());
               pos_arch = i;
-              next = true;
               break;
             }
           }
+
+          // if there's no weight associated to the vertex
+          if (arch.getWeight() == null){
+            PQ.insert(iter.getValue(), iter.getKey());      // insert the vertex to the PriorityQueue
+            arch.setWeight(iter.getKey());                  // set the weight of the arch
+            A.set(last_arch, new Arch<E, Double>(arch));            // add the arch to the output arch
+            last_arch++;                                            // increment pos of the last arch in the output array
+          }
+          // else if weight of the adiacence minor than the weight of the arch AND the vertex of the adiacence is in the PriorityQueue
+          else if (iter.getKey().compareTo(A.get(pos_arch).getWeight()) < 0 && PQ.check(iter.getValue())){
+            A.get(pos_arch).setWeight(iter.getKey());                                   // set weight with the adiacence
+            A.get(pos_arch).setSecondVertex(this.verteces.get(pos_vertex).getValue());        // set the new second Vertex
+            PQ.decreaseKey(iter.getValue(), iter.getKey());                             // decreaseKey by weight of the adiacence weight
+          }
         }
-
-        // System.out.println("next: " + next);
-
-        if (same){ }
-        // else if (next){}
-        else if (arch.getWeight() == null){
-          // System.out.println("Checkin 2 " + PQ.check(iter.getValue()));
-          // if (!PQ.check(iter.getValue())){
-            // System.out.println("Inserting at " + j + ": " + iter.getValue());
-            PQ.insert(iter.getValue(), iter.getKey());
-          // }
-          // else{
-          //   System.out.println("Iter Weight: " + iter.getKey());
-          //   System.out.println("MainArch Weight: " + A.get(pos_arch).getWeight());
-          //   PQ.decreaseKey(iter.getValue(), iter.getKey());
-          // }
-          arch.setWeight(iter.getKey());
-          A.set(j, new Arch<E, Double>(arch));
-          j++;
-        }
-        else if (iter.getKey().compareTo(A.get(pos_arch).getWeight()) < 0 && PQ.check(iter.getValue())){
-          // System.out.println("Check 34: " + PQ.check(iter.getValue()));
-          // System.out.println("Iter Weight: " + iter.getKey());
-          // System.out.println("MainArch Weight: " + A.get(pos_arch).getWeight());
-          A.get(pos_arch).setWeight(iter.getKey());
-          A.get(pos_arch).setSecondVertex(this.verteces.get(temp).getValue());
-          PQ.decreaseKey(iter.getValue(), iter.getKey());
-          // System.out.println("Decrease: " + PQ.decreaseKey(iter.getValue(), iter.getKey()));
-          // System.out.println("AFTER Weight: " + A.get(pos_arch).getWeight());
-        }
-
-        // System.out.println("Arch end a Adiacence: ");
-        // for (int i = 0; i < A.length; i++)
-        //   if (A.get(i) != null)
-        //     A.get(i).print();
-
       }
     }
 
     return A;
+  }
+
+  private boolean MSTchecks(IKeyNode<Integer, Double> adiacence, Integer vertex){
+    // check if value is null
+    if (adiacence.getValue() == null || adiacence.getKey() == null)
+      return false;
+
+    // check if the vertex is null
+    if (this.verteces.get(adiacence.getValue()) == null)
+      return false;
+
+    // check if the two verteces are the same
+    if (adiacence.getValue() == vertex)
+      return false;
+
+    // alright
+    return true;
   }
 
   // class to handle pair of verteces
