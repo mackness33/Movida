@@ -13,6 +13,7 @@ import movida.mackseverini.KeyHash;
 import movida.mackseverini.InsertionSort;
 import movida.mackseverini.KeyNode;
 import movida.mackseverini.KeyList;
+import movida.mackseverini.ABR;
 import movida.mackseverini.Graph;
 import movida.mackseverini.Arch;
 import movida.mackseverini.IArch;
@@ -29,13 +30,277 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class test {
 
+  public static class TestInteger implements Comparable<TestInteger>
+  {
+    int value;
+
+    public TestInteger(int value)
+    {
+      this.value = value;
+    }
+
+
+    @Override
+    public int compareTo(TestInteger valueToCompare)
+    {
+      return this.value - valueToCompare.value;
+    }
+
+    @Override
+    public String toString()
+    {
+      return ("My value is: " + this.value);
+    }
+  }
+
   public static void main(String args[]){
+
+    // TestInteger valueToBeTested1 = new TestInteger(1);
+    // TestInteger valueToBeTested2 = new TestInteger(2);
+    //
+    // //System.out.println(valueToBeTested1.compareTo(valueToBeTested2));
+    //
+    // ABR<TestInteger> abr = new ABR(valueToBeTested1);
+    // abr.insert(valueToBeTested2);
+    // System.out.println("ROOT: " + abr.getRoot().getKey().toString());
+    // System.out.println("ROOT'S RIGHT CHILD: " + abr.getRoot().getRightChild().getKey().toString());
+
+    // TestInteger value10 = new TestInteger(10);
+    // ABR<TestInteger> abr = new ABR();
+    // abr.insert(value10);
+    // System.out.println("ROOT: " + abr.getRoot().getKey());
+    // // TestInteger value5 = new TestInteger(5);
+    // // abr.insert(value5);
+    // // System.out.println("ROOT'S LEFT CHILD: " + abr.getRoot().getLeftChild().getKey());
+    // TestInteger value15 = new TestInteger(15);
+    // abr.insert(value15);
+    // System.out.println("ROOT'S RIGHT CHILD: " + abr.getRoot().getRightChild().getKey());
+    // TestInteger value5 = new TestInteger(5);
+    // abr.insert(value5);
+    // System.out.println("ROOT'S LEFT CHILD: " + abr.getRoot().getLeftChild().getKey());
+    // TestInteger value1 = new TestInteger(1);
+    // abr.insert(value1);
+    // System.out.println("ROOT'S LEFT LEFT CHILD: " + abr.getRoot().getLeftChild().getLeftChild().getKey());
+    // TestInteger value7 = new TestInteger(7);
+    // abr.insert(value7);
+    // System.out.println("ROOT'S LEFT RIGHT CHILD: " + abr.getRoot().getLeftChild().getRightChild().getKey());
+    // TestInteger value20 = new TestInteger(20);
+    // abr.insert(value20);
+    // System.out.println("ROOT'S RIGHT RIGHT CHILD: " + abr.getRoot().getRightChild().getRightChild().getKey());
+    // TestInteger value13 = new TestInteger(13);
+    // abr.insert(value13);
+    // System.out.println("ROOT'S RIGHT LEFT CHILD: " + abr.getRoot().getRightChild().getLeftChild().getKey());
+
+    ABR<TestInteger> abr = new ABR();
+
+    TestInteger value20 = new TestInteger(20);
+    abr.insert(value20);
+    System.out.println("ROOT: " + abr.getRoot().getKey());
+    //System.out.println("DELETE ROOT 20: " + abr.delete(value20) + " NEW ROOT: " + abr.getRoot());
+    TestInteger value10 = new TestInteger(10);
+    abr.insert(value10);
+    System.out.println("ROOT'S LEFT CHILD: " + abr.getRoot().getLeftChild().getKey());
+    //System.out.println("DELETE ROOT 20: " + abr.delete(value20) + " NEW ROOT: " + abr.getRoot().getKey() + " NEW ROOT'S LEFT CHILD: " + abr.getRoot().getLeftChild());
+    TestInteger value30 = new TestInteger(30);
+    abr.insert(value30);
+    System.out.println("ROOT'S RIGHT CHILD: " + abr.getRoot().getRightChild().getKey());
+    //System.out.println("DELETE ROOT 20: " + abr.delete(value20) + " NEW ROOT: " + abr.getRoot().getKey() + " NEW ROOT'S LEFT CHILD: " + abr.getRoot().getLeftChild() + " NEW ROOT'S RIGHT CHILD: " + abr.getRoot().getRightChild().getKey());
+    TestInteger value5 = new TestInteger(5);
+    abr.insert(value5);
+    System.out.println("ROOT'S LEFT LEFT CHILD: " + abr.getRoot().getLeftChild().getLeftChild().getKey());
+    System.out.println("DELETE ROOT 20: " + abr.delete(value20) + " NEW ROOT: " + abr.getRoot().getKey() + " NEW ROOT'S RIGHT CHILD: " + abr.getRoot().getRightChild().getKey() + " NEW ROOT'S LEFT CHILD: " + abr.getRoot().getLeftChild().getKey() + " NEW ROOT'S LEFT LEFT CHILD: " + abr.getRoot().getLeftChild().getLeftChild());
+
+    //System.out.println(abr.getRoot().getRightChild().getKey().toString());
+
+    //test di tutto perchè sono scemo
+
+    /*Person dioporco = new Person("dioporco");
+    Person porcamadonna = new Person("porcamadonna");
+    System.out.println(dioporco.compareTo(porcamadonna));*/
+
+    //TEST ABRNODE
+    //(modificare AbrNode da protected a public per testare con le seguenti righe)
+    //test costruttori
+/*  ABR.AbrNode root = abr.new AbrNode(50);
+    ABR.AbrNode empty = abr.new AbrNode();
+    System.out.println("TEST COSTRUTTORI\n");
+    System.out.println("Empty node key: " + empty.getKey());
+    System.out.println("root key: " + root.getKey());
+    ABR.AbrNode left = abr.new AbrNode(20);
+    ABR.AbrNode right = abr.new AbrNode(70);
+    ABR.AbrNode root2 = abr.new AbrNode(60, left, right);
+    System.out.println("Root2 key: " + root2.getKey());
+    System.out.println("root2 left child: " + (root2.getLeftChild()).getKey());
+    System.out.println("root2 right child: " + (root2.getRightChild()).getKey());
+
+    //test set figli
+    System.out.println("\n\nTEST SET FIGLI\n");
+    root.setLeftChild(left);
+    root.setRightChild(right);
+    System.out.println("Root left child: " + (root.getLeftChild()).getKey());
+    System.out.println("Root right child: " + (root.getRightChild()).getKey());
+
+    //test set key
+    (root.getLeftChild()).setKey(10);
+    System.out.println("Root left child key changed: " + (root.getLeftChild()).getKey());
+*/
+
+
+    //TEST ABR
+
+    //TEST INSERT
+/*    abr.insert(50);
+    abr.insert(30);
+    abr.insert(70);
+    abr.insert(20);
+    abr.insert(40);
+    abr.insert(60);
+    abr.insert(80);
+    abr.printAbr(abr.getRoot());
+*/
+    //TEST DELETE
+      // ONLY ROOT CASE
+/*    abr.insert(50);
+    abr.printAbr(abr.getRoot());
+    abr.delete(50);
+    System.out.println("\n");
+    abr.printAbr(abr.getRoot());
+*/      // ROOT 1 CHILD CASE (LEFT)
+/*    abr.insert(50);
+    abr.insert(30);
+    abr.insert(20);
+    abr.printAbr(abr.getRoot());
+    abr.delete(50);
+    System.out.println("\n");
+    abr.printAbr(abr.getRoot());
+*/      // ROOT 1 CHILD CASE (RIGHT)
+/*    abr.insert(50);
+    abr.insert(60);
+    abr.insert(70);
+    abr.printAbr(abr.getRoot());
+    abr.delete(50);
+    System.out.println("\n");
+    abr.printAbr(abr.getRoot());
+*/      // ROOT 2 CHILDREN CASE
+/*    abr.insert(50);
+    abr.insert(40);
+    abr.insert(60);
+    abr.insert(30);
+    abr.insert(45);
+    abr.insert(43);
+    abr.insert(44);
+    abr.printAbr(abr.getRoot());
+    abr.delete(50);
+    System.out.println("\n");
+    abr.printAbr(abr.getRoot());
+*/  // LEAF CASE
+/*    abr.insert(50);
+    abr.insert(40);
+    abr.insert(45);
+    abr.printAbr(abr.getRoot());
+    abr.delete(45);
+    System.out.println("\n");
+    abr.printAbr(abr.getRoot());
+*/  // INTERMEDIATE CASE
+      // 1 CHILD ONLY (LEFT)
+/*    abr.insert(50);
+    abr.insert(40);
+    abr.insert(30);
+    abr.insert(20);
+    abr.insert(35);
+    abr.printAbr(abr.getRoot());
+    abr.delete(40);
+    System.out.println("\n");
+    abr.printAbr(abr.getRoot());
+*/
+/*    abr.insert(50);
+    abr.insert(60);
+    abr.insert(55);
+    abr.insert(51);
+    abr.insert(56);
+    abr.printAbr(abr.getRoot());
+    abr.delete(60);
+    System.out.println("\n");
+    abr.printAbr(abr.getRoot());
+*/
+      // 1 CHILD ONLY (RIGHT)
+/*    abr.insert(50);
+    abr.insert(40);
+    abr.insert(45);
+    abr.insert(41);
+    abr.insert(46);
+    abr.printAbr(abr.getRoot());
+    abr.delete(40);
+    System.out.println("\n");
+    abr.printAbr(abr.getRoot());
+*/
+      // 2 CHILDREN CASE
+/*      abr.insert(50);
+      abr.insert(40);
+      abr.insert(30);
+      abr.insert(45);
+      abr.insert(20);
+      abr.insert(35);
+      abr.insert(31);
+      abr.insert(36);
+      abr.printAbr(abr.getRoot());
+      abr.delete(40);
+      System.out.println("\n");
+      abr.printAbr(abr.getRoot());
+
+      System.out.println("\n\n"+abr.getRoot().getLeftChild().getLeftChild().getRightChild().getLeftChild().getKey());
+*/
+/*      abr.insert(50);
+      abr.insert(60);
+      abr.insert(55);
+      abr.insert(70);
+      abr.insert(51);
+      abr.insert(59);
+      abr.insert(56);
+      abr.printAbr(abr.getRoot());
+      abr.delete(60);
+      System.out.println("\n");
+      abr.printAbr(abr.getRoot());
+
+      System.out.println("\n\n"+abr.getRoot().getRightChild().getLeftChild().getRightChild().getKey());
+*/
+    // TEST SEARCH
+/*    abr.insert(50);
+    abr.insert(40);
+    abr.insert(30);
+    abr.insert(70);
+    abr.insert(80);
+    abr.insert(60);
+    abr.insert(45);
+    abr.printAbr(abr.getRoot());
+    System.out.println("\n\n50:" + abr.search(50));
+    System.out.println("40:" + abr.search(40));
+    System.out.println("30:" + abr.search(30));
+    System.out.println("70:" + abr.search(70));
+    System.out.println("80:" + abr.search(80));
+    System.out.println("60:" + abr.search(60));
+    System.out.println("45:" + abr.search(45));
+    System.out.println("10:" + abr.search(10));
+    System.out.println("100:" + abr.search(100));
+*/
+    // TEST UPDATE
+/*    abr.insert(50);
+    abr.insert(70);
+    abr.insert(40);
+    abr.insert(30);
+    abr.insert(65);
+    abr.printAbr(abr.getRoot());
+    abr.update(35, 50);
+    System.out.println("\n");
+    abr.printAbr(abr.getRoot());
+    System.out.println("\n\n"+ abr.getRoot().getRightChild().getLeftChild().getKey());
+*/
     // test.AlgTest();
     test.graphMovidaTest();
     // test.priorityQueueTest();
   }
 
-  public static void AlgTest(){
+  /*public static void AlgTest(){
     Array<Integer> A = new Array<Integer>(35);
     IList<Integer> L = new List<Integer>();
 
