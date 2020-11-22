@@ -1,31 +1,27 @@
 package movida.mackseverini;
 
-public class ABR<T extends Comparable<T>>/*implements IABR*/{
+public class ABR<T extends Comparable<T>> implements IABR<T>
+{
 
   protected AbrNode<T> root;
 
-  public ABR()
-  {
+  public ABR(){
     this.root = null;
   }
 
-  public ABR(T key)
-  {
+  public ABR(T key){
     this.root = new AbrNode(key);
   }
 
-  public ABR(AbrNode<T> root)
-  {
+  public ABR(AbrNode<T> root){
     this.root = root;
   }
 
-  public AbrNode<T> getRoot()
-  {
+  public AbrNode<T> getRoot(){
     return this.root;
   }
 
-  public void setRoot(AbrNode<T> root)
-  {
+  public void setRoot(AbrNode<T> root){
     this.root = root;
   }
 
@@ -56,7 +52,7 @@ public class ABR<T extends Comparable<T>>/*implements IABR*/{
     }
   }*/
 
-  public class AbrNode<T extends Comparable<T>>
+  public class AbrNode<T extends Comparable<T>> implements IAbrNode<T>
   {
     protected T key;
     protected AbrNode<T> left;
@@ -122,8 +118,6 @@ public class ABR<T extends Comparable<T>>/*implements IABR*/{
     }*/
   }
 
-
-  //@Override
   public boolean insert(T keyToInsert)
   {
     AbrNode<T> nodeToInsert = new AbrNode(keyToInsert);
@@ -154,96 +148,6 @@ public class ABR<T extends Comparable<T>>/*implements IABR*/{
 
     return true;
   }
-
-/*  public boolean deleteVecchio(Integer keyToFind){
-
-    boolean result = false;
-    AbrNode root = this.getRoot();
-    AbrNode parent = root;
-
-    // empty tree
-    if(root == null){}
-    else
-    {
-      // search for node to be deleted
-      while((root != null) && (keyToFind != root.getKey()))
-      {
-        parent = root;
-
-        if(keyToFind < root.getKey())
-          root = root.getLeftChild();
-        else
-          root = root.getRightChild();
-      }
-
-      // node not found
-      if(root == null){}
-      // delete node
-      else
-      {
-        // the node is the root
-        if(parent == root)
-        {
-          // has no child
-          if((root.getLeftChild() == null) && (root.getRightChild() == null))
-            this.setRoot(null);
-          // if has 1 child (left)
-          else if((root.getLeftChild() != null) && (root.getRightChild() == null))
-            this.setRoot(root.getLeftChild());
-          // if has 1 child (right)
-          else if ((root.getLeftChild() == null) && (root.getRightChild() != null))
-            this.setRoot(root.getRightChild());
-          // if has 2 children
-          else
-          {
-            // choose the predecessor as substitute
-            root = root.getLeftChild();
-
-            while(root.getRightChild() != null)
-              root = root.getRightChild();
-
-            AbrNode newLeftChild = this.getRoot().getLeftChild();
-            AbrNode newRightChild = this.getRoot().getRightChild();
-            this.setRoot(root);
-            this.getRoot().setLeftChild(newLeftChild);
-            this.getRoot().setRightChild(newRightChild);
-          }
-        }
-        // the node is a leaf
-        else if((root.getLeftChild() == null) && (root.getRightChild() == null))
-        {
-          // if the node to be eliminated is a left child
-          if((parent.getLeftChild()).getKey() == root.getKey())
-            parent.setLeftChild(null);
-          // if the node to be eliminated is a right child
-          else
-            parent.setRightChild(null);
-        }
-        // the node has 1 child
-        else if(((root.getLeftChild() == null) && (root.getRightChild() != null)) || ((root.getLeftChild() != null) && (root.getRightChild() == null)))
-        {
-          // the child is right
-          if(root.getLeftChild() == null)
-            parent.setRightChild(root.getRightChild());
-          // the child is left
-          else
-            parent.setLeftChild(root.getLeftChild());
-        }
-        // the node has 2 child
-        else
-        { //MUST CHECK IF NODE TO BE DELETED WAS A LEFT OR RIGHT CHILD FOR EVERY CASE
-          root = root.getLeftChild();
-          while(root.getRightChild() != null)
-            root = root.getRightChild();
-          parent.setLeftChild(root);
-        }
-
-        result = true;
-      }
-    }
-    return result;
-  }*/
-
 
   public boolean delete(T keyToFind)
   {
@@ -390,11 +294,9 @@ public class ABR<T extends Comparable<T>>/*implements IABR*/{
     return true;
   }
 
-
-  //@override
   public boolean search(T keyToFind){
     boolean result = false;
-    AbrNode<T> nodeChecked = this.getRoot();
+    AbrNode<T> nodeChecked = this.root;
 
     // search for the node
     while((nodeChecked != null) && (keyToFind.compareTo(nodeChecked.getKey()) != 0))
@@ -411,7 +313,6 @@ public class ABR<T extends Comparable<T>>/*implements IABR*/{
     return result;
   }
 
-  //@override
   public boolean update(T update, T keyToFind){
     this.delete(keyToFind);
     this.insert(update);
