@@ -1,8 +1,9 @@
 package movida.mackseverini;
 
+import movida.mackseverini.IAbrNode;
+
 public class ABR<T extends Comparable<T>> implements IABR<T>
 {
-
   protected AbrNode<T> root;
 
   public ABR(){
@@ -13,17 +14,28 @@ public class ABR<T extends Comparable<T>> implements IABR<T>
     this.root = new AbrNode(key);
   }
 
+  // CLEAN: weird costructor
   public ABR(AbrNode<T> root){
     this.root = root;
   }
 
-  public AbrNode<T> getRoot(){
+  // TODO: copy costructor
+  public ABR(ABR<T> tree){
+    this.root = new AbrNode(tree.getRoot());
+  }
+
+  // TODO: need to return just T
+  public IAbrNode<T> getRoot(){
     return this.root;
   }
 
-  public void setRoot(AbrNode<T> root){
+  // TODO: need to get in input just T
+  public void setRoot(IAbrNode<T> root){
     this.root = root;
   }
+
+  // OPTIMIZE: implement setRootNode and getRootNode for node operations
+  //              they'll be protected
 
   /*public void printAbr(AbrNode<T> rootNode)
   {
@@ -52,6 +64,7 @@ public class ABR<T extends Comparable<T>> implements IABR<T>
     }
   }*/
 
+  // TODO: set to protected
   public class AbrNode<T extends Comparable<T>> implements IAbrNode<T>
   {
     protected T key;
@@ -78,35 +91,41 @@ public class ABR<T extends Comparable<T>> implements IABR<T>
     {
       this.key = key;
       this.left = left;
-      this.right = right;
+      this.right = right;, Movie<T>, Person<T>
     }
 
+    @Override
     public void setKey(T key)
     {
       this.key = key;
     }
 
+    @Override
     public T getKey()
     {
         return this.key;
     }
 
-    public void setLeftChild(AbrNode<T> left)
+    @Override
+    public void setLeftChild(IAbrNode<T> left)
     {
       this.left = left;
     }
 
-    public AbrNode<T> getLeftChild()
+    @Override
+    public IAbrNode<T> getLeftChild()
     {
       return this.left;
     }
 
-    public void setRightChild(AbrNode<T> right)
+    @Override
+    public void setRightChild(IAbrNode<T> right)
     {
       this.right = right;
     }
 
-    public AbrNode<T> getRightChild()
+    @Override
+    public IAbrNode<T> getRightChild()
     {
       return this.right;
     }
@@ -294,7 +313,8 @@ public class ABR<T extends Comparable<T>> implements IABR<T>
     return true;
   }
 
-  public boolean search(T keyToFind){
+  public boolean search(T keyToFind)
+  {
     boolean result = false;
     AbrNode<T> nodeChecked = this.root;
 
@@ -313,7 +333,8 @@ public class ABR<T extends Comparable<T>> implements IABR<T>
     return result;
   }
 
-  public boolean update(T update, T keyToFind){
+  public boolean update(T update, T keyToFind)
+  {
     this.delete(keyToFind);
     this.insert(update);
 
