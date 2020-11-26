@@ -4,68 +4,16 @@ import movida.mackseverini.IAbrNode;
 
 public class ABR<T extends Comparable<T>> implements IABR<T>
 {
-  protected AbrNode<T> root;
+  protected IAbrNode<T> root;
 
-  public ABR(){
-    this.root = null;
-  }
+  public ABR() {this.root = null;}
 
-  public ABR(T key){
-    this.root = new AbrNode(key);
-  }
+  public ABR(T key) {this.root = new AbrNode(key);}
 
-  // CLEAN: weird costructor
-  public ABR(AbrNode<T> root){
-    this.root = root;
-  }
+  public ABR(IAbrNode<T> root) {this.root = (AbrNode)root;}
 
-  // TODO: copy costructor
-  public ABR(ABR<T> tree){
-    this.root = new AbrNode(tree.getRoot());
-  }
 
-  // TODO: need to return just T
-  public IAbrNode<T> getRoot(){
-    return this.root;
-  }
-
-  // TODO: need to get in input just T
-  public void setRoot(IAbrNode<T> root){
-    this.root = root;
-  }
-
-  // OPTIMIZE: implement setRootNode and getRootNode for node operations
-  //              they'll be protected
-
-  /*public void printAbr(AbrNode<T> rootNode)
-  {
-    if(rootNode == null)
-    {
-      System.out.println("Empty tree\n");
-      return;
-    }
-
-    List<AbrNode<T>> thisLevel = new List<AbrNode<T>>(rootNode);
-    while (thisLevel.getSize() > 0)
-    {
-      System.out.println();
-
-      List<AbrNode<T>> nextLevel = new List<AbrNode<T>>();
-      for(Node2<AbrNode<T>> iter = (Node2<AbrNode<T>>)thisLevel.getHead(); iter != null; iter = (Node2<AbrNode<T>>)iter.getNext())
-      {
-        System.out.print(" " + iter.getValue().getKey());
-        if(iter.getValue().getLeftChild() != null)
-          nextLevel.addTail(iter.getValue().getLeftChild());
-        if(iter.getValue().getRightChild() != null)
-          nextLevel.addTail(iter.getValue().getRightChild());
-      }
-
-      thisLevel = nextLevel;
-    }
-  }*/
-
-  // TODO: set to protected
-  public class AbrNode<T extends Comparable<T>> implements IAbrNode<T>
+  protected class AbrNode<T extends Comparable<T>> implements IAbrNode<T>, Comparable<AbrNode>
   {
     protected T key;
     protected AbrNode<T> left;
@@ -91,50 +39,26 @@ public class ABR<T extends Comparable<T>> implements IABR<T>
     {
       this.key = key;
       this.left = left;
-      this.right = right;, Movie<T>, Person<T>
-    }
-
-    @Override
-    public void setKey(T key)
-    {
-      this.key = key;
-    }
-
-    @Override
-    public T getKey()
-    {
-        return this.key;
-    }
-
-    @Override
-    public void setLeftChild(IAbrNode<T> left)
-    {
-      this.left = left;
-    }
-
-    @Override
-    public IAbrNode<T> getLeftChild()
-    {
-      return this.left;
-    }
-
-    @Override
-    public void setRightChild(IAbrNode<T> right)
-    {
       this.right = right;
     }
 
     @Override
-    public IAbrNode<T> getRightChild()
-    {
-      return this.right;
-    }
+    public void setKey(T key) {this.key = key;}
 
-    /*@Override
-    public T compareTo(AbrNode<T> nodeToBeCompared)
-    {
-      return this.compareTo(nodeToBeCompared);
-    }*/
+    @Override
+    public T getKey() {return this.key;}
+
+    @Override
+    public void setLeftChild(IAbrNode<T> left) {this.left = (AbrNode)left;}
+
+    @Override
+    public IAbrNode<T> getLeftChild() {return this.left;}
+
+    @Override
+    public void setRightChild(IAbrNode<T> right) {this.right = (AbrNode)right;}
+
+    @Override
+    public IAbrNode<T> getRightChild() {return this.right;}
   }
 
   public boolean insert(T keyToInsert)
@@ -142,24 +66,24 @@ public class ABR<T extends Comparable<T>> implements IABR<T>
     AbrNode<T> nodeToInsert = new AbrNode(keyToInsert);
 
     // empty tree
-    if(this.getRoot() == null)
-      this.setRoot(nodeToInsert);
+    if(this.root == null)
+      this.root = nodeToInsert;
     // searching for right position
     else
     {
-      AbrNode<T> currentNode = this.getRoot();
+      AbrNode<T> currentNode = (AbrNode)this.root;
       AbrNode<T> parent = null;
       while(currentNode != null)
       {
         parent = currentNode;
 
         if(keyToInsert.compareTo(currentNode.getKey()) <= 0)
-          currentNode = currentNode.getLeftChild();
+          currentNode = (AbrNode)currentNode.getLeftChild();
         else
-          currentNode = currentNode.getRightChild();
+          currentNode = (AbrNode)currentNode.getRightChild();
       }
 
-        if(keyToInsert.compareTo(parent.getKey()) <= 0)
+      if(keyToInsert.compareTo(parent.getKey()) <= 0)
         parent.setLeftChild(nodeToInsert);
       else
         parent.setRightChild(nodeToInsert);
@@ -175,15 +99,15 @@ public class ABR<T extends Comparable<T>> implements IABR<T>
         return deleteRoot();
       else
       {
-        AbrNode<T> nodeToFind = this.root;
+        AbrNode<T> nodeToFind = (AbrNode)this.root;
         AbrNode<T> parent = null;
         while(nodeToFind != null && keyToFind.compareTo(nodeToFind.getKey()) != 0)
         {
           parent = nodeToFind;
           if(keyToFind.compareTo(nodeToFind.getKey()) < 0)
-            nodeToFind = nodeToFind.getLeftChild();
+            nodeToFind = (AbrNode)nodeToFind.getLeftChild();
           else
-            nodeToFind = nodeToFind.getRightChild();
+            nodeToFind = (AbrNode)nodeToFind.getRightChild();
         }
 
         // leaf case
@@ -206,17 +130,17 @@ public class ABR<T extends Comparable<T>> implements IABR<T>
   {
     // no child case
     if(this.root.getLeftChild() == null && this.root.getRightChild() == null)
-      this.setRoot(null);
+      this.root = null;
     // 2 children case
     else if(this.root.getLeftChild() != null && this.root.getRightChild() != null)
     {
       // choose predecessor as substitute
-      AbrNode<T> substitute = this.root.getLeftChild();
+      AbrNode<T> substitute = (AbrNode)this.root.getLeftChild();
       AbrNode<T> substituteParent = null;
       while(substitute.getRightChild() != null)
       {
         substituteParent = substitute;
-        substitute = substitute.getRightChild();
+        substitute = (AbrNode)substitute.getRightChild();
       }
 
       // substitute the node to be cancelled with the predecessor
@@ -236,10 +160,10 @@ public class ABR<T extends Comparable<T>> implements IABR<T>
     }
     // 1 child case (left)
     else if(this.root.getLeftChild() != null)
-      this.setRoot(this.getRoot().getLeftChild());
+      this.root = this.root.getLeftChild();
     // 1 child case (right)
     else
-      this.setRoot(this.getRoot().getRightChild());
+      this.root = this.root.getRightChild();
 
       return true;
   }
@@ -250,12 +174,12 @@ public class ABR<T extends Comparable<T>> implements IABR<T>
     if(nodeToDelete.getLeftChild() != null && nodeToDelete.getRightChild() != null)
     {
       // search for the predecessor as substitute
-      AbrNode<T> substitute = nodeToDelete.getLeftChild();
+      AbrNode<T> substitute = (AbrNode)nodeToDelete.getLeftChild();
       AbrNode<T> substituteParent = null;
       while(substitute.getRightChild() != null)
       {
         substituteParent = substitute;
-        substitute = substitute.getRightChild();
+        substitute = (AbrNode)substitute.getRightChild();
       }
 
       // check if the predecessor is the left child of nodeToDelete
@@ -316,15 +240,15 @@ public class ABR<T extends Comparable<T>> implements IABR<T>
   public boolean search(T keyToFind)
   {
     boolean result = false;
-    AbrNode<T> nodeChecked = this.root;
+    AbrNode<T> nodeChecked = (AbrNode)this.root;
 
     // search for the node
     while((nodeChecked != null) && (keyToFind.compareTo(nodeChecked.getKey()) != 0))
     {
       if(keyToFind.compareTo(nodeChecked.getKey()) < 0)
-        nodeChecked = nodeChecked.getLeftChild();
+        nodeChecked = (AbrNode)nodeChecked.getLeftChild();
       else
-        nodeChecked = nodeChecked.getRightChild();
+        nodeChecked = (AbrNode)nodeChecked.getRightChild();
     }
 
     if(nodeChecked != null)
@@ -340,4 +264,50 @@ public class ABR<T extends Comparable<T>> implements IABR<T>
 
     return true;
   }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  public void printAbr()
+  {
+    if(this.root == null) {System.out.println("EMPTY TREE");}
+    else
+    {
+      int height = this.abrHeight(this.root, 0);
+      for(int i = 0; i <= height; i++)
+        levelOrderTraversal(root, i);
+    }
+  }
+
+
+  protected int abrHeight(IAbrNode<T> node, int level)
+  {
+      if(node == null) {return level;}
+      else if(node.getLeftChild() != null && node.getRightChild() != null)
+       return max(abrHeight(node.getLeftChild(), level + 1), abrHeight(node.getRightChild(), level + 1));
+      else if(node.getLeftChild() == null && node.getRightChild() != null)
+        return abrHeight(node.getRightChild(), level + 1);
+      else if(node.getLeftChild() != null && node.getRightChild() == null)
+        return abrHeight(node.getLeftChild(), level + 1);
+      else
+        return level;
+   }
+
+   protected int max(int value1, int value2)
+   {
+      if(value1 - value2 <= 0)
+        return value2;
+      else
+        return value1;
+   }
+
+   protected void levelOrderTraversal(IAbrNode<T> node, int level)
+   {
+      if(node == null) {}
+      else if(level == 0) {System.out.println(((AbrNode)node).getKey());}
+      else
+      {
+        levelOrderTraversal((AbrNode)node.getLeftChild(), level-1);
+        levelOrderTraversal((AbrNode)node.getRightChild(), level-1);
+      }
+   }
 }
