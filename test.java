@@ -34,23 +34,13 @@ public class test {
   {
     int value;
 
-    public TestInteger(int value)
-    {
-      this.value = value;
-    }
-
+    public TestInteger(int value) {this.value = value;}
 
     @Override
-    public int compareTo(TestInteger valueToCompare)
-    {
-      return this.value - valueToCompare.value;
-    }
+    public int compareTo(TestInteger valueToCompare) {return this.value - valueToCompare.value;}
 
     @Override
-    public String toString()
-    {
-      return ("My value is: " + this.value);
-    }
+    public String toString() {return Integer.toString(this.value);}
   }
 
   public static void main(String args[]){
@@ -60,15 +50,259 @@ public class test {
     //
     // //System.out.println(valueToBeTested1.compareTo(valueToBeTested2));
     //
+    // TEST INSERT PARAMETRIZZATO
+    //
     // ABR<TestInteger> abr = new ABR(valueToBeTested1);
     // abr.insert(valueToBeTested2);
     // System.out.println("ROOT: " + abr.getRoot().getKey().toString());
     // System.out.println("ROOT'S RIGHT CHILD: " + abr.getRoot().getRightChild().getKey().toString());
 
+
+    // IMPLEMENTED INTERFACE TEST
+    // INSERT
+
+    // TestInteger value20 = new TestInteger(20);
     // TestInteger value10 = new TestInteger(10);
+    // TestInteger value30 = new TestInteger(30);
+    // TestInteger value5 = new TestInteger(5);
+    // TestInteger value1 = new TestInteger(1);
+    // TestInteger value25 = new TestInteger(25);
+    // TestInteger value7 = new TestInteger(7);
+    // TestInteger value35 = new TestInteger(35);
+    // TestInteger value37 = new TestInteger(37);
+    // TestInteger value15 = new TestInteger(15);
+    // TestInteger value23 = new TestInteger(23);
+    // TestInteger value13 = new TestInteger(13);
+    // TestInteger value17 = new TestInteger(17);
+    // TestInteger value33 = new TestInteger(33);
+    // TestInteger value27 = new TestInteger(27);
     // ABR<TestInteger> abr = new ABR();
+    // abr.insert(value20);
     // abr.insert(value10);
-    // System.out.println("ROOT: " + abr.getRoot().getKey());
+    // abr.insert(value30);
+    // abr.insert(value5);
+    // abr.insert(value1);
+    // abr.insert(value25);
+    // abr.insert(value7);
+    // abr.insert(value35);
+    // abr.insert(value37);
+    // abr.insert(value15);
+    // abr.insert(value23);
+    // abr.insert(value13);
+    // abr.insert(value17);
+    // abr.insert(value33);
+    // abr.insert(value27);
+    // abr.printAbr();
+
+    // DELETE
+
+    // NODE NOT IN THE TREE
+
+    // ABR<TestInteger> abr = new ABR<TestInteger>();
+    // TestInteger value20 = new TestInteger(20);
+    // TestInteger value10 = new TestInteger(10);
+    // // EMPTY TREE
+    // System.out.println("\nDELETE 10: " + abr.delete(value10));
+    // // ONLY ROOT
+    // abr.insert(value20);
+    // abr.printAbr();
+    // System.out.println("\nDELETE 10: " + abr.delete(value10));
+    // // GENERIC TREE
+    // TestInteger value9 = new TestInteger(9);
+    // abr.insert(value9);
+    // TestInteger value30 = new TestInteger(30);
+    // abr.insert(value30);
+    // TestInteger value1 = new TestInteger(1);
+    // abr.insert(value1);
+    // TestInteger value11 = new TestInteger(11);
+    // abr.insert(value11);
+    // TestInteger value25 = new TestInteger(25);
+    // abr.insert(value25);
+    // TestInteger value35 = new TestInteger(35);
+    // abr.insert(value35);
+    // abr.printAbr();
+    // System.out.println("\nDELETE 10: " + abr.delete(value10));
+
+
+    // ROOT
+
+    // TestInteger value20 = new TestInteger(20);
+    // TestInteger value10 = new TestInteger(10);
+    // TestInteger value30 = new TestInteger(30);
+    // TestInteger value5 = new TestInteger(5);
+    // TestInteger value15 = new TestInteger(15);
+    // TestInteger value13 = new TestInteger(13);
+    // TestInteger value11 = new TestInteger(11);
+    // TestInteger value14 = new TestInteger(14);
+    // ABR<TestInteger> abr = new ABR<TestInteger>();
+    // abr.insert(value20);
+    // abr.insert(value10);
+    // abr.insert(value30);
+    // abr.insert(value5);
+    // abr.insert(value15);
+    // abr.insert(value13);
+    // abr.insert(value11);
+    // abr.insert(value14);
+    // abr.printAbr();
+    // abr.delete(value20);
+    // System.out.println();
+    // abr.printAbr();
+
+    // DELETE
+    // LEAF
+
+    // ABR<TestInteger> abr = new ABR<TestInteger>();
+    // TestInteger value30 = new TestInteger(30);
+    // abr.insert(value30);
+    // TestInteger value40 = new TestInteger(40);
+    // abr.insert(value40);
+    // TestInteger value20 = new TestInteger(20);
+    // abr.insert(value20);
+    // TestInteger value10 = new TestInteger(10);
+    // abr.insert(value10);
+    // TestInteger value25 = new TestInteger(25);
+    // abr.insert(value25);
+    // TestInteger value35 = new TestInteger(35);
+    // abr.insert(value35);
+    // abr.printAbr();
+    // abr.delete(value25);
+    // System.out.println();
+    // abr.printAbr();
+
+
+    // DELETE
+    // INTERMEDIATE NODE
+
+    // TestInteger value30 = new TestInteger(30);
+    // TestInteger value40 = new TestInteger(40);
+    // TestInteger value20 = new TestInteger(20);
+    // TestInteger value10 = new TestInteger(10);
+    // TestInteger value25 = new TestInteger(25);
+    // TestInteger value5 = new TestInteger(5);
+    // TestInteger value15 = new TestInteger(15);
+    // TestInteger value13 = new TestInteger(13);
+    // TestInteger value11 = new TestInteger(11);
+    // TestInteger value14 = new TestInteger(14);
+    // ABR<TestInteger> abr = new ABR<TestInteger>();
+    // abr.insert(value30);
+    // abr.insert(value40);
+    // abr.insert(value20);
+    // abr.insert(value10);
+    // abr.insert(value25);
+    // abr.insert(value5);
+    // abr.insert(value15);
+    // abr.insert(value13);
+    // abr.insert(value11);
+    // abr.insert(value14);
+    // abr.printAbr();
+    // abr.delete(value20);
+    // System.out.println();
+    // abr.printAbr();
+
+
+    // SEARCH
+
+    // TestInteger value20 = new TestInteger(20);
+    // TestInteger value10 = new TestInteger(10);
+    // TestInteger value30 = new TestInteger(30);
+    // TestInteger value5 = new TestInteger(5);
+    // TestInteger value1 = new TestInteger(1);
+    // TestInteger value25 = new TestInteger(25);
+    // TestInteger value7 = new TestInteger(7);
+    // TestInteger value35 = new TestInteger(35);
+    // TestInteger value37 = new TestInteger(37);
+    // TestInteger value15 = new TestInteger(15);
+    // TestInteger value23 = new TestInteger(23);
+    // TestInteger value13 = new TestInteger(13);
+    // TestInteger value17 = new TestInteger(17);
+    // TestInteger value33 = new TestInteger(33);
+    // TestInteger value27 = new TestInteger(27);
+    // ABR<TestInteger> abr = new ABR();
+    // abr.insert(value20);
+    // abr.insert(value10);
+    // abr.insert(value30);
+    // abr.insert(value5);
+    // abr.insert(value1);
+    // abr.insert(value25);
+    // abr.insert(value7);
+    // abr.insert(value35);
+    // abr.insert(value37);
+    // abr.insert(value15);
+    // abr.insert(value23);
+    // abr.insert(value13);
+    // abr.insert(value17);
+    // abr.insert(value33);
+    // abr.insert(value27);
+    // abr.printAbr();
+    // TestInteger value40 = new TestInteger(40);
+    // System.out.println("SEARCH FOR 10: " + abr.search(value10) + "\nSEARCH FOR 40: " + abr.search(value40));
+
+
+    // UPDATE
+
+    // ABR<TestInteger> abr = new ABR<TestInteger>();
+    // TestInteger value20 = new TestInteger(20);
+    // TestInteger value10 = new TestInteger(10);
+    // TestInteger valueNotInTree50 = new TestInteger(50);
+    // TestInteger valueToUpdate100 = new TestInteger(100);
+    // System.out.println(abr.update(valueToUpdate100, valueNotInTree50));
+    // abr.insert(value20);
+    // System.out.println(abr.update(valueToUpdate100, valueNotInTree50));
+    // abr.printAbr();
+    // System.out.println(abr.update(valueToUpdate100, value20));
+    // abr.printAbr();
+
+    // TestInteger value20 = new TestInteger(20);
+    // TestInteger value10 = new TestInteger(10);
+    // TestInteger value30 = new TestInteger(30);
+    // TestInteger value5 = new TestInteger(5);
+    // TestInteger value15 = new TestInteger(15);
+    // TestInteger value13 = new TestInteger(13);
+    // TestInteger value11 = new TestInteger(11);
+    // TestInteger value14 = new TestInteger(14);
+    // TestInteger valueUpdated40 = new TestInteger(40);
+    // ABR<TestInteger> abr = new ABR<TestInteger>();
+    // abr.insert(value20);
+    // abr.insert(value10);
+    // abr.insert(value30);
+    // abr.insert(value5);
+    // abr.insert(value15);
+    // abr.insert(value13);
+    // abr.insert(value11);
+    // abr.insert(value14);
+    // abr.printAbr();
+    // abr.update(valueUpdated40, value20);
+    // System.out.println();
+    // abr.printAbr();
+
+    // TestInteger value30 = new TestInteger(30);
+    // TestInteger value40 = new TestInteger(40);
+    // TestInteger value20 = new TestInteger(20);
+    // TestInteger value10 = new TestInteger(10);
+    // TestInteger value25 = new TestInteger(25);
+    // TestInteger value5 = new TestInteger(5);
+    // TestInteger value15 = new TestInteger(15);
+    // TestInteger value13 = new TestInteger(13);
+    // TestInteger value11 = new TestInteger(11);
+    // TestInteger value14 = new TestInteger(14);
+    // ABR<TestInteger> abr = new ABR<TestInteger>();
+    // abr.insert(value30);
+    // abr.insert(value40);
+    // abr.insert(value20);
+    // abr.insert(value10);
+    // abr.insert(value25);
+    // abr.insert(value5);
+    // abr.insert(value15);
+    // abr.insert(value13);
+    // abr.insert(value11);
+    // abr.insert(value14);
+    // abr.printAbr();
+    // TestInteger valueUpdated45 = new TestInteger(45);
+    // abr.update(valueUpdated45, value20);
+    // System.out.println();
+    // abr.printAbr();
+
+
     // // TestInteger value5 = new TestInteger(5);
     // // abr.insert(value5);
     // // System.out.println("ROOT'S LEFT CHILD: " + abr.getRoot().getLeftChild().getKey());
@@ -91,29 +325,251 @@ public class test {
     // abr.insert(value13);
     // System.out.println("ROOT'S RIGHT LEFT CHILD: " + abr.getRoot().getRightChild().getLeftChild().getKey());
 
-    ABR<TestInteger> abr = new ABR();
 
-    TestInteger value20 = new TestInteger(20);
-    abr.insert(value20);
-    System.out.println("ROOT: " + abr.getRoot().getKey());
-    //System.out.println("DELETE ROOT 20: " + abr.delete(value20) + " NEW ROOT: " + abr.getRoot());
-    TestInteger value10 = new TestInteger(10);
-    abr.insert(value10);
-    System.out.println("ROOT'S LEFT CHILD: " + abr.getRoot().getLeftChild().getKey());
-    //System.out.println("DELETE ROOT 20: " + abr.delete(value20) + " NEW ROOT: " + abr.getRoot().getKey() + " NEW ROOT'S LEFT CHILD: " + abr.getRoot().getLeftChild());
-    TestInteger value30 = new TestInteger(30);
-    abr.insert(value30);
-    System.out.println("ROOT'S RIGHT CHILD: " + abr.getRoot().getRightChild().getKey());
-    //System.out.println("DELETE ROOT 20: " + abr.delete(value20) + " NEW ROOT: " + abr.getRoot().getKey() + " NEW ROOT'S LEFT CHILD: " + abr.getRoot().getLeftChild() + " NEW ROOT'S RIGHT CHILD: " + abr.getRoot().getRightChild().getKey());
-    TestInteger value5 = new TestInteger(5);
-    abr.insert(value5);
-    System.out.println("ROOT'S LEFT LEFT CHILD: " + abr.getRoot().getLeftChild().getLeftChild().getKey());
-    System.out.println("DELETE ROOT 20: " + abr.delete(value20) + " NEW ROOT: " + abr.getRoot().getKey() + " NEW ROOT'S RIGHT CHILD: " + abr.getRoot().getRightChild().getKey() + " NEW ROOT'S LEFT CHILD: " + abr.getRoot().getLeftChild().getKey() + " NEW ROOT'S LEFT LEFT CHILD: " + abr.getRoot().getLeftChild().getLeftChild());
+
+    // TEST DELETE PARAMETRIZZATO
+
+    // ABR<TestInteger> abr = new ABR();
+    //
+    // TestInteger value20 = new TestInteger(20);
+    // abr.insert(value20);
+    // System.out.println("ROOT: " + abr.getRoot().getKey());
+    // //System.out.println("DELETE ROOT 20: " + abr.delete(value20) + " NEW ROOT: " + abr.getRoot());
+    // TestInteger value10 = new TestInteger(10);
+    // abr.insert(value10);
+    // System.out.println("ROOT'S LEFT CHILD: " + abr.getRoot().getLeftChild().getKey());
+    // //System.out.println("DELETE ROOT 20: " + abr.delete(value20) + " NEW ROOT: " + abr.getRoot().getKey() + " NEW ROOT'S LEFT CHILD: " + abr.getRoot().getLeftChild());
+    // TestInteger value30 = new TestInteger(30);
+    // abr.insert(value30);
+    // System.out.println("ROOT'S RIGHT CHILD: " + abr.getRoot().getRightChild().getKey());
+    // //System.out.println("DELETE ROOT 20: " + abr.delete(value20) + " NEW ROOT: " + abr.getRoot().getKey() + " NEW ROOT'S LEFT CHILD: " + abr.getRoot().getLeftChild() + " NEW ROOT'S RIGHT CHILD: " + abr.getRoot().getRightChild().getKey());
+    // TestInteger value5 = new TestInteger(5);
+    // abr.insert(value5);
+    // System.out.println("ROOT'S LEFT LEFT CHILD: " + abr.getRoot().getLeftChild().getLeftChild().getKey());
+    // //System.out.println("DELETE ROOT 20: " + abr.delete(value20) + " NEW ROOT: " + abr.getRoot().getKey() + " NEW ROOT'S RIGHT CHILD: " + abr.getRoot().getRightChild().getKey() + " NEW ROOT'S LEFT CHILD: " + abr.getRoot().getLeftChild().getKey() + " NEW ROOT'S LEFT LEFT CHILD: " + abr.getRoot().getLeftChild().getLeftChild());
+    // TestInteger value15 = new TestInteger(15);
+    // abr.insert(value15);
+    // System.out.println("ROOT'S LEFT RIGHT CHILD: " + abr.getRoot().getLeftChild().getRightChild().getKey());
+    // //System.out.println("DELETE ROOT 20: " + abr.delete(value20) + " NEW ROOT: " + abr.getRoot().getKey() + " NEW ROOT'S RIGHT CHILD: " + abr.getRoot().getRightChild().getKey() + " NEW ROOT'S LEFT CHILD: " + abr.getRoot().getLeftChild().getKey() + " NEW ROOT'S LEFT LEFT CHILD: " + abr.getRoot().getLeftChild().getLeftChild().getKey() + " NEW ROOT'S LEFT RIGHT CHILD: " + abr.getRoot().getLeftChild().getRightChild());
+    // TestInteger value13 = new TestInteger(13);
+    // abr.insert(value13);
+    // TestInteger value12 = new TestInteger(12);
+    // abr.insert(value12);
+    // TestInteger value14 = new TestInteger(14);
+    // abr.insert(value14);
+    // System.out.println("ROOT'S LEFT RIGHT LEFT CHILD: " + abr.getRoot().getLeftChild().getRightChild().getLeftChild().getKey());
+    // System.out.println("DELETE ROOT 20: " + abr.delete(value20) + " NEW ROOT: " + abr.getRoot().getKey() + " NEW ROOT'S LEFT CHILD: " + abr.getRoot().getLeftChild().getKey() + " NEW ROOT'S RIGHT CHILD: " + abr.getRoot().getRightChild().getKey() + " NEW ROOT'S LEFT LEFT CHILD: " + abr.getRoot().getLeftChild().getLeftChild().getKey() + " NEW ROOT'S LEFT RIGHT CHILD: " + abr.getRoot().getLeftChild().getRightChild().getKey() + " NEW ROOT'S LEFT RIGHT LEFT CHILD: " + abr.getRoot().getLeftChild().getRightChild().getLeftChild().getKey() + " NEW ROOT'S LEFT RIGHT RIGHT CHILD: " + abr.getRoot().getLeftChild().getRightChild().getRightChild().getKey());
+
+    //TEST SEARCH PARAMETRIZZATO
+
+    // ABR abr = new ABR();
+    // TestInteger value20 = new TestInteger(20);
+    // TestInteger value10 = new TestInteger(10);
+    // TestInteger value30 = new TestInteger(30);
+    // TestInteger value5 = new TestInteger(5);
+    // TestInteger value15 = new TestInteger(15);
+    // TestInteger value25 = new TestInteger(25);
+    // TestInteger value35 = new TestInteger(35);
+    // TestInteger value1 = new TestInteger(1);
+    // TestInteger value7 = new TestInteger(7);
+    // TestInteger value13 = new TestInteger(13);
+    // TestInteger value17 = new TestInteger(17);
+    // TestInteger value21 = new TestInteger(21);
+    // TestInteger value27 = new TestInteger(27);
+    // TestInteger value31 = new TestInteger(31);
+    // TestInteger value37 = new TestInteger(37);
+    // abr.insert(value20);
+    // abr.insert(value10);
+    // abr.insert(value30);
+    // abr.insert(value5);
+    // abr.insert(value15);
+    // abr.insert(value25);
+    // abr.insert(value35);
+    // abr.insert(value1);
+    // abr.insert(value7);
+    // abr.insert(value13);
+    // abr.insert(value17);
+    // abr.insert(value21);
+    // abr.insert(value27);
+    // abr.insert(value31);
+    // abr.insert(value37);
+    // System.out.println("SEARCH 20: " + abr.search(value20));
+    // System.out.println("SEARCH 10: " + abr.search(value10));
+    // System.out.println("SEARCH 30: " + abr.search(value30));
+    // System.out.println("SEARCH 5: " + abr.search(value5));
+    // System.out.println("SEARCH 15: " + abr.search(value15));
+    // System.out.println("SEARCH 25: " + abr.search(value25));
+    // System.out.println("SEARCH 35: " + abr.search(value35));
+    // System.out.println("SEARCH 1: " + abr.search(value1));
+    // System.out.println("SEARCH 7: " + abr.search(value7));
+    // System.out.println("SEARCH 13: " + abr.search(value13));
+    // System.out.println("SEARCH 17: " + abr.search(value17));
+    // System.out.println("SEARCH 21: " + abr.search(value21));
+    // System.out.println("SEARCH 27: " + abr.search(value27));
+    // System.out.println("SEARCH 31: " + abr.search(value31));
+    // System.out.println("SEARCH 37: " + abr.search(value37));
+    // TestInteger value370 = new TestInteger(370);
+    // System.out.println("SEARCH 370: " + abr.search(value370));
+
+    //TEST UPDATE PARAMETRIZZATO
+
+    // ABR abr = new ABR();
+    // TestInteger value20 = new TestInteger(20);
+    // TestInteger value10 = new TestInteger(10);
+    // TestInteger value30 = new TestInteger(30);
+    // TestInteger value5 = new TestInteger(5);
+    // TestInteger value15 = new TestInteger(15);
+    // TestInteger value25 = new TestInteger(25);
+    // TestInteger value35 = new TestInteger(35);
+    // TestInteger value1 = new TestInteger(1);
+    // TestInteger value7 = new TestInteger(7);
+    // TestInteger value13 = new TestInteger(13);
+    // TestInteger value17 = new TestInteger(17);
+    // TestInteger value21 = new TestInteger(21);
+    // TestInteger value27 = new TestInteger(27);
+    // TestInteger value31 = new TestInteger(31);
+    // TestInteger value37 = new TestInteger(37);
+    // abr.insert(value20);
+    // abr.insert(value10);
+    // abr.insert(value30);
+    // abr.insert(value5);
+    // abr.insert(value15);
+    // abr.insert(value25);
+    // abr.insert(value35);
+    // abr.insert(value1);
+    // abr.insert(value7);
+    // abr.insert(value13);
+    // abr.insert(value17);
+    // abr.insert(value21);
+    // abr.insert(value27);
+    // abr.insert(value31);
+    // abr.insert(value37);
+
+    // TestInteger value22 = new TestInteger(22);
+    // abr.update(value22,value20);
+    // System.out.println("ROOT CHANGED FROM 20 TO 22: " + abr.getRoot().getRightChild().getLeftChild().getLeftChild().getRightChild().getKey() + " NEW ROOT: " + abr.getRoot().getKey());
+    // TestInteger value11 = new TestInteger(11);
+    // abr.update(value11, value10);
+    // System.out.println("ROOT'S LEFT CHILD CHANGED FROM 10 TO 11: " + abr.getRoot().getLeftChild().getRightChild().getLeftChild().getLeftChild().getKey() + " NEW ROOT'S LEFT CHILD: " + abr.getRoot().getLeftChild().getKey());
+    // TestInteger value32 = new TestInteger(32);
+    // abr.update(value32, value30);
+    // System.out.println("ROOT'S RIGHT CHILD CHANGED FROM 30 TO 32: " + abr.getRoot().getRightChild().getRightChild().getLeftChild().getRightChild().getKey() + " NEW ROOT'S RIGHT CHILD: " + abr.getRoot().getRightChild().getKey());
+    // TestInteger value20 = new TestInteger(20);
+    // TestInteger value15 = new TestInteger(15);
+    // TestInteger value6 = new TestInteger(6);
+    // TestInteger value18 = new TestInteger(18);
+    // TestInteger value1 = new TestInteger(1);
+    // TestInteger value10 = new TestInteger(10);
+    // TestInteger value8 = new TestInteger(8);
+    // TestInteger value7 = new TestInteger(7);
+    // TestInteger value9 = new TestInteger(9);
+    // abr.insert(value20);
+    // abr.insert(value15);
+    // abr.insert(value6);
+    // abr.insert(value18);
+    // abr.insert(value1);
+    // abr.insert(value10);
+    // abr.insert(value8);
+    // abr.insert(value7);
+    // abr.insert(value9);
+    // System.out.println("ROOT'S LEFT CHILD CHANGED TO 19 FROM 15: " + abr.update(value19, value15) + "NEW ROOT'S LEFT CHILD: " + abr.getRoot().getLeftChild().getKey() + "NEW ROOT'S LEFT LEFT RIGHT: " + abr.getRoot().getLeftChild().getLeftChild().getRightChild().getKey() + " UPDATED VALUE ROOT LEFT RIGHT RIGHT: " + abr.getRoot().getLeftChild().getRightChild().getRightChild().getKey());
+    // TestInteger value20 = new TestInteger(20);
+    // TestInteger value19 = new TestInteger(19);
+    // TestInteger value18 = new TestInteger(18);
+    // abr.insert(value20);
+    // abr.insert(value19);
+    // abr.insert(value18);
+    // TestInteger value21 = new TestInteger(21);
+    // abr.update(value21, value19);
+    // System.out.println(abr.getRoot().getRightChild().getKey() + "\n"  + abr.getRoot().getLeftChild().getKey() + "\n" + abr.getRoot().getLeftChild().getLeftChild());
+
+    // TestInteger value20 = new TestInteger(20);
+    // TestInteger value18 = new TestInteger(18);
+    // TestInteger value17 = new TestInteger(17);
+    // TestInteger value19 = new TestInteger(19);
+    // abr.insert(value20);
+    // abr.insert(value18);
+    // abr.insert(value17);
+    // abr.insert(value19);
+    // TestInteger value21 = new TestInteger(21);
+    // abr.update(value21, value18);
+    // System.out.println(abr.getRoot().getRightChild().getKey() + "\n"  + abr.getRoot().getLeftChild().getKey() + "\n" + abr.getRoot().getLeftChild().getLeftChild() + "\n" + abr.getRoot().getLeftChild().getRightChild().getKey());
+
+    // TestInteger value20 = new TestInteger(20);
+    // TestInteger value15 = new TestInteger(15);
+    // TestInteger value10 = new TestInteger(10);
+    // TestInteger value5 = new TestInteger(5);
+    // TestInteger value17 = new TestInteger(17);
+    // abr.insert(value20);
+    // abr.insert(value15);
+    // abr.insert(value10);
+    // abr.insert(value5);
+    // abr.insert(value17);
+    // TestInteger value21 = new TestInteger(21);
+    // abr.update(value21, value15);
+    // System.out.println(abr.getRoot().getRightChild().getKey() + "\n"  + abr.getRoot().getLeftChild().getKey() + "\n" + abr.getRoot().getLeftChild().getLeftChild().getKey() + "\n" + abr.getRoot().getLeftChild().getRightChild().getKey());
+
+    // TestInteger value20 = new TestInteger(20);
+    // TestInteger value15 = new TestInteger(15);
+    // TestInteger value10 = new TestInteger(10);
+    // TestInteger value5 = new TestInteger(5);
+    // TestInteger value17 = new TestInteger(17);
+    // TestInteger value13 = new TestInteger(13);
+    // abr.insert(value20);
+    // abr.insert(value15);
+    // abr.insert(value10);
+    // abr.insert(value5);
+    // abr.insert(value17);
+    // abr.insert(value13);
+    // TestInteger value21 = new TestInteger(21);
+    // abr.update(value21, value15);
+    // System.out.println(abr.getRoot().getRightChild().getKey() + "\n"  + abr.getRoot().getLeftChild().getKey() + "\n" + abr.getRoot().getLeftChild().getLeftChild().getKey() + "\n" + abr.getRoot().getLeftChild().getRightChild().getKey() + "\n" + abr.getRoot().getLeftChild().getLeftChild().getLeftChild().getKey() + "\n" + abr.getRoot().getLeftChild().getLeftChild().getRightChild());
+
+    // TestInteger value20 = new TestInteger(20);
+    // TestInteger value15 = new TestInteger(15);
+    // TestInteger value10 = new TestInteger(10);
+    // TestInteger value5 = new TestInteger(5);
+    // TestInteger value17 = new TestInteger(17);
+    // TestInteger value13 = new TestInteger(13);
+    // TestInteger value11 = new TestInteger(11);
+    // abr.insert(value20);
+    // abr.insert(value15);
+    // abr.insert(value10);
+    // abr.insert(value5);
+    // abr.insert(value17);
+    // abr.insert(value13);
+    // abr.insert(value11);
+    // TestInteger value21 = new TestInteger(21);
+    // abr.update(value21, value15);
+    // System.out.println(abr.getRoot().getRightChild().getKey() + "\n"  + abr.getRoot().getLeftChild().getKey() + "\n" + abr.getRoot().getLeftChild().getLeftChild().getKey() + "\n" + abr.getRoot().getLeftChild().getRightChild().getKey() + "\n" + abr.getRoot().getLeftChild().getLeftChild().getLeftChild().getKey() + "\n" + abr.getRoot().getLeftChild().getLeftChild().getRightChild().getKey());
+
+    // TestInteger value20 = new TestInteger(20);
+    // TestInteger value15 = new TestInteger(15);
+    // TestInteger value10 = new TestInteger(10);
+    // TestInteger value17 = new TestInteger(17);
+    // TestInteger value5 = new TestInteger(5);
+    // TestInteger value14 = new TestInteger(14);
+    // TestInteger value12 = new TestInteger(12);
+    // TestInteger value11 = new TestInteger(11);
+    // TestInteger value13 = new TestInteger(13);
+    // abr.insert(value20);
+    // abr.insert(value15);
+    // abr.insert(value10);
+    // abr.insert(value17);
+    // abr.insert(value5);
+    // abr.insert(value14);
+    // abr.insert(value12);
+    // abr.insert(value11);
+    // abr.insert(value13);
+    // TestInteger value21 = new TestInteger(21);
+    // abr.update(value21, value15);
+    // System.out.println(abr.getRoot().getRightChild().getKey() + "\n"  + abr.getRoot().getLeftChild().getKey() + "\n" + abr.getRoot().getLeftChild().getLeftChild().getKey() + "\n" + abr.getRoot().getLeftChild().getRightChild().getKey() + "\n" + abr.getRoot().getLeftChild().getLeftChild().getLeftChild().getKey() + "\n" + abr.getRoot().getLeftChild().getLeftChild().getRightChild().getKey() + "\n" + abr.getRoot().getLeftChild().getLeftChild().getRightChild().getLeftChild().getKey() + "\n" + abr.getRoot().getLeftChild().getLeftChild().getRightChild().getRightChild().getKey());
+
+
+    // TestInteger value1 = new TestInteger(1);
+    // System.out.println(value1 instanceof TestInteger);
 
     //System.out.println(abr.getRoot().getRightChild().getKey().toString());
-
-    //test di tutto perchè sono scemo
-
     /*Person dioporco = new Person("dioporco");
     Person porcamadonna = new Person("porcamadonna");
     System.out.println(dioporco.compareTo(porcamadonna));*/

@@ -13,7 +13,7 @@ public class ABR<T extends Comparable<T>> implements IABR<T>
   public ABR(IAbrNode<T> root) {this.root = (AbrNode)root;}
 
 
-  protected class AbrNode<T extends Comparable<T>> implements IAbrNode<T>, Comparable<AbrNode>
+  protected class AbrNode<T extends Comparable<T>> implements IAbrNode<T>, Comparable<IAbrNode<T>>
   {
     protected T key;
     protected AbrNode<T> left;
@@ -59,8 +59,12 @@ public class ABR<T extends Comparable<T>> implements IABR<T>
 
     @Override
     public IAbrNode<T> getRightChild() {return this.right;}
+
+    @Override
+    public int compareTo(IAbrNode<T> nodeToBeCompared) {return this.key.compareTo(nodeToBeCompared.getKey());}
   }
 
+  @Override
   public boolean insert(T keyToInsert)
   {
     AbrNode<T> nodeToInsert = new AbrNode(keyToInsert);
@@ -92,15 +96,18 @@ public class ABR<T extends Comparable<T>> implements IABR<T>
     return true;
   }
 
+  @Override
   public boolean delete(T keyToFind)
   {
-      // root case
+      if(this.root == null) {return false;}
+      // ROOT case
       if(keyToFind.compareTo(this.root.getKey()) == 0)
         return deleteRoot();
       else
       {
         AbrNode<T> nodeToFind = (AbrNode)this.root;
         AbrNode<T> parent = null;
+        // search for the node to be deleted
         while(nodeToFind != null && keyToFind.compareTo(nodeToFind.getKey()) != 0)
         {
           parent = nodeToFind;
@@ -109,21 +116,23 @@ public class ABR<T extends Comparable<T>> implements IABR<T>
           else
             nodeToFind = (AbrNode)nodeToFind.getRightChild();
         }
-
-        // leaf case
-        if(nodeToFind.getLeftChild() == null && nodeToFind.getRightChild() == null)
+        // if the node to be deleted isn't in the tree
+        if(nodeToFind == null)
+          return false;
+        // LEAF case
+        else if(nodeToFind.getLeftChild() == null && nodeToFind.getRightChild() == null)
         {
           if(parent.getLeftChild() == nodeToFind)
             parent.setLeftChild(null);
           else
             parent.setRightChild(null);
+
+          return true;
         }
         else
-        // intermediate node case
-          this.deleteIntermediateNode(nodeToFind, parent);
+        // INTERMEDIATE NODE case
+          return this.deleteIntermediateNode(nodeToFind, parent);
       }
-
-      return true;
   }
 
   protected boolean deleteRoot()
@@ -237,9 +246,9 @@ public class ABR<T extends Comparable<T>> implements IABR<T>
     return true;
   }
 
-  public boolean search(T keyToFind)
+  @Override
+  public boolean search(T keyToFind)  // says if keyToFind is in the tree
   {
-    boolean result = false;
     AbrNode<T> nodeChecked = (AbrNode)this.root;
 
     // search for the node
@@ -251,22 +260,24 @@ public class ABR<T extends Comparable<T>> implements IABR<T>
         nodeChecked = (AbrNode)nodeChecked.getRightChild();
     }
 
-    if(nodeChecked != null)
-      result = true;
-
-    return result;
+    if(nodeChecked != null && nodeChecked.key == keyToFind)
+      return true;
+    else
+      return false;
   }
 
   public boolean update(T update, T keyToFind)
   {
-    this.delete(keyToFind);
-    this.insert(update);
-
-    return true;
+    if(this.delete(keyToFind))
+      return this.insert(update);
+    else
+      return false;
   }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//                                              USEFUL ONLY FOR TESTING                                           //
   public void printAbr()
   {
     if(this.root == null) {System.out.println("EMPTY TREE");}

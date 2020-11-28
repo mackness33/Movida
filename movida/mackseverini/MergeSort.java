@@ -46,21 +46,9 @@ public class MergeSort<T extends Comparable>
     while(l < left.length && r < right.length)
     {
       if(left[l].compareTo(right[r]) <= 0)
-      {
-        //System.out.println("\nCHOOSEN LEFT"); PER CONTROLLO
         merged[i++] = left[l++];
-      }
       else
-      {
-        //System.out.println("\nCHOOSEN RIGHT"); PER CONTROLLO
         merged[i++] = right[r++];
-      }
-      /* PER CONTROLLO
-      System.out.println("MERGED[" + i + "] = " + merged[i]);
-      System.out.println("i = " + i);
-      System.out.println("l = " + l);
-      System.out.println("r = " + r);
-      */
     }
 
     // FINISCE DI SCORRERE L'ALTRO ARRAY
@@ -77,13 +65,4 @@ public class MergeSort<T extends Comparable>
 
     return merged;
   }
-  /* PER CONTROLLO
-  public static void printArray(int[] a)
-  {
-    for(int i = 0; i < a.length; i++)
-      System.out.print(a[i] + " ");
-
-      System.out.println();
-    }
-    */
 }
