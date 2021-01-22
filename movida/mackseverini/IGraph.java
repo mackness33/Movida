@@ -1,6 +1,7 @@
 package movida.mackseverini;
 
 import movida.mackseverini.Arch;
+import movida.mackseverini.IArch;
 import movida.mackseverini.PriorityQueue;
 import movida.mackseverini.Vertex;
 import movida.mackseverini.IList;
@@ -20,13 +21,13 @@ public interface IGraph<E extends Comparable<E>, K extends Comparable<K>>{
 
   public boolean addVertex(E vertex);
 
-  public boolean addArch(Arch<E, K> arch);
+  public boolean addArch(IArch<E, K> arch);
   public boolean addArch(E vertex1, E vertex2, K weight);
 
   public boolean delVertex(E vertex);
-  public boolean delArch(Arch<E, K> arch);
+  public boolean delArch(IArch<E, K> arch);
 
-  public boolean searchArch(Arch<E, K> arch);
+  public boolean searchArch(IArch<E, K> arch);
   public boolean searchVertex(E vertex);
 
   public void printVerteces();

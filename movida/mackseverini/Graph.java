@@ -99,7 +99,7 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
 
   // add an arch
   @Override
-  public boolean addArch(Arch<E, K> arch){
+  public boolean addArch(IArch<E, K> arch){
     if (arch == null)
       return false;
 
@@ -263,7 +263,7 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
 
   // delete an arch
   @Override
-  public boolean delArch(Arch<E, K> arch){
+  public boolean delArch(IArch<E, K> arch){
     if (arch == null)
       return false;
 
@@ -303,7 +303,7 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
 
   // search for an Arch if present return true, else false
   @Override
-  public boolean searchArch(Arch<E, K> arch){
+  public boolean searchArch(IArch<E, K> arch){
     if (arch == null)
       return false;
 
@@ -332,7 +332,6 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
     Integer res = this.arches.search(new GraphPair<Integer>(first, second));
     return (res != null ) ? ((res >= 0 ) ? true : false) : false;
   }
-
 
   // search a vertex, if present true else false
   @Override
