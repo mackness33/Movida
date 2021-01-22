@@ -1,7 +1,6 @@
 package movida.mackseverini;
 
 
-import movida.mackseverini.Pair;
 import movida.mackseverini.KeyList;
 import movida.mackseverini.IKeyList;
 

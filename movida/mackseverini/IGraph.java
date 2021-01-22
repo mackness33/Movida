@@ -3,7 +3,6 @@ package movida.mackseverini;
 import movida.mackseverini.Arch;
 import movida.mackseverini.PriorityQueue;
 import movida.mackseverini.Vertex;
-import movida.mackseverini.Pair;
 import movida.mackseverini.IList;
 import movida.mackseverini.List;
 import movida.mackseverini.IKeyList;
