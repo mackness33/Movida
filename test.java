@@ -15,6 +15,7 @@ import movida.mackseverini.KeyNode;
 import movida.mackseverini.KeyList;
 import movida.mackseverini.Graph;
 import movida.mackseverini.Arch;
+import movida.mackseverini.IArch;
 import movida.mackseverini.Set;
 import movida.mackseverini.PriorityQueue;
 import movida.mackseverini.Vertex;
@@ -30,7 +31,7 @@ public class test {
 
   public static void main(String args[]){
     // test.AlgTest();
-    test.graphTest();
+    test.graphMovidaTest();
     // test.priorityQueueTest();
   }
 
@@ -206,18 +207,18 @@ public class test {
     System.out.println("Searchin for 1-3: " + G.searchArch(new Arch<Integer, Double>(1,3, null)));
     System.out.println("Searchin for 4-0: " + G.searchArch(new Arch<Integer, Double>(4,0, null)));
 
-    // Array<Arch<Integer, Double>> Show = new Array<Arch<Integer, Double>>(10);
-    // Array<Arch<Integer, Double>> Prim = G.MSTPrim(6);
+    Array<IArch<Integer, Double>> Show = new Array<IArch<Integer, Double>>(10);
+    Array<IArch<Integer, Double>> Prim = G.MSTPrim(6);
 
 
-    // if (Prim == null)
-    //   System.out.println("Prim : null");
+    if (Prim == null)
+      System.out.println("Prim : null");
 
-    // for (int i = 0; i < Prim.length; i++)
-    //   if (Prim.get(i) == null)
-    //     System.out.println("Arch : null");
-    //   else
-    //     Prim.get(i).print();
+    for (int i = 0; i < Prim.length; i++)
+      if (Prim.get(i) == null)
+        System.out.println("Arch : null");
+      else
+        Prim.get(i).print();
   }
 
   public static void graphTest(){
@@ -277,8 +278,8 @@ public class test {
     System.out.println("Searchin for 1-3: " + G.searchArch(new Arch<Integer, Double>(1,3, null)));
     System.out.println("Searchin for 4-0: " + G.searchArch(new Arch<Integer, Double>(4,0, null)));
 
-    Array<Arch<Integer, Double>> Show = new Array<Arch<Integer, Double>>(10);
-    Array<Arch<Integer, Double>> Prim = G.MSTPrim(6);
+    Array<IArch<Integer, Double>> Show = new Array<IArch<Integer, Double>>(10);
+    Array<IArch<Integer, Double>> Prim = G.MSTPrim(6);
 
 
     if (Prim == null)

@@ -13,7 +13,7 @@ public class Arch<E extends Comparable<E>, K extends Comparable<K>> implements m
   }
 
   // copy constructor
-  public Arch(Arch<E, K> shallow){
+  public Arch(movida.mackseverini.IArch<E, K> shallow){
     this.weight = shallow.getWeight();
     this.vertex1 = shallow.getFirstVertex();
     this.vertex2 = shallow.getSecondVertex();

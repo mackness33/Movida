@@ -20,8 +20,7 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
 
 
 	// constructor
-	public Graph()
-	{
+	public Graph(){
     this.verteces = new Array<Vertex<E, K>>(50);
     this.arches = new KeyList<GraphPair<Integer>, K, Integer>();
     this.numVertex = 0;
@@ -40,7 +39,6 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
 	// 	arr = shallow.toPrimitive();
 	// 	this.length = shallow.length;
 	// }
-
   // TODO: trasform Array<Arch <>> in IKeyList<Pair<>, ..>
   // public Graph(Array<E> V, Array<Arch<E, K>> A)
 	// {
@@ -363,38 +361,63 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
   // TODO: do compareTo for object without operator(-)
   // it return the Minimum Spinnig Tree of the graph using Primm's algorithm
   @Override
-  public Array<Arch<E, K>> MSTPrim(E vertex){
+  public Array<IArch<E, K>> MSTPrim(E vertex){
+    Integer pos_vertex = null;                                      // pos of the selected vertex
+    if ((pos_vertex = this.MSTfirstcheck(vertex)) == null)
+      return null;
+
+    Array<IArch<E,K>> A = new Array<IArch<E,K>>(this.numArch);        // output array
+    IArch<E,K> arch = new Arch<E, K>(vertex, vertex, ((IKeyNode<E, K>)this.arches.getHead()).getKey());                               // temporary arch
+    PriorityQueue<Integer, K> PQ = new PriorityQueue<Integer, K>(); // PriorityQueue
+    
+    // adding a random weight. at the end it will be resetted back to null
+    // random weight are needed because with null it will all crash.
+    // the random weight won't affect the algorithm in any way
+    MSTinitizialization((Array<IArch<E,K>>)A, PQ, vertex, pos_vertex, new Arch<E, K>(vertex, vertex, ((IKeyNode<E, K>)this.arches.getHead()).getKey()));
+    arch.reset();
+    A = MSTmain((Array<IArch<E,K>>)A, PQ, arch, vertex, pos_vertex);
+
+    // setting the first vertex to null
+    A.get(0).setWeight(null);
+
+    return A;
+  }
+
+  protected Integer MSTfirstcheck(E vertex){
     if (vertex == null)
       return null;
 
-    Array<Arch<E,K>> A = new Array<Arch<E,K>>(this.numArch);        // output array
-    Arch<E,K> arch = new Arch<E,K>();                               // temporary arch
-    Integer pos_vertex = null;                                      // pos of the selected vertex
-    PriorityQueue<Integer, K> PQ = new PriorityQueue<Integer, K>(); // PriorityQueue
-
+    Integer pos = null;
     //  if present get vertex pos
     for (int i = 0; i < this.verteces.length; i++)
       if (this.verteces.get(i) != null)
         if (this.verteces.get(i).compareTo(new Vertex(vertex)) == 0)
-          pos_vertex = i;
+          pos = i;
 
     // if not present or the object is null return null
-    if (pos_vertex == null)
+    if (pos == null)
       return null;
-    if (this.verteces.get(pos_vertex) == null)
+    if (this.verteces.get(pos) == null)
       return null;
+    
+    return pos;
+  }
 
-
+  protected void MSTinitizialization(Array<IArch<E,K>> A, PriorityQueue<Integer, K> PQ, E vertex, Integer pos, IArch<E,K> newArch){
     // initialize arch array
     for (int i = 0; i < A.length; i++)
       A.set(i, null);
 
     // insert the root vertex
-    // adding a random weight. at the end it will change to null
-    // random weight because with null it will all crash.
-    // the random weight won't affect the algorithm in any way
-    A.set(0, new Arch<E, K>(vertex, vertex, ((IKeyNode<E, K>)this.arches.getHead()).getKey()));
-    PQ.insert(pos_vertex, A.get(0).getWeight());
+    this.MSTaddOuputArch(A, 0, newArch);
+    PQ.insert(pos, A.get(0).getWeight());
+  }
+
+  protected void MSTaddOuputArch(Array<IArch<E,K>> A, Integer pos, IArch<E, K> arch){
+    A.set(pos, new Arch<E,K>(arch));            // add the arch to the output arch
+  }
+
+  protected Array<IArch<E,K>> MSTmain(Array<IArch<E,K>> A, PriorityQueue<Integer, K> PQ, IArch<E,K> arch, E vertex, Integer pos_vertex){
 
     // till PQ is empty;  reset the temporary arch
     for(Integer pos_arch = 0, last_arch = 1; !PQ.isEmpty(); arch.reset()){
@@ -424,27 +447,30 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
             }
           }
 
-          // if there's no weight associated to the vertex
-          if (arch.getWeight() == null){
-            PQ.insert(iter.getValue(), iter.getKey());      // insert the vertex to the PriorityQueue
-            arch.setWeight(iter.getKey());                  // set the weight of the arch
-            A.set(last_arch, new Arch<E, K>(arch));            // add the arch to the output arch
-            last_arch++;                                            // increment pos of the last arch in the output array
-          }
-          // else if weight of the adiacence minor than the weight of the arch AND the vertex of the adiacence is in the PriorityQueue
-          else if (iter.getKey().compareTo(A.get(pos_arch).getWeight()) < 0 && PQ.check(iter.getValue())){
-            A.get(pos_arch).setWeight(iter.getKey());                                   // set weight with the adiacence
-            A.get(pos_arch).setSecondVertex(this.verteces.get(pos_vertex).getValue());        // set the new second Vertex
-            PQ.decreaseKey(iter.getValue(), iter.getKey());                             // decreaseKey by weight of the adiacence weight
-          }
+          last_arch = this.MSTaction(A, PQ, iter, arch, pos_arch, last_arch, pos_vertex);        
         }
       }
     }
 
-    // setting the first vertex to null
-    A.get(0).setWeight(null);
-
     return A;
+  }
+
+  protected Integer MSTaction(Array<IArch<E,K>> A, PriorityQueue<Integer, K> PQ, IKeyNode<Integer, K> iter, IArch<E,K> arch, Integer pos_arch, Integer last_arch, Integer pos_vertex){
+    // if there's no weight associated to the vertex
+    if (arch.getWeight() == null){
+      PQ.insert(iter.getValue(), iter.getKey());      // insert the vertex to the PriorityQueue
+      arch.setWeight(iter.getKey());                  // set the weight of the arch
+      this.MSTaddOuputArch(A, last_arch, arch);       // add the arch to the output arch
+      return last_arch+1;                                            // increment pos of the last arch in the output array
+    }
+    // else if weight of the adiacence minor than the weight of the arch AND the vertex of the adiacence is in the PriorityQueue
+    else if (iter.getKey().compareTo(A.get(pos_arch).getWeight()) < 0 && PQ.check(iter.getValue())){
+      A.get(pos_arch).setWeight(iter.getKey());                                   // set weight with the adiacence
+      A.get(pos_arch).setSecondVertex(this.verteces.get(pos_vertex).getValue());        // set the new second Vertex
+      PQ.decreaseKey(iter.getValue(), iter.getKey());                             // decreaseKey by weight of the adiacence weight
+    }
+
+    return last_arch;
   }
 
   private boolean MSTchecks(IKeyNode<Integer, K> adiacence, Integer vertex){
