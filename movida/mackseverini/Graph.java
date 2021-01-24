@@ -109,11 +109,6 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
     // create a pair with the verteces
     GraphPair<Integer> nodes = this.findVerteces(arch.getFirstVertex(), arch.getSecondVertex());
 
-    if (nodes == null){
-      System.out.println("What's happening!");
-      arch.print();
-    }
-
     if (this.containsArch(nodes))
       return false;
 
@@ -137,10 +132,9 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
   }
 
   protected boolean addArchAndAdiacences(GraphPair<Integer> nodes, K weight){
-    if (nodes == null || weight == null){
-      System.out.println("Here is the prob!");
+    if (nodes == null || weight == null)
       return false;
-    }
+
 
     // add the arch and add adiacences to the verteces
     this.arches.addHead(weight, nodes);
@@ -185,7 +179,6 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
   // find the position of the arch if present
   protected Integer findArch(GraphPair<Integer> nodes){
     // verteces are not presents
-    System.out.println("OI: " + 1);
     if (nodes == null)
       return -1;
 
@@ -218,10 +211,9 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
     }
 
     // if one of the vertex is not present return false
-    if (first == -1 || second == -1){
-      System.out.println("Guess what!");
+    if (first == -1 || second == -1)
       return null;
-    }
+
 
     return new GraphPair<Integer>(first, second);
   }
