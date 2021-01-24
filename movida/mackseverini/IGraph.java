@@ -14,7 +14,7 @@ import java.util.Arrays;
 // Class used to virtually implements an array without its costraints
 public interface IGraph<E extends Comparable<E>, K extends Comparable<K>>{
   public Array<Vertex<E, K>> getVerteces ();
-  public Array<Arch<E, K>> getArches();
+  public Array<IArch<E, K>> getArches();
 
   public int numVerteces();
   public int numArches();
@@ -27,8 +27,8 @@ public interface IGraph<E extends Comparable<E>, K extends Comparable<K>>{
   public boolean delVertex(E vertex);
   public boolean delArch(IArch<E, K> arch);
 
-  public boolean searchArch(IArch<E, K> arch);
-  public boolean searchVertex(E vertex);
+  public boolean containsArch(IArch<E, K> arch);
+  public boolean containsVertex(E vertex);
 
   public void printVerteces();
 

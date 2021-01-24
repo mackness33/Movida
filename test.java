@@ -193,19 +193,19 @@ public class test {
 
     printGraph(G);
 
-    System.out.println("Searchin for 3: " + G.searchVertex(3));
-    System.out.println("Searchin for 2: " + G.searchVertex(2));
+    System.out.println("Searchin for 3: " + G.containsVertex(3));
+    System.out.println("Searchin for 2: " + G.containsVertex(2));
 
     G.printVerteces();
 
-    System.out.println("Searchin for 3-3: " + G.searchArch(new Arch<Integer, Double>(3,3, null)));
-    System.out.println("Searchin for 2-1: " + G.searchArch(new Arch<Integer, Double>(2,1, null)));
-    System.out.println("Searchin for 5-5: " + G.searchArch(new Arch<Integer, Double>(5,5, null)));
-    System.out.println("Searchin for 0-0: " + G.searchArch(new Arch<Integer, Double>(0,0, null)));
-    System.out.println("Searchin for 2-2: " + G.searchArch(new Arch<Integer, Double>(2,2, null)));
-    System.out.println("Searchin for 1-1: " + G.searchArch(new Arch<Integer, Double>(1,1, null)));
-    System.out.println("Searchin for 1-3: " + G.searchArch(new Arch<Integer, Double>(1,3, null)));
-    System.out.println("Searchin for 4-0: " + G.searchArch(new Arch<Integer, Double>(4,0, null)));
+    System.out.println("Searchin for 3-3: " + G.containsArch(new Arch<Integer, Double>(3,3, null)));
+    System.out.println("Searchin for 2-1: " + G.containsArch(new Arch<Integer, Double>(2,1, null)));
+    System.out.println("Searchin for 5-5: " + G.containsArch(new Arch<Integer, Double>(5,5, null)));
+    System.out.println("Searchin for 0-0: " + G.containsArch(new Arch<Integer, Double>(0,0, null)));
+    System.out.println("Searchin for 2-2: " + G.containsArch(new Arch<Integer, Double>(2,2, null)));
+    System.out.println("Searchin for 1-1: " + G.containsArch(new Arch<Integer, Double>(1,1, null)));
+    System.out.println("Searchin for 1-3: " + G.containsArch(new Arch<Integer, Double>(1,3, null)));
+    System.out.println("Searchin for 4-0: " + G.containsArch(new Arch<Integer, Double>(4,0, null)));
 
     Array<IArch<Integer, Double>> Show = new Array<IArch<Integer, Double>>(10);
     Array<IArch<Integer, Double>> Prim = G.MSTPrim(6);
@@ -264,19 +264,19 @@ public class test {
 
     printGraph(G);
 
-    System.out.println("Searchin for 3: " + G.searchVertex(3));
-    System.out.println("Searchin for 2: " + G.searchVertex(2));
+    System.out.println("Searchin for 3: " + G.containsVertex(3));
+    System.out.println("Searchin for 2: " + G.containsVertex(2));
 
     G.printVerteces();
 
-    System.out.println("Searchin for 3-3: " + G.searchArch(new Arch<Integer, Double>(3,3, null)));
-    System.out.println("Searchin for 2-1: " + G.searchArch(new Arch<Integer, Double>(2,1, null)));
-    System.out.println("Searchin for 5-5: " + G.searchArch(new Arch<Integer, Double>(5,5, null)));
-    System.out.println("Searchin for 0-0: " + G.searchArch(new Arch<Integer, Double>(0,0, null)));
-    System.out.println("Searchin for 2-2: " + G.searchArch(new Arch<Integer, Double>(2,2, null)));
-    System.out.println("Searchin for 1-1: " + G.searchArch(new Arch<Integer, Double>(1,1, null)));
-    System.out.println("Searchin for 1-3: " + G.searchArch(new Arch<Integer, Double>(1,3, null)));
-    System.out.println("Searchin for 4-0: " + G.searchArch(new Arch<Integer, Double>(4,0, null)));
+    System.out.println("Searchin for 3-3: " + G.containsArch(new Arch<Integer, Double>(3,3, null)));
+    System.out.println("Searchin for 2-1: " + G.containsArch(new Arch<Integer, Double>(2,1, null)));
+    System.out.println("Searchin for 5-5: " + G.containsArch(new Arch<Integer, Double>(5,5, null)));
+    System.out.println("Searchin for 0-0: " + G.containsArch(new Arch<Integer, Double>(0,0, null)));
+    System.out.println("Searchin for 2-2: " + G.containsArch(new Arch<Integer, Double>(2,2, null)));
+    System.out.println("Searchin for 1-1: " + G.containsArch(new Arch<Integer, Double>(1,1, null)));
+    System.out.println("Searchin for 1-3: " + G.containsArch(new Arch<Integer, Double>(1,3, null)));
+    System.out.println("Searchin for 4-0: " + G.containsArch(new Arch<Integer, Double>(4,0, null)));
 
     Array<IArch<Integer, Double>> Show = new Array<IArch<Integer, Double>>(10);
     Array<IArch<Integer, Double>> Prim = G.MSTPrim(6);
