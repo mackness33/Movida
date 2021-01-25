@@ -135,7 +135,6 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
     if (nodes == null || weight == null)
       return false;
 
-
     // add the arch and add adiacences to the verteces
     this.arches.addHead(weight, nodes);
     this.verteces.get(nodes.getFirstValue()).addAdiacence(nodes.getSecondValue(), weight);
@@ -353,7 +352,7 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
     // adding a random weight. at the end it will be resetted back to null
     // random weight are needed because with null it will all crash.
     // the random weight won't affect the algorithm in any way
-    MSTinitizialization((Array<IArch<E,K>>)A, PQ, vertex, pos_vertex, new Arch<E, K>(vertex, vertex, ((IKeyNode<E, K>)this.arches.getHead()).getKey()));
+    MSTinitizialization((Array<IArch<E,K>>)A, PQ, vertex, pos_vertex, arch);
     arch.reset();
     A = MSTmain((Array<IArch<E,K>>)A, PQ, arch, vertex, pos_vertex);
 

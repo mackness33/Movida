@@ -75,13 +75,18 @@ public class CollabGraph extends movida.mackseverini.Graph<Person, ArrayList<Mov
   }
 
 	@Override
+	// TODO: check if the arch is already present
+	//		True: Add the movie to the Arch
+	//		False: Add the arch as it is
   public boolean addArch(IArch<E, K> arch){
     if (arch == null)
       return false;
 
-		Integer pos = this
-    if (this.findArch(arch))
-      return false;
+		// create a pair with the verteces
+		GraphPair<Integer> nodes = this.findVerteces(arch.getFirstVertex(), arch.getSecondVertex());
+
+		if (this.containsArch(nodes))
+			return false;
 
     return this.addArchAndAdiacences(nodes, arch.getWeight());
   }
@@ -96,6 +101,20 @@ public class CollabGraph extends movida.mackseverini.Graph<Person, ArrayList<Mov
 		Integer pos = this.findArch(nodes);
 
 		(res != null ) ? ((res >= 0 ) ? true : false) : false;
+  }
+
+	protected boolean addArchAndAdiacences(GraphPair<Integer> nodes, Movie movie){
+    if (nodes == null || movie == null)
+      return false;
+
+    // add the arch and add adiacences to the verteces
+    this.arches.addHead(M, nodes);
+    this.verteces.get(nodes.getFirstValue()).addAdiacence(nodes.getSecondValue(), weight);
+    if (nodes.getFirstValue() != nodes.getSecondValue())    // if the verteces are equal don't add it twice
+      this.verteces.get(nodes.getSecondValue()).addAdiacence(nodes.getFirstValue(), weight);
+    this.numArch++;         // increment number of arches
+
+    return true;
   }
 
   // TODO:
