@@ -160,14 +160,7 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
 
     GraphPair<Integer> nodes = findVerteces(arch.getFirstVertex(), arch.getSecondVertex());
 
-    // verteces are not presents
-    if (nodes == null)
-      return -1;
-
-    // get position of  the arch, if present return true.
-    Integer res = this.arches.search(nodes);
-    System.out.println("RES: " + res);
-    return res;
+    return this.findArch(nodes);
   }
 
   // check if the arch is present
