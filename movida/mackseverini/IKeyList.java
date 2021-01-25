@@ -16,8 +16,8 @@ public interface IKeyList<E extends Comparable<E>, T extends Comparable<T>, K ex
   public boolean delByKey (T k);
 
   public T searchKey (E el);
-  
-  public boolean setElKey (E el, T k);
+
+  public boolean updElKey (E el, T k);
 
   public void addTail (T k, E el);
 

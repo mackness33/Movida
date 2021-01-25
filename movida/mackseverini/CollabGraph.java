@@ -84,14 +84,15 @@ public class CollabGraph extends movida.mackseverini.Graph<Person, ArrayList<Mov
 		GraphPair<Integer> nodes = this.findVerteces(actor1, actor2);
 
 		Integer pos = this.findArch(nodes);
-		if (res == null || res == -1){
-			// arch.search(pos).addMovie(movie);
-			// this.verteces.get(nodes.getFirstValue()).addMovie(movie);
-	    // if (nodes.getFirstValue() != nodes.getSecondValue())    // if the verteces are equal don't add it twice
-	    //   this.verteces.get(nodes.getSecondValue()).addMovie(movie));
+		if (pos == null || pos == -1){
+			arch.search(pos).addMovie(movie);
+			this.verteces.get(nodes.getFirstValue()).addMovie(movie);
+	    if (nodes.getFirstValue() != nodes.getSecondValue())    // if the verteces are equal don't add it twice
+	      this.verteces.get(nodes.getSecondValue()).addMovie(movie));
+
+			return true;
 		}
 
-		// TODO: create a new CollabVertex
     return this.addArchAndAdiacences(new CollabArch(nodes.getFirstValue(), nodes.getSecondValue(), movie));
   }
 
@@ -121,6 +122,7 @@ public class CollabGraph extends movida.mackseverini.Graph<Person, ArrayList<Mov
     // }
 		//
     // @Override
+
     public Double getScore(){
 
       Double score = 0.0;
@@ -160,6 +162,11 @@ public class CollabGraph extends movida.mackseverini.Graph<Person, ArrayList<Mov
   }
 
 	public class CollabVertex extends Vertex<Person, Double>{
+	  public void addAdiacence (Integer v, Array<Movie> M) {
+			for (movie : M)
+				this.addMovie(w, v);
+		}
+
 		public boolean addMovie (Integer v, Movie m) {
 			if (m == null)
 				return false;
@@ -169,7 +176,7 @@ public class CollabGraph extends movida.mackseverini.Graph<Person, ArrayList<Mov
 			if (score == null)
 				return false;
 
-			this.adiacence.updElKey(v, ((score == null) ? 0 : score) + m.getVotes());
+			return this.adiacence.updElKey(v, ((score == null) ? 0 : score) + m.getVotes());
 		}
 
 		public boolean delMovie (Integer v, Movie m) {
@@ -181,7 +188,7 @@ public class CollabGraph extends movida.mackseverini.Graph<Person, ArrayList<Mov
 			if (score == null)
 				return false;
 			// WARNING: not really checked
-			this.adiacence.updElKey(v, Math.abs(((score == null) ? 0 : score) - m.getVotes()));
+			return this.adiacence.updElKey(v, Math.abs(((score == null) ? 0 : score) - m.getVotes()));
 		}
   }
 }

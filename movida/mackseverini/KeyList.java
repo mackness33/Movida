@@ -134,7 +134,7 @@ public class KeyList<E extends Comparable<E>, T extends Comparable<T>, K extends
   // get the key by having the element as the input
   public boolean updElKey (E el, T k){
     if (this.size <= 0 || el == null)
-      return null;
+      return false;
 
     // compare the element with the first and last node of the list
     if (el.compareTo(this.head.getValue()) == 0){
@@ -152,11 +152,14 @@ public class KeyList<E extends Comparable<E>, T extends Comparable<T>, K extends
 
     int i = 1;
     // iterate all the list to compare the element
-    for (KeyNode<E, T> iter = (KeyNode<E, T>)this.head.getNext(); iter.getNext() != null && i < this.size; iter = (KeyNode<E, T>)iter.getNext(), i++)
-      if (el.compareTo(iter.getValue()) == 0)
-        return ((KeyNode<E, T>)iter).setKey(k);
+    for (KeyNode<E, T> iter = (KeyNode<E, T>)this.head.getNext(); iter.getNext() != null && i < this.size; iter = (KeyNode<E, T>)iter.getNext(), i++){
+      if (el.compareTo(iter.getValue()) == 0){
+        ((KeyNode<E, T>)iter).setKey(k);
+        return true;
+      }
+    }
 
-    return null;
+    return false;
   }
 
   @Override
