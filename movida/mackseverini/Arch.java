@@ -1,6 +1,8 @@
 package movida.mackseverini;
 
-public class Arch<E extends Comparable<E>, K extends Comparable<K>> implements movida.mackseverini.IArch<E, K>, Comparable<Arch<E, K>>{
+import movida.mackseverini.IArch;
+
+public class Arch<E extends Comparable<E>, K extends Comparable<K>> implements IArch<E, K>, Comparable<IArch<E, K>>{
   protected K weight;             // weight of the arch
   protected E vertex1;            // first vertex
   protected E vertex2;            // second vertex
@@ -13,7 +15,7 @@ public class Arch<E extends Comparable<E>, K extends Comparable<K>> implements m
   }
 
   // copy constructor
-  public Arch(movida.mackseverini.IArch<E, K> shallow){
+  public Arch(IArch<E, K> shallow){
     this.weight = shallow.getWeight();
     this.vertex1 = shallow.getFirstVertex();
     this.vertex2 = shallow.getSecondVertex();
@@ -45,7 +47,7 @@ public class Arch<E extends Comparable<E>, K extends Comparable<K>> implements m
   // for now it just understand if the arches are the exactly the same
   // TODO: decide a int for null and major and minor
   @Override
-  public int compareTo (Arch<E, K> input) {
+  public int compareTo (IArch<E, K> input) {
     // if input is null return fixed number
     if (input == null)
       return 1;

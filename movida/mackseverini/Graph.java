@@ -15,7 +15,7 @@ import java.util.Arrays;
 // Class used to virtually implements an array without its costraints
 public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements movida.mackseverini.IGraph<E, K>{
   protected Array<Vertex<E, K>> verteces;                      // Array of verteces
-  protected IList<Arch<Integer, K>> arches;   // List of Arches
+  protected IList<IArch<Integer, K>> arches;   // List of Arches
   protected int numVertex;                                          // Number of Vertex inserted
   protected int numArch;                                            // Number of Arches
   protected int size;                                               // Max position occupied in the array
@@ -24,7 +24,7 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
 	// constructor
 	public Graph(){
     this.verteces = new Array<Vertex<E, K>>(50);
-    this.arches = new List<Arch<Integer, K>>();
+    this.arches = new List<IArch<Integer, K>>();
     this.numVertex = 0;
 		this.numArch = 0;
     this.size = 0;
@@ -61,20 +61,16 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
 
     final Array<IArch<E, K>> array = new Array<IArch<E, K>>(this.numArch);
     int i = 0;
-    Arch<Integer, K> temp = null;
+    IArch<Integer, K> temp = null;
 
     // add all the node list per list
-    for (INode2<Arch<Integer, K>> iter = (INode2<Arch<Integer, K>>)this.arches.getHead(); iter != null; iter = (INode2<Arch<Integer, K>>)iter.getNext(), i++){
+    for (INode2<IArch<Integer, K>> iter = (INode2<IArch<Integer, K>>)this.arches.getHead(); iter != null; iter = (INode2<IArch<Integer, K>>)iter.getNext(), i++){
       temp = iter.getValue();
       if (temp.getWeight() != null && temp.getFirstVertex() != null && temp.getSecondVertex() != null)
         array.set(i, new Arch(this.verteces.get(temp.getFirstVertex()).getValue(), this.verteces.get(temp.getSecondVertex()).getValue(), temp.getWeight()));
     }
 
     return array;
-  }
-
-  protected void editArch (Array<IArch<E, K>> A, E v1, E v2, K w, Integer i){
-    A.set(i, new Arch(v1, v2, w));
   }
 
   @Override
@@ -261,7 +257,7 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
     if (vertex < 0  || vertex >= this.verteces.length)
       return false;
 
-    Arch<Integer,K> arch = null;
+    IArch<Integer,K> arch = null;
 
     // check of the head. Cycle till the head of the list have the input vertex
     while ((arch = this.arches.getHead().getValue()) != null){
@@ -277,7 +273,7 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
     }
 
     // iterate all the elements of the list
-    for (INode2<Arch<Integer, K>> prev = (INode2<Arch<Integer, K>>)this.arches.getHead(), iter = (INode2<Arch<Integer, K>>)this.arches.getHead().getNext(); iter != null; iter = (Node2<Arch<Integer, K>>)iter.getNext()){
+    for (INode2<IArch<Integer, K>> prev = (INode2<IArch<Integer, K>>)this.arches.getHead(), iter = (INode2<IArch<Integer, K>>)this.arches.getHead().getNext(); iter != null; iter = (Node2<IArch<Integer, K>>)iter.getNext()){
       arch = iter.getValue();
 
       // if vertex is part of the arch
@@ -293,7 +289,7 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
       }
 
       if (iter != prev)
-        prev = (INode2<Arch<Integer, K>>)prev.getNext();
+        prev = (INode2<IArch<Integer, K>>)prev.getNext();
     }
 
     return true;
@@ -346,7 +342,7 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
       return null;
 
     Array<IArch<E,K>> A = new Array<IArch<E,K>>(this.numArch);        // output array
-    IArch<E,K> arch = new Arch<E, K>(vertex, vertex, ((INode2<Arch<Integer, K>>)this.arches.getHead()).getValue().getWeight());                               // temporary arch
+    IArch<E,K> arch = new Arch<E, K>(vertex, vertex, ((INode2<IArch<Integer, K>>)this.arches.getHead()).getValue().getWeight());                               // temporary arch
     PriorityQueue<Integer, K> PQ = new PriorityQueue<Integer, K>(); // PriorityQueue
 
     // adding a random weight. at the end it will be resetted back to null
