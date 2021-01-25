@@ -14,7 +14,7 @@ import java.util.Arrays;
 
 // Class used to virtually implements an array without its costraints
 public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements movida.mackseverini.IGraph<E, K>{
-  protected Array<Vertex<E, K>> verteces;                      // Array of verteces
+  protected Array<IVertex<E, K>> verteces;                      // Array of verteces
   protected IList<IArch<Integer, K>> arches;   // List of Arches
   protected int numVertex;                                          // Number of Vertex inserted
   protected int numArch;                                            // Number of Arches
@@ -23,7 +23,7 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
 
 	// constructor
 	public Graph(){
-    this.verteces = new Array<Vertex<E, K>>(50);
+    this.verteces = new Array<IVertex<E, K>>(50);
     this.arches = new List<IArch<Integer, K>>();
     this.numVertex = 0;
 		this.numArch = 0;
@@ -52,7 +52,7 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
 	// }
 
   @Override
-  public Array<Vertex<E, K>> getVerteces () { return this.verteces; }
+  public Array<IVertex<E, K>> getVerteces () { return this.verteces; }
   // trasform the list of nodes and weight into an array of arch object
   @Override
   public Array<IArch<E, K>> getArches(){
@@ -106,10 +106,14 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
     // create a pair with the verteces
     GraphPair<Integer> nodes = this.findVerteces(arch.getFirstVertex(), arch.getSecondVertex());
 
+    if(nodes == null)
+       return false;
+
     if (this.containsArch(nodes))
       return false;
 
-    return this.addArchAndAdiacences(nodes, arch.getWeight());
+
+    return this.addArchAndAdiacences(new Arch<Integer,K>(nodes.getFirstValue(), nodes.getSecondValue(), arch.getWeight()));
   }
 
   @Override
@@ -120,22 +124,24 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
     // create a pair with the verteces
     GraphPair<Integer> nodes = this.findVerteces(vertex1, vertex2);
 
+    if(nodes == null)
+       return false;
+
     if (this.containsArch(nodes))
       return false;
 
-    return this.addArchAndAdiacences(nodes, weight);
+    return this.addArchAndAdiacences(new Arch<Integer,K>(nodes.getFirstValue(), nodes.getSecondValue(), weight));
   }
 
-  // protected boolean addArchAndAdiacences(GraphPair<Integer> nodes, K weight){
-  protected boolean addArchAndAdiacences(GraphPair<Integer> nodes, K weight){
-    if (nodes == null || weight == null)
+  protected boolean addArchAndAdiacences(IArch<Integer, K> arch){
+    if (arch == null)
       return false;
 
     // add the arch and add adiacences to the verteces
-    this.arches.addHead(new Arch<Integer,K>(nodes.getFirstValue(), nodes.getSecondValue(), weight));
-    this.verteces.get(nodes.getFirstValue()).addAdiacence(nodes.getSecondValue(), weight);
-    if (nodes.getFirstValue() != nodes.getSecondValue())    // if the verteces are equal don't add it twice
-      this.verteces.get(nodes.getSecondValue()).addAdiacence(nodes.getFirstValue(), weight);
+    this.arches.addHead(arch);
+    this.verteces.get(arch.getFirstVertex()).addAdiacence(arch.getSecondVertex(), arch.getWeight());
+    if (arch.getFirstVertex() != arch.getSecondVertex())    // if the verteces are equal don't add it twice
+      this.verteces.get(arch.getSecondVertex()).addAdiacence(arch.getFirstVertex(), arch.getWeight());
     this.numArch++;         // increment number of arches
 
     return true;
@@ -169,6 +175,7 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
     // verteces are not presents
     if (nodes == null)
       return -1;
+    
 
     // get position of  the arch, if present return true.
     Integer res = this.arches.search(new Arch<Integer,K>(nodes.getFirstValue(), nodes.getSecondValue(), null));
@@ -303,6 +310,9 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
 
     // create a pair with the verteces
     GraphPair<Integer> nodes = this.findVerteces(arch.getFirstVertex(), arch.getSecondVertex());
+
+    if(nodes == null)
+       return false;
 
     // if the pair is found and deleted then delete the adiacence of the verteces
     // this.delArchAndAdiacences(new Arch<Integer,K>(arch));

@@ -2,7 +2,7 @@ package movida.mackseverini;
 
 import movida.mackseverini.IArch;
 
-public class Arch<E extends Comparable<E>, K extends Comparable<K>> implements IArch<E, K>, Comparable<IArch<E, K>>{
+public class Arch<E extends Comparable<E>, K extends Comparable<K>> implements IArch<E, K>{
   protected K weight;             // weight of the arch
   protected E vertex1;            // first vertex
   protected E vertex2;            // second vertex

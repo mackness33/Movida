@@ -13,7 +13,7 @@ import java.util.Arrays;
 
 // Class used to virtually implements an array without its costraints
 public interface IGraph<E extends Comparable<E>, K extends Comparable<K>>{
-  public Array<Vertex<E, K>> getVerteces ();
+  public Array<IVertex<E, K>> getVerteces ();
   public Array<IArch<E, K>> getArches();
 
   public int numVerteces();

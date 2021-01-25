@@ -2,9 +2,10 @@ package movida.mackseverini;
 
 import movida.mackseverini.KeyList;
 import movida.mackseverini.IKeyList;
+import movida.mackseverini.IVertex;
 
 // FEATURE: can add a generics to let people choose with what type they want to save the vertex
-public class Vertex<E extends Comparable<E>, K extends Comparable<K>> implements movida.mackseverini.IVertex<E, K>, Comparable<Vertex<E, K>>{
+public class Vertex<E extends Comparable<E>, K extends Comparable<K>> implements IVertex<E, K>{
   protected E value;
   protected IKeyList<Integer, K, Integer> adiacence;
 
@@ -44,7 +45,7 @@ public class Vertex<E extends Comparable<E>, K extends Comparable<K>> implements
   public boolean delAdiacence (Integer v) { return this.adiacence.delEl(v); }
 
   @Override
-  public int compareTo (Vertex<E, K> input) { return this.value.compareTo(input.getValue()); }
+  public int compareTo (IVertex<E, K> input) { return this.value.compareTo(input.getValue()); }
 
   public int compareTo (E input) { return this.value.compareTo(input); }
 

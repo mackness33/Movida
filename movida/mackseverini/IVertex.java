@@ -16,4 +16,5 @@ public interface IVertex<E extends Comparable<E>, K extends Comparable<K>>{
 
   public void print();
   public String toString();
+  public int compareTo (IVertex<E, K> input);
 }
