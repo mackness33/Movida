@@ -7,13 +7,15 @@ import movida.mackseverini.IList;
 import movida.mackseverini.List;
 import movida.mackseverini.IKeyList;
 import movida.mackseverini.KeyList;
+import movida.mackseverini.Node2;
+import movida.mackseverini.INode2;
 
 import java.util.Arrays;
 
 // Class used to virtually implements an array without its costraints
 public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements movida.mackseverini.IGraph<E, K>{
   protected Array<Vertex<E, K>> verteces;                      // Array of verteces
-  protected IKeyList<GraphPair<Integer>, K, Integer> arches;   // List of Arches
+  protected IList<Arch<Integer, K>> arches;   // List of Arches
   protected int numVertex;                                          // Number of Vertex inserted
   protected int numArch;                                            // Number of Arches
   protected int size;                                               // Max position occupied in the array
@@ -22,7 +24,7 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
 	// constructor
 	public Graph(){
     this.verteces = new Array<Vertex<E, K>>(50);
-    this.arches = new KeyList<GraphPair<Integer>, K, Integer>();
+    this.arches = new List<Arch<Integer, K>>();
     this.numVertex = 0;
 		this.numArch = 0;
     this.size = 0;
@@ -59,14 +61,13 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
 
     final Array<IArch<E, K>> array = new Array<IArch<E, K>>(this.numArch);
     int i = 0;
-    GraphPair<Integer> temp = null;
+    Arch<Integer, K> temp = null;
 
     // add all the node list per list
-    for (IKeyNode<GraphPair<Integer>, K> iter = (IKeyNode<GraphPair<Integer>, K>)this.arches.getHead(); iter != null; iter = (IKeyNode<GraphPair<Integer>, K>)iter.getNext(), i++){
+    for (INode2<Arch<Integer, K>> iter = (INode2<Arch<Integer, K>>)this.arches.getHead(); iter != null; iter = (INode2<Arch<Integer, K>>)iter.getNext(), i++){
       temp = iter.getValue();
-      if (iter.getKey() != null && temp.getFirstValue() != null && temp.getSecondValue() != null)
-        array.set(i, new Arch(this.verteces.get(temp.getFirstValue()), this.verteces.get(temp.getFirstValue()), iter.getKey()));
-        // this.editArch(this.verteces.get(temp.getFirstValue()).getValue(), this.verteces.get(temp.getSecondValue()).getValue(), iter.getKey(), i);
+      if (temp.getWeight() != null && temp.getFirstVertex() != null && temp.getSecondVertex() != null)
+        array.set(i, new Arch(this.verteces.get(temp.getFirstVertex()).getValue(), this.verteces.get(temp.getSecondVertex()).getValue(), temp.getWeight()));
     }
 
     return array;
@@ -126,17 +127,16 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
     if (this.containsArch(nodes))
       return false;
 
-    this.addArchAndAdiacences(nodes, weight);
-
-    return true;
+    return this.addArchAndAdiacences(nodes, weight);
   }
 
+  // protected boolean addArchAndAdiacences(GraphPair<Integer> nodes, K weight){
   protected boolean addArchAndAdiacences(GraphPair<Integer> nodes, K weight){
     if (nodes == null || weight == null)
       return false;
 
     // add the arch and add adiacences to the verteces
-    this.arches.addHead(weight, nodes);
+    this.arches.addHead(new Arch<Integer,K>(nodes.getFirstValue(), nodes.getSecondValue(), weight));
     this.verteces.get(nodes.getFirstValue()).addAdiacence(nodes.getSecondValue(), weight);
     if (nodes.getFirstValue() != nodes.getSecondValue())    // if the verteces are equal don't add it twice
       this.verteces.get(nodes.getSecondValue()).addAdiacence(nodes.getFirstValue(), weight);
@@ -175,7 +175,7 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
       return -1;
 
     // get position of  the arch, if present return true.
-    Integer res = this.arches.search(nodes);
+    Integer res = this.arches.search(new Arch<Integer,K>(nodes.getFirstValue(), nodes.getSecondValue(), null));
     System.out.println("RES: " + res);
     return res;
   }
@@ -261,41 +261,39 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
     if (vertex < 0  || vertex >= this.verteces.length)
       return false;
 
-    GraphPair<Integer> nodes = null;
+    Arch<Integer,K> arch = null;
 
     // check of the head. Cycle till the head of the list have the input vertex
-    while (this.arches.getHead() != null){
-      nodes = this.arches.getHead().getValue();
-
+    while ((arch = this.arches.getHead().getValue()) != null){
       // if vertex is not part of the head break
-      if (vertex != nodes.getFirstValue() && vertex != nodes.getSecondValue())
+      if (vertex != arch.getFirstVertex() && vertex != arch.getSecondVertex())
         break;
 
       // delete arch and adiacence of the verteces
       this.arches.delHead();
-      this.verteces.get(nodes.getFirstValue()).delAdiacence(nodes.getSecondValue());
-      this.verteces.get(nodes.getSecondValue()).delAdiacence(nodes.getFirstValue());
+      this.verteces.get(arch.getFirstVertex()).delAdiacence(arch.getSecondVertex());
+      this.verteces.get(arch.getSecondVertex()).delAdiacence(arch.getFirstVertex());
       this.numArch--;
     }
 
     // iterate all the elements of the list
-    for (IKeyNode<GraphPair<Integer>, K> prev = (IKeyNode<GraphPair<Integer>, K>)this.arches.getHead(), iter = (IKeyNode<GraphPair<Integer>, K>)this.arches.getHead().getNext(); iter != null; iter = (KeyNode<GraphPair<Integer>, K>)iter.getNext()){
-      nodes = iter.getValue();
+    for (INode2<Arch<Integer, K>> prev = (INode2<Arch<Integer, K>>)this.arches.getHead(), iter = (INode2<Arch<Integer, K>>)this.arches.getHead().getNext(); iter != null; iter = (Node2<Arch<Integer, K>>)iter.getNext()){
+      arch = iter.getValue();
 
       // if vertex is part of the arch
-      if (vertex.compareTo(nodes.getFirstValue()) == 0 || vertex.compareTo(nodes.getSecondValue()) == 0){
+      if (vertex.compareTo(arch.getFirstVertex()) == 0 || vertex.compareTo(arch.getSecondVertex()) == 0){
         // disconnect the node
         prev.setNext(iter.getNext());
         iter = prev;
 
         // delete the adiacence of the verteces
-        this.verteces.get(nodes.getFirstValue()).delAdiacence(nodes.getSecondValue());
-        this.verteces.get(nodes.getSecondValue()).delAdiacence(nodes.getFirstValue());
+        this.verteces.get(arch.getFirstVertex()).delAdiacence(arch.getSecondVertex());
+        this.verteces.get(arch.getSecondVertex()).delAdiacence(arch.getFirstVertex());
         this.size--;
       }
 
       if (iter != prev)
-        prev = (IKeyNode<GraphPair<Integer>, K>)prev.getNext();
+        prev = (INode2<Arch<Integer, K>>)prev.getNext();
     }
 
     return true;
@@ -311,6 +309,7 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
     GraphPair<Integer> nodes = this.findVerteces(arch.getFirstVertex(), arch.getSecondVertex());
 
     // if the pair is found and deleted then delete the adiacence of the verteces
+    // this.delArchAndAdiacences(new Arch<Integer,K>(arch));
     this.delArchAndAdiacences(nodes, arch.getWeight());
 
     return true;
@@ -318,7 +317,8 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
 
 
   protected void delArchAndAdiacences(GraphPair<Integer> nodes, K weight){
-    if (this.arches.delEl(nodes)){
+  // protected void delArchAndAdiacences(IArch<Integer,K> arch){
+    if (this.arches.delEl(new Arch<Integer, K> (nodes.getFirstValue(), nodes.getSecondValue(), weight))){
       this.verteces.get(nodes.getFirstValue()).delAdiacence(nodes.getSecondValue());
       this.verteces.get(nodes.getSecondValue()).delAdiacence(nodes.getFirstValue());
       this.numArch--;
@@ -346,7 +346,7 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
       return null;
 
     Array<IArch<E,K>> A = new Array<IArch<E,K>>(this.numArch);        // output array
-    IArch<E,K> arch = new Arch<E, K>(vertex, vertex, ((IKeyNode<E, K>)this.arches.getHead()).getKey());                               // temporary arch
+    IArch<E,K> arch = new Arch<E, K>(vertex, vertex, ((INode2<Arch<Integer, K>>)this.arches.getHead()).getValue().getWeight());                               // temporary arch
     PriorityQueue<Integer, K> PQ = new PriorityQueue<Integer, K>(); // PriorityQueue
 
     // adding a random weight. at the end it will be resetted back to null
