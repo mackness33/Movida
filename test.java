@@ -14,6 +14,7 @@ import movida.mackseverini.InsertionSort;
 import movida.mackseverini.KeyNode;
 import movida.mackseverini.KeyList;
 import movida.mackseverini.ABR;
+// import movida.mackseverini.MovieAbr;
 import movida.mackseverini.Graph;
 import movida.mackseverini.Arch;
 import movida.mackseverini.IArch;
@@ -45,53 +46,172 @@ public class test {
 
   public static void main(String args[]){
 
-    // TestInteger valueToBeTested1 = new TestInteger(1);
-    // TestInteger valueToBeTested2 = new TestInteger(2);
-    //
-    // //System.out.println(valueToBeTested1.compareTo(valueToBeTested2));
-    //
-    // TEST INSERT PARAMETRIZZATO
-    //
-    // ABR<TestInteger> abr = new ABR(valueToBeTested1);
-    // abr.insert(valueToBeTested2);
-    // System.out.println("ROOT: " + abr.getRoot().getKey().toString());
-    // System.out.println("ROOT'S RIGHT CHILD: " + abr.getRoot().getRightChild().getKey().toString());
-
-
-    // IMPLEMENTED INTERFACE TEST
     // INSERT
 
-    // TestInteger value20 = new TestInteger(20);
-    // TestInteger value10 = new TestInteger(10);
-    // TestInteger value30 = new TestInteger(30);
-    // TestInteger value5 = new TestInteger(5);
-    // TestInteger value1 = new TestInteger(1);
-    // TestInteger value25 = new TestInteger(25);
-    // TestInteger value7 = new TestInteger(7);
-    // TestInteger value35 = new TestInteger(35);
-    // TestInteger value37 = new TestInteger(37);
-    // TestInteger value15 = new TestInteger(15);
-    // TestInteger value23 = new TestInteger(23);
-    // TestInteger value13 = new TestInteger(13);
-    // TestInteger value17 = new TestInteger(17);
-    // TestInteger value33 = new TestInteger(33);
-    // TestInteger value27 = new TestInteger(27);
-    // ABR<TestInteger> abr = new ABR();
-    // abr.insert(value20);
-    // abr.insert(value10);
-    // abr.insert(value30);
-    // abr.insert(value5);
-    // abr.insert(value1);
-    // abr.insert(value25);
-    // abr.insert(value7);
-    // abr.insert(value35);
-    // abr.insert(value37);
-    // abr.insert(value15);
-    // abr.insert(value23);
-    // abr.insert(value13);
-    // abr.insert(value17);
-    // abr.insert(value33);
-    // abr.insert(value27);
+    TestInteger value20 = new TestInteger(20);
+    TestInteger value10 = new TestInteger(10);
+    TestInteger value30 = new TestInteger(30);
+    TestInteger value5 = new TestInteger(5);
+    TestInteger value1 = new TestInteger(1);
+    TestInteger value25 = new TestInteger(25);
+    TestInteger value7 = new TestInteger(7);
+    TestInteger value35 = new TestInteger(35);
+    TestInteger value37 = new TestInteger(37);
+    TestInteger value15 = new TestInteger(15);
+    TestInteger value23 = new TestInteger(23);
+    TestInteger value13 = new TestInteger(13);
+    TestInteger value17 = new TestInteger(17);
+    TestInteger value33 = new TestInteger(33);
+    TestInteger value27 = new TestInteger(27);
+    ABR<Integer, TestInteger> abr = new ABR();
+    abr.insert(1, value20);
+    abr.insert(2, value10);
+    abr.insert(3, value30);
+    abr.insert(4, value5);
+    abr.insert(5, value1);
+    abr.insert(6, value25);
+    abr.insert(7, value7);
+    abr.insert(8, value35);
+    abr.insert(9, value37);
+    abr.insert(10, value15);
+    abr.insert(11, value23);
+    abr.insert(12, value13);
+    abr.insert(13, value17);
+    abr.insert(14, value33);
+    abr.insert(15, value27);
+    abr.printAbr();
+
+    // Search
+    System.out.println("Search key 1: " + abr.searchByKey(1) +
+                      "\nSearch key 2: " + abr.searchByKey(2) +
+                      "\nSearch key 3: " + abr.searchByKey(3) +
+                      "\nSearch key 4: " + abr.searchByKey(4) +
+                      "\nSearch key 5: " + abr.searchByKey(5) +
+                      "\nSearch key 6: " + abr.searchByKey(6) +
+                      "\nSearch key 7: " + abr.searchByKey(7) +
+                      "\nSearch key 8: " + abr.searchByKey(8) +
+                      "\nSearch key 9: " + abr.searchByKey(9) +
+                      "\nSearch key 10: " + abr.searchByKey(10) +
+                      "\nSearch key 11: " + abr.searchByKey(11) +
+                      "\nSearch key 12: " + abr.searchByKey(12) +
+                      "\nSearch key 13: " + abr.searchByKey(13) +
+                      "\nSearch key 14: " + abr.searchByKey(14) +
+                      "\nSearch key 15: " + abr.searchByKey(15) +
+                      "\nSearch key 16: " + abr.searchByKey(16));
+
+    System.out.println("Delete node with key 1: " + abr.deleteByKey(1));
+    abr.printAbr();
+
+
+
+    // // SEARCH
+    //
+    // // System.out.println("Search value 20: " + abr.search(value20));
+    // // System.out.println("Search value 10: " + abr.search(value10));
+    // // System.out.println("Search value 30: " + abr.search(value30));
+    // // System.out.println("Search value 5: " + abr.search(value5));
+    // // System.out.println("Search value 15: " + abr.search(value15));
+    // // System.out.println("Search value 25: " + abr.search(value25));
+    // // System.out.println("Search value 35: " + abr.search(value35));
+    // // System.out.println("Search value 1: " + abr.search(value1));
+    // // System.out.println("Search value 7: " + abr.search(value7));
+    // // System.out.println("Search value 13: " + abr.search(value13));
+    // // System.out.println("Search value 17: " + abr.search(value17));
+    // // System.out.println("Search value 23: " + abr.search(value23));
+    // // System.out.println("Search value 27: " + abr.search(value27));
+    // // System.out.println("Search value 33: " + abr.search(value33));
+    // // System.out.println("Search value 37: " + abr.search(value37));
+    // // TestInteger valueNotInserted100 = new TestInteger(100);
+    // // System.out.println("Search value 100: " + abr.search(valueNotInserted100));
+    //
+    // // DELETE
+    //
+    // // LEAF
+    // abr.delete(value37);
+    // // abr.printAbr();
+    //
+    // // INTERMEDIATE NODE
+    //
+    // // ONLY LEFT CHILD THAT HAS LEFT CHILD
+    // TestInteger value31 = new TestInteger(31);
+    // abr.insert(20, value31);
+    // abr.delete(value35);
+    // // abr.printAbr();
+    //
+    // // ONLY LEFT CHILD
+    // abr.delete(value33);
+    // // abr.printAbr();
+    //
+    // // ONLY RIGHT CHILD
+    // abr.delete(value1);
+    // abr.delete(value5);
+    // // abr.printAbr();
+    //
+    // // 2 CHILDREN
+    // // PREDECESSOR IS LEFT CHILD
+    // abr.delete(value10);
+    // // abr.printAbr();
+    //
+    // // PREDECESSOR IS MAX OF LEFT SUBTREE
+    // // PREDECESSOR WITH NO CHILD
+    // abr.delete(value30);
+    // // abr.printAbr();
+    //
+    // abr.delete(value23);
+    // abr.delete(value31);
+    // abr.delete(value25);
+    //
+    // // PREDECESSOR WITH LEFT SUBTREE
+    // TestInteger value2 = new TestInteger(2);
+    // TestInteger value6 = new TestInteger(6);
+    // TestInteger value4 = new TestInteger(4);
+    // TestInteger value3 = new TestInteger(3);
+    // abr.insert(21, value2);
+    // abr.insert(22, value1);
+    // abr.insert(23, value6);
+    // abr.insert(24, value4);
+    // abr.insert(25, value3);
+    // abr.insert(26, value5);
+    // abr.delete(value7);
+    // // abr.printAbr();
+    //
+    // // ROOT
+    // // 2 CHILDREN
+    // // PREDECESSOR IS MAX OF LEFT SUBTREE
+    // // PREDECESSOR WITH LEFT SUBTREE
+    // abr.delete(value3);
+    // abr.delete(value5);
+    // abr.delete(value4);
+    // abr.delete(value1);
+    // abr.delete(value17);
+    // abr.insert(27, value10);
+    // TestInteger value14 = new TestInteger(14);
+    // abr.insert(28, value14);
+    // abr.delete(value20);
+    // // abr.printAbr();
+    //
+    // // PREDECESSOR WITHOUT LEFT SUBTREE
+    // abr.delete(value15);
+    // // abr.printAbr();
+    //
+    // // PREDECESSOR IS LEFT CHILD
+    // // LEFT CHILD HAS LEFT CHILD
+    // abr.delete(value10);
+    // abr.delete(value13);
+    // abr.delete(value14);
+    // // abr.printAbr();
+    //
+    // // PREDECESSOR IS LEFT CHILD
+    // abr.delete(value6);
+    // // abr.printAbr();
+    //
+    // // ONLY RIGHT CHILD
+    // abr.delete(value2);
+    // // abr.printAbr();
+    //
+    // // ONLY LEFT CHILD
+    // abr.insert(30, value33);
+    // abr.delete(value27);
     // abr.printAbr();
 
     // DELETE
