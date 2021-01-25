@@ -131,6 +131,35 @@ public class KeyList<E extends Comparable<E>, T extends Comparable<T>, K extends
   }
 
   @Override
+  // get the key by having the element as the input
+  public boolean updElKey (E el, T k){
+    if (this.size <= 0 || el == null)
+      return null;
+
+    // compare the element with the first and last node of the list
+    if (el.compareTo(this.head.getValue()) == 0){
+      ((KeyNode<E, T>)this.head).setKey(k);
+      return true;
+    }
+    else if (el.compareTo(this.tail.getValue()) == 0){
+      ((KeyNode<E, T>)this.tail).setKey(k);
+      return true;
+    }
+
+    // check to see if there's more then one element
+    if((KeyNode<E, T>)this.head.getNext() == null)
+      return false;
+
+    int i = 1;
+    // iterate all the list to compare the element
+    for (KeyNode<E, T> iter = (KeyNode<E, T>)this.head.getNext(); iter.getNext() != null && i < this.size; iter = (KeyNode<E, T>)iter.getNext(), i++)
+      if (el.compareTo(iter.getValue()) == 0)
+        return ((KeyNode<E, T>)iter).setKey(k);
+
+    return null;
+  }
+
+  @Override
   // add element and key as the last node of the list
   public void addTail (T k, E el){
     if (k == null || el == null)
