@@ -876,7 +876,7 @@ public class test {
     // test.priorityQueueTest();
   }
 
-  /*public static void AlgTest(){
+  public static void AlgTest(){
     Array<Integer> A = new Array<Integer>(35);
     IList<Integer> L = new List<Integer>();
 
