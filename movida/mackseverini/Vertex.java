@@ -14,7 +14,7 @@ public class Vertex<E extends Comparable<E>, K extends Comparable<K>> implements
     this.adiacence = new KeyList<Integer, K, Integer>();
   }
 
-  public Vertex(Vertex<E, K> shallow){
+  public Vertex(IVertex<E, K> shallow){
     this.value = shallow.getValue();
     this.adiacence = shallow.getAdiacence();
   }

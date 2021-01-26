@@ -18,20 +18,24 @@ import movida.commons.SortingAlgorithm;
 import movida.mackseverini.Search;
 import movida.mackseverini.MovieHash;
 import movida.mackseverini.PeopleHash;
+import movida.mackseverini.CollabGraph;
 import movida.mackseverini.InsertionSort;
 
 public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMovidaSearch, movida.commons.IMovidaConfig{
   private IMovieMap<Movie> movies;
   private IPersonMap<Person> people;
+  private CollabGraph graph;
   private IAlg sortAlgorithm;
 
   public MovidaCore(){
+    this.graph = new CollabGraph();
     this.movies = new MovieHash();
     this.people = new PeopleHash();
     this.sortAlgorithm = new InsertionSort();
   }
 
   public MovidaCore(IMovieMap M, IPersonMap P ){
+    this.graph = new CollabGraph();
     this.movies = M;
     this.people = P;
     this.sortAlgorithm = null;
@@ -90,6 +94,7 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
 
       this.addMovie(movie);
 
+      graph.print();
       br.close();
     }
     catch(Exception e){
@@ -112,14 +117,11 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
     int pos = -1;
     Movie temp = null;
 
-    for(int i = 0; i < 10; i++){
-      if (i < cast_name.length){
+    for(int i = 0; i < 10; i++)
+      if (i < cast_name.length)
         cast[i] = new Person(cast_name[i].trim());
-      }
-      else{
+      else
         cast[i] = null;
-      }
-    }
 
 
     temp = new Movie(movie[0], new Integer(movie[1]), new Integer(movie[2]), cast, new Person(movie[4], false, movies.getSize()));
@@ -129,6 +131,8 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
     for(int i = 0; i < 10; i++)
       if (i < cast_name.length)
         this.addPerson(cast_name[i].trim(), true, id_el);
+
+    graph.addMovie(temp);
   }
 
   private void addPerson(String name, boolean type, int id){

@@ -138,6 +138,7 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
       return false;
 
     // add the arch and add adiacences to the verteces
+    // this.arches.print();
     this.arches.addHead(arch);
     this.verteces.get(arch.getFirstVertex()).addAdiacence(arch.getSecondVertex(), arch.getWeight());
     if (arch.getFirstVertex() != arch.getSecondVertex())    // if the verteces are equal don't add it twice
@@ -175,7 +176,7 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
     // verteces are not presents
     if (nodes == null)
       return -1;
-    
+
 
     // get position of  the arch, if present return true.
     Integer res = this.arches.search(new Arch<Integer,K>(nodes.getFirstValue(), nodes.getSecondValue(), null));
@@ -340,6 +341,18 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
       // else
         // System.out.println("Vertex: null");
     }
+  }
+
+  public void print(){
+    for(int i = 0; i < this.verteces.length; i++)
+      if (this.verteces.get(i) != null)
+        this.verteces.get(i).print();
+
+    System.out.println("\n\rArch length: " + this.arches.getSize());
+
+    for (INode2<IArch<Integer, K>> iter = (INode2<IArch<Integer, K>>)this.arches.getHead(); iter != null; iter = (Node2<IArch<Integer, K>>)iter.getNext())
+      if (iter.getValue() != null)
+        iter.getValue().print();
   }
 
   // TODO: need to add weight to arches
