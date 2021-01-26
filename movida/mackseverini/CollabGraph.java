@@ -74,26 +74,26 @@ public class CollabGraph extends movida.mackseverini.Graph<Person, ArrayList<Mov
 		return (num_inserted != 0) ? true : false;
   }
 
-	protected boolean addArchAndAdiacences(IArch<Integer, ArrayList<Movie>> arch){
-		if (arch == null)
-			return false;
-
-		// add the arch and add adiacences to the verteces
-		System.out.println("Before the add??? ");
-		this.arches.addHead(arch);
-		System.out.println("After the add??? ");
-		System.out.println("first: " + arch.getFirstVertex());
-		System.out.println("second: " + arch.getSecondVertex());
-		System.out.println("node one: " + this.verteces.get(arch.getFirstVertex()));
-		((CollabVertex)this.verteces.get(arch.getFirstVertex())).addAdiacence(arch.getSecondVertex(), arch.getWeight());
-		arch.print();
-		if (arch.getFirstVertex() != arch.getSecondVertex())    // if the verteces are equal don't add it twice
-			((CollabVertex)this.verteces.get(arch.getSecondVertex())).addAdiacence(arch.getFirstVertex(), arch.getWeight());
-		this.numArch++;         // increment number of arches
-		this.arches.print();
-
-		return true;
-	}
+	// protected boolean addArchAndAdiacences(IList<IArch<Integer, ArrayList<Movie>>> list_of_arch, Array<IVertex<Person, Double>> list_of_vtx, IArch<Integer, Array<Movie>> arch){
+	// 	if (arch == null)
+	// 		return false;
+	//
+	// 	// add the arch and add adiacences to the verteces
+	// 	System.out.println("Before the add??? ");
+	// 	list_of_arch.addHead(arch);
+	// 	System.out.println("After the add??? ");
+	// 	System.out.println("first: " + arch.getFirstVertex());
+	// 	System.out.println("second: " + arch.getSecondVertex());
+	// 	System.out.println("node one: " + list_of_vtx.get(arch.getFirstVertex()));
+	// 	list_of_vtx.get(arch.getFirstVertex()).addAdiacence(arch.getSecondVertex(), arch.getWeight());
+	// 	arch.print();
+	// 	if (arch.getFirstVertex() != arch.getSecondVertex())    // if the verteces are equal don't add it twice
+	// 		list_of_vtx.get(arch.getSecondVertex()).addAdiacence(arch.getFirstVertex(), arch.getWeight());
+	// 	this.numArch++;         // increment number of arches
+	// 	this.arches.print();
+	//
+	// 	return true;
+	// }
 
 	// TODO: check if the arch is already present
 	//		True: Add the movie to the Arch
@@ -103,50 +103,77 @@ public class CollabGraph extends movida.mackseverini.Graph<Person, ArrayList<Mov
       return false;
 
 		// create a pair with the verteces
-		GraphPair<Integer> nodes = this.findVerteces(actor1, actor2);
+		GraphPair<Integer> nodes = this.findVerteces(this.verteces, actor1, actor2);
 		nodes.print();
 
-		System.out.println("What???? ");
-		Integer pos = this.findArch(nodes);
+		// System.out.println("What???? ");
+		Integer pos = this.findArch(this.arches, nodes);
 		if (pos != null){
-			System.out.println("Can't understand?? ");
+			// System.out.println("Can't understand?? ");
 			if (pos > -1){
-				System.out.println("what ");
-				((CollabArch)this.arches.getAt(pos)).incWeight(movie);
-				((CollabVertex)this.verteces.get(nodes.getFirstValue())).addMovie(nodes.getSecondValue(), movie);
+				// System.out.println("what ");
+				Double score = ((CollabArch)this.arches.getAt(pos)).incWeight(movie);
+				((CollabVertex)this.verteces.get(nodes.getFirstValue())).upsertAdiacence(nodes.getSecondValue(), score);
 		    if (nodes.getFirstValue() != nodes.getSecondValue())    // if the verteces are equal don't add it twice
-		      ((CollabVertex)this.verteces.get(nodes.getSecondValue())).addMovie(nodes.getFirstValue(), movie);
+		      ((CollabVertex)this.verteces.get(nodes.getSecondValue())).upsertAdiacence(nodes.getFirstValue(), score);
 
-				System.out.println("imma in ");
+				// System.out.println("imma in ");
 				return true;
 			}
 		}
 
-		System.out.println("Why ");
-    return this.addArchAndAdiacences(new CollabArch(nodes.getFirstValue(), nodes.getSecondValue(), movie));
+		// System.out.println("Why ");
+    return this.addArchAndAdiacences(this.arches, this.verteces, new CollabArch(nodes.getFirstValue(), nodes.getSecondValue(), movie), Double.valueOf(movie.getVotes()));
   }
 
-	protected void updArchAndAdiacences(Movie movie, GraphPair<Integer> nodes, Integer pos){
-		((CollabArch)this.arches.getAt(pos)).incWeight(movie);
-		((CollabVertex)this.verteces.get(nodes.getFirstValue())).addMovie(nodes.getSecondValue(), movie);
-		if (nodes.getFirstValue() != nodes.getSecondValue())    // if the verteces are equal don't add it twice
-			((CollabVertex)this.verteces.get(nodes.getSecondValue())).addMovie(nodes.getFirstValue(), movie);
-	}
+	// protected void updArchAndAdiacences(IList<IArch<Integer, K>> list_of_arch, Array<IVertex<E, K>> list_of_vtx, Movie movie, GraphPair<Integer> nodes, Integer pos){
+	// 	((CollabArch)list.getAt(pos)).incWeight(movie);
+	// 	((CollabVertex)list_of_vtx.get(nodes.getFirstValue())).addMovie(nodes.getSecondValue(), movie);
+	// 	if (nodes.getFirstValue() != nodes.getSecondValue())    // if the verteces are equal don't add it twice
+	// 		((CollabVertex)list_of_vtx.get(nodes.getSecondValue())).addMovie(nodes.getFirstValue(), movie);
+	// }
 
-	@Override
-  public boolean addVertex(Person vertex){
+	// @Override
+  // public boolean addVertex(Person vertex){
+  //   if (vertex == null)
+  //     return false;
+	//
+  //   // if already present do not add up
+  //   for (int i = 0; i < this.verteces.length; i++)
+  //     if (this.verteces.get(i) != null)
+  //       if (vertex.compareTo(this.verteces.get(i).getValue()) == 0)
+  //         return false;
+	//
+  //   // set a the new Vertex and increment number of vertex
+  //   this.verteces.set(this.numVertex, new CollabVertex(vertex));
+  //   this.numVertex++;
+	//
+  //   return true;
+  // }
+	public void print(){
+    for(int i = 0, size = 0; i < this.verteces.length; i++){
+			if (this.verteces.get(i) != null){
+				System.out.println("POS: " + size);
+				this.verteces.get(i).print();
+				size += 1;
+			}
+		}
+
+    System.out.println("\n\rArch length: " + this.arches.getSize());
+
+    for (INode2<IArch<Integer, ArrayList<Movie>>> iter = (INode2<IArch<Integer, ArrayList<Movie>>>)this.arches.getHead(); iter != null; iter = (Node2<IArch<Integer, ArrayList<Movie>>>)iter.getNext())
+      if (iter.getValue() != null)
+        iter.getValue().print();
+  }
+
+	public boolean addVertex(Person vertex){
     if (vertex == null)
       return false;
 
-    // if already present do not add up
-    for (int i = 0; i < this.verteces.length; i++)
-      if (this.verteces.get(i) != null)
-        if (vertex.compareTo(this.verteces.get(i).getValue()) == 0)
-          return false;
+		// System.out.println("Found??? ");
+    if (!this.checkAndAddVertex(this.verteces, new CollabVertex(vertex)))
+			return false;
 
-		System.out.println("Found??? ");
-    // set a the new Vertex and increment number of vertex
-    this.verteces.set(this.numVertex, new CollabVertex(vertex));
     this.numVertex++;
 
     return true;
@@ -189,18 +216,20 @@ public class CollabGraph extends movida.mackseverini.Graph<Person, ArrayList<Mov
       return score / this.weight.size();
     }
 
-    public void incWeight (Movie m) {
+    public Double incWeight (Movie m) {
       if (this.weight == null)
         this.initWeight(m);
       else
         this.weight.add(m);
+
+			return this.getScore();
     }
 
-    public void decWeight (Movie m) {
-      if (this.weight == null)
-        this.initWeight(m);
-      else
+    public Double decWeight (Movie m) {
+      if (this.weight != null)
         this.weight.remove(m);
+
+			return this.getScore();
     }
 
     public void initWeight(Movie m){
@@ -219,7 +248,7 @@ public class CollabGraph extends movida.mackseverini.Graph<Person, ArrayList<Mov
 	  public void print(){
 			System.out.println("Arch: WEIGHT => ");
 			this.weight.print();
-	    System.out.println("FIRST VERTEX => " + this.vertex1 + "  SECOND VERTEX => " + this.vertex2);
+	    System.out.println("FIRST VERTEX => " + this.vertex1 + "  SECOND VERTEX => " + this.vertex2 + "\n\r");
 	  }
   }
 
@@ -229,24 +258,9 @@ public class CollabGraph extends movida.mackseverini.Graph<Person, ArrayList<Mov
 	    this.adiacence = new KeyList<Integer, Double, Integer>();
 	  }
 
-	  public void addAdiacence (Integer v, ArrayList<Movie> M) {
-			System.out.println("Mmmm ");
-			for (Movie movie : M)
-				this.addMovie(v, movie);
-		}
-
-		public boolean addMovie (Integer v, Movie m) {
-			if (m == null)
-				return false;
-
-			Double score = this.adiacence.searchKey(v);
-
-			if (score == null)
-				return false;
-
-			System.out.println("Here??? ");
-			return this.adiacence.updElKey(v, ((score == null) ? 0 : score) + m.getVotes());
-		}
+		// public void addAdiacence (Integer v, Movie movie) { this.addScore(v, movie.getVotes()); }
+		//
+		// public boolean addMovie (Integer v, Movie movie) { this.addScore(v, movie.getVotes());}
 
 		public boolean delMovie (Integer v, Movie m) {
 			if (m == null)

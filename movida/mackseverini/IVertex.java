@@ -12,6 +12,7 @@ public interface IVertex<E extends Comparable<E>, K extends Comparable<K>>{
   public void setValue (E v);
 
   public void addAdiacence (Integer v, K w);
+  public boolean upsertAdiacence (Integer v, K w);
   public boolean delAdiacence (Integer v);
 
   public void print();

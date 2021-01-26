@@ -84,16 +84,23 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
     if (vertex == null)
       return false;
 
+    if (!this.checkAndAddVertex(this.verteces, new Vertex<E, K>(vertex)))
+      return false;
+
+    this.numVertex++;
+
+    return true;
+  }
+
+  protected <T extends Comparable<T>> boolean checkAndAddVertex(Array<IVertex<E, T>> list_of_vtx, IVertex<E, T> vtx_to_add){
     // if already present do not add up
-    for (int i = 0; i < this.verteces.length; i++)
-      if (this.verteces.get(i) != null)
-        if (vertex.compareTo(this.verteces.get(i).getValue()) == 0)
+    for (int i = 0; i < list_of_vtx.length; i++)
+      if (list_of_vtx.get(i) != null)
+        if (vtx_to_add.compareTo(list_of_vtx.get(i)) == 0)
           return false;
 
     // set a the new Vertex and increment number of vertex
-    this.verteces.set(this.numVertex, new Vertex(vertex));
-    this.numVertex++;
-
+    list_of_vtx.set(this.numVertex, vtx_to_add);
     return true;
   }
 
@@ -104,16 +111,16 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
       return false;
 
     // create a pair with the verteces
-    GraphPair<Integer> nodes = this.findVerteces(arch.getFirstVertex(), arch.getSecondVertex());
+    GraphPair<Integer> nodes = this.findVerteces(this.verteces, arch.getFirstVertex(), arch.getSecondVertex());
 
     if(nodes == null)
        return false;
 
-    if (this.containsArch(nodes))
+    if (this.containsArch(this.arches, nodes))
       return false;
 
 
-    return this.addArchAndAdiacences(new Arch<Integer,K>(nodes.getFirstValue(), nodes.getSecondValue(), arch.getWeight()));
+    return this.addArchAndAdiacences(this.arches, this.verteces, new Arch<Integer,K>(nodes.getFirstValue(), nodes.getSecondValue(), arch.getWeight()), arch.getWeight());
   }
 
   @Override
@@ -122,27 +129,27 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
       return false;
 
     // create a pair with the verteces
-    GraphPair<Integer> nodes = this.findVerteces(vertex1, vertex2);
+    GraphPair<Integer> nodes = this.findVerteces(this.verteces, vertex1, vertex2);
 
     if(nodes == null)
        return false;
 
-    if (this.containsArch(nodes))
+    if (this.containsArch(this.arches, nodes))
       return false;
 
-    return this.addArchAndAdiacences(new Arch<Integer,K>(nodes.getFirstValue(), nodes.getSecondValue(), weight));
+    return this.addArchAndAdiacences(this.arches, this.verteces, new Arch<Integer,K>(nodes.getFirstValue(), nodes.getSecondValue(), weight), weight);
   }
+  protected <T extends Comparable<T>> boolean addArchAndAdiacences(IList<IArch<Integer, K>> list_of_arch, Array<IVertex<E, T>> list_of_vtx, IArch<Integer, K> arch, T weight){
 
-  protected boolean addArchAndAdiacences(IArch<Integer, K> arch){
     if (arch == null)
       return false;
 
     // add the arch and add adiacences to the verteces
     // this.arches.print();
-    this.arches.addHead(arch);
-    this.verteces.get(arch.getFirstVertex()).addAdiacence(arch.getSecondVertex(), arch.getWeight());
+    list_of_arch.addHead(arch);
+    list_of_vtx.get(arch.getFirstVertex()).upsertAdiacence(arch.getSecondVertex(), weight);
     if (arch.getFirstVertex() != arch.getSecondVertex())    // if the verteces are equal don't add it twice
-      this.verteces.get(arch.getSecondVertex()).addAdiacence(arch.getFirstVertex(), arch.getWeight());
+      list_of_vtx.get(arch.getSecondVertex()).upsertAdiacence(arch.getFirstVertex(), weight);
     this.numArch++;         // increment number of arches
 
     return true;
@@ -151,57 +158,57 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
   // check if the arch is present
   @Override
   public boolean containsArch(IArch<E, K> arch){
-    Integer res = this.findArch(arch);
+    Integer res = this.findArch(this.arches, this.verteces, arch);
     return (res != null ) ? ((res >= 0 ) ? true : false) : false;
   }
 
   // find the position of the arch if present
-  protected Integer findArch(IArch<E, K> arch){
+  protected Integer findArch(IList<IArch<Integer, K>> list_of_arch, Array<IVertex<E, K>> list_of_vtx,  IArch<E, K> arch){
     if (arch == null)
       return null;
 
-    GraphPair<Integer> nodes = findVerteces(arch.getFirstVertex(), arch.getSecondVertex());
+    GraphPair<Integer> nodes = this.findVerteces(list_of_vtx, arch.getFirstVertex(), arch.getSecondVertex());
 
-    return this.findArch(nodes);
+    return this.findArch(list_of_arch, nodes);
   }
 
   // check if the arch is present
-  protected boolean containsArch(GraphPair<Integer> nodes){
-    Integer res = this.findArch(nodes);
+  protected boolean containsArch(IList<IArch<Integer, K>> list_of_arch, GraphPair<Integer> nodes){
+    Integer res = this.findArch(list_of_arch, nodes);
     return (res != null ) ? ((res >= 0 ) ? true : false) : false;
   }
 
   // find the position of the arch if present
-  protected Integer findArch(GraphPair<Integer> nodes){
+  protected Integer findArch(IList<IArch<Integer, K>> list_of_arch, GraphPair<Integer> nodes){
     // verteces are not presents
     if (nodes == null)
       return -1;
 
 
     // get position of  the arch, if present return true.
-    Integer res = this.arches.search(new Arch<Integer,K>(nodes.getFirstValue(), nodes.getSecondValue(), null));
+    Integer res = list_of_arch.search(new Arch<Integer,K>(nodes.getFirstValue(), nodes.getSecondValue(), null));
     System.out.println("RES: " + res);
     return res;
   }
 
-  protected boolean containsVerteces(E vertex1, E vertex2){ return (this.findVerteces(vertex1, vertex2) != null); }
+  protected boolean containsVerteces(Array<IVertex<E, K>> list_of_vtx, E vertex1, E vertex2){ return (this.findVerteces(list_of_vtx, vertex1, vertex2) != null); }
 
-  protected GraphPair<Integer> findVerteces(E vertex1, E vertex2){
+  protected <T extends Comparable<T>> GraphPair<Integer> findVerteces(Array<IVertex<E, T>> list_of_vtx, E vertex1, E vertex2){
     if (vertex1 == null || vertex2 == null)
       return null;
 
     Integer first = -1, second = -1;  // pos of the first and second vertex of the arch
 
     // search for the first and second position of the vertex
-    for (int i = 0; i < this.verteces.length; i++){
-      if (this.verteces.get(i) != null){
-        if (vertex1.compareTo(this.verteces.get(i).getValue()) == 0 && vertex2.compareTo(this.verteces.get(i).getValue()) == 0){
+    for (int i = 0; i < list_of_vtx.length; i++){
+      if (list_of_vtx.get(i) != null){
+        if (vertex1.compareTo(list_of_vtx.get(i).getValue()) == 0 && vertex2.compareTo(list_of_vtx.get(i).getValue()) == 0){
           first = second = i;
           break;
         }
-        else if (vertex1.compareTo(this.verteces.get(i).getValue()) == 0)
+        else if (vertex1.compareTo(list_of_vtx.get(i).getValue()) == 0)
           first = i;
-        else if (vertex2.compareTo(this.verteces.get(i).getValue()) == 0)
+        else if (vertex2.compareTo(list_of_vtx.get(i).getValue()) == 0)
           second = i;
       }
     }
@@ -217,18 +224,18 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
   // search a vertex, if present true else false
   @Override
   public boolean containsVertex(E vertex){
-    Integer res = this.findVertex(vertex);
+    Integer res = this.findVertex(this.verteces, vertex);
     return (res != null ) ? ((res >= 0 ) ? true : false) : false;
   }
 
-  protected Integer findVertex(E vertex){
+  protected Integer findVertex(Array<IVertex<E, K>> list_of_vtx, E vertex){
     if (vertex == null)
       return null;
 
     // check each vertex
-    for (int i = 0; i < this.verteces.length; i++)
-      if (this.verteces.get(i) != null)
-        if (vertex.compareTo(this.verteces.get(i).getValue()) == 0)
+    for (int i = 0; i < list_of_vtx.length; i++)
+      if (list_of_vtx.get(i) != null)
+        if (vertex.compareTo(list_of_vtx.get(i).getValue()) == 0)
           return i;
 
     return -1;
@@ -310,7 +317,7 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
       return false;
 
     // create a pair with the verteces
-    GraphPair<Integer> nodes = this.findVerteces(arch.getFirstVertex(), arch.getSecondVertex());
+    GraphPair<Integer> nodes = this.findVerteces(this.verteces, arch.getFirstVertex(), arch.getSecondVertex());
 
     if(nodes == null)
        return false;

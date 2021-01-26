@@ -42,6 +42,22 @@ public class Vertex<E extends Comparable<E>, K extends Comparable<K>> implements
   public void addAdiacence (Integer v, K w) { this.adiacence.addHead(w, v); }
 
   @Override
+  public boolean upsertAdiacence (Integer v, K weight) {
+    if (v == null || weight == null)
+      return false;
+
+		K old_weight = this.adiacence.searchKey(v);
+
+		if (old_weight == null){
+      this.adiacence.addHead(weight, v);
+      return true;
+    }
+
+    // System.out.println("Here??? ");
+    return this.adiacence.updElKey(v, weight);
+  }
+
+  @Override
   public boolean delAdiacence (Integer v) { return this.adiacence.delEl(v); }
 
   @Override
