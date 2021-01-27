@@ -53,7 +53,9 @@ public class Vertex<E extends Comparable<E>, K extends Comparable<K>> implements
       return true;
     }
 
-    // System.out.println("Here??? ");
+    System.out.println("The v is: " + v);
+    System.out.println("The old_weight is: " + old_weight);
+    System.out.println("The this is: " + this.value);
     return this.adiacence.updElKey(v, weight);
   }
 

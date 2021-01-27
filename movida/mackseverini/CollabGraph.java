@@ -104,6 +104,7 @@ public class CollabGraph extends movida.mackseverini.Graph<Person, ArrayList<Mov
 
 		// create a pair with the verteces
 		GraphPair<Integer> nodes = this.findVerteces(this.verteces, actor1, actor2);
+		System.out.println("node!! ");
 		nodes.print();
 
 		// System.out.println("What???? ");
@@ -111,16 +112,19 @@ public class CollabGraph extends movida.mackseverini.Graph<Person, ArrayList<Mov
 		if (pos != null){
 			// System.out.println("Can't understand?? ");
 			if (pos > -1){
-				// System.out.println("what ");
-				Double score = ((CollabArch)this.arches.getAt(pos)).incWeight(movie);
+				System.out.println("arch found: ");
+				CollabArch ar = (CollabArch)this.arches.getAt(pos);
+				ar.print(); 
+				Double score = (ar).incWeight(movie);
+				System.out.println("Adding: " + actor1.getName() + " <=> " + actor2.getName() + "\tvotes: " + score + "\tmovie: " + movie.getTitle());
 				((CollabVertex)this.verteces.get(nodes.getFirstValue())).upsertAdiacence(nodes.getSecondValue(), score);
 		    if (nodes.getFirstValue() != nodes.getSecondValue())    // if the verteces are equal don't add it twice
 		      ((CollabVertex)this.verteces.get(nodes.getSecondValue())).upsertAdiacence(nodes.getFirstValue(), score);
 
-				// System.out.println("imma in ");
 				return true;
 			}
 		}
+		System.out.println("imma in ");
 
 		// System.out.println("Why ");
     return this.addArchAndAdiacences(this.arches, this.verteces, new CollabArch(nodes.getFirstValue(), nodes.getSecondValue(), movie), Double.valueOf(movie.getVotes()));
@@ -217,6 +221,8 @@ public class CollabGraph extends movida.mackseverini.Graph<Person, ArrayList<Mov
     }
 
     public Double incWeight (Movie m) {
+			System.out.println("Add of movie: " + m + " to:");
+			this.print();
       if (this.weight == null)
         this.initWeight(m);
       else
@@ -241,7 +247,11 @@ public class CollabGraph extends movida.mackseverini.Graph<Person, ArrayList<Mov
 			if (input == null)
 				return -2;
 
-      return (input.getScore() == this.getScore()) ? 0 : ((input.getScore() < this.getScore()) ? 1 : -1);
+			int i = 0;
+			if ((i = super.compareTo(input)) != 0)
+				return i;
+
+			return (input.getScore() == this.getScore()) ? 0 : ((input.getScore() < this.getScore()) ? 1 : -1);
     }
 
 		@Override

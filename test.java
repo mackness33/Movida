@@ -47,8 +47,9 @@ public class test {
 
   public static void main(String args[]){
     // test.algTest();
-    // test.graphMovidaTest();
+    // test.graphTest();
     test.movidaTest();
+    // test.listTest();
     // test.abrTest();
     // test.priorityQueueTest();
   }
@@ -932,7 +933,7 @@ public class test {
     System.out.println("AlgChange1: \n\r" + mb.setSort(movida.commons.SortingAlgorithm.InsertionSort));
     System.out.println("AlgChange2: \n\r" + mb.setSort(movida.commons.SortingAlgorithm.MergeSort));
     */
-    
+
     Movie[] movies = mb.getAllMovies();
     Person[] people = mb.getAllPeople();
 
@@ -1001,77 +1002,6 @@ public class test {
     */
 
   }
-
-  // public static void graphMovidaTest(){
-  //   CollabGraph G = new Graph<Integer, Double>();
-  //
-  //   // G.addVertex(0);
-  //   // G.addVertex(1);
-  //   // G.addVertex(2);
-  //   // G.addVertex(3);
-  //   // G.addVertex(4);
-  //   // G.addVertex(5);
-  //   // G.addVertex(6);
-  //
-  //   // printGraph(G);
-  //
-  //   for (int i = 0; i < 50; i++){
-  //     G.addVertex(ThreadLocalRandom.current().nextInt(0, 10));
-  //     // G.addVertex(i);
-  //     G.addArch(new Arch<Integer, Double>(ThreadLocalRandom.current().nextInt(0, 10), ThreadLocalRandom.current().nextInt(0, 10), ThreadLocalRandom.current().nextDouble(-1000, 1001)));
-  //   }
-  //
-  //
-  //   // G.addArch(new Arch<Integer, Double>(5, 2, 1.0));
-  //   // G.addArch(new Arch<Integer, Double>(2, 5, 5.0));
-  //   // G.addArch(new Arch<Integer, Double>(1, 1, 5.0));
-  //   // G.addArch(new Arch<Integer, Double>(3, 4, 5.0));
-  //   // G.addArch(new Arch<Integer, Double>(4, 3, 5.0));
-  //   // G.addArch(new Arch<Integer, Double>(6, 1, 5.0));
-  //   // G.addArch(new Arch<Integer, Double>(3, 6, 5.0));
-  //   // G.addArch(new Arch<Integer, Double>(3, 1, 5.0));
-  //   // G.addArch(new Arch<Integer, Double>(6, 5, 5.0));
-  //   // G.addArch(new Arch<Integer, Double>(5, 5, 5.0));
-  //   // G.addArch(new Arch<Integer, Double>(2, 3, 2.0));
-  //   // G.addArch(new Arch<Integer, Double>(3, 3, 3.0));
-  //   // G.addArch(new Arch<Integer, Double>(2, 2, 11.0));
-  //   // G.addArch(new Arch<Integer, Double>(2, 2, 16.0));
-  //   // G.addArch(new Arch<Integer, Double>(2, 1, 4.0));
-  //
-  //   printGraph(G);
-  //
-  //   G.delArch(new Arch<Integer, Double>(2, 2, null));
-  //   G.delVertex(3);
-  //
-  //   printGraph(G);
-  //
-  //   System.out.println("Searchin for 3: " + G.containsVertex(3));
-  //   System.out.println("Searchin for 2: " + G.containsVertex(2));
-  //
-  //   G.printVerteces();
-  //
-  //   System.out.println("Searchin for 3-3: " + G.containsArch(new Arch<Integer, Double>(3,3, null)));
-  //   System.out.println("Searchin for 2-1: " + G.containsArch(new Arch<Integer, Double>(2,1, null)));
-  //   System.out.println("Searchin for 5-5: " + G.containsArch(new Arch<Integer, Double>(5,5, null)));
-  //   System.out.println("Searchin for 0-0: " + G.containsArch(new Arch<Integer, Double>(0,0, null)));
-  //   System.out.println("Searchin for 2-2: " + G.containsArch(new Arch<Integer, Double>(2,2, null)));
-  //   System.out.println("Searchin for 1-1: " + G.containsArch(new Arch<Integer, Double>(1,1, null)));
-  //   System.out.println("Searchin for 1-3: " + G.containsArch(new Arch<Integer, Double>(1,3, null)));
-  //   System.out.println("Searchin for 4-0: " + G.containsArch(new Arch<Integer, Double>(4,0, null)));
-  //
-  //   Array<IArch<Integer, Double>> Show = new Array<IArch<Integer, Double>>(10);
-  //   Array<IArch<Integer, Double>> Prim = G.MSTPrim(6);
-  //
-  //
-  //   if (Prim == null)
-  //     System.out.println("Prim : null");
-  //
-  //   for (int i = 0; i < Prim.length; i++)
-  //     if (Prim.get(i) == null)
-  //       System.out.println("Arch : null");
-  //     else
-  //       Prim.get(i).print();
-  // }
 
   public static void graphTest(){
     Graph<Integer, Double> G = new Graph<Integer, Double>();
@@ -1314,6 +1244,12 @@ public class test {
 
     L.update(9000, 4);
     L.update(7000, L.getSize()-1);
+    System.out.println("Search and get at: " + L.getAt(L.search(7000)));
+    System.out.println("Search of 5: " + L.search(5));
+    System.out.println("Search of 7000: " + L.search(7000));
+    System.out.println("Get at 0 get at: " + L.getAt(0));
+    System.out.println("Get at 1 get at: " + L.getAt(1));
+    System.out.println("Get at 2 get at: " + L.getAt(2));
 
     System.out.println("List: ");
     L.print();

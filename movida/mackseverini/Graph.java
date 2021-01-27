@@ -187,7 +187,7 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
 
     // get position of  the arch, if present return true.
     Integer res = list_of_arch.search(new Arch<Integer,K>(nodes.getFirstValue(), nodes.getSecondValue(), null));
-    System.out.println("RES: " + res);
+    System.out.println("POSITION of the arch: " + res);
     return res;
   }
 
