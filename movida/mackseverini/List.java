@@ -285,15 +285,15 @@ public class List<E extends Comparable<E>> implements movida.mackseverini.IList<
   // get an element at a specified position of the list
   public E getAt (int pos){
     // check if the position is valid
-    if (pos <= 0 || pos >= size){
+    if (pos <= 0 || pos >= size-1){
       if (pos == 0)
         return this.head.getValue();
-      else if (pos == size)
+      else if (pos == size-1)
         return this.tail.getValue();
       return null;
     }
 
-    int i = 1;
+    int i = 0;
     Node2<E> iter = null;
     // iterate all the list to get to the position
     for (iter = (Node2<E>)this.head; iter.getNext() != null && i < pos; iter = (Node2<E>)iter.getNext(), i++);
