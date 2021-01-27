@@ -919,11 +919,11 @@ public class test {
     // mb.init_class();
 
     mb.loadFromFile(new File("movida/assets/esempio-formato-dati.txt"));
-    /*
 
     mb.deleteMovieByTitle("Die Hard");
+    mb.deleteMovieByTitle("The Junitive");
     mb.deleteMovieByTitle(null);
-
+    /*
     System.out.println("Hello buddy: \n\r" + mb.getMovieByTitle("Cape Fear"));
     System.out.println("Hello fam: \n\r" + mb.getPersonByName("Harrison Ford"));
 

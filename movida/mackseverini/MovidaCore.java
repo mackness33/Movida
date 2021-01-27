@@ -190,7 +190,15 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
   * 		   <code>false</code> in caso contrario
   */
 	@Override
-	public boolean deleteMovieByTitle(String title){ return movies.delete(title); }
+	public boolean deleteMovieByTitle(String title){ return this.deleteFromGraphAndMap(title); }
+
+  private boolean deleteFromGraphAndMap(String title){
+    Movie film = movies.search(title);
+    boolean isDeleted =  movies.delete(title);
+    if (film != null || isDeleted)
+      return graph.delMovie(film) && isDeleted;
+    return false;
+  }
 
   /**
   * Restituisce il record associato ad un film

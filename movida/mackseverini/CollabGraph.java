@@ -130,30 +130,63 @@ public class CollabGraph extends movida.mackseverini.Graph<Person, ArrayList<Mov
     return this.addArchAndAdiacences(this.arches, this.verteces, new CollabArch(nodes.getFirstValue(), nodes.getSecondValue(), movie), Double.valueOf(movie.getVotes()));
   }
 
-	// protected void updArchAndAdiacences(IList<IArch<Integer, K>> list_of_arch, Array<IVertex<E, K>> list_of_vtx, Movie movie, GraphPair<Integer> nodes, Integer pos){
-	// 	((CollabArch)list.getAt(pos)).incWeight(movie);
-	// 	((CollabVertex)list_of_vtx.get(nodes.getFirstValue())).addMovie(nodes.getSecondValue(), movie);
-	// 	if (nodes.getFirstValue() != nodes.getSecondValue())    // if the verteces are equal don't add it twice
-	// 		((CollabVertex)list_of_vtx.get(nodes.getSecondValue())).addMovie(nodes.getFirstValue(), movie);
-	// }
+	public boolean delMovie(Movie movie){
+    if (movie == null)
+      return false;
+
+		Person [] cast = movie.getCast();
+		int num_deleted = 0;
+    for (int i = 0; i < cast.length - 1; i++){
+      for (int j = i + 1; j < cast.length; j++){
+        // TODO: add Arch
+				if (this.delArch(cast[i], cast[j], movie))
+					num_deleted++;
+        // this.addArch(new CollabArch(cast[i], cast[j], movie));
+      }
+    }
+
+		return (num_deleted != 0) ? true : false;
+  }
 
 	// @Override
-  // public boolean addVertex(Person vertex){
-  //   if (vertex == null)
-  //     return false;
-	//
-  //   // if already present do not add up
-  //   for (int i = 0; i < this.verteces.length; i++)
-  //     if (this.verteces.get(i) != null)
-  //       if (vertex.compareTo(this.verteces.get(i).getValue()) == 0)
-  //         return false;
-	//
-  //   // set a the new Vertex and increment number of vertex
-  //   this.verteces.set(this.numVertex, new CollabVertex(vertex));
-  //   this.numVertex++;
-	//
-  //   return true;
-  // }
+	public boolean delArch(Person actor1, Person actor2, Movie movie){
+	// public boolean delArch(IArch<E, K> arch){
+		if (actor1 == null || actor2 == null || movie == null)
+      return false;
+
+    // create a pair with the verteces
+    GraphPair<Integer> nodes = this.findVerteces(this.verteces, actor1, actor2);
+
+		if (nodes == null)
+			return false;
+
+		Integer pos = this.findArch(this.arches, nodes);
+		if (pos != null){
+			// System.out.println("Can't understand?? ");
+			if (pos > -1){
+				System.out.println("arch found: ");
+				CollabArch ar = (CollabArch)this.arches.getAt(pos);
+				ar.print();
+				Double score = (ar).decWeight(movie);
+				if (score == -1){
+					System.out.println("Deleting: " + actor1.getName() + " <=> " + actor2.getName() + "\tvotes: " + score + "\tmovie: " + movie.getTitle());
+					this.delArchAndAdiacences(this.verteces, this.arches, new CollabArch(nodes.getFirstValue(), nodes.getSecondValue(), movie));
+				}
+				else{
+					System.out.println("Updating: " + actor1.getName() + " <=> " + actor2.getName() + "\tvotes: " + score + "\tmovie: " + movie.getTitle());
+		      this.verteces.get(nodes.getFirstValue()).updAdiacence(nodes.getSecondValue(), score);
+					if (nodes.getFirstValue() != nodes.getSecondValue())    // if the verteces are equal don't add it twice
+			      this.verteces.get(nodes.getSecondValue()).updAdiacence(nodes.getFirstValue(), score);
+				}
+
+				return true;
+			}
+		}
+
+		return false;
+  }
+
+
 	public void print(){
     for(int i = 0, size = 0; i < this.verteces.length; i++){
 			if (this.verteces.get(i) != null){
@@ -211,10 +244,15 @@ public class CollabGraph extends movida.mackseverini.Graph<Person, ArrayList<Mov
     // @Override
 
     public Double getScore(){
+			if (this.weight == null)
+				return -1.0;
+
+			if (this.weight.isEmpty())
+				return -1.0;
 
       Double score = 0.0;
 
-      for (Movie m : weight)
+      for (Movie m : this.weight)
         score += m.getVotes();
 
       return score / this.weight.size();
@@ -226,12 +264,7 @@ public class CollabGraph extends movida.mackseverini.Graph<Person, ArrayList<Mov
       if (this.weight == null)
         this.initWeight(m);
       else{
-				int index = -1, i = 0;
-				for (Movie film : this.weight){
-					if (film.compareTo(m) == 0)
-						index = i;
-					i++;
-				}
+				int index = this.findMovie(m);
 
 				if (index == -1)
 					this.weight.add(m);
@@ -241,6 +274,17 @@ public class CollabGraph extends movida.mackseverini.Graph<Person, ArrayList<Mov
 
 			return this.getScore();
     }
+
+		private int findMovie(Movie input){
+			int index = -1, i = 0;
+			for (Movie film : this.weight){
+				if (film.compareTo(input) == 0)
+					index = i;
+				i++;
+			}
+
+			return index;
+		}
 
     public Double decWeight (Movie m) {
       if (this.weight != null)
@@ -294,5 +338,6 @@ public class CollabGraph extends movida.mackseverini.Graph<Person, ArrayList<Mov
 			// WARNING: not really checked
 			return this.adiacence.updElKey(v, Math.abs(((score == null) ? 0 : score) - m.getVotes()));
 		}
+
   }
 }

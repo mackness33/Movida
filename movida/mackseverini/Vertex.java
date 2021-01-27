@@ -46,17 +46,39 @@ public class Vertex<E extends Comparable<E>, K extends Comparable<K>> implements
     if (v == null || weight == null)
       return false;
 
-		K old_weight = this.adiacence.searchKey(v);
-
-		if (old_weight == null){
-      this.adiacence.addHead(weight, v);
-      return true;
-    }
+		// K old_weight = this.adiacence.searchKey(v);
+    // if (this.updAdiacence(v, k))
+    //
+		// if (old_weight == null){
+    //   this.adiacence.addHead(weight, v);
+    //   return true;
+    // }
 
     System.out.println("The v is: " + v);
-    System.out.println("The old_weight is: " + old_weight);
+    // System.out.println("The old_weight is: " + old_weight);
     System.out.println("The this is: " + this.value);
-    return this.adiacence.updElKey(v, weight);
+    return (this.updAdiacence(v, weight)) ? true : this.addHead(weight, v);
+  }
+
+  private boolean addHead(K weight, Integer vertex){
+    this.adiacence.addHead(weight, vertex);
+    return true;
+  }
+
+  @Override
+  public boolean updAdiacence (Integer v, K weight) {
+    if (v == null)
+      return false;
+
+		// K old_weight = this.adiacence.searchKey(v);
+
+    // if (old_weight == null)
+    //   return false;
+
+    System.out.println("The this is: " + this.value);
+    System.out.println("The v is: " + v);
+    // System.out.println("The old_weight is: " + old_weight);
+    return (this.adiacence.searchKey(v) == null) ? false : this.adiacence.updElKey(v, weight);
   }
 
   @Override

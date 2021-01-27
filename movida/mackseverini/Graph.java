@@ -251,7 +251,7 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
     for (int i = 0; i < this.verteces.length; i++){
       // if present
       if (vertex.compareTo(this.verteces.get(i).getValue()) == 0){
-        this.delArchOfVertex(i);        // delete all the arches having this vertex
+        this.delArchOfVertex(this.verteces, this.arches, i);        // delete all the arches having this vertex
 
         // delete the verteces and decrease number of verteces
         this.verteces.set(i, null);
@@ -265,30 +265,42 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
   }
 
   // delete all the arches having the (pos of the) vertex in input
-  protected boolean delArchOfVertex(Integer vertex){
+  protected <T extends Comparable<T>> boolean delArchOfVertex(Array<IVertex<E, T>> list_of_vtx, IList<IArch<Integer, K>> list_of_arch, Integer vertex){
     // check if the input is valid
     if (vertex == null || numArch <= 0)
       return false;
-    if (vertex < 0  || vertex >= this.verteces.length)
+    if (vertex < 0  || vertex >= list_of_vtx.length)
       return false;
 
+    this.checkAndDelHeadOfArchesList(list_of_vtx, list_of_arch, vertex);
+
+    this.checkAndDelArch(list_of_vtx, list_of_arch, vertex);
+
+    return true;
+  }
+
+  protected <T extends Comparable<T>> void checkAndDelHeadOfArchesList(Array<IVertex<E, T>> list_of_vtx, IList<IArch<Integer, K>> list_of_arch, Integer vertex){
     IArch<Integer,K> arch = null;
 
     // check of the head. Cycle till the head of the list have the input vertex
-    while ((arch = this.arches.getHead().getValue()) != null){
+    while ((arch = list_of_arch.getHead().getValue()) != null){
       // if vertex is not part of the head break
       if (vertex != arch.getFirstVertex() && vertex != arch.getSecondVertex())
         break;
 
       // delete arch and adiacence of the verteces
-      this.arches.delHead();
-      this.verteces.get(arch.getFirstVertex()).delAdiacence(arch.getSecondVertex());
-      this.verteces.get(arch.getSecondVertex()).delAdiacence(arch.getFirstVertex());
+      list_of_arch.delHead();
+      list_of_vtx.get(arch.getFirstVertex()).delAdiacence(arch.getSecondVertex());
+      list_of_vtx.get(arch.getSecondVertex()).delAdiacence(arch.getFirstVertex());
       this.numArch--;
     }
+  }
+
+  protected <T extends Comparable<T>> void checkAndDelArch(Array<IVertex<E, T>> list_of_vtx, IList<IArch<Integer, K>> list_of_arch, Integer vertex){
+    IArch<Integer,K> arch = null;
 
     // iterate all the elements of the list
-    for (INode2<IArch<Integer, K>> prev = (INode2<IArch<Integer, K>>)this.arches.getHead(), iter = (INode2<IArch<Integer, K>>)this.arches.getHead().getNext(); iter != null; iter = (Node2<IArch<Integer, K>>)iter.getNext()){
+    for (INode2<IArch<Integer, K>> prev = (INode2<IArch<Integer, K>>)list_of_arch.getHead(), iter = (INode2<IArch<Integer, K>>)list_of_arch.getHead().getNext(); iter != null; iter = (Node2<IArch<Integer, K>>)iter.getNext()){
       arch = iter.getValue();
 
       // if vertex is part of the arch
@@ -298,16 +310,14 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
         iter = prev;
 
         // delete the adiacence of the verteces
-        this.verteces.get(arch.getFirstVertex()).delAdiacence(arch.getSecondVertex());
-        this.verteces.get(arch.getSecondVertex()).delAdiacence(arch.getFirstVertex());
+        list_of_vtx.get(arch.getFirstVertex()).delAdiacence(arch.getSecondVertex());
+        list_of_vtx.get(arch.getSecondVertex()).delAdiacence(arch.getFirstVertex());
         this.size--;
       }
 
       if (iter != prev)
         prev = (INode2<IArch<Integer, K>>)prev.getNext();
     }
-
-    return true;
   }
 
   // delete an arch
@@ -319,24 +329,20 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
     // create a pair with the verteces
     GraphPair<Integer> nodes = this.findVerteces(this.verteces, arch.getFirstVertex(), arch.getSecondVertex());
 
-    if(nodes == null)
-       return false;
-
-    // if the pair is found and deleted then delete the adiacence of the verteces
-    // this.delArchAndAdiacences(new Arch<Integer,K>(arch));
-    this.delArchAndAdiacences(nodes, arch.getWeight());
-
-    return true;
+    // if the pair is found then deleted it finally delete the adiacence of its verteces
+    return (nodes == null) ? false : this.delArchAndAdiacences(this.verteces, this.arches, new Arch<Integer,K>(nodes.getFirstValue(), nodes.getSecondValue(), arch.getWeight()));
   }
 
-
-  protected void delArchAndAdiacences(GraphPair<Integer> nodes, K weight){
+  protected <T extends Comparable<T>> boolean delArchAndAdiacences(Array<IVertex<E, T>> list_of_vtx, IList<IArch<Integer, K>> list_of_arch, IArch<Integer, K> arch){
   // protected void delArchAndAdiacences(IArch<Integer,K> arch){
-    if (this.arches.delEl(new Arch<Integer, K> (nodes.getFirstValue(), nodes.getSecondValue(), weight))){
-      this.verteces.get(nodes.getFirstValue()).delAdiacence(nodes.getSecondValue());
-      this.verteces.get(nodes.getSecondValue()).delAdiacence(nodes.getFirstValue());
+    if (list_of_arch.delEl(arch)){
+      list_of_vtx.get(arch.getFirstVertex()).delAdiacence(arch.getSecondVertex());
+      list_of_vtx.get(arch.getSecondVertex()).delAdiacence(arch.getFirstVertex());
       this.numArch--;
+      return true;
     }
+
+    return false;
   }
 
   // print all the verteces
