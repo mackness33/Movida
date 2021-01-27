@@ -114,7 +114,7 @@ public class CollabGraph extends movida.mackseverini.Graph<Person, ArrayList<Mov
 			if (pos > -1){
 				System.out.println("arch found: ");
 				CollabArch ar = (CollabArch)this.arches.getAt(pos);
-				ar.print(); 
+				ar.print();
 				Double score = (ar).incWeight(movie);
 				System.out.println("Adding: " + actor1.getName() + " <=> " + actor2.getName() + "\tvotes: " + score + "\tmovie: " + movie.getTitle());
 				((CollabVertex)this.verteces.get(nodes.getFirstValue())).upsertAdiacence(nodes.getSecondValue(), score);
@@ -225,8 +225,19 @@ public class CollabGraph extends movida.mackseverini.Graph<Person, ArrayList<Mov
 			this.print();
       if (this.weight == null)
         this.initWeight(m);
-      else
-        this.weight.add(m);
+      else{
+				int index = -1, i = 0;
+				for (Movie film : this.weight){
+					if (film.compareTo(m) == 0)
+						index = i;
+					i++;
+				}
+
+				if (index == -1)
+					this.weight.add(m);
+				else
+					this.weight.set(index, m);
+			}
 
 			return this.getScore();
     }
