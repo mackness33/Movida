@@ -353,13 +353,13 @@ public class ABR<E extends Comparable<E>, T extends Comparable<T>> implements IA
         return level;
    }
 
-   protected int max(int value1, int value2)
-   {
-      if(value1 - value2 <= 0)
-        return value2;
-      else
-        return value1;
-   }
+  protected int max(int value1, int value2)
+  {
+    if(value1 - value2 <= 0)
+      return value2;
+    else
+      return value1;
+  }
 
    protected void levelOrderTraversal(IAbrNode<E, T> node, int level)
    {

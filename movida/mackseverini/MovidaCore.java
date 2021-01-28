@@ -28,10 +28,20 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
   private IAlg sortAlgorithm;
 
   public MovidaCore(){
+<<<<<<< Updated upstream
     this.graph = new CollabGraph();
+=======
+    // if("MovidaConfig usa hash")
+>>>>>>> Stashed changes
     this.movies = new MovieHash();
     this.people = new PeopleHash();
+    // else
+      // this.movies = new MovieAbr();
+      // this.people = new PeopleAbr();
+    // if("MovidaConfig usa InsertionSort")
     this.sortAlgorithm = new InsertionSort();
+    // else
+      // this.sortAlgorithm = new MergeSort();
   }
 
   public MovidaCore(IMovieMap M, IPersonMap P ){
