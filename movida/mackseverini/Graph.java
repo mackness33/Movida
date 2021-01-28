@@ -370,43 +370,43 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
         iter.getValue().print();
   }
 
-  @Override
-  public <T extends Comparable<T>> Array<E> BFS(E vertex){
-    Integer pos_vertex = null;                                      // pos of the selected vertex
-    if ((pos_vertex = this.findVertex(vertex)) == null)
-      return null;
-
-    Array<E> output = new Array<E>(this.numVertex);
-    Queue<IVertex<E,K>> Q = new Queue<IVertex<E,K>>(vertex); // Queue
-    Array<BFSVertex<E,T>> bfsVerteces = this.verteces;
-
-    // Array<IArch<E,K>> A = new Array<IArch<E,K>>(this.numArch);        // output array
-    // IArch<E,K> arch = new Arch<E, K>(vertex, vertex, ((INode2<IArch<Integer, K>>)this.arches.getHead()).getValue().getWeight());                               // temporary arch
-
-
-    // adding a random weight. at the end it will be resetted back to null
-    // random weight are needed because with null it will all crash.
-    // the random weight won't affect the algorithm in any way
-    BFSinitizialization((Array<IArch<E,K>>)A, PQ, vertex, pos_vertex, arch);
-    arch.reset();
-    A = BSFmain((Array<IArch<E,K>>)A, PQ, arch, vertex, pos_vertex);
-
-    // setting the first vertex to null
-    A.get(0).setWeight(null);
-
-    return A;
-  }
+  // @Override
+  // public <T extends Comparable<T>> Array<E> BFS(E vertex){
+  //   Integer pos_vertex = null;                                      // pos of the selected vertex
+  //   if ((pos_vertex = this.findVertex(vertex)) == null)
+  //     return null;
+  //
+  //   Array<E> output = new Array<E>(this.numVertex);
+  //   Queue<IVertex<E,K>> Q = new Queue<IVertex<E,K>>(vertex); // Queue
+  //   Array<BFSVertex<E,T>> bfsVerteces = this.verteces;
+  //
+  //   // Array<IArch<E,K>> A = new Array<IArch<E,K>>(this.numArch);        // output array
+  //   // IArch<E,K> arch = new Arch<E, K>(vertex, vertex, ((INode2<IArch<Integer, K>>)this.arches.getHead()).getValue().getWeight());                               // temporary arch
+  //
+  //
+  //   // adding a random weight. at the end it will be resetted back to null
+  //   // random weight are needed because with null it will all crash.
+  //   // the random weight won't affect the algorithm in any way
+  //   BFSinitizialization((Array<IArch<E,K>>)A, PQ, vertex, pos_vertex, arch);
+  //   arch.reset();
+  //   A = BSFmain((Array<IArch<E,K>>)A, PQ, arch, vertex, pos_vertex);
+  //
+  //   // setting the first vertex to null
+  //   A.get(0).setWeight(null);
+  //
+  //   return A;
+  // }
 
   // TODO:
-  protected void BFSinitizialization(Array<E> out, Queue<IVertex<E,T>> PQ, Array<BFSVertex<E,T>> bfsVerteces, E vertex, Integer pos, IArch<E,K> newArch){
-    // initialize arch array
-    for (int i = 0; i < bfsVerteces.length; i++)
-      bfsVerteces.set(i, new BFSVertex());
-
-    // insert the root vertex
-    A.set(0, arch);            // add the arch to the output arch
-    PQ.insert(pos, A.get(0).getWeight());
-  }
+  // protected void BFSinitizialization(Array<E> out, Queue<IVertex<E,T>> PQ, Array<BFSVertex<E,T>> bfsVerteces, E vertex, Integer pos, IArch<E,K> newArch){
+  //   // initialize arch array
+  //   for (int i = 0; i < bfsVerteces.length; i++)
+  //     bfsVerteces.set(i, new BFSVertex());
+  //
+  //   // insert the root vertex
+  //   A.set(0, arch);            // add the arch to the output arch
+  //   PQ.insert(pos, A.get(0).getWeight());
+  // }
 
 
   // TODO: need to add weight to arches
@@ -415,7 +415,7 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
   @Override
   public Array<IArch<E, K>> MSTPrim(E vertex){
     Integer pos_vertex = null;                                      // pos of the selected vertex
-    if ((pos_vertex = this.findVertex(vertex)) == null)
+    if ((pos_vertex = this.findVertex(this.verteces, vertex)) == null)
       return null;
 
     Array<IArch<E,K>> A = new Array<IArch<E,K>>(this.numArch);        // output array
@@ -441,8 +441,8 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
       A.set(i, null);
 
     // insert the root vertex
-    // this.MSTaddOuputArch(A, 0, newArch);
-    A.set(pos, arch);            // add the arch to the output arch
+    this.MSTaddOuputArch(A, 0, newArch);
+    // A.set(pos, arch);            // add the arch to the output arch
     PQ.insert(pos, A.get(0).getWeight());
   }
 
@@ -523,7 +523,7 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
     return true;
   }
 
-  protected class BFSVertex<S, T> extends Vertex<S, T>{
+  protected class BFSVertex<S extends Comparable<S>, T extends Comparable<T>> extends Vertex<S, T>{
     protected boolean mark;
 
     public BFSVertex(){
@@ -531,22 +531,22 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
       this.mark = false;
     }
 
-    public Vertex(IVertex<E, K> shallow){
+    public BFSVertex(IVertex<S, T> shallow){
       super(shallow);
       this.mark = false;
     }
 
-    public Vertex(E v){
+    public BFSVertex(S v){
       super(v);
       this.mark = false;
     }
 
-    public Vertex(E v, IKeyList<Integer, K, Integer> a){
+    public BFSVertex(S v, IKeyList<Integer, T, Integer> a){
       super(v, a);
       this.mark = false;
     }
 
-    public E getMark() { return this.mark; }
+    public boolean getMark() { return this.mark; }
 
     public void setMark (boolean m) { this.mark = m; }
   }

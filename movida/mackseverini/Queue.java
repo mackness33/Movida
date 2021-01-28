@@ -12,36 +12,37 @@ import movida.mackseverini.IKeyList;
 
 public class Queue<E extends Comparable<E>>{
   protected IList<E> elements;
-  protected int size;
 
   @SuppressWarnings("unchecked")
   public Queue() {
     this.elements = new List<E>();
-    this.size = 0;
   }
 
   public Queue(E el) {
     this.elements = new List<E>(el);
-    this.size = 1;
   }
 
-  public int getSize() { return this.size; }
+  public int getSize() { return this.elements.getSize(); }
 
   // reset of all the data structure
   // @Override
   public void reset (){
-    this.size = 0;
     this.elements.reset();
   }
 
   // @Override
   // insert of a element. A lot similar to KeyHash.addHashKey(..)
-  public boolean enqueue(E obj){ return this.elements.addTail(obj); }
+  public boolean enqueue(E obj){ return this.addTail(obj); }
 
-  public boolean isEmpty(){ return (this.elements.getHead() == null)}
+  private boolean addTail(E obj){
+    this.elements.addTail(obj);
+    return true;
+  }
+
+  public boolean isEmpty(){ return (this.elements.getHead() == null); }
 
   public E dequeue(){
-    E el_to_retrive = this.elements.getHead();
+    E el_to_retrive = this.elements.getHead().getValue();
 
     if (el_to_retrive != null)
       this.elements.delHead();
@@ -49,20 +50,20 @@ public class Queue<E extends Comparable<E>>{
     return el_to_retrive;
   }
 
-  public E top(){ return this.elements.getHead(); }
+  public E top(){ return this.elements.getHead().getValue(); }
 
   // print of the whole hash
   // FOR TEST USE ONLY
   public void print (){
-    System.out.println("Size: " + this.size);
+    System.out.println("Size: " + this.elements.getSize());
 
-    int i = this.size;
-    for (INode2<E> iter = this.elements.getHead(); iter != null; iter = (Node2<E>)iter.getHead(), i--)
-      System.out.print("POS => " + i + "  " + iter.getValue());
+    int i = this.elements.getSize();
+    for (INode2<E> iter = this.elements.getHead(); iter != null; iter = (Node2<E>)iter.getNext(), i--)
+      System.out.print("POS => " + i + "  " + iter.getValue() + "\n\r");
   }
 
 
-  @Override
+  // @Override
   // trasform the list into an array object
   public Array<E> toArray(){ return this.elements.toArray(); }
 }

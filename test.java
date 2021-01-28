@@ -49,7 +49,7 @@ public class test {
   public static void main(String args[]){
     // test.algTest();
     // test.graphTest();
-    test.movidaTest();
+    // test.movidaTest();
     test.queueTest();
     // test.listTest();
     // test.abrTest();
@@ -1298,7 +1298,7 @@ public class test {
       System.out.println(test.get(i));
   }
 
-  public static void QueueTest(){
+  public static void queueTest(){
     Queue<Integer> Q = new Queue<Integer>();
 
     Q.print();
