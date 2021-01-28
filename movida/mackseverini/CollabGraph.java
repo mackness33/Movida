@@ -94,6 +94,24 @@ public class CollabGraph extends movida.mackseverini.Graph<Person, ArrayList<Mov
 	//
 	// 	return true;
 	// }
+	public Person [] getAdiacencesOf(Person actor){
+		// IVertex<E, Double> input_vtx = null;
+		IList<Integer> adiacences = null;
+		for (int i = 0; i < this.verteces.length; i++){
+			if (actor.compareTo(this.verteces.get(i).getValue()) == 0){
+				adiacences = this.verteces.get(i).getAdiacence();
+				break;
+			}
+		}
+
+		Person [] output = new Person [adiacences.getSize()];
+		int i = 0;
+		for (INode2<Integer> iter = (INode2<Integer>)adiacences.getHead(); iter != null; iter = (INode2<Integer>)iter.getNext(), i++)
+			output[i] = this.verteces.get(iter.getValue()).getValue();
+
+
+		return output;
+	}
 
 	// TODO: check if the arch is already present
 	//		True: Add the movie to the Arch
