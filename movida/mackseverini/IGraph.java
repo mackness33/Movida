@@ -32,5 +32,6 @@ public interface IGraph<E extends Comparable<E>, K extends Comparable<K>>{
 
   public void printVerteces();
 
+  public Array<E> BFS(E vertex);
   public Array<IArch<E, K>> MSTPrim(E vertex);
 }

@@ -370,43 +370,65 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
         iter.getValue().print();
   }
 
-  // @Override
-  // public <T extends Comparable<T>> Array<E> BFS(E vertex){
-  //   Integer pos_vertex = null;                                      // pos of the selected vertex
-  //   if ((pos_vertex = this.findVertex(vertex)) == null)
-  //     return null;
-  //
-  //   Array<E> output = new Array<E>(this.numVertex);
-  //   Queue<IVertex<E,K>> Q = new Queue<IVertex<E,K>>(vertex); // Queue
-  //   Array<BFSVertex<E,T>> bfsVerteces = this.verteces;
-  //
-  //   // Array<IArch<E,K>> A = new Array<IArch<E,K>>(this.numArch);        // output array
-  //   // IArch<E,K> arch = new Arch<E, K>(vertex, vertex, ((INode2<IArch<Integer, K>>)this.arches.getHead()).getValue().getWeight());                               // temporary arch
-  //
-  //
-  //   // adding a random weight. at the end it will be resetted back to null
-  //   // random weight are needed because with null it will all crash.
-  //   // the random weight won't affect the algorithm in any way
-  //   BFSinitizialization((Array<IArch<E,K>>)A, PQ, vertex, pos_vertex, arch);
-  //   arch.reset();
-  //   A = BSFmain((Array<IArch<E,K>>)A, PQ, arch, vertex, pos_vertex);
-  //
-  //   // setting the first vertex to null
-  //   A.get(0).setWeight(null);
-  //
-  //   return A;
-  // }
+  @Override
+  public Array<E> BFS(E vertex){
+    Integer pos_vertex = null;                                      // pos of the selected vertex
+    if ((pos_vertex = this.findVertex(this.verteces, vertex)) == null)
+      return null;
+
+    System.out.println("numVertex: " + this.numVertex);
+    Array<E> output = new Array<E>(this.numVertex);
+    Queue<Integer> Q = new Queue<Integer>(); // Queue
+    Array<Boolean> bfsVerteces = new Array<Boolean>(50);
+    // Array<IArch<E,K>> A = new Array<IArch<E,K>>(this.numArch);        // output array
+    // IArch<E,K> arch = new Arch<E, K>(vertex, vertex, ((INode2<IArch<Integer, K>>)this.arches.getHead()).getValue().getWeight());                               // temporary arch
+
+
+    // adding a random weight. at the end it will be resetted back to null
+    // random weight are needed because with null it will all crash.
+    // the random weight won't affect the algorithm in any way
+    BFSinitizialization(this.verteces, Q, bfsVerteces, output, pos_vertex);
+
+    return BFSmain(this.verteces, Q, bfsVerteces, output);
+  }
 
   // TODO:
-  // protected void BFSinitizialization(Array<E> out, Queue<IVertex<E,T>> PQ, Array<BFSVertex<E,T>> bfsVerteces, E vertex, Integer pos, IArch<E,K> newArch){
-  //   // initialize arch array
-  //   for (int i = 0; i < bfsVerteces.length; i++)
-  //     bfsVerteces.set(i, new BFSVertex());
-  //
-  //   // insert the root vertex
-  //   A.set(0, arch);            // add the arch to the output arch
-  //   PQ.insert(pos, A.get(0).getWeight());
-  // }
+  protected <T extends Comparable<T>> void BFSinitizialization(Array<IVertex<E, T>> list_of_vtx, Queue<Integer> Q, Array<Boolean> bfsVerteces, Array<E> output, Integer pos){
+    // initialize arch array
+    for (int i = 0, count = 0; i < bfsVerteces.length; i++, count++)
+      if (list_of_vtx.get(i) != null)
+        bfsVerteces.set(i, false);
+      else
+        bfsVerteces.set(i, null);
+
+    // initialize arch array
+    for (int i = 0; i < output.length; i++)
+      output.set(i, null);
+
+    // insert the root vertex
+    bfsVerteces.set(pos, true);
+    Q.enqueue(pos);
+  }
+
+  protected <T extends Comparable<T>> Array<E> BFSmain(Array<IVertex<E, T>> list_of_vtx, Queue<Integer> Q, Array<Boolean> bfsVerteces, Array<E> output){
+
+    // till PQ is empty;  reset the temporary arch
+    Boolean temp = null;
+    for(Integer pos_vertex = 0, count = 0; !Q.isEmpty(); count++){
+      pos_vertex = Q.dequeue();
+      output.set(count, list_of_vtx.get(pos_vertex).getValue());
+
+      // for each adiacence of the vertex
+      for (IKeyNode<Integer, T> iter = (IKeyNode<Integer, T>)list_of_vtx.get(pos_vertex).getAdiacence().getHead(); iter != null; iter = (IKeyNode<Integer, T>)iter.getNext()){
+        if (!bfsVerteces.get(iter.getValue())){
+          bfsVerteces.set(iter.getValue(), true);
+          Q.enqueue(iter.getValue());
+        }
+      }
+    }
+
+    return output;
+  }
 
 
   // TODO: need to add weight to arches

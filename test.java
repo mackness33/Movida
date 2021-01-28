@@ -14,7 +14,7 @@ import movida.mackseverini.InsertionSort;
 import movida.mackseverini.KeyNode;
 import movida.mackseverini.KeyList;
 import movida.mackseverini.ABR;
-import movida.mackseverini.MovieAbr;
+// import movida.mackseverini.MovieAbr;
 import movida.mackseverini.Graph;
 import movida.mackseverini.CollabGraph;
 import movida.mackseverini.Arch;
@@ -48,9 +48,9 @@ public class test {
 
   public static void main(String args[]){
     // test.algTest();
-    // test.graphTest();
+    test.graphTest();
     // test.movidaTest();
-    test.queueTest();
+    // test.queueTest();
     // test.listTest();
     // test.abrTest();
     // test.AlgTest();
@@ -1090,6 +1090,19 @@ public class test {
         System.out.println("Arch : null");
       else
         Prim.get(i).print();
+
+    // Array<Integer> BFS = new Array<Integer>(10);
+    Array<Integer> BFS = G.BFS(6);
+
+
+    if (BFS == null)
+      System.out.println("BFS : null");
+
+    for (int i = 0; i < BFS.length; i++)
+      if (BFS.get(i) == null)
+        System.out.println("Vertex : null");
+      else
+        System.out.println("Vertex : " + BFS.get(i));
   }
 
   public static void printGraph(Graph g){

@@ -5,7 +5,7 @@ import movida.mackseverini.KeyList;
 import movida.mackseverini.IKeyList;
 
 // FEATURE: can add a generics to let people choose with what type they want to save the vertex
-public interface IVertex<E extends Comparable<E>, K extends Comparable<K>>{
+public interface IVertex<E extends Comparable<E>, K extends Comparable<K>> extends Comparable<IVertex<E,K>>{
   public IKeyList<Integer, K, Integer> getAdiacence ();
   public E getValue ();
 

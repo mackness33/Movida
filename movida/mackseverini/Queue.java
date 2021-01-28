@@ -58,7 +58,7 @@ public class Queue<E extends Comparable<E>>{
     System.out.println("Size: " + this.elements.getSize());
 
     int i = this.elements.getSize();
-    for (INode2<E> iter = this.elements.getHead(); iter != null; iter = (Node2<E>)iter.getNext(), i--)
+    for (INode2<E> iter = this.elements.getHead(); iter != null; iter = iter.getNext(), i--)
       System.out.print("POS => " + i + "  " + iter.getValue() + "\n\r");
   }
 
