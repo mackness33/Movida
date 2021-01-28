@@ -315,7 +315,7 @@ public class ABR<E extends Comparable<E>, T extends Comparable<T>> implements IA
       return false;
   }
 
-  protected Integer getIndex(T valueToFind)
+  protected E getIndex(T valueToFind)
   {
     AbrNode<E, T> nodeChecked = (AbrNode)this.root;
 
@@ -329,7 +329,7 @@ public class ABR<E extends Comparable<E>, T extends Comparable<T>> implements IA
     }
 
     if(nodeChecked != null && nodeChecked.value == valueToFind)
-      return nodeChecked.key;
+      return nodeChecked.getKey();
     else
       return null;
   }
