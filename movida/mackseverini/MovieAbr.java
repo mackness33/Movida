@@ -10,12 +10,12 @@ public class MovieAbr<E extends Movie> implements IMovieAbr<E>
 {
   // usare Array fatto da david
   // insert e delete implementati con metodo set
-  Integer size;
-  Array<E> movies;
-  ABR<Integer, String> titles;
-  ABR<Integer, Integer> years;
-  ABR<Integer, Integer> votes;
-  ABR<Integer, Person> director;
+  protected Integer size;
+  protected Array<E> movies;
+  protected ABR<Integer, String> titles;
+  protected ABR<Integer, Integer> years;
+  protected ABR<Integer, Integer> votes;
+  protected ABR<Integer, Person> director;
 
   public MovieAbr()
   {
@@ -83,7 +83,17 @@ public class MovieAbr<E extends Movie> implements IMovieAbr<E>
   // delete by title. just checkin the existance of a movie with that title
   @Override
   public boolean delete(String title)
-  {}
+  {
+    int indexToDelete = this.titles.getIndex(title);
+    bool result = this.titles.delete(title) &&
+                  this.years.delete(this.movies.get(indexToDelete).getYear()) &&
+                  this.votes.delete(this.movies.get(indexToDelete).getVotes()) &&
+                  this.director.delete(this.movies.get(indexToDelete).getDirector());
+
+    this.movies.set(i, null);
+
+    return result;
+  }
 
   // update the element if it does already exist else it normally insert it
   @Override
