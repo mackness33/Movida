@@ -315,6 +315,25 @@ public class ABR<E extends Comparable<E>, T extends Comparable<T>> implements IA
       return false;
   }
 
+  protected Integer getIndex(T valueToFind)
+  {
+    AbrNode<E, T> nodeChecked = (AbrNode)this.root;
+
+    // search for the node
+    while((nodeChecked != null) && (valueToFind.compareTo(nodeChecked.getValue()) != 0))
+    {
+      if(valueToFind.compareTo(nodeChecked.getValue()) < 0)
+        nodeChecked = (AbrNode)nodeChecked.getLeftChild();
+      else
+        nodeChecked = (AbrNode)nodeChecked.getRightChild();
+    }
+
+    if(nodeChecked != null && nodeChecked.value == valueToFind)
+      return nodeChecked.key;
+    else
+      return null;
+  }
+
   @Override
   public boolean update(E keyToUpdate, T valueToUpdate, T valueToFind)
   {
