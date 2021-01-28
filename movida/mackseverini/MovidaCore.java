@@ -14,6 +14,7 @@ import movida.commons.Movie;
 import movida.commons.Person;
 import movida.commons.MapImplementation;
 import movida.commons.SortingAlgorithm;
+import movida.commons.Collaboration;
 
 import movida.mackseverini.Search;
 import movida.mackseverini.MovieHash;
@@ -21,7 +22,7 @@ import movida.mackseverini.PeopleHash;
 import movida.mackseverini.CollabGraph;
 import movida.mackseverini.InsertionSort;
 
-public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMovidaSearch, movida.commons.IMovidaConfig{
+public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMovidaSearch, movida.commons.IMovidaConfig, movida.commons.IMovidaCollaborations{
   private IMovieMap<Movie> movies;
   private IPersonMap<Person> people;
   private CollabGraph graph;
@@ -416,4 +417,47 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
 
     return true;
   }
+
+
+	/**
+	 * Identificazione delle collaborazioni
+	 * dirette di un attore
+	 *
+	 * Restituisce gli attori che hanno partecipato
+	 * ad almeno un film con l'attore
+	 * <code>actor</code> passato come parametro.
+	 *
+	 * @param actor attore di cui cercare i collaboratori diretti
+	 * @return array di persone
+	 */
+	public Person[] getDirectCollaboratorsOf(Person actor) { return graph.getAdiacencesOf(actor); }
+
+	/**
+	 * Identificazione del team di un attore
+	 *
+	 * Restituisce gli attori che hanno
+	 * collaborazioni dirette o indirette
+	 * con l'attore <code>actor</code> passato come parametro.
+	 *
+	 * Vedi slide per maggiori informazioni su collaborazioni e team.
+	 *
+	 * @param actor attore di cui individuare il team
+	 * @return array di persone
+	 */
+	public Person[] getTeamOf(Person actor) { return null; }
+
+	/**
+	 * Identificazione dell'insieme di collaborazioni
+	 * caratteristiche (ICC) del team di cui un attore fa parte
+	 * e che ha lo score complessivo pi� alto
+	 *
+	 * Vedi slide per maggiori informazioni su score e ICC.
+	 *
+	 * Si noti che questo metodo richiede l'invocazione
+	 * del metodo precedente <code>getTeamOf(Person actor)</code>
+	 *
+	 * @param actor attore di cui individuare il team
+	 * @return array di collaborazioni
+	 */
+	public Collaboration[] maximizeCollaborationsInTheTeamOf(Person actor){ return null; }
 }

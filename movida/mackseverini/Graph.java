@@ -341,7 +341,7 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
       this.numArch--;
       return true;
     }
-
+    
     return false;
   }
 

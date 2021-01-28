@@ -922,6 +922,7 @@ public class test {
 
     mb.deleteMovieByTitle("Die Hard");
     mb.deleteMovieByTitle("The Junitive");
+    mb.deleteMovieByTitle("Air Force One");
     mb.deleteMovieByTitle(null);
     /*
     System.out.println("Hello buddy: \n\r" + mb.getMovieByTitle("Cape Fear"));
@@ -936,6 +937,19 @@ public class test {
 
     Movie[] movies = mb.getAllMovies();
     Person[] people = mb.getAllPeople();
+
+    Person[] collabs_of_Tommy = mb.getDirectCollaboratorsOf(new Person("Tommy Lee Jones"));
+    Person[] collabs_of_Harrison = mb.getDirectCollaboratorsOf(new Person("Harrison Ford"));
+
+    System.out.println("Tommey LENGTH: " + collabs_of_Tommy.length);
+    System.out.println("TO ARRAY: ");
+    for(int i = 0; i < collabs_of_Tommy.length; i++)
+      System.out.println(collabs_of_Tommy[i]);
+
+    System.out.println("ARRAY LENGTH: " + collabs_of_Harrison.length);
+    System.out.println("TO ARRAY: ");
+    for(int i = 0; i < collabs_of_Harrison.length; i++)
+      System.out.println(collabs_of_Harrison[i]);
 
     /*
     System.out.println("ARRAY LENGTH: " + people.length);
