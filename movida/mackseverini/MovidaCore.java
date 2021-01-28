@@ -29,11 +29,8 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
   private IAlg sortAlgorithm;
 
   public MovidaCore(){
-<<<<<<< Updated upstream
     this.graph = new CollabGraph();
-=======
     // if("MovidaConfig usa hash")
->>>>>>> Stashed changes
     this.movies = new MovieHash();
     this.people = new PeopleHash();
     // else

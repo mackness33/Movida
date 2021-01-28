@@ -46,13 +46,11 @@ public class test {
   }
 
   public static void main(String args[]){
-<<<<<<< Updated upstream
     // test.algTest();
     // test.graphTest();
     test.movidaTest();
     // test.listTest();
     // test.abrTest();
-=======
 
     // INSERT
 
@@ -880,8 +878,7 @@ public class test {
     System.out.println("\n\n"+ abr.getRoot().getRightChild().getLeftChild().getKey());
 */
     // test.AlgTest();
-    test.graphMovidaTest();
->>>>>>> Stashed changes
+    // test.graphMovidaTest();
     // test.priorityQueueTest();
   }
 
