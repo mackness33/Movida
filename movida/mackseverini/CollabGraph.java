@@ -156,13 +156,15 @@ public class CollabGraph extends movida.mackseverini.Graph<Person, ArrayList<Mov
 
     // create a pair with the verteces
     GraphPair<Integer> nodes = this.findVerteces(this.verteces, actor1, actor2);
+		System.out.println("DEL OF:");
+		nodes.print();
 
 		if (nodes == null)
 			return false;
 
+		// System.out.println("Can't understand?? ");
 		Integer pos = this.findArch(this.arches, nodes);
 		if (pos != null){
-			// System.out.println("Can't understand?? ");
 			if (pos > -1){
 				System.out.println("arch found: ");
 				CollabArch ar = (CollabArch)this.arches.getAt(pos);
