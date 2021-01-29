@@ -451,7 +451,7 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
 	 * @param actor attore di cui individuare il team
 	 * @return array di persone
 	 */
-	public Person[] getTeamOf(Person actor) { return null; }
+	public Person[] getTeamOf(Person actor) { return graph.visitStartingFrom(actor); }
 
 	/**
 	 * Identificazione dell'insieme di collaborazioni

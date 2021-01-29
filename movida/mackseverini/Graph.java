@@ -193,7 +193,7 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
     return res;
   }
 
-  protected boolean containsVerteces(Array<IVertex<E, K>> list_of_vtx, E vertex1, E vertex2){ return (this.findVerteces(list_of_vtx, vertex1, vertex2) != null); }
+  protected <T extends Comparable<T>> boolean containsVerteces(Array<IVertex<E, T>> list_of_vtx, E vertex1, E vertex2){ return (this.findVerteces(list_of_vtx, vertex1, vertex2) != null); }
 
   protected <T extends Comparable<T>> GraphPair<Integer> findVerteces(Array<IVertex<E, T>> list_of_vtx, E vertex1, E vertex2){
     if (vertex1 == null || vertex2 == null)
@@ -230,7 +230,7 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
     return (res != null ) ? ((res >= 0 ) ? true : false) : false;
   }
 
-  protected Integer findVertex(Array<IVertex<E, K>> list_of_vtx, E vertex){
+  protected <T extends Comparable<T>> Integer findVertex(Array<IVertex<E, T>> list_of_vtx, E vertex){
     if (vertex == null)
       return null;
 

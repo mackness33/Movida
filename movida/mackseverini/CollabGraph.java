@@ -74,26 +74,6 @@ public class CollabGraph extends movida.mackseverini.Graph<Person, ArrayList<Mov
 		return (num_inserted != 0) ? true : false;
   }
 
-	// protected boolean addArchAndAdiacences(IList<IArch<Integer, ArrayList<Movie>>> list_of_arch, Array<IVertex<Person, Double>> list_of_vtx, IArch<Integer, Array<Movie>> arch){
-	// 	if (arch == null)
-	// 		return false;
-	//
-	// 	// add the arch and add adiacences to the verteces
-	// 	System.out.println("Before the add??? ");
-	// 	list_of_arch.addHead(arch);
-	// 	System.out.println("After the add??? ");
-	// 	System.out.println("first: " + arch.getFirstVertex());
-	// 	System.out.println("second: " + arch.getSecondVertex());
-	// 	System.out.println("node one: " + list_of_vtx.get(arch.getFirstVertex()));
-	// 	list_of_vtx.get(arch.getFirstVertex()).addAdiacence(arch.getSecondVertex(), arch.getWeight());
-	// 	arch.print();
-	// 	if (arch.getFirstVertex() != arch.getSecondVertex())    // if the verteces are equal don't add it twice
-	// 		list_of_vtx.get(arch.getSecondVertex()).addAdiacence(arch.getFirstVertex(), arch.getWeight());
-	// 	this.numArch++;         // increment number of arches
-	// 	this.arches.print();
-	//
-	// 	return true;
-	// }
 	public Person [] getAdiacencesOf(Person actor){
 		// IVertex<E, Double> input_vtx = null;
 		IList<Integer> adiacences = null;
@@ -234,6 +214,32 @@ public class CollabGraph extends movida.mackseverini.Graph<Person, ArrayList<Mov
     this.numVertex++;
 
     return true;
+  }
+
+  public Person [] visitStartingFrom(Person actor){
+    Integer pos_actor = null;                                      // pos of the selected vertex
+    if ((pos_actor = this.findVertex(this.verteces, actor)) == null)
+      return null;
+
+    Array<Person> output = new Array<Person>(this.numVertex);
+    Queue<Integer> Q = new Queue<Integer>(); // Queue
+    Array<Boolean> bfsActors = new Array<Boolean>(50);
+    // Array<IArch<E,K>> A = new Array<IArch<E,K>>(this.numArch);        // output array
+    // IArch<E,K> arch = new Arch<E, K>(vertex, vertex, ((INode2<IArch<Integer, K>>)this.arches.getHead()).getValue().getWeight());                               // temporary arch
+
+
+    // adding a random weight. at the end it will be resetted back to null
+    // random weight are needed because with null it will all crash.
+    // the random weight won't affect the algorithm in any way
+    BFSinitizialization(this.verteces, Q, bfsActors, output, pos_actor);
+
+    output = BFSmain(this.verteces, Q, bfsActors, output);
+
+		Person [] temp = new Person [output.length];
+		for (int i = 0; i < output.length; i++)
+			temp[i] = output.get(i);
+
+		return temp;
   }
 
   // TODO:

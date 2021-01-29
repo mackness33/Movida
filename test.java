@@ -49,7 +49,7 @@ public class test {
   public static void main(String args[]){
     // test.algTest();
     // test.graphTest();
-    // test.movidaTest();
+    test.movidaTest();
     // test.queueTest();
     // test.listTest();
     test.abrTest();
@@ -182,11 +182,13 @@ public class test {
 
     mb.loadFromFile(new File("movida/assets/esempio-formato-dati.txt"));
 
-    mb.deleteMovieByTitle("Die Hard");
-    mb.deleteMovieByTitle("The Junitive");
-    mb.deleteMovieByTitle("Air Force One");
+    // mb.deleteMovieByTitle("Die Hard");
+    // mb.deleteMovieByTitle("The Junitive");
+    // mb.deleteMovieByTitle("Air Force One");
     mb.deleteMovieByTitle(null);
-    /*
+    /*Hard");
+    // mb.deleteMovieByTitle("The Junitive");
+    // mb.deleteMovieByTitle("Air
     System.out.println("Hello buddy: \n\r" + mb.getMovieByTitle("Cape Fear"));
     System.out.println("Hello fam: \n\r" + mb.getPersonByName("Harrison Ford"));
 
@@ -203,15 +205,35 @@ public class test {
     Person[] collabs_of_Tommy = mb.getDirectCollaboratorsOf(new Person("Tommy Lee Jones"));
     Person[] collabs_of_Harrison = mb.getDirectCollaboratorsOf(new Person("Harrison Ford"));
 
-    System.out.println("Tommey LENGTH: " + collabs_of_Tommy.length);
+    System.out.println("Tommey collab LENGTH: " + collabs_of_Tommy.length);
     System.out.println("TO ARRAY: ");
     for(int i = 0; i < collabs_of_Tommy.length; i++)
       System.out.println(collabs_of_Tommy[i]);
 
-    System.out.println("ARRAY LENGTH: " + collabs_of_Harrison.length);
+    System.out.println("Harrison collab LENGTH: " + collabs_of_Harrison.length);
     System.out.println("TO ARRAY: ");
     for(int i = 0; i < collabs_of_Harrison.length; i++)
       System.out.println(collabs_of_Harrison[i]);
+
+    Person[] team_of_Tommy = mb.getTeamOf(new Person("Tommy Lee Jones"));
+    Person[] team_of_Harrison = mb.getTeamOf(new Person("Harrison Ford"));
+    Person[] team_of_Bruce = mb.getTeamOf(new Person("Bruce Willis"));
+
+    System.out.println("Tommey team LENGTH: " + team_of_Tommy.length);
+    System.out.println("TO ARRAY: ");
+    for(int i = 0; i < team_of_Tommy.length; i++)
+      System.out.println(team_of_Tommy[i]);
+
+    System.out.println("Harrison team LENGTH: " + team_of_Harrison.length);
+    System.out.println("TO ARRAY: ");
+    for(int i = 0; i < team_of_Harrison.length; i++)
+      System.out.println(team_of_Harrison[i]);
+
+
+    System.out.println("Bruce team LENGTH: " + team_of_Bruce.length);
+    System.out.println("TO ARRAY: ");
+    for(int i = 0; i < team_of_Bruce.length; i++)
+      System.out.println(team_of_Bruce[i]);
 
     /*
     System.out.println("ARRAY LENGTH: " + people.length);
@@ -351,7 +373,6 @@ public class test {
 
     // Array<Integer> BFS = new Array<Integer>(10);
     Array<Integer> BFS = G.BFS(6);
-
 
     if (BFS == null)
       System.out.println("BFS : null");
