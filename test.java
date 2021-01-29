@@ -48,8 +48,8 @@ public class test {
 
   public static void main(String args[]){
     // test.algTest();
-    // test.graphTest();
-    test.movidaTest();
+    test.graphTest();
+    // test.movidaTest();
     // test.queueTest();
     // test.listTest();
     test.abrTest();
@@ -304,38 +304,38 @@ public class test {
   public static void graphTest(){
     Graph<Integer, Double> G = new Graph<Integer, Double>();
 
-    // G.addVertex(0);
-    // G.addVertex(1);
-    // G.addVertex(2);
-    // G.addVertex(3);
-    // G.addVertex(4);
-    // G.addVertex(5);
-    // G.addVertex(6);
+    G.addVertex(0);
+    G.addVertex(1);
+    G.addVertex(2);
+    G.addVertex(3);
+    G.addVertex(4);
+    G.addVertex(5);
+    G.addVertex(6);
 
     // printGraph(G);
 
-    for (int i = 0; i < 50; i++){
-      G.addVertex(ThreadLocalRandom.current().nextInt(0, 10));
-      // G.addVertex(i);
-      G.addArch(new Arch<Integer, Double>(ThreadLocalRandom.current().nextInt(0, 10), ThreadLocalRandom.current().nextInt(0, 10), ThreadLocalRandom.current().nextDouble(-1000, 1001)));
-    }
+    // for (int i = 0; i < 50; i++){
+    //   G.addVertex(ThreadLocalRandom.current().nextInt(0, 10));
+    //   // G.addVertex(i);
+    //   G.addArch(new Arch<Integer, Double>(ThreadLocalRandom.current().nextInt(0, 10), ThreadLocalRandom.current().nextInt(0, 10), ThreadLocalRandom.current().nextDouble(-1000, 1001)));
+    // }
 
 
-    // G.addArch(new Arch<Integer, Double>(5, 2, 1.0));
-    // G.addArch(new Arch<Integer, Double>(2, 5, 5.0));
-    // G.addArch(new Arch<Integer, Double>(1, 1, 5.0));
-    // G.addArch(new Arch<Integer, Double>(3, 4, 5.0));
-    // G.addArch(new Arch<Integer, Double>(4, 3, 5.0));
-    // G.addArch(new Arch<Integer, Double>(6, 1, 5.0));
-    // G.addArch(new Arch<Integer, Double>(3, 6, 5.0));
-    // G.addArch(new Arch<Integer, Double>(3, 1, 5.0));
-    // G.addArch(new Arch<Integer, Double>(6, 5, 5.0));
-    // G.addArch(new Arch<Integer, Double>(5, 5, 5.0));
-    // G.addArch(new Arch<Integer, Double>(2, 3, 2.0));
-    // G.addArch(new Arch<Integer, Double>(3, 3, 3.0));
-    // G.addArch(new Arch<Integer, Double>(2, 2, 11.0));
-    // G.addArch(new Arch<Integer, Double>(2, 2, 16.0));
-    // G.addArch(new Arch<Integer, Double>(2, 1, 4.0));
+    G.addArch(new Arch<Integer, Double>(5, 2, 1.0));
+    G.addArch(new Arch<Integer, Double>(2, 5, 5.0));
+    G.addArch(new Arch<Integer, Double>(1, 1, 5.0));
+    G.addArch(new Arch<Integer, Double>(3, 4, 5.0));
+    G.addArch(new Arch<Integer, Double>(4, 3, 5.0));
+    G.addArch(new Arch<Integer, Double>(6, 1, 5.0));
+    G.addArch(new Arch<Integer, Double>(3, 6, 5.0));
+    G.addArch(new Arch<Integer, Double>(3, 1, 5.0));
+    G.addArch(new Arch<Integer, Double>(6, 5, 5.0));
+    G.addArch(new Arch<Integer, Double>(5, 5, 5.0));
+    G.addArch(new Arch<Integer, Double>(2, 3, 2.0));
+    G.addArch(new Arch<Integer, Double>(3, 3, 3.0));
+    G.addArch(new Arch<Integer, Double>(2, 2, 11.0));
+    G.addArch(new Arch<Integer, Double>(2, 2, 16.0));
+    G.addArch(new Arch<Integer, Double>(2, 1, 4.0));
 
     printGraph(G);
 

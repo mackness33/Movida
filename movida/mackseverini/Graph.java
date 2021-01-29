@@ -445,11 +445,28 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
     PriorityQueue<Integer, K> PQ = new PriorityQueue<Integer, K>(); // PriorityQueue
 
     // adding a random weight. at the end it will be resetted back to null
-    // random weight are needed because with null it will all crash.
+    // random weight is needed because with null it will all crash.
     // the random weight won't affect the algorithm in any way
-    MSTinitizialization((Array<IArch<E,K>>)A, PQ, vertex, pos_vertex, arch);
+    this.MSTinitizialization(A, PQ, vertex, pos_vertex, arch, arch.getWeight());
     arch.reset();
-    A = MSTmain((Array<IArch<E,K>>)A, PQ, arch, vertex, pos_vertex);
+    // A = MSTmain(A, PQ, arch, vertex, pos_vertex);
+    // till PQ is empty;  reset the temporary arch
+    for(Integer pos_arch = 0, last_arch = 1; !PQ.isEmpty(); arch.reset()){
+      // find min and delete it
+      pos_vertex = PQ.findMin();
+      PQ.delMin();
+      PQ.print();
+      arch.setSecondVertex(this.verteces.get(pos_vertex).getValue());        // set second arch vertex to the selected one
+
+      // for each adiacence of the vertex
+      for (IKeyNode<Integer, K> iter = (IKeyNode<Integer, K>)this.verteces.get(pos_vertex).getAdiacence().getHead(); iter != null; iter = (IKeyNode<Integer, K>)iter.getNext(), arch.setWeight(null)){
+        // checks values
+        if (this.MSTchecks(this.verteces, iter, pos_vertex)){
+          pos_arch = this.MSTsetArch(this.verteces, A, PQ, iter, arch);
+          last_arch = this.MSTaction(A, PQ, iter, arch, pos_arch, last_arch, pos_vertex);
+        }
+      }
+    }
 
     // setting the first vertex to null
     A.get(0).setWeight(null);
@@ -457,65 +474,42 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
     return A;
   }
 
-  protected void MSTinitizialization(Array<IArch<E,K>> A, PriorityQueue<Integer, K> PQ, E vertex, Integer pos, IArch<E,K> newArch){
+  protected <T extends Comparable<T>> void MSTinitizialization(Array<IArch<E,K>> A, PriorityQueue<Integer, T> PQ, E vertex, Integer pos, IArch<E,K> newArch, T weight){
     // initialize arch array
     for (int i = 0; i < A.length; i++)
       A.set(i, null);
 
     // insert the root vertex
-    this.MSTaddOuputArch(A, 0, newArch);
-    // A.set(pos, arch);            // add the arch to the output arch
-    PQ.insert(pos, A.get(0).getWeight());
+    A.set(0, new Arch<E,K>(newArch));            // add the arch to the output arch
+    PQ.insert(pos, weight);
   }
 
-  protected void MSTaddOuputArch(Array<IArch<E,K>> A, Integer pos, IArch<E, K> arch){
-    A.set(pos, new Arch<E,K>(arch));            // add the arch to the output arch
-  }
-
-  protected Array<IArch<E,K>> MSTmain(Array<IArch<E,K>> A, PriorityQueue<Integer, K> PQ, IArch<E,K> arch, E vertex, Integer pos_vertex){
-
-    // till PQ is empty;  reset the temporary arch
-    for(Integer pos_arch = 0, last_arch = 1; !PQ.isEmpty(); arch.reset()){
-      // find min and delete it
-      pos_vertex = PQ.findMin();
-      PQ.delMin();
-
-      arch.setSecondVertex(this.verteces.get(pos_vertex).getValue());        // set second arch vertex to the selected one
-
-      // for each adiacence of the vertex
-      for (IKeyNode<Integer, K> iter = (IKeyNode<Integer, K>)this.verteces.get(pos_vertex).getAdiacence().getHead(); iter != null; iter = (IKeyNode<Integer, K>)iter.getNext(), arch.setWeight(null)){
-        // checks values
-        if (this.MSTchecks(iter, pos_vertex)){
-          // set first vertex of the temporary arch
-          arch.setFirstVertex(this.verteces.get(iter.getValue()).getValue());
-
-          // if the arch is already present pass to the next vertex
-          for (int i = 0; i < A.length; i++){
-            // if the element at the index is null than no need to continue
-            if (A.get(i) == null)
-              break;
-            // if the element of the vertex is already in the output array then get its weight and remember the position
-            if (this.verteces.get(iter.getValue()).getValue().compareTo(A.get(i).getFirstVertex()) == 0){
-              arch.setWeight(A.get(i).getWeight());
-              pos_arch = i;
-              break;
-            }
-          }
-
-          last_arch = this.MSTaction(A, PQ, iter, arch, pos_arch, last_arch, pos_vertex);
-        }
+  protected <T extends Comparable<T>> Integer MSTsetArch(Array<IVertex<E, T>> list_of_vtx, Array<IArch<E,K>> A, PriorityQueue<Integer, T> PQ, IKeyNode<Integer, T> iter, IArch<E,K> arch){
+    // set first vertex of the temporary arch
+    arch.setFirstVertex(list_of_vtx.get(iter.getValue()).getValue());
+    System.out.println("Checkin on: " + arch.getFirstVertex());
+    // if the arch is already present pass to the next vertex
+    for (int i = 0; i < A.length; i++){
+      // if the element at the index is null than no need to continue
+      if (A.get(i) == null)
+        return -1;
+      // if the element of the vertex is already in the output array then get its weight and remember the position
+      if (list_of_vtx.get(iter.getValue()).getValue().compareTo(A.get(i).getFirstVertex()) == 0){
+        arch.setWeight(A.get(i).getWeight());
+        return i;
       }
     }
 
-    return A;
+    return -1;
   }
 
   protected Integer MSTaction(Array<IArch<E,K>> A, PriorityQueue<Integer, K> PQ, IKeyNode<Integer, K> iter, IArch<E,K> arch, Integer pos_arch, Integer last_arch, Integer pos_vertex){
     // if there's no weight associated to the vertex
     if (arch.getWeight() == null){
+      System.out.println("last_arch: " + last_arch);
       PQ.insert(iter.getValue(), iter.getKey());      // insert the vertex to the PriorityQueue
       arch.setWeight(iter.getKey());                  // set the weight of the arch
-      this.MSTaddOuputArch(A, last_arch, arch);       // add the arch to the output arch
+      A.set(last_arch, new Arch<E,K>(arch));       // add the arch to the output arch
       return last_arch+1;                                            // increment pos of the last arch in the output array
     }
     // else if weight of the adiacence minor than the weight of the arch AND the vertex of the adiacence is in the PriorityQueue
@@ -528,7 +522,7 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
     return last_arch;
   }
 
-  private boolean MSTchecks(IKeyNode<Integer, K> adiacence, Integer vertex){
+  protected <T extends Comparable<T>> boolean MSTchecks(Array<IVertex<E, T>> list_of_vtx, IKeyNode<Integer, K> adiacence, Integer vertex){
     // check if value is null
     if (adiacence.getValue() == null || adiacence.getKey() == null)
       return false;
