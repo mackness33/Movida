@@ -16,20 +16,20 @@ public class MovieAbr<E extends Movie> implements IMovieAbr<E>
 
   public MovieAbr()
   {
-    this.movies = null;
-    this.titles = null;
-    this.years = null;
-    this.votes = null;
-    this.director = null;
+    this.movies = new Array<E>(0);
+    this.titles = new ABR();
+    this.years = new ABR();
+    this.votes = new ABR();
+    this.director = new ABR();
   }
 
   public MovieAbr(Array<E> movies)
   {
     this.movies = movies;
-    this.titles = null;
-    this.years = null;
-    this.votes = null;
-    this.director = null;
+    this.titles = new ABR();
+    this.years = new ABR();
+    this.votes = new ABR();
+    this.director = new ABR();
   }
 
   public MovieAbr(Array<E> movies, ABR<Integer, String> titles, ABR<Integer, Integer> years, ABR<Integer, Integer> votes, ABR<Integer, Person> director)
@@ -65,46 +65,48 @@ public class MovieAbr<E extends Movie> implements IMovieAbr<E>
   @Override
   public void reset ()
   {
-    this.size = null;
-    this.titles = null;
-    this.years = null;
-    this.votes = null;
-    this.director = null;
+    this.titles = new ABR();
+    this.years = new ABR();
+    this.votes = new ABR();
+    this.director = new ABR();
 
-    for(int i = 0; i < this.movies.size; i++)
+    for(int i = 0; i < this.movies.length; i++)
       this.movies.set(i, null);
   }
 
   public boolean insert(Movie movieToInsert)
   {
-    if(this.getLength() == this.size)
+    // empty array
+    if(this.movies.length == 0)
+      this.movies = new Array<E>(5);
+    // full array (double length)
+    else if(this.getLength() == this.movies.length)
     {
-      System.out.println("ERROR: NO MORE SPACE, DELETE A MOVIE TO FREE SPACE");
-      return false;
+      Array<E> newMovies = new Array<E>(this.movies.length * 2);
+
+      for(int i = 0; i < this.movies.length; i++)
+        newMovies.set(i, this.movies.get(i));
+      for(int i = this.movies.length; i < newMovies.length; i++)
+        newMovies.set(i, null);
+
+        this.movies = new Array<E>(newMovies);
     }
-    else
-    {
-      int i = 0;
-      boolean inserted = false;
 
-      // inserting in the array
-      while((i < this.movies.length) && (inserted == false))
-      {
-        if(this.movies.get(i) == null)
-        {
-          this.movies.set(i, movieToInsert);
-          inserted = true;
-        }
+    int i = 0;
+    boolean inserted = false;
 
-        i++;
-      }
+    // inserting in the array
+    while((i < this.movies.length) && (this.movies.get(i) != null))
+      i++;
 
-      // inserting in the ABRs
-      return this.titles.insert(movieToInsert.getTitle()) &&
-      this.years.insert(movieToInsert.getYear()) &&
-      this.votes.insert(movieToInsert.getVotes()) &&
-      this.director.insert(movieToInsert.getDirector());
-    }
+    if(i < this.movies.length)
+      this.movies.set(i, (E)movieToInsert);
+
+    // inserting in the ABRs
+    return this.titles.insert(i, movieToInsert.getTitle()) &&
+    this.years.insert(i, movieToInsert.getYear()) &&
+    this.votes.insert(i, movieToInsert.getVotes()) &&
+    this.director.insert(i, movieToInsert.getDirector());
   } //                        DA TESTARE
 
   // delete by title. just checkin the existance of a movie with that title
@@ -185,5 +187,53 @@ public class MovieAbr<E extends Movie> implements IMovieAbr<E>
     }
 
     return moviesArray;
+  }
+
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  //                                              USEFUL ONLY FOR TESTING                                           //
+
+  public void printTree(int treeType)
+  {
+    switch(treeType)
+    {
+      case(0):
+        System.out.println("ALL TREES\n\n");
+        System.out.println("\n\nTITLES TREE\n\n");
+        this.titles.printAbr();
+        System.out.println("\n\nYEARS TREE\n\n");
+        this.years.printAbr();
+        System.out.println("\n\nVOTES TREE\n\n");
+        this.votes.printAbr();
+        System.out.println("\n\nDIRECTORS TREE\n\n");
+        this.director.printAbr();
+        break;
+
+      case(1):
+        System.out.println("TITLES TREE\n\n");
+        this.titles.printAbr();
+        break;
+
+      case(2):
+        System.out.println("YEARS TREE\n\n");
+        this.years.printAbr();
+        break;
+
+      case(3):
+        System.out.println("VOTES TREE\n\n");
+        this.votes.printAbr();
+        break;
+
+      case(4):
+        System.out.println("DIRECTORS TREE\n\n");
+        this.director.printAbr();
+        break;
+
+      default:
+        System.out.println("WRONG NUMBER YOU DUMB");
+        break;
+    }
   }
 }

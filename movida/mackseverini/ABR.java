@@ -80,33 +80,38 @@ public class ABR<E extends Comparable<E>, T extends Comparable<T>> implements IA
   @Override
   public boolean insert(E keyToInsert, T valueToInsert)
   {
-    AbrNode<E, T> nodeToInsert = new AbrNode(keyToInsert, valueToInsert);
-
-    // empty tree
-    if(this.root == null)
-      this.root = nodeToInsert;
-    // searching for right position
-    else
+    if((keyToInsert != null) && (valueToInsert != null))
     {
-      AbrNode<E, T> currentNode = (AbrNode)this.root;
-      AbrNode<E, T> parent = null;
-      while(currentNode != null)
-      {
-        parent = currentNode;
+      AbrNode<E, T> nodeToInsert = new AbrNode(keyToInsert, valueToInsert);
 
-        if(valueToInsert.compareTo(currentNode.getValue()) <= 0)
-          currentNode = (AbrNode)currentNode.getLeftChild();
+      // empty tree
+      if(this.root == null)
+        this.root = nodeToInsert;
+      // searching for right position
+      else
+      {
+        AbrNode<E, T> currentNode = (AbrNode)this.root;
+        AbrNode<E, T> parent = null;
+        while(currentNode != null)
+        {
+          parent = currentNode;
+
+          if(valueToInsert.compareTo(currentNode.getValue()) <= 0)
+            currentNode = (AbrNode)currentNode.getLeftChild();
+          else
+            currentNode = (AbrNode)currentNode.getRightChild();
+        }
+
+        if(valueToInsert.compareTo(parent.getValue()) <= 0)
+          parent.setLeftChild(nodeToInsert);
         else
-          currentNode = (AbrNode)currentNode.getRightChild();
+          parent.setRightChild(nodeToInsert);
       }
 
-      if(valueToInsert.compareTo(parent.getValue()) <= 0)
-        parent.setLeftChild(nodeToInsert);
-      else
-        parent.setRightChild(nodeToInsert);
+      return true;
     }
-
-    return true;
+    else
+      return false;
   }
 
   @Override
