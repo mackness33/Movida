@@ -243,9 +243,24 @@ public class CollabGraph extends movida.mackseverini.Graph<Person, ArrayList<Mov
 		return temp;
   }
 
-	// public Collaboration[] getCollaborationMST(Person vertex){
-	//
-	// }
+	public Collaboration[] getCollaborationMST(Person actor){
+		Array<IArch<Person, ArrayList<Movie>>> output = this.MSTPrim(actor);
+
+		if (output == null)
+			return null;
+
+		Collaboration [] temp = new Collaboration [output.length];
+		CollabArch<Person> iter = null;
+		for (int i = 0; i < output.length; i++){
+			iter = (CollabArch<Person>)output.get(i);
+			if (iter != null){
+				// iter.print();
+				temp[i] = new Collaboration(iter.getFirstVertex(), iter.getSecondVertex(), iter.getWeight());
+			}
+		}
+
+		return temp;
+	}
 
 	// TODO: need to add weight to arches
   // TODO: do compareTo for object without operator(-)
@@ -256,6 +271,7 @@ public class CollabGraph extends movida.mackseverini.Graph<Person, ArrayList<Mov
     if ((pos_vertex = this.findVertex(this.verteces, vertex)) == null)
       return null;
 
+		// System.out.println("pos_vertex at first: " + 	pos_vertex);
     Array<IArch<Person,ArrayList<Movie>>> A = new Array<IArch<Person,ArrayList<Movie>>>(this.numArch);        // output array
     IArch<Person,ArrayList<Movie>> arch = new CollabArch<Person>(vertex, vertex, ((INode2<IArch<Integer, ArrayList<Movie>>>)this.arches.getHead()).getValue().getWeight());                               // temporary arch
     PriorityQueue<Integer, Double> PQ = new PriorityQueue<Integer, Double>(); // PriorityQueue
@@ -269,6 +285,7 @@ public class CollabGraph extends movida.mackseverini.Graph<Person, ArrayList<Mov
     // A = MSTmain(A, PQ, arch, vertex, pos_vertex);
     // till PQ is empty;  reset the temporary arch
     for(Integer pos_arch = 0, last_arch = 1; !PQ.isEmpty(); arch.reset()){
+			// System.out.println("Yes: " + last_arch);
       // find min and delete it
       pos_vertex = PQ.findMin();
       PQ.delMin();
@@ -277,8 +294,10 @@ public class CollabGraph extends movida.mackseverini.Graph<Person, ArrayList<Mov
 
       // for each adiacence of the vertex
       for (IKeyNode<Integer, Double> iter = (IKeyNode<Integer, Double>)this.verteces.get(pos_vertex).getAdiacence().getHead(); iter != null; iter = (IKeyNode<Integer, Double>)iter.getNext(), arch.setWeight(null)){
+				// System.out.println("Iter:\tValue: " + iter.getValue() + "\tKey: " + iter.getKey());
         // checks values
         if (this.MSTchecks(this.verteces, iter, pos_vertex)){
+					// System.out.println("checks are ok");
           pos_arch = this.MSTsetArch(this.verteces, A, PQ, iter, arch);
           last_arch = this.MSTaction(A, PQ, iter, (CollabArch<Person>)arch, pos_arch, last_arch, pos_vertex);
         }
@@ -287,7 +306,11 @@ public class CollabGraph extends movida.mackseverini.Graph<Person, ArrayList<Mov
 
     // setting the first vertex to null
     A.get(0).setWeight(null);
-
+		// for (int i = 0; i < A.length; i++)
+		// 	if(A.get(i) != null)
+		// 		A.get(i).print();
+		// 	else
+		// 		System.out.println("ARCH: null");
     return A;
   }
 
@@ -295,16 +318,16 @@ public class CollabGraph extends movida.mackseverini.Graph<Person, ArrayList<Mov
 	protected Integer MSTaction(Array<IArch<Person,ArrayList<Movie>>> A, PriorityQueue<Integer, Double> PQ, IKeyNode<Integer, Double> iter, CollabArch<Person> arch, Integer pos_arch, Integer last_arch, Integer pos_vertex){
     // if there's no weight associated to the vertex
     if (arch.getWeight() == null){
-      System.out.println("last_arch: " + last_arch);
+      // System.out.println("last_arch: " + last_arch);
 			// PQ.insert(iter.getValue(), iter.getKey());      // insert the vertex to the PriorityQueue
 			PQ.insert(iter.getValue(), iter.getKey());      // insert the vertex to the PriorityQueue
-      arch.setWeight(((CollabArch<Person>)this.searchArch(this.arches, new GraphPair(arch.getFirstVertex(), arch.getSecondVertex()))).getWeight());                  // set the weight of the arch
+      arch.setWeight(((CollabArch<Integer>)this.searchArch(this.arches, new GraphPair<Integer>(iter.getValue(), pos_vertex))).getWeight());                  // set the weight of the arch
       A.set(last_arch, new CollabArch<Person>(arch));       // add the arch to the output arch
       return last_arch+1;                                            // increment pos of the last arch in the output array
     }
     // else if weight of the adiacence minor than the weight of the arch AND the vertex of the adiacence is in the PriorityQueue
     else if (iter.getKey().compareTo(((CollabArch<Person>)A.get(pos_arch)).getScore()) < 0 && PQ.check(iter.getValue())){
-      A.get(pos_arch).setWeight(((CollabArch<Person>)this.searchArch(this.arches, new GraphPair(arch.getFirstVertex(), arch.getSecondVertex()))).getWeight());                                   // set weight with the adiacence
+      A.get(pos_arch).setWeight(((CollabArch<Integer>)this.searchArch(this.arches, new GraphPair<Integer>(iter.getValue(), pos_vertex))).getWeight());                                   // set weight with the adiacence
       A.get(pos_arch).setSecondVertex(this.verteces.get(pos_vertex).getValue());        // set the new second Vertex
       PQ.decreaseKey(iter.getValue(), iter.getKey());                             // decreaseKey by weight of the adiacence weight
     }
@@ -419,8 +442,11 @@ public class CollabGraph extends movida.mackseverini.Graph<Person, ArrayList<Mov
 
 		@Override
 	  public void print(){
-			System.out.println("Arch: WEIGHT => ");
-			this.weight.print();
+			System.out.print("Arch: WEIGHT => ");
+			if (this.weight != null)
+				this.weight.print();
+			else
+				System.out.println("NULL");
 	    System.out.println("FIRST VERTEX => " + this.vertex1 + "  SECOND VERTEX => " + this.vertex2 + "\n\r");
 	  }
   }

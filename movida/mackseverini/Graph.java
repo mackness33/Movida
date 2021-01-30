@@ -194,14 +194,14 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
   }
 
   // find the position of the arch if present
-  protected IArch<Integer,K> searchArch(IList<IArch<Integer, K>> list_of_arch, GraphPair<Integer> nodes){
+  protected <T extends Comparable<T>> IArch<T,K> searchArch(IList<IArch<T, K>> list_of_arch, GraphPair<T> nodes){
     // verteces are not presents
     if (nodes == null)
       return null;
 
 
     // get position of  the arch, if present return true.
-    return list_of_arch.get(new Arch<Integer,K>(nodes.getFirstValue(), nodes.getSecondValue(), null));
+    return list_of_arch.get(new Arch<T,K>(nodes.getFirstValue(), nodes.getSecondValue(), null));
   }
 
   protected <T extends Comparable<T>> boolean containsVerteces(Array<IVertex<E, T>> list_of_vtx, E vertex1, E vertex2){ return (this.findVerteces(list_of_vtx, vertex1, vertex2) != null); }
@@ -517,7 +517,7 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
   protected Integer MSTaction(Array<IArch<E,K>> A, PriorityQueue<Integer, K> PQ, IKeyNode<Integer, K> iter, IArch<E,K> arch, Integer pos_arch, Integer last_arch, Integer pos_vertex){
     // if there's no weight associated to the vertex
     if (arch.getWeight() == null){
-      System.out.println("last_arch: " + last_arch);
+      // System.out.println("last_arch: " + last_arch);
       PQ.insert(iter.getValue(), iter.getKey());      // insert the vertex to the PriorityQueue
       arch.setWeight(iter.getKey());                  // set the weight of the arch
       A.set(last_arch, new Arch<E,K>(arch));       // add the arch to the output arch
@@ -539,7 +539,7 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
       return false;
 
     // check if the vertex is null
-    if (this.verteces.get(adiacence.getValue()) == null)
+    if (list_of_vtx.get(adiacence.getValue()) == null)
       return false;
 
     // check if the two verteces are the same

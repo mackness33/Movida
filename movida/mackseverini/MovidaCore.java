@@ -466,5 +466,5 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
 	 * @param actor attore di cui individuare il team
 	 * @return array di collaborazioni
 	 */
-	public Collaboration[] maximizeCollaborationsInTheTeamOf(Person actor){ return null; }
+	public Collaboration[] maximizeCollaborationsInTheTeamOf(Person actor){ return graph.getCollaborationMST(actor); }
 }

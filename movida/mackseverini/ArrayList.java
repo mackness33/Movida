@@ -20,7 +20,10 @@ public class ArrayList<E extends Comparable<E>> extends java.util.ArrayList<E> i
   public void print(){
     int count = 0;
     for (E i : this){
-      System.out.println("Pos: " + count + " El: " + i);
+      if (i == null)
+        System.out.println("Pos: " + count + " El: null");
+      else
+        System.out.println("Pos: " + count + " El: " + i);
       count++;
     }
   }
