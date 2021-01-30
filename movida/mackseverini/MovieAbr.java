@@ -107,19 +107,24 @@ public class MovieAbr<E extends Movie> implements IMovieAbr<E>
     this.years.insert(i, movieToInsert.getYear()) &&
     this.votes.insert(i, movieToInsert.getVotes()) &&
     this.director.insert(i, movieToInsert.getDirector());
-  } //                        DA TESTARE
+  }
 
-  // delete by title. just checkin the existance of a movie with that title
+  // delete a movie by title
   @Override
   public boolean delete(String title)
   {
-    int indexToDelete = this.titles.getIndex(title);
-    boolean result = this.titles.delete(title) &&
-                  this.years.delete(this.movies.get(indexToDelete).getYear()) &&
-                  this.votes.delete(this.movies.get(indexToDelete).getVotes()) &&
-                  this.director.delete(this.movies.get(indexToDelete).getDirector());
+    boolean result = false;
+    Integer indexToDelete = this.titles.getIndex(title);
 
-    this.movies.set(indexToDelete, null);
+    if(indexToDelete != null)
+    {
+      result =  this.titles.delete(title) &&
+                this.years.delete(this.movies.get(indexToDelete).getYear()) &&
+                this.votes.delete(this.movies.get(indexToDelete).getVotes()) &&
+                this.director.delete(this.movies.get(indexToDelete).getDirector());
+
+      this.movies.set(indexToDelete, null);
+    }
 
     return result;
   }
@@ -161,7 +166,7 @@ public class MovieAbr<E extends Movie> implements IMovieAbr<E>
   @Override
   public Movie getFromId (Integer id) {return this.movies.get(id);}
 
-  // sort all the hashes
+  // sort all the trees
   @Override
   public void sort(IAlg algorithm)
   {} //                        DA IMPLEMENTARE

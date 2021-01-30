@@ -119,6 +119,13 @@ public class test {
     movs.insert(parolaGiurati);
 
     movs.printTree(0);
+
+
+    // DELETE (by title)
+    System.out.println(movs.delete("Il padrin")); // movie not present in tree OK
+    System.out.println(movs.delete("Il padrino"));
+
+    movs.printTree(0);
   }
 
   public static void algTest(){

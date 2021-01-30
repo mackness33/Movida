@@ -120,7 +120,11 @@ public class ABR<E extends Comparable<E>, T extends Comparable<T>> implements IA
   @Override
   public boolean delete(T valueToDelete)
   {
-      if(this.root == null) {return false;}
+      if((this.root == null) || (valueToDelete == null))
+      {
+        System.out.println("NOTHING TO DELETE");
+        return false;
+      }
       // ROOT case
       if(valueToDelete.compareTo(this.root.getValue()) == 0)
         return deleteRoot();
