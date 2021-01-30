@@ -20,6 +20,8 @@ public interface IList<E extends Comparable<E>> extends Comparable<IList<E>>{
 
   public Integer search (E el);
 
+  public E get (E el);
+
   public E getAt (int pos);
 
   public void print ();

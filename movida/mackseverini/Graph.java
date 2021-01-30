@@ -193,6 +193,17 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
     return res;
   }
 
+  // find the position of the arch if present
+  protected IArch<Integer,K> searchArch(IList<IArch<Integer, K>> list_of_arch, GraphPair<Integer> nodes){
+    // verteces are not presents
+    if (nodes == null)
+      return null;
+
+
+    // get position of  the arch, if present return true.
+    return list_of_arch.get(new Arch<Integer,K>(nodes.getFirstValue(), nodes.getSecondValue(), null));
+  }
+
   protected <T extends Comparable<T>> boolean containsVerteces(Array<IVertex<E, T>> list_of_vtx, E vertex1, E vertex2){ return (this.findVerteces(list_of_vtx, vertex1, vertex2) != null); }
 
   protected <T extends Comparable<T>> GraphPair<Integer> findVerteces(Array<IVertex<E, T>> list_of_vtx, E vertex1, E vertex2){
@@ -447,7 +458,8 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
     // adding a random weight. at the end it will be resetted back to null
     // random weight is needed because with null it will all crash.
     // the random weight won't affect the algorithm in any way
-    this.MSTinitizialization(A, PQ, vertex, pos_vertex, arch, arch.getWeight());
+    this.MSTinitizialization(A, PQ, vertex, pos_vertex, arch.getWeight());
+    A.set(0, new Arch<E,K>(arch));            // add the arch to the output arch
     arch.reset();
     // A = MSTmain(A, PQ, arch, vertex, pos_vertex);
     // till PQ is empty;  reset the temporary arch
@@ -474,13 +486,12 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
     return A;
   }
 
-  protected <T extends Comparable<T>> void MSTinitizialization(Array<IArch<E,K>> A, PriorityQueue<Integer, T> PQ, E vertex, Integer pos, IArch<E,K> newArch, T weight){
+  protected <T extends Comparable<T>> void MSTinitizialization(Array<IArch<E,K>> A, PriorityQueue<Integer, T> PQ, E vertex, Integer pos, T weight){
     // initialize arch array
     for (int i = 0; i < A.length; i++)
       A.set(i, null);
 
     // insert the root vertex
-    A.set(0, new Arch<E,K>(newArch));            // add the arch to the output arch
     PQ.insert(pos, weight);
   }
 
@@ -522,7 +533,7 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
     return last_arch;
   }
 
-  protected <T extends Comparable<T>> boolean MSTchecks(Array<IVertex<E, T>> list_of_vtx, IKeyNode<Integer, K> adiacence, Integer vertex){
+  protected <T extends Comparable<T>> boolean MSTchecks(Array<IVertex<E, T>> list_of_vtx, IKeyNode<Integer, T> adiacence, Integer vertex){
     // check if value is null
     if (adiacence.getValue() == null || adiacence.getKey() == null)
       return false;

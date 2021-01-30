@@ -48,8 +48,8 @@ public class test {
 
   public static void main(String args[]){
     // test.algTest();
-    test.graphTest();
-    // test.movidaTest();
+    // test.graphTest();
+    test.movidaTest();
     // test.queueTest();
     // test.listTest();
     test.abrTest();
@@ -234,6 +234,8 @@ public class test {
     System.out.println("TO ARRAY: ");
     for(int i = 0; i < team_of_Bruce.length; i++)
       System.out.println(team_of_Bruce[i]);
+
+    
 
     /*
     System.out.println("ARRAY LENGTH: " + people.length);

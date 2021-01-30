@@ -282,6 +282,31 @@ public class List<E extends Comparable<E>> implements movida.mackseverini.IList<
   }
 
   @Override
+  // get the position by having the element as the input
+  public E get (E el){
+    if (this.size <= 0 || el == null)
+      return null;
+
+    // compare the element with the first and last node of the list
+    if (el.compareTo(this.head.getValue()) == 0)
+      return this.head.getValue();
+    else if (el.compareTo(this.tail.getValue()) == 0)
+      return this.tail.getValue();
+
+    // check to see if there's more then one element
+    if((Node2<E>)this.head.getNext() == null)
+      return null;
+
+    int i = 1;
+    // iterate all the list to compare the element
+    for (Node2<E> iter = (Node2<E>)this.head.getNext(); iter.getNext() != null && i < this.size; iter = (Node2<E>)iter.getNext(), i++)
+      if (el.compareTo(iter.getValue()) == 0)
+        return iter.getValue();
+
+    return null;
+  }
+
+  @Override
   // get an element at a specified position of the list
   public E getAt (int pos){
     // check if the position is valid
