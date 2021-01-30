@@ -118,7 +118,7 @@ public class test {
     movs.insert(schindler);
     movs.insert(parolaGiurati);
 
-    movs.printTree(0);
+    // movs.printTree(0);
 
 
     // DELETE (by title)
@@ -130,7 +130,15 @@ public class test {
     System.out.println(movs.delete(padrino2));
     System.out.println("\n\n");
 
-    movs.printTree(0);
+    // movs.printTree(0);
+
+    // SEARCH (title)
+    System.out.println("Search for 'Il padrino': " + movs.search("Il padrino")); // movie not present in tree OK
+    System.out.println("\nSearch for 'Il cavaliere oscuro': " + movs.search("Il cavaliere oscuro"));
+
+    // SEARCH (movie)
+    System.out.println("\n\nSearch for 'Il padrino': " + movs.search(padrino)); // movie not present in tree OK
+    System.out.println("\nSearch for 'Il cavaliere oscuro': " + movs.search(cavaliereOscuro));
   }
 
   public static void algTest(){

@@ -146,11 +146,21 @@ public class MovieAbr<E extends Movie> implements IMovieAbr<E>
   // search of the element by title
   @Override
   public Movie search(String title)
-  {return null;} //                        DA IMPLEMENTARE
+  {
+    if(this.titles.get(title) != null)
+      return this.movies.get((this.titles.get(title)).getKey());
+    else
+      return null;
+  }
 
   @Override
   public boolean search(Movie movieToFind)
-  {return false;} //                        DA IMPLEMENTARE
+  {
+    if(movieToFind == null)
+      return false;
+    else
+      return this.search(movieToFind.getTitle()); // VEDE QUESTO "SEARCH" COME UNA CHIAMATA RICORSIVA E NON COME IL SEARCH SOPRA CHE TORNA UN MOVIE ----> POSSIBILE SOLUZIONE: COPIARE IL CODICE DEL SEARCH SOPRA AL POSTO DELLA CHIAMATA
+  }
 
   // search of the element by key in the input
   @Override
