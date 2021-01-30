@@ -122,8 +122,13 @@ public class test {
 
 
     // DELETE (by title)
+    System.out.println("\n\n");
     System.out.println(movs.delete("Il padrin")); // movie not present in tree OK
     System.out.println(movs.delete("Il padrino"));
+    // DELETE (by movie)
+    System.out.println(movs.delete(padrino)); // movie not present in tree OK
+    System.out.println(movs.delete(padrino2));
+    System.out.println("\n\n");
 
     movs.printTree(0);
   }

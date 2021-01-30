@@ -131,7 +131,12 @@ public class MovieAbr<E extends Movie> implements IMovieAbr<E>
 
   @Override
   public boolean delete(Movie movieToDelete)
-  {return false;} //                        DA IMPLEMENTARE
+  {
+    if(movieToDelete != null)
+      return this.delete(movieToDelete.getTitle());
+    else
+      return false;
+  }
 
   // update the element if it does already exist else it normally insert it
   @Override
