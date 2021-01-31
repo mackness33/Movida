@@ -446,7 +446,7 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
   // TODO: do compareTo for object without operator(-)
   // it return the Minimum Spinnig Tree of the graph using Primm's algorithm
   @Override
-  public Array<IArch<E, K>> MSTPrim(E vertex){
+  public Array<IArch<E, K>> MSTPrim(E vertex, boolean isMin){
     Integer pos_vertex = null;                                      // pos of the selected vertex
     if ((pos_vertex = this.findVertex(this.verteces, vertex)) == null)
       return null;
@@ -465,8 +465,8 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
     // till PQ is empty;  reset the temporary arch
     for(Integer pos_arch = 0, last_arch = 1; !PQ.isEmpty(); arch.reset()){
       // find min and delete it
-      pos_vertex = PQ.findMin();
-      PQ.delMin();
+      pos_vertex = PQ.find();
+      PQ.delete();
       PQ.print();
       arch.setSecondVertex(this.verteces.get(pos_vertex).getValue());        // set second arch vertex to the selected one
 
@@ -475,7 +475,7 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
         // checks values
         if (this.MSTchecks(this.verteces, iter, pos_vertex)){
           pos_arch = this.MSTsetArch(this.verteces, A, PQ, iter, arch);
-          last_arch = this.MSTaction(A, PQ, iter, arch, pos_arch, last_arch, pos_vertex);
+          last_arch = this.MSTaction(A, PQ, iter, arch, pos_arch, last_arch, pos_vertex, isMin);
         }
       }
     }
@@ -514,7 +514,7 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
     return -1;
   }
 
-  protected Integer MSTaction(Array<IArch<E,K>> A, PriorityQueue<Integer, K> PQ, IKeyNode<Integer, K> iter, IArch<E,K> arch, Integer pos_arch, Integer last_arch, Integer pos_vertex){
+  protected Integer MSTaction(Array<IArch<E,K>> A, PriorityQueue<Integer, K> PQ, IKeyNode<Integer, K> iter, IArch<E,K> arch, Integer pos_arch, Integer last_arch, Integer pos_vertex, boolean isMin){
     // if there's no weight associated to the vertex
     if (arch.getWeight() == null){
       // System.out.println("last_arch: " + last_arch);
@@ -524,7 +524,8 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
       return last_arch+1;                                            // increment pos of the last arch in the output array
     }
     // else if weight of the adiacence minor than the weight of the arch AND the vertex of the adiacence is in the PriorityQueue
-    else if (iter.getKey().compareTo(A.get(pos_arch).getWeight()) < 0 && PQ.check(iter.getValue())){
+    else if (this.min_max_compare(iter.getKey(), A.get(pos_arch).getWeight(), isMin) && PQ.check(iter.getValue())){
+    // else if (iter.getKey().compareTo() < 0 && PQ.check(iter.getValue())){
       A.get(pos_arch).setWeight(iter.getKey());                                   // set weight with the adiacence
       A.get(pos_arch).setSecondVertex(this.verteces.get(pos_vertex).getValue());        // set the new second Vertex
       PQ.decreaseKey(iter.getValue(), iter.getKey());                             // decreaseKey by weight of the adiacence weight
@@ -532,6 +533,8 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
 
     return last_arch;
   }
+
+  protected <T extends Comparable<T>> boolean min_max_compare(T obj, T obj2, boolean isMin){ return (isMin) ? (obj.compareTo(obj2) < 0) : (obj.compareTo(obj2) > 0); }
 
   protected <T extends Comparable<T>> boolean MSTchecks(Array<IVertex<E, T>> list_of_vtx, IKeyNode<Integer, T> adiacence, Integer vertex){
     // check if value is null

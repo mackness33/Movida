@@ -267,6 +267,16 @@ public class test {
 
 
     System.out.println("");
+    Collaboration[] mst_of_Tom = mb.maximizeCollaborationsInTheTeamOf(new Person("Tom Skerritt"));
+    System.out.println("");
+    System.out.println("Tom mst LENGTH: " + mst_of_Tom.length);
+    System.out.println("TO ARRAY: ");
+    for(int i = 0; i < mst_of_Tom.length; i++)
+      if (mst_of_Tom[i] != null)
+        mst_of_Tom[i].print();
+
+
+    System.out.println("");
     System.out.println("");
 
 
@@ -394,7 +404,7 @@ public class test {
     System.out.println("Searchin for 4-0: " + G.containsArch(new Arch<Integer, Double>(4,0, null)));
 
     Array<IArch<Integer, Double>> Show = new Array<IArch<Integer, Double>>(10);
-    Array<IArch<Integer, Double>> Prim = G.MSTPrim(6);
+    Array<IArch<Integer, Double>> Prim = G.MSTPrim(6, true);
 
 
     if (Prim == null)
@@ -689,12 +699,12 @@ public class test {
 
     PQ.print();
 
-    System.out.println("Actual min: " + PQ.findMin());
+    System.out.println("Actual min: " + PQ.find());
 
     for (int i = 0; i < 36; i++)
-      PQ.delMin();
+      PQ.delete();
 
-    System.out.println("Last: " + PQ.findMin());
+    System.out.println("Last: " + PQ.find());
 
     System.out.println("isEmpty: " + PQ.isEmpty());
   }

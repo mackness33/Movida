@@ -15,14 +15,14 @@ public class PriorityQueue<E extends Comparable<E>, K extends Comparable<K>>{
   protected final int MAX_LENGTH = 100;
   protected int size;
   protected int height;
-  protected boolean min;
+  protected boolean isMin;
 
   @SuppressWarnings("unchecked")
   public PriorityQueue(boolean min) {
     this.binaryHeap = new Array<Pair<E, K>>(this.MAX_LENGTH);
     this.size = 0;
     this.height = 0;
-    this.boolean = min;
+    this.isMin = min;
 
     for (int i = 0; i < MAX_LENGTH; i++)
       this.binaryHeap.set(i, null);
@@ -32,7 +32,7 @@ public class PriorityQueue<E extends Comparable<E>, K extends Comparable<K>>{
     this.binaryHeap = new Array<Pair<E, K>>(this.MAX_LENGTH);
     this.size = 0;
     this.height = 0;
-    this.boolean = true;
+    this.isMin = true;
 
     for (int i = 0; i < MAX_LENGTH; i++)
       this.binaryHeap.set(i, null);
@@ -78,7 +78,8 @@ public class PriorityQueue<E extends Comparable<E>, K extends Comparable<K>>{
       return;
 
     for (int i = ((pos+1)/2)-1; i >= 0; i=((pos+1)/2)-1){
-      if (this.binaryHeap.get(pos).compareTo(this.binaryHeap.get(i)) < 0){        // here
+      if (min_max_compare(this.binaryHeap.get(pos), this.binaryHeap.get(i))){                      // here
+      // if (this.binaryHeap.get(pos).compareTo(this.binaryHeap.get(i)) < 0){        // here
         Pair<E, K> temp = this.binaryHeap.get(i);
         this.binaryHeap.set(i, this.binaryHeap.get(pos));
         this.binaryHeap.set(pos, temp);
@@ -99,7 +100,8 @@ public class PriorityQueue<E extends Comparable<E>, K extends Comparable<K>>{
 
     for (int i = (pos*2)+1; i < this.size; i=(pos*2)+1){
       if (i+1 < this.size){
-        if (this.binaryHeap.get(i).compareTo(this.binaryHeap.get(i+1)) < 0){        // here
+        if (min_max_compare(this.binaryHeap.get(i), this.binaryHeap.get(i+1))){                      // here
+        // if (this.binaryHeap.get(i).compareTo(this.binaryHeap.get(i+1)) < 0){        // here
           if (this.compareAndSwap(pos, i))
             pos = i;
           else break;
@@ -121,7 +123,8 @@ public class PriorityQueue<E extends Comparable<E>, K extends Comparable<K>>{
   }
 
   private boolean compareAndSwap(int pos, int pos2){
-    if (this.binaryHeap.get(pos).compareTo(this.binaryHeap.get(pos2)) > 0){         // here
+    if (min_max_compareEqual(this.binaryHeap.get(pos2), this.binaryHeap.get(pos))){                    // here
+    // if (this.binaryHeap.get(pos).compareTo(this.binaryHeap.get(pos2)) > 0){         // here
       Pair<E, K> temp = this.binaryHeap.get(pos2);
       this.binaryHeap.set(pos2, this.binaryHeap.get(pos));
       this.binaryHeap.set(pos, temp);
@@ -162,7 +165,8 @@ public class PriorityQueue<E extends Comparable<E>, K extends Comparable<K>>{
 
     if (obj.compareTo(this.binaryHeap.get(pos-1).getValue()) == 0)
       return pos-1;
-    else if (obj.compareTo(this.binaryHeap.get(pos-1).getValue()) < 0)            // here
+    else  if (min_max_compare(obj, this.binaryHeap.get(pos-1).getValue()))                      // here
+    // else if (obj.compareTo(this.binaryHeap.get(pos-1).getValue()) < 0)            // here
       return -1;
     else
       return Math.max(this.search(obj, pos*2), this.search(obj, (pos*2)+1));
@@ -187,7 +191,8 @@ public class PriorityQueue<E extends Comparable<E>, K extends Comparable<K>>{
 
     if (obj.compareTo(this.binaryHeap.get(pos-1).getValue()) == 0)
       return this.binaryHeap.get(pos-1).getKey();
-    else if (obj.compareTo(this.binaryHeap.get(pos-1).getValue()) < 0)                        // here
+    else  if (min_max_compare(obj, this.binaryHeap.get(pos-1).getValue()))                      // here
+    // else if (obj.compareTo(this.binaryHeap.get(pos-1).getValue()) < 0)                        // here
       return null;
     else{
       K first = this.getKey(obj, pos*2);
@@ -197,9 +202,9 @@ public class PriorityQueue<E extends Comparable<E>, K extends Comparable<K>>{
     }
   }
 
-  public E find() { return this.binaryHeap.get(0).getValue();}                             // here
+  public E find() { return this.binaryHeap.get(0).getValue();}
 
-  public boolean delete() { return this.delete(this.binaryHeap.get(0).getValue());}           // here
+  public boolean delete() { return this.delete(this.binaryHeap.get(0).getValue());}
 
   public boolean increaseKey(E obj, K key){
     if (obj == null || key == null)
@@ -210,11 +215,16 @@ public class PriorityQueue<E extends Comparable<E>, K extends Comparable<K>>{
     if ((pos = this.search(obj, 1)) < 0)
       return false;
 
-    if (key.compareTo(this.binaryHeap.get(pos).getKey()) <= 0)                          // here
+    if (min_max_compareEqual(key, this.binaryHeap.get(pos).getKey()))                      // here
+    // if (key.compareTo(this.binaryHeap.get(pos).getKey()) <= 0)                          // here
       return false;
 
     this.binaryHeap.set(pos, new Pair<E, K>(obj, key));
-    this.moveDown(pos);
+    // (isMin) ? this.moveDown(pos) : this.moveUp(pos);
+    if (isMin)
+      this.moveUp(pos);
+    else
+      this.moveDown(pos);
 
     return true;
   }
@@ -228,16 +238,22 @@ public class PriorityQueue<E extends Comparable<E>, K extends Comparable<K>>{
     if ((pos = this.search(obj, 1)) < 0)
       return false;
 
-    if (key.compareTo(this.binaryHeap.get(pos).getKey()) >= 0)                      // here
+    if (min_max_compare(this.binaryHeap.get(pos).getKey(), key))                      // here
+    // if (key.compareTo(this.binaryHeap.get(pos).getKey()) >= 0)                      // here
       return false;
 
     this.binaryHeap.set(pos, new Pair<E, K>(obj, key));
-    this.moveUp(pos);
+    if (isMin)
+      this.moveUp(pos);
+    else
+      this.moveDown(pos);
 
     return true;
   }
 
-  protected 
+  protected <T extends Comparable<T>> boolean min_max_compare(T obj, T obj2){ return (isMin) ? (obj.compareTo(obj2) < 0) : (obj.compareTo(obj2) > 0); }
+
+  protected <T extends Comparable<T>> boolean min_max_compareEqual(T obj, T obj2){ return (isMin) ? (obj.compareTo(obj2) <= 0) : (obj.compareTo(obj2) >= 0); }
 
   // print of the whole hash
   // FOR TEST USE ONLY
