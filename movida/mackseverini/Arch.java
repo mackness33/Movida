@@ -61,11 +61,11 @@ public class Arch<E extends Comparable<E>, K extends Comparable<K>> implements I
 
     // if the difference between the verteces is minor of 2 for both the verteces
     if (Math.abs(x1) + Math.abs(x2) < 2 && Math.abs(y1) + Math.abs(y2) < 2){
-      System.out.print("input: ");
-      input.print();
-      System.out.print("arch: ");
-      this.print();
-      System.out.println("RES in arch: " + comp1 + comp2);
+      // System.out.print("input: ");
+      // input.print();
+      // System.out.print("arch: ");
+      // this.print();
+      // System.out.println("RES in arch: " + comp1 + comp2);
       // check to find comparison with a same-vertex arch
       if (comp1 == comp2)
         return Math.abs(comp1 + comp2) / 2;   // return 1 or 0

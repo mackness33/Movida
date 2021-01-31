@@ -235,9 +235,9 @@ public class test {
     for(int i = 0; i < team_of_Bruce.length; i++)
       System.out.println(team_of_Bruce[i]);
 
+    System.out.println("");
     Collaboration[] mst_of_Tommy = mb.maximizeCollaborationsInTheTeamOf(new Person("Tommy Lee Jones"));
-    Collaboration[] mst_of_Harrison = mb.maximizeCollaborationsInTheTeamOf(new Person("Harrison Ford"));
-    Collaboration[] mst_of_Bruce = mb.maximizeCollaborationsInTheTeamOf(new Person("Bruce Willis"));
+    System.out.println("");
 
     System.out.println("Tommey mst LENGTH: " + mst_of_Tommy.length);
     System.out.println("TO ARRAY: ");
@@ -246,9 +246,10 @@ public class test {
         mst_of_Tommy[i].print();
 
     System.out.println("");
+    Collaboration[] mst_of_Harrison = mb.maximizeCollaborationsInTheTeamOf(new Person("Harrison Ford"));
     System.out.println("");
 
-    System.out.println("Harrison team LENGTH: " + mst_of_Harrison.length);
+    System.out.println("Harrison mst LENGTH: " + mst_of_Harrison.length);
     System.out.println("TO ARRAY: ");
     for(int i = 0; i < mst_of_Harrison.length; i++)
       if (mst_of_Harrison[i] != null)
@@ -256,12 +257,13 @@ public class test {
 
 
     System.out.println("");
+    Collaboration[] mst_of_Alan = mb.maximizeCollaborationsInTheTeamOf(new Person("Alan Rickman"));
     System.out.println("");
-    System.out.println("Bruce team LENGTH: " + mst_of_Bruce.length);
+    System.out.println("Alan mst LENGTH: " + mst_of_Alan.length);
     System.out.println("TO ARRAY: ");
-    for(int i = 0; i < mst_of_Bruce.length; i++)
-      if (mst_of_Bruce[i] != null)
-        mst_of_Bruce[i].print();
+    for(int i = 0; i < mst_of_Alan.length; i++)
+      if (mst_of_Alan[i] != null)
+        mst_of_Alan[i].print();
 
 
     System.out.println("");

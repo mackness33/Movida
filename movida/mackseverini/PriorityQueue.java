@@ -15,12 +15,24 @@ public class PriorityQueue<E extends Comparable<E>, K extends Comparable<K>>{
   protected final int MAX_LENGTH = 100;
   protected int size;
   protected int height;
+  protected boolean min;
 
   @SuppressWarnings("unchecked")
+  public PriorityQueue(boolean min) {
+    this.binaryHeap = new Array<Pair<E, K>>(this.MAX_LENGTH);
+    this.size = 0;
+    this.height = 0;
+    this.boolean = min;
+
+    for (int i = 0; i < MAX_LENGTH; i++)
+      this.binaryHeap.set(i, null);
+  }
+
   public PriorityQueue() {
     this.binaryHeap = new Array<Pair<E, K>>(this.MAX_LENGTH);
     this.size = 0;
     this.height = 0;
+    this.boolean = true;
 
     for (int i = 0; i < MAX_LENGTH; i++)
       this.binaryHeap.set(i, null);
@@ -66,7 +78,7 @@ public class PriorityQueue<E extends Comparable<E>, K extends Comparable<K>>{
       return;
 
     for (int i = ((pos+1)/2)-1; i >= 0; i=((pos+1)/2)-1){
-      if (this.binaryHeap.get(pos).compareTo(this.binaryHeap.get(i)) < 0){
+      if (this.binaryHeap.get(pos).compareTo(this.binaryHeap.get(i)) < 0){        // here
         Pair<E, K> temp = this.binaryHeap.get(i);
         this.binaryHeap.set(i, this.binaryHeap.get(pos));
         this.binaryHeap.set(pos, temp);
@@ -87,7 +99,7 @@ public class PriorityQueue<E extends Comparable<E>, K extends Comparable<K>>{
 
     for (int i = (pos*2)+1; i < this.size; i=(pos*2)+1){
       if (i+1 < this.size){
-        if (this.binaryHeap.get(i).compareTo(this.binaryHeap.get(i+1)) < 0){
+        if (this.binaryHeap.get(i).compareTo(this.binaryHeap.get(i+1)) < 0){        // here
           if (this.compareAndSwap(pos, i))
             pos = i;
           else break;
@@ -109,7 +121,7 @@ public class PriorityQueue<E extends Comparable<E>, K extends Comparable<K>>{
   }
 
   private boolean compareAndSwap(int pos, int pos2){
-    if (this.binaryHeap.get(pos).compareTo(this.binaryHeap.get(pos2)) > 0){
+    if (this.binaryHeap.get(pos).compareTo(this.binaryHeap.get(pos2)) > 0){         // here
       Pair<E, K> temp = this.binaryHeap.get(pos2);
       this.binaryHeap.set(pos2, this.binaryHeap.get(pos));
       this.binaryHeap.set(pos, temp);
@@ -150,7 +162,7 @@ public class PriorityQueue<E extends Comparable<E>, K extends Comparable<K>>{
 
     if (obj.compareTo(this.binaryHeap.get(pos-1).getValue()) == 0)
       return pos-1;
-    else if (obj.compareTo(this.binaryHeap.get(pos-1).getValue()) < 0)
+    else if (obj.compareTo(this.binaryHeap.get(pos-1).getValue()) < 0)            // here
       return -1;
     else
       return Math.max(this.search(obj, pos*2), this.search(obj, (pos*2)+1));
@@ -175,7 +187,7 @@ public class PriorityQueue<E extends Comparable<E>, K extends Comparable<K>>{
 
     if (obj.compareTo(this.binaryHeap.get(pos-1).getValue()) == 0)
       return this.binaryHeap.get(pos-1).getKey();
-    else if (obj.compareTo(this.binaryHeap.get(pos-1).getValue()) < 0)
+    else if (obj.compareTo(this.binaryHeap.get(pos-1).getValue()) < 0)                        // here
       return null;
     else{
       K first = this.getKey(obj, pos*2);
@@ -185,9 +197,9 @@ public class PriorityQueue<E extends Comparable<E>, K extends Comparable<K>>{
     }
   }
 
-  public E findMin() { return this.binaryHeap.get(0).getValue();}
+  public E find() { return this.binaryHeap.get(0).getValue();}                             // here
 
-  public boolean delMin() { return this.delete(this.binaryHeap.get(0).getValue());}
+  public boolean delete() { return this.delete(this.binaryHeap.get(0).getValue());}           // here
 
   public boolean increaseKey(E obj, K key){
     if (obj == null || key == null)
@@ -198,7 +210,7 @@ public class PriorityQueue<E extends Comparable<E>, K extends Comparable<K>>{
     if ((pos = this.search(obj, 1)) < 0)
       return false;
 
-    if (key.compareTo(this.binaryHeap.get(pos).getKey()) <= 0)
+    if (key.compareTo(this.binaryHeap.get(pos).getKey()) <= 0)                          // here
       return false;
 
     this.binaryHeap.set(pos, new Pair<E, K>(obj, key));
@@ -216,7 +228,7 @@ public class PriorityQueue<E extends Comparable<E>, K extends Comparable<K>>{
     if ((pos = this.search(obj, 1)) < 0)
       return false;
 
-    if (key.compareTo(this.binaryHeap.get(pos).getKey()) >= 0)
+    if (key.compareTo(this.binaryHeap.get(pos).getKey()) >= 0)                      // here
       return false;
 
     this.binaryHeap.set(pos, new Pair<E, K>(obj, key));
@@ -224,6 +236,8 @@ public class PriorityQueue<E extends Comparable<E>, K extends Comparable<K>>{
 
     return true;
   }
+
+  protected 
 
   // print of the whole hash
   // FOR TEST USE ONLY
