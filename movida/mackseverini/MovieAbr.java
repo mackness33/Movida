@@ -165,27 +165,27 @@ public class MovieAbr<E extends Movie> implements IMovieAbr<E>
   // search of the element by key in the input
   @Override
   public <K extends Comparable<K>> Movie[] searchByKey(K input)
-  {
-    Array<Movie> moviesByKey = new Array<Movie>(this.movies.getLength);
-    int i = 0;
-
-    if(K instanceof Integer)
-    {
-      if(this.years.search(input) != null)
-        moviesByKey[i++];
-    }
-    else if(K instanceof Person)
-    {
-      if(this.director.search(input) != null)
-        moviesByKey[i++];
-    }
-    else
-    {
-      System.out.println("WRONG TYPE");
-      return null;
-    }
-
-    return moviesByKey.toPrimitive();
+  {return null;
+    // Array<Movie> moviesByKey = new Array<Movie>(this.movies.getLength);
+    // int i = 0;
+    //
+    // if(K instanceof Integer)
+    // {
+    //   if(this.years.search(input) != null)
+    //     moviesByKey[i++];
+    // }
+    // else if(K instanceof Person)
+    // {
+    //   if(this.director.search(input) != null)
+    //     moviesByKey[i++];
+    // }
+    // else
+    // {
+    //   System.out.println("WRONG TYPE");
+    //   return null;
+    // }
+    //
+    // return moviesByKey.toPrimitive();
   } //                        DA IMPLEMENTARE
 
   // get N elements by key in the input
