@@ -31,9 +31,6 @@ public class Hash2<E extends Comparable<E>> implements movida.mackseverini.IHash
   public int getSize() { return this.size; }
   public int getLength() { return this.length; }
 
-  @Override
-  public final movida.commons.MapImplementation getType(){ return movida.commons.MapImplementation.HashConcatenamento; }
-
 
   // reset of all the data structure
   @Override

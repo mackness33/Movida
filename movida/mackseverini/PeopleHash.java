@@ -24,6 +24,9 @@ public class PeopleHash<E extends Person> extends KeyHash<Person> implements IPe
   }
 
   @Override
+  public final movida.commons.MapImplementation getType(){ return movida.commons.MapImplementation.HashConcatenamento; }
+
+  @Override
   // insert of a element in the main hash and the keys hash/array
   public boolean insert(Person obj){
     if (obj == null)

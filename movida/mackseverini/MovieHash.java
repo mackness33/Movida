@@ -31,6 +31,10 @@ public class MovieHash<E extends Movie> extends KeyHash<Movie> implements IMovie
     this.directors = new KeyList<IList<String>, Integer, Integer>();
   }
 
+
+  @Override
+  public final movida.commons.MapImplementation getType(){ return movida.commons.MapImplementation.HashConcatenamento; }
+
   @Override
   // insert of a element in the main hash and the keys hash/array
   public boolean insert(Movie obj){

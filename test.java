@@ -184,12 +184,13 @@ public class test {
 
     mb.loadFromFile(new File("movida/assets/esempio-formato-dati.txt"));
     movidaMapTest(mb);
-    movidaGraphTest(mb);
+    // movidaGraphTest(mb);
   }
 
   public static void movidaConfigTest(MovidaCore mb){
-    System.out.println("MapChange1: " + mb.setMap(movida.commons.MapImplementation.ABR));
-    System.out.println("MapChange2: " + mb.setMap(movida.commons.MapImplementation.HashConcatenamento));
+    System.out.println("MapChange1: " + mb.setMap(movida.commons.MapImplementation.HashConcatenamento));
+    System.out.println("MapChange2: " + mb.setMap(movida.commons.MapImplementation.ABR));
+    System.out.println("MapChange3: " + mb.setMap(movida.commons.MapImplementation.AVL));
 
     System.out.println("AlgChange1: " + mb.setSort(movida.commons.SortingAlgorithm.MergeSort));
     System.out.println("AlgChange2: " + mb.setSort(movida.commons.SortingAlgorithm.InsertionSort));
@@ -201,8 +202,14 @@ public class test {
     mb.deleteMovieByTitle("Air Force One");
     mb.deleteMovieByTitle(null);
 
+    System.out.println("");
+    System.out.println("");
     System.out.println("Get Cape Fear: \n\r" + mb.getMovieByTitle("Cape Fear"));
+    System.out.println("");
+    System.out.println("");
     System.out.println("Get Harrison Ford: \n\r" + mb.getPersonByName("Harrison Ford"));
+    System.out.println("");
+    System.out.println("");
 
 
     // PEOPLE

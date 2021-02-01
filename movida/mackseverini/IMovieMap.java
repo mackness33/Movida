@@ -12,8 +12,7 @@ import movida.commons.Movie;
 import movida.commons.Person;
 
 // Class created specially for the Movies
-public interface IMovieMap<E extends Movie> extends IMap<Movie> {
-
+public interface IMovieMap<E extends Movie> extends IMap<Movie>, movida.mackseverini.IConfig<movida.commons.MapImplementation>{
   // retrive the amount of elements totally used
   public int getSize ();
 

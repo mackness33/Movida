@@ -17,6 +17,7 @@ import movida.commons.SortingAlgorithm;
 import movida.commons.Collaboration;
 
 import movida.mackseverini.Search;
+import movida.mackseverini.MovieAbr;
 import movida.mackseverini.MovieHash;
 import movida.mackseverini.PeopleHash;
 import movida.mackseverini.CollabGraph;
@@ -373,40 +374,29 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
 	 * @param m l'implementazione da selezionare
 	 * @return <code>true</code> se la configurazione e' stata modificata, <code>false</code> in caso contrario
 	 */
-	public boolean setMap(MapImplementation m){
-    // MapImplementation t = null;
-    //
-    // if ( this.movies instanceof MovieHash )
-    //   t = ((MovieHash)this.movies).type;
-    //
-    // System.out.println("Map movies: " + t);
-    // System.out.println("Map M: " + m);
-    // if (m != MapImplementation.HashConcatenamento || m == t || m == null){ //&& m != MapImplementation.ABR){
-    //   return false;
-    // }
-
+	public boolean setMap(MapImplementation map){
     System.out.println("actual Map: " + ((this.movies != null) ? this.movies.getType() : null));
-    System.out.println("input Map: " + m);
-    if (m == null)
+    System.out.println("input Map: " + map);
+    if (map == null)
       return false;
-    else if (this.movies != null && m == this.movies.getType())
+    else if (this.movies != null && map == this.movies.getType())
       return false;
 
     Movie[] films = (this.movies != null) ? this.movies.toPrimitive() : null;
     Person[] persons = (this.people != null) ? this.people.toPrimitive() : null;
 
-    // if (this.movies != null){
-    //   films = ;
-    //   persons = this.people.toPrimitive();
-    // }
-
-    switch (m){
+    switch (map){
       case HashConcatenamento: {
         this.movies = new MovieHash();
         this.people = new PeopleHash();
       }break;
 
-      case ABR: System.out.println("Tring ABR!");
+      // case ABR: System.out.println("Tring ABR!");
+      case ABR: {
+        this.movies = new MovieAbr();
+        this.people = new PeopleHash();
+      }break;
+
       default: {
         System.out.println("This map has not been implemented!");
         return false;
@@ -432,16 +422,16 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
 	 * @param a l'algoritmo da selezionare
 	 * @return <code>true</code> se la configurazione e' stata modificata, <code>false</code> in caso contrario
 	 */
-	public boolean setSort(SortingAlgorithm a){
+	public boolean setSort(SortingAlgorithm alg){
     // if ()
     System.out.println("actual Alg: " + ((this.sortAlgorithm != null) ? this.sortAlgorithm.getType() : null));
-    System.out.println("input Alg: " + a);
-    if (a == null)
+    System.out.println("input Alg: " + alg);
+    if (alg == null)
       return false;
-    else if (this.sortAlgorithm != null && a == this.sortAlgorithm.getType())
+    else if (this.sortAlgorithm != null && alg == this.sortAlgorithm.getType())
       return false;
 
-    switch (a){
+    switch (alg){
       case InsertionSort: this.sortAlgorithm = new InsertionSort();break;
       case MergeSort: System.out.println("Tring MergeSort!");//this.sortAlgorithm = new MergeSort();break;
       default: {

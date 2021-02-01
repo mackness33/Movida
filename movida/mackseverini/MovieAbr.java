@@ -41,6 +41,9 @@ public class MovieAbr<E extends Movie> implements IMovieAbr<E>
     this.director = director;
   }
 
+  @Override
+  public final movida.commons.MapImplementation getType(){ return movida.commons.MapImplementation.ABR; }
+
   // retrive the amount of elements totally used
   @Override
   public int getSize ()
