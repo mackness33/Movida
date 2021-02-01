@@ -177,16 +177,14 @@ public class test {
 
   public static void movidaTest(){
     MovidaCore mb = new MovidaCore();
-    // MovidaCore mb = new MovidaCore();
-    // mb.init_class();
 
     movidaConfigTest(mb);
     System.out.println("");
     System.out.println("");
 
     mb.loadFromFile(new File("movida/assets/esempio-formato-dati.txt"));
-    // movidaMapTest(mb);
-    // movidaGraphTest(mb);
+    movidaMapTest(mb);
+    movidaGraphTest(mb);
   }
 
   public static void movidaConfigTest(MovidaCore mb){
@@ -198,156 +196,270 @@ public class test {
   }
 
   public static void movidaMapTest(MovidaCore mb){
-    // mb.deleteMovieByTitle("Die Hard");
-    // mb.deleteMovieByTitle("The Junitive");
-    // mb.deleteMovieByTitle("Air Force One");
+    mb.deleteMovieByTitle("Die Hard");
+    mb.deleteMovieByTitle("The Junitive");
+    mb.deleteMovieByTitle("Air Force One");
     mb.deleteMovieByTitle(null);
 
     System.out.println("Get Cape Fear: \n\r" + mb.getMovieByTitle("Cape Fear"));
     System.out.println("Get Harrison Ford: \n\r" + mb.getPersonByName("Harrison Ford"));
 
-    Movie[] movies = mb.getAllMovies();
+
+    // PEOPLE
     Person[] people = mb.getAllPeople();
 
-    System.out.println("ARRAY LENGTH: " + people.length);
-    System.out.println("TO ARRAY: ");
-    for(int i = 0; i < people.length; i++)
-      System.out.println(people[i]);
+    if (people != null){
+      System.out.println("ARRAY LENGTH: " + people.length);
+      System.out.println("TO ARRAY: ");
+      for(int i = 0; i < people.length; i++)
+        System.out.println(people[i]);
+    }
+    else{
+      System.out.println("ARRAY LENGTH: " + 0);
+      System.out.println("TO ARRAY: " + people);
+    }
 
-    System.out.println("ARRAY LENGTH: " + movies.length);
-    System.out.println("TO ARRAY: ");
-    for(int i = 0; i < movies.length; i++)
-      System.out.println(movies[i]);
+
+    // MOVIES
+    Movie[] movies = mb.getAllMovies();
+
+    if (movies != null){
+      System.out.println("ARRAY LENGTH: " + movies.length);
+      System.out.println("TO ARRAY: ");
+      for(int i = 0; i < movies.length; i++)
+        System.out.println(movies[i]);
+    }
+    else{
+      System.out.println("ARRAY LENGTH: " + 0);
+      System.out.println("TO ARRAY: " + movies);
+    }
 
 
+    // SEARCH BY KEY -> YEAR
     System.out.println("\n\rSEARCHBYKEY YEAR: ");
     Movie[] years = mb.searchMoviesInYear(1997);
 
-    if (years == null)
-      System.out.println("bigass problem");
-    for(int i = 0; i < years.length; i++)
-      System.out.println(years[i]);
+    if (years != null)
+      for(int i = 0; i < years.length; i++)
+        System.out.println(years[i]);
+    else
+      System.out.println(years);
 
 
+    // SEARCH MOST OF -> RATES
     System.out.println("\n\rSEARCHMOSTOF RATES: ");
     Movie[] rates = mb.searchMostVotedMovies(2);
 
-    for(int i = 0; i < rates.length; i++)
-      System.out.println(rates[i]);
+    if (rates != null)
+      for(int i = 0; i < rates.length; i++)
+        System.out.println(rates[i]);
+    else
+      System.out.println(rates);
 
+
+    // SEARCH CONTAINS -> TITLE
     System.out.println("\n\rSEARCHCONTAINS TITLE: ");
-    Movie[] tites = mb.searchMoviesByTitle("tive");
+    Movie[] titles = mb.searchMoviesByTitle("tive");
 
-    if (tites == null)
-      System.out.println("NO MOVIES");
-    else{
-      for(int i = 0; i < tites.length; i++)
-      System.out.println(tites[i]);
-    }
+    if (titles != null)
+      for(int i = 0; i < titles.length; i++)
+        System.out.println(titles[i]);
+    else
+      System.out.println(titles);
 
+
+    // SEARCH BY KEY -> DIRECTORS
     System.out.println("\n\rSEARCHBYKEY DIRECTORS: ");
     Movie[] dirs = mb.searchMoviesDirectedBy("Martin Scorsese");
 
-    for(int i = 0; i < dirs.length; i++)
-      System.out.println(dirs[i]);
+    if (dirs != null)
+      for(int i = 0; i < dirs.length; i++)
+        System.out.println(dirs[i]);
+    else
+      System.out.println(dirs);
 
 
+    // SEARCH MOST OF -> YEAR
     System.out.println("\n\rSEARCHMOSTOF YEARS: ");
     Movie[] dates = mb.searchMostRecentMovies(7);
 
-    for(int i = 0; i < dates.length; i++)
-      System.out.println(dates[i]);
+    if (dates != null)
+      for(int i = 0; i < dates.length; i++)
+        System.out.println(dates[i]);
+    else
+      System.out.println(dates);
 
+
+    // SEARCH MOST OF -> ACTOR
     System.out.println("\n\rSEARCHMOSTOF ACTORS: ");
     Movie[] actors = mb.searchMoviesStarredBy("Harrison Ford");
 
-    for(int i = 0; i < actors.length; i++)
-      System.out.println(actors[i]);
+    if (actors != null)
+      for(int i = 0; i < actors.length; i++)
+        System.out.println(actors[i]);
+    else
+      System.out.println(actors);
 
+    // SEARCH MOST OF -> ACTIVE
     System.out.println("\n\rSEARCHMOSTACTIVE ACTORS: ");
     Person[] active = mb.searchMostActiveActors(5);
 
-    for(int i = 0; i < active.length; i++)
-      System.out.println(active[i]);
+    if (active != null)
+      for(int i = 0; i < active.length; i++)
+        System.out.println(active[i]);
+    else
+      System.out.println(active);
   }
 
   public static void movidaGraphTest(MovidaCore mb){
+    // ----------------- DIRECCT COLLABORATION -----------------------
+
+    // TOMMY LEE JONES
+    System.out.println("");
     Person[] collabs_of_Tommy = mb.getDirectCollaboratorsOf(new Person("Tommy Lee Jones"));
+
+    if (collabs_of_Tommy != null){
+      System.out.println("Tommy collab LENGTH: " + collabs_of_Tommy.length);
+      System.out.println("TO ARRAY: ");
+      for(int i = 0; i < collabs_of_Tommy.length; i++)
+        System.out.println(collabs_of_Tommy[i]);
+    }
+    else
+      System.out.println("Tommy collab LENGTH: " + 0 + "\n\rTO ARRAY: " + collabs_of_Tommy);
+
+    // HARRISON FORD
+    System.out.println("");
     Person[] collabs_of_Harrison = mb.getDirectCollaboratorsOf(new Person("Harrison Ford"));
 
-    System.out.println("Tommey collab LENGTH: " + collabs_of_Tommy.length);
-    System.out.println("TO ARRAY: ");
-    for(int i = 0; i < collabs_of_Tommy.length; i++)
-      System.out.println(collabs_of_Tommy[i]);
+    if (collabs_of_Harrison != null){
+      System.out.println("Harrison collab LENGTH: " + collabs_of_Harrison.length);
+      System.out.println("TO ARRAY: ");
+      for(int i = 0; i < collabs_of_Harrison.length; i++)
+        System.out.println(collabs_of_Harrison[i]);
+    }
+    else
+      System.out.println("Harrison collab LENGTH: " + 0 + "\n\rTO ARRAY: " + collabs_of_Harrison);
 
-    System.out.println("Harrison collab LENGTH: " + collabs_of_Harrison.length);
-    System.out.println("TO ARRAY: ");
-    for(int i = 0; i < collabs_of_Harrison.length; i++)
-      System.out.println(collabs_of_Harrison[i]);
 
+
+    // ----------------- TEAMS -----------------------
+
+    // TOMMY LEE JONES
+    System.out.println("");
     Person[] team_of_Tommy = mb.getTeamOf(new Person("Tommy Lee Jones"));
+
+    if (team_of_Tommy != null){
+      System.out.println("Tommy team LENGTH: " + team_of_Tommy.length);
+      System.out.println("TO ARRAY: ");
+      for(int i = 0; i < team_of_Tommy.length; i++)
+        System.out.println(team_of_Tommy[i]);
+    }
+    else
+      System.out.println("Tommy team LENGTH: " + 0 + "\n\rTO ARRAY: " + team_of_Tommy);
+
+    // HARRISON FORD
+    System.out.println("");
     Person[] team_of_Harrison = mb.getTeamOf(new Person("Harrison Ford"));
+
+    if (team_of_Harrison != null){
+      System.out.println("Harrison team LENGTH: " + team_of_Harrison.length);
+      System.out.println("TO ARRAY: ");
+      for(int i = 0; i < team_of_Harrison.length; i++)
+        System.out.println(team_of_Harrison[i]);
+    }
+    else
+      System.out.println("Harrison team LENGTH: " + 0 + "\n\rTO ARRAY: " + team_of_Harrison);
+
+    // BRUCE WILLIS
+    System.out.println("");
     Person[] team_of_Bruce = mb.getTeamOf(new Person("Bruce Willis"));
 
-    System.out.println("Tommey team LENGTH: " + team_of_Tommy.length);
-    System.out.println("TO ARRAY: ");
-    for(int i = 0; i < team_of_Tommy.length; i++)
-      System.out.println(team_of_Tommy[i]);
+    if (team_of_Bruce != null){
+      System.out.println("Bruce team LENGTH: " + team_of_Bruce.length);
+      System.out.println("TO ARRAY: ");
+      for(int i = 0; i < team_of_Bruce.length; i++)
+        System.out.println(team_of_Bruce[i]);
+    }
+    else
+      System.out.println("Bruce team LENGTH: " + 0 + "\n\rTO ARRAY: " + team_of_Bruce);
 
-    System.out.println("Harrison team LENGTH: " + team_of_Harrison.length);
-    System.out.println("TO ARRAY: ");
-    for(int i = 0; i < team_of_Harrison.length; i++)
-      System.out.println(team_of_Harrison[i]);
 
 
-    System.out.println("Bruce team LENGTH: " + team_of_Bruce.length);
-    System.out.println("TO ARRAY: ");
-    for(int i = 0; i < team_of_Bruce.length; i++)
-      System.out.println(team_of_Bruce[i]);
+    // ----------------- MAXIMUM SPINNING TREE -----------------------
 
+    // TOMMY LEE JONES
     System.out.println("");
     Collaboration[] mst_of_Tommy = mb.maximizeCollaborationsInTheTeamOf(new Person("Tommy Lee Jones"));
-    System.out.println("");
 
-    System.out.println("Tommey mst LENGTH: " + mst_of_Tommy.length);
-    System.out.println("TO ARRAY: ");
-    for(int i = 0; i < mst_of_Tommy.length; i++)
-      if (mst_of_Tommy[i] != null)
-        mst_of_Tommy[i].print();
+    if (mst_of_Tommy != null){
+      System.out.println("Tommy mst LENGTH: " + mst_of_Tommy.length);
+      System.out.println("TO ARRAY: ");
+      for(int i = 0; i < mst_of_Tommy.length; i++)
+        if (mst_of_Tommy[i] != null)
+          mst_of_Tommy[i].print();
+    }
+    else
+      System.out.println("Tommy mst LENGTH: " + 0 + "\n\rTO ARRAY: " + mst_of_Tommy);
 
+
+    // HARRISON FORD
     System.out.println("");
     Collaboration[] mst_of_Harrison = mb.maximizeCollaborationsInTheTeamOf(new Person("Harrison Ford"));
+
+    if (mst_of_Harrison != null){
+      System.out.println("Harrison mst LENGTH: " + mst_of_Harrison.length);
+      System.out.println("TO ARRAY: ");
+      for(int i = 0; i < mst_of_Harrison.length; i++)
+        if (mst_of_Harrison[i] != null)
+          mst_of_Harrison[i].print();
+    }
+    else
+      System.out.println("Harrison mst LENGTH: " + 0 + "\n\rTO ARRAY: " + mst_of_Harrison);
+
+
+    // BRUCE WILLIS
     System.out.println("");
+    Collaboration[] mst_of_Bruce = mb.maximizeCollaborationsInTheTeamOf(new Person("Bruce Willis"));
 
-    System.out.println("Harrison mst LENGTH: " + mst_of_Harrison.length);
-    System.out.println("TO ARRAY: ");
-    for(int i = 0; i < mst_of_Harrison.length; i++)
-      if (mst_of_Harrison[i] != null)
-        mst_of_Harrison[i].print();
+    if (mst_of_Bruce != null){
+      System.out.println("Bruce mst LENGTH: " + mst_of_Bruce.length);
+      System.out.println("TO ARRAY: ");
+      for(int i = 0; i < mst_of_Bruce.length; i++)
+        if (mst_of_Bruce[i] != null)
+          mst_of_Bruce[i].print();
+    }
+    else
+      System.out.println("Bruce mst LENGTH: " + 0 + "\n\rTO ARRAY: " + mst_of_Bruce);
 
 
+    // ALAN RICKMAN
     System.out.println("");
     Collaboration[] mst_of_Alan = mb.maximizeCollaborationsInTheTeamOf(new Person("Alan Rickman"));
-    System.out.println("");
-    System.out.println("Alan mst LENGTH: " + mst_of_Alan.length);
-    System.out.println("TO ARRAY: ");
-    for(int i = 0; i < mst_of_Alan.length; i++)
-      if (mst_of_Alan[i] != null)
-        mst_of_Alan[i].print();
+
+    if (mst_of_Alan != null){
+      System.out.println("Alan mst LENGTH: " + mst_of_Alan.length);
+      System.out.println("TO ARRAY: ");
+      for(int i = 0; i < mst_of_Alan.length; i++)
+        if (mst_of_Alan[i] != null)
+          mst_of_Alan[i].print();
+    }
+    else
+      System.out.println("Alan mst LENGTH: " + 0 + "\n\rTO ARRAY: " + mst_of_Alan);
 
 
+    // TOM SKERRITT
     System.out.println("");
     Collaboration[] mst_of_Tom = mb.maximizeCollaborationsInTheTeamOf(new Person("Tom Skerritt"));
-    System.out.println("");
-    System.out.println("Tom mst LENGTH: " + mst_of_Tom.length);
-    System.out.println("TO ARRAY: ");
-    for(int i = 0; i < mst_of_Tom.length; i++)
-      if (mst_of_Tom[i] != null)
-        mst_of_Tom[i].print();
 
-
-    System.out.println("");
-    System.out.println("");
+    if (mst_of_Tom != null){
+      System.out.println("Tom mst LENGTH: " + mst_of_Tom.length);
+      System.out.println("TO ARRAY: ");
+      for(int i = 0; i < mst_of_Tom.length; i++)
+        if (mst_of_Tom[i] != null)
+          mst_of_Tom[i].print();
+    }
+    else
+      System.out.println("Tom mst LENGTH: " + 0 + "\n\rTO ARRAY: " + mst_of_Tom);
   }
 
   public static void graphTest(){
