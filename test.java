@@ -212,7 +212,8 @@ public class test {
       System.out.println("ARRAY LENGTH: " + people.length);
       System.out.println("TO ARRAY: ");
       for(int i = 0; i < people.length; i++)
-        System.out.println(people[i]);
+        if (people[i] != null)
+          System.out.println(people[i]);
     }
     else{
       System.out.println("ARRAY LENGTH: " + 0);
@@ -227,7 +228,8 @@ public class test {
       System.out.println("ARRAY LENGTH: " + movies.length);
       System.out.println("TO ARRAY: ");
       for(int i = 0; i < movies.length; i++)
-        System.out.println(movies[i]);
+        if (movies[i] != null)
+          System.out.println(movies[i]);
     }
     else{
       System.out.println("ARRAY LENGTH: " + 0);
@@ -241,7 +243,8 @@ public class test {
 
     if (years != null)
       for(int i = 0; i < years.length; i++)
-        System.out.println(years[i]);
+        if (years[i] != null)
+          System.out.println(years[i]);
     else
       System.out.println(years);
 
@@ -252,7 +255,8 @@ public class test {
 
     if (rates != null)
       for(int i = 0; i < rates.length; i++)
-        System.out.println(rates[i]);
+        if (rates[i] != null)
+          System.out.println(rates[i]);
     else
       System.out.println(rates);
 
@@ -263,7 +267,8 @@ public class test {
 
     if (titles != null)
       for(int i = 0; i < titles.length; i++)
-        System.out.println(titles[i]);
+        if (titles[i] != null)
+          System.out.println(titles[i]);
     else
       System.out.println(titles);
 
@@ -274,7 +279,8 @@ public class test {
 
     if (dirs != null)
       for(int i = 0; i < dirs.length; i++)
-        System.out.println(dirs[i]);
+        if (dirs[i] != null)
+          System.out.println(dirs[i]);
     else
       System.out.println(dirs);
 
@@ -285,7 +291,8 @@ public class test {
 
     if (dates != null)
       for(int i = 0; i < dates.length; i++)
-        System.out.println(dates[i]);
+        if (dates[i] != null)
+          System.out.println(dates[i]);
     else
       System.out.println(dates);
 
@@ -296,7 +303,8 @@ public class test {
 
     if (actors != null)
       for(int i = 0; i < actors.length; i++)
-        System.out.println(actors[i]);
+        if (actors[i] != null)
+          System.out.println(actors[i]);
     else
       System.out.println(actors);
 
@@ -306,7 +314,8 @@ public class test {
 
     if (active != null)
       for(int i = 0; i < active.length; i++)
-        System.out.println(active[i]);
+        if (active[i] != null)
+          System.out.println(active[i]);
     else
       System.out.println(active);
   }
@@ -322,7 +331,8 @@ public class test {
       System.out.println("Tommy collab LENGTH: " + collabs_of_Tommy.length);
       System.out.println("TO ARRAY: ");
       for(int i = 0; i < collabs_of_Tommy.length; i++)
-        System.out.println(collabs_of_Tommy[i]);
+        if (collabs_of_Tommy[i] != null)
+          System.out.println(collabs_of_Tommy[i]);
     }
     else
       System.out.println("Tommy collab LENGTH: " + 0 + "\n\rTO ARRAY: " + collabs_of_Tommy);
@@ -335,7 +345,8 @@ public class test {
       System.out.println("Harrison collab LENGTH: " + collabs_of_Harrison.length);
       System.out.println("TO ARRAY: ");
       for(int i = 0; i < collabs_of_Harrison.length; i++)
-        System.out.println(collabs_of_Harrison[i]);
+        if (collabs_of_Harrison[i] != null)
+          System.out.println(collabs_of_Harrison[i]);
     }
     else
       System.out.println("Harrison collab LENGTH: " + 0 + "\n\rTO ARRAY: " + collabs_of_Harrison);
@@ -352,7 +363,8 @@ public class test {
       System.out.println("Tommy team LENGTH: " + team_of_Tommy.length);
       System.out.println("TO ARRAY: ");
       for(int i = 0; i < team_of_Tommy.length; i++)
-        System.out.println(team_of_Tommy[i]);
+        if (team_of_Tommy[i] != null)
+          System.out.println(team_of_Tommy[i]);
     }
     else
       System.out.println("Tommy team LENGTH: " + 0 + "\n\rTO ARRAY: " + team_of_Tommy);
@@ -365,7 +377,8 @@ public class test {
       System.out.println("Harrison team LENGTH: " + team_of_Harrison.length);
       System.out.println("TO ARRAY: ");
       for(int i = 0; i < team_of_Harrison.length; i++)
-        System.out.println(team_of_Harrison[i]);
+        if (team_of_Harrison[i] != null)
+          System.out.println(team_of_Harrison[i]);
     }
     else
       System.out.println("Harrison team LENGTH: " + 0 + "\n\rTO ARRAY: " + team_of_Harrison);
@@ -378,7 +391,8 @@ public class test {
       System.out.println("Bruce team LENGTH: " + team_of_Bruce.length);
       System.out.println("TO ARRAY: ");
       for(int i = 0; i < team_of_Bruce.length; i++)
-        System.out.println(team_of_Bruce[i]);
+        if (team_of_Bruce[i] != null)
+          System.out.println(team_of_Bruce[i]);
     }
     else
       System.out.println("Bruce team LENGTH: " + 0 + "\n\rTO ARRAY: " + team_of_Bruce);
