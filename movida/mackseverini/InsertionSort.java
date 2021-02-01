@@ -11,9 +11,10 @@ import movida.mackseverini.Hash2;
 
 // Class to sort a list or array by the algorithm Insertion Sort
 public class InsertionSort implements IAlg{
-  public final movida.commons.SortingAlgorithm type = movida.commons.SortingAlgorithm.InsertionSort;
-
   public InsertionSort(){}
+
+  @Override
+  public final movida.commons.SortingAlgorithm getType(){ return movida.commons.SortingAlgorithm.InsertionSort; }
 
   // sort of an array
   public <T extends Comparable<T>> Array<T> sort(Array<T> array) {

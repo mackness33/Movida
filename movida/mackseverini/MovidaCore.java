@@ -31,13 +31,16 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
   public MovidaCore(){
     this.graph = new CollabGraph();
     // if("MovidaConfig usa hash")
-    this.movies = new MovieHash();
-    this.people = new PeopleHash();
+    // this.movies = new MovieHash();
+    this.movies = null;
+    // this.people = new PeopleHash();
+    this.people = null;
     // else
       // this.movies = new MovieAbr();
       // this.people = new PeopleAbr();
     // if("MovidaConfig usa InsertionSort")
-    this.sortAlgorithm = new InsertionSort();
+    // this.sortAlgorithm = new InsertionSort();
+    this.sortAlgorithm = null;
     // else
       // this.sortAlgorithm = new MergeSort();
   }
@@ -371,24 +374,46 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
 	 * @return <code>true</code> se la configurazione e' stata modificata, <code>false</code> in caso contrario
 	 */
 	public boolean setMap(MapImplementation m){
-    MapImplementation t = null;
+    // MapImplementation t = null;
+    //
+    // if ( this.movies instanceof MovieHash )
+    //   t = ((MovieHash)this.movies).type;
+    //
+    // System.out.println("Map movies: " + t);
+    // System.out.println("Map M: " + m);
+    // if (m != MapImplementation.HashConcatenamento || m == t || m == null){ //&& m != MapImplementation.ABR){
+    //   return false;
+    // }
 
-    if ( this.movies instanceof MovieHash )
-      t = ((MovieHash)this.movies).type;
-
-    System.out.println("Map movies: " + t);
-    System.out.println("Map M: " + m);
-    if (m != MapImplementation.HashConcatenamento || m == t || m == null){ //&& m != MapImplementation.ABR){
+    System.out.println("actual Map: " + ((this.movies != null) ? this.movies.getType() : null));
+    System.out.println("input Map: " + m);
+    if (m == null)
       return false;
+    else if (this.movies != null && m == this.movies.getType())
+      return false;
+
+    Movie[] films = (this.movies != null) ? this.movies.toPrimitive() : null;
+    Person[] persons = (this.people != null) ? this.people.toPrimitive() : null;
+
+    // if (this.movies != null){
+    //   films = ;
+    //   persons = this.people.toPrimitive();
+    // }
+
+    switch (m){
+      case HashConcatenamento: {
+        this.movies = new MovieHash();
+        this.people = new PeopleHash();
+      }break;
+
+      case ABR: System.out.println("Tring ABR!");
+      default: {
+        System.out.println("This map has not been implemented!");
+        return false;
+      }
     }
 
-    Movie[] films = this.movies.toPrimitive();
-    Person[] persons = this.people.toPrimitive();
-
-    if (m == MapImplementation.HashConcatenamento){
-      this.movies = new MovieHash();
-      this.people = new PeopleHash();
-
+    if (films != null && persons != null){
       for (int  i = 0; i < films.length; i++)
         this.movies.insert(films[i]);
 
@@ -408,19 +433,22 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
 	 * @return <code>true</code> se la configurazione e' stata modificata, <code>false</code> in caso contrario
 	 */
 	public boolean setSort(SortingAlgorithm a){
-    SortingAlgorithm t = null;
-
-    if ( this.sortAlgorithm instanceof InsertionSort )
-      t = ((InsertionSort)this.sortAlgorithm).type;
-
-    System.out.println("actual Alg: " + t);
-    System.out.println("Alg A: " + a);
-    if (a != SortingAlgorithm.InsertionSort || a == t || a == null){ //&& m != MapImplementation.ABR){
+    // if ()
+    System.out.println("actual Alg: " + ((this.sortAlgorithm != null) ? this.sortAlgorithm.getType() : null));
+    System.out.println("input Alg: " + a);
+    if (a == null)
       return false;
-    }
+    else if (this.sortAlgorithm != null && a == this.sortAlgorithm.getType())
+      return false;
 
-    if (a == SortingAlgorithm.InsertionSort)
-      sortAlgorithm = new InsertionSort();
+    switch (a){
+      case InsertionSort: this.sortAlgorithm = new InsertionSort();break;
+      case MergeSort: System.out.println("Tring MergeSort!");//this.sortAlgorithm = new MergeSort();break;
+      default: {
+        System.out.println("This sort has not been implemented!");
+        return false;
+      }
+    }
 
     return true;
   }

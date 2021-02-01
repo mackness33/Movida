@@ -180,28 +180,98 @@ public class test {
     // MovidaCore mb = new MovidaCore();
     // mb.init_class();
 
-    mb.loadFromFile(new File("movida/assets/esempio-formato-dati.txt"));
+    movidaConfigTest(mb);
+    System.out.println("");
+    System.out.println("");
 
+    mb.loadFromFile(new File("movida/assets/esempio-formato-dati.txt"));
+    // movidaMapTest(mb);
+    // movidaGraphTest(mb);
+  }
+
+  public static void movidaConfigTest(MovidaCore mb){
+    System.out.println("MapChange1: " + mb.setMap(movida.commons.MapImplementation.ABR));
+    System.out.println("MapChange2: " + mb.setMap(movida.commons.MapImplementation.HashConcatenamento));
+
+    System.out.println("AlgChange1: " + mb.setSort(movida.commons.SortingAlgorithm.MergeSort));
+    System.out.println("AlgChange2: " + mb.setSort(movida.commons.SortingAlgorithm.InsertionSort));
+  }
+
+  public static void movidaMapTest(MovidaCore mb){
     // mb.deleteMovieByTitle("Die Hard");
     // mb.deleteMovieByTitle("The Junitive");
     // mb.deleteMovieByTitle("Air Force One");
     mb.deleteMovieByTitle(null);
-    /*Hard");
-    // mb.deleteMovieByTitle("The Junitive");
-    // mb.deleteMovieByTitle("Air
-    System.out.println("Hello buddy: \n\r" + mb.getMovieByTitle("Cape Fear"));
-    System.out.println("Hello fam: \n\r" + mb.getPersonByName("Harrison Ford"));
 
-    System.out.println("MapChange1: \n\r" + mb.setMap(movida.commons.MapImplementation.HashConcatenamento));
-    System.out.println("MapChange2: \n\r" + mb.setMap(movida.commons.MapImplementation.ABR));
-
-    System.out.println("AlgChange1: \n\r" + mb.setSort(movida.commons.SortingAlgorithm.InsertionSort));
-    System.out.println("AlgChange2: \n\r" + mb.setSort(movida.commons.SortingAlgorithm.MergeSort));
-    */
+    System.out.println("Get Cape Fear: \n\r" + mb.getMovieByTitle("Cape Fear"));
+    System.out.println("Get Harrison Ford: \n\r" + mb.getPersonByName("Harrison Ford"));
 
     Movie[] movies = mb.getAllMovies();
     Person[] people = mb.getAllPeople();
 
+    System.out.println("ARRAY LENGTH: " + people.length);
+    System.out.println("TO ARRAY: ");
+    for(int i = 0; i < people.length; i++)
+      System.out.println(people[i]);
+
+    System.out.println("ARRAY LENGTH: " + movies.length);
+    System.out.println("TO ARRAY: ");
+    for(int i = 0; i < movies.length; i++)
+      System.out.println(movies[i]);
+
+
+    System.out.println("\n\rSEARCHBYKEY YEAR: ");
+    Movie[] years = mb.searchMoviesInYear(1997);
+
+    if (years == null)
+      System.out.println("bigass problem");
+    for(int i = 0; i < years.length; i++)
+      System.out.println(years[i]);
+
+
+    System.out.println("\n\rSEARCHMOSTOF RATES: ");
+    Movie[] rates = mb.searchMostVotedMovies(2);
+
+    for(int i = 0; i < rates.length; i++)
+      System.out.println(rates[i]);
+
+    System.out.println("\n\rSEARCHCONTAINS TITLE: ");
+    Movie[] tites = mb.searchMoviesByTitle("tive");
+
+    if (tites == null)
+      System.out.println("NO MOVIES");
+    else{
+      for(int i = 0; i < tites.length; i++)
+      System.out.println(tites[i]);
+    }
+
+    System.out.println("\n\rSEARCHBYKEY DIRECTORS: ");
+    Movie[] dirs = mb.searchMoviesDirectedBy("Martin Scorsese");
+
+    for(int i = 0; i < dirs.length; i++)
+      System.out.println(dirs[i]);
+
+
+    System.out.println("\n\rSEARCHMOSTOF YEARS: ");
+    Movie[] dates = mb.searchMostRecentMovies(7);
+
+    for(int i = 0; i < dates.length; i++)
+      System.out.println(dates[i]);
+
+    System.out.println("\n\rSEARCHMOSTOF ACTORS: ");
+    Movie[] actors = mb.searchMoviesStarredBy("Harrison Ford");
+
+    for(int i = 0; i < actors.length; i++)
+      System.out.println(actors[i]);
+
+    System.out.println("\n\rSEARCHMOSTACTIVE ACTORS: ");
+    Person[] active = mb.searchMostActiveActors(5);
+
+    for(int i = 0; i < active.length; i++)
+      System.out.println(active[i]);
+  }
+
+  public static void movidaGraphTest(MovidaCore mb){
     Person[] collabs_of_Tommy = mb.getDirectCollaboratorsOf(new Person("Tommy Lee Jones"));
     Person[] collabs_of_Harrison = mb.getDirectCollaboratorsOf(new Person("Harrison Ford"));
 
@@ -278,72 +348,6 @@ public class test {
 
     System.out.println("");
     System.out.println("");
-
-
-    /*
-    System.out.println("ARRAY LENGTH: " + people.length);
-    System.out.println("TO ARRAY: ");
-    for(int i = 0; i < people.length; i++)
-      System.out.println(people[i]);
-
-    System.out.println("ARRAY LENGTH: " + movies.length);
-    System.out.println("TO ARRAY: ");
-    for(int i = 0; i < movies.length; i++)
-      System.out.println(movies[i]);
-
-
-    System.out.println("\n\rSEARCHBYKEY YEAR: ");
-    Movie[] years = mb.searchMoviesInYear(1997);
-
-    if (years == null)
-      System.out.println("bigass problem");
-    for(int i = 0; i < years.length; i++)
-      System.out.println(years[i]);
-
-
-    System.out.println("\n\rSEARCHMOSTOF RATES: ");
-    Movie[] rates = mb.searchMostVotedMovies(2);
-
-    for(int i = 0; i < rates.length; i++)
-      System.out.println(rates[i]);
-
-    System.out.println("\n\rSEARCHCONTAINS TITLE: ");
-    Movie[] tites = mb.searchMoviesByTitle("tive");
-
-    if (tites == null)
-      System.out.println("NO MOVIES");
-    else{
-      for(int i = 0; i < tites.length; i++)
-      System.out.println(tites[i]);
-    }
-
-    System.out.println("\n\rSEARCHBYKEY DIRECTORS: ");
-    Movie[] dirs = mb.searchMoviesDirectedBy("Martin Scorsese");
-
-    for(int i = 0; i < dirs.length; i++)
-      System.out.println(dirs[i]);
-
-
-    System.out.println("\n\rSEARCHMOSTOF YEARS: ");
-    Movie[] dates = mb.searchMostRecentMovies(7);
-
-    for(int i = 0; i < dates.length; i++)
-      System.out.println(dates[i]);
-
-    System.out.println("\n\rSEARCHMOSTOF ACTORS: ");
-    Movie[] actors = mb.searchMoviesStarredBy("Harrison Ford");
-
-    for(int i = 0; i < actors.length; i++)
-      System.out.println(actors[i]);
-
-    System.out.println("\n\rSEARCHMOSTACTIVE ACTORS: ");
-    Person[] active = mb.searchMostActiveActors(5);
-
-    for(int i = 0; i < active.length; i++)
-      System.out.println(active[i]);
-
-    */
-
   }
 
   public static void graphTest(){
