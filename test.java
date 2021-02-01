@@ -52,7 +52,7 @@ public class test {
     // test.movidaTest();
     // test.queueTest();
     // test.listTest();
-    // test.abrTest();
+    test.abrTest();
     // test.AlgTest();
     // test.graphMovidaTest();
     // test.priorityQueueTest();
@@ -105,7 +105,7 @@ public class test {
     Movie padrino2 = new Movie("Il padrino - Parte 2", 1974, 90, cast3, nolan);
     Movie parolaGiurati = new Movie("La parola ai giurati", 1957, 90, cast8, lumet);
     Movie signoreAnelliRitornoRe = new Movie("Il signore degli anelli - Il ritorno del re", 2003, 89, cast4, jackson);
-    Movie pulpFiction = new Movie("Pulp fiction", 1994, 89, cast6, tarantino);
+    Movie pulpFiction = new Movie("Pulp fiction", 1994, 89, cast6, spielberg);
     Movie schindler = new Movie("Schindler's list", 1993, 89, cast7, spielberg);
 
     // INSERT
@@ -130,7 +130,7 @@ public class test {
     System.out.println(movs.delete(padrino2));
     System.out.println("\n\n");
 
-    // movs.printTree(0);
+    movs.printTree(0);
 
     // SEARCH (title)
     System.out.println("Search for 'Il padrino': " + movs.search("Il padrino")); // movie not present in tree OK
@@ -139,6 +139,10 @@ public class test {
     // SEARCH (movie)
     System.out.println("\n\nSearch for 'Il padrino': " + movs.search(padrino)); // movie not present in tree OK
     System.out.println("\nSearch for 'Il cavaliere oscuro': " + movs.search(cavaliereOscuro));
+
+    // SEARCH (by key)
+    System.out.println("\n\nSearch by key 'votes' of value: 1994 =>\n" + movs.searchByKey(1994)[1]);
+    System.out.println("\n\nSearch by key 'votes' of value: 1994 =>\n" + movs.searchByKey(spielberg)[0]);
   }
 
   public static void algTest(){

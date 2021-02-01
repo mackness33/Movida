@@ -165,27 +165,36 @@ public class MovieAbr<E extends Movie> implements IMovieAbr<E>
   // search of the element by key in the input
   @Override
   public <K extends Comparable<K>> Movie[] searchByKey(K input)
-  {return null;
-    // Array<Movie> moviesByKey = new Array<Movie>(this.movies.getLength);
-    // int i = 0;
-    //
-    // if(K instanceof Integer)
-    // {
-    //   if(this.years.search(input) != null)
-    //     moviesByKey[i++];
-    // }
-    // else if(K instanceof Person)
-    // {
-    //   if(this.director.search(input) != null)
-    //     moviesByKey[i++];
-    // }
-    // else
-    // {
-    //   System.out.println("WRONG TYPE");
-    //   return null;
-    // }
-    //
-    // return moviesByKey.toPrimitive();
+  {
+    Array<Movie> moviesByKey = new Array<Movie>(this.getLength());
+    int i = 0;
+
+    if(input == null)
+      return null;
+    else if(input instanceof Integer)  // YEAR CASE
+    {
+      Array<Integer> indexes = new Array(this.years.getAll((Integer)input));
+      while(indexes.get(i) != null && i < indexes.length)
+        moviesByKey.set(i, this.movies.get(indexes.get(i++)));
+    }
+    else if(input instanceof Person)  // DIRECTOR CASE
+    {
+      Array<Integer> indexes = new Array(this.director.getAll((Person)input));
+      while(indexes.get(i) != null && i < indexes.length)
+        moviesByKey.set(i, this.movies.get(indexes.get(i++)));
+    }
+    else
+    {
+      System.out.println("WRONG TYPE");
+      return null;
+    }
+
+    Movie[] moviesByKeyArray = new Movie[i+1];
+
+    for(; i > -1; i--){
+      moviesByKeyArray[i] = moviesByKey.get(i);
+}
+    return moviesByKeyArray;
   } //                        DA IMPLEMENTARE
 
   // get N elements by key in the input

@@ -1,5 +1,6 @@
 package movida.mackseverini;
 
+import movida.mackseverini.Array;
 import movida.mackseverini.IAbrNode;
 
 public class ABR<E extends Comparable<E>, T extends Comparable<T>> implements IABR<E, T>
@@ -72,6 +73,20 @@ public class ABR<E extends Comparable<E>, T extends Comparable<T>> implements IA
 
     @Override
     public int compareTo(IAbrNode<E, T> nodeToBeCompared) {return this.key.compareTo(nodeToBeCompared.getKey());}
+  }
+
+  @Override
+  public IAbrNode<E, T> getRoot() {return this.root;}
+
+  @Override
+  public Integer getSize() {return this.getSizeRec(this.root);}
+
+  protected Integer getSizeRec(IAbrNode<E, T> node)
+  {
+    if(node != null)
+      return 1 + this.getSizeRec(node.getLeftChild()) + this.getSizeRec(node.getRightChild());
+    else
+      return 0;
   }
 
   @Override
@@ -273,6 +288,24 @@ public class ABR<E extends Comparable<E>, T extends Comparable<T>> implements IA
   }
 
   @Override
+  public Array<E> getAll(T valueToFind)
+  {
+    Array<E> occurranceArray = new Array<E>(this.getSize());
+    AbrNode<E, T> occurrance = (AbrNode<E, T>)this.get(valueToFind);
+    ABR<E, T> currentSubTree = new ABR<E, T>();
+    int i = 0;
+
+    while(occurrance != null)
+    {
+      currentSubTree.root = (AbrNode<E, T>)occurrance.getLeftChild();
+      occurranceArray.set(i++, occurrance.getKey());
+      occurrance = (AbrNode<E, T>)currentSubTree.get(valueToFind);
+    }
+
+    return occurranceArray;
+  }
+
+  @Override
   public boolean searchByKey(E keyToFind)
   {
     if(searchByKeyRecursive(keyToFind, this.root) != null && searchByKeyRecursive(keyToFind, this.root).getKey().compareTo(keyToFind) == 0)
@@ -296,10 +329,6 @@ public class ABR<E extends Comparable<E>, T extends Comparable<T>> implements IA
       else
         return searchByKeyRecursive(keyToFind, nodeChecked.getRightChild());
     }
-    // else if(searchByKeyRecursive(keyToFind, nodeChecked.getLeftChild()))
-    //   return true;
-    // else
-    //   return searchByKeyRecursive(keyToFind, nodeChecked.getRightChild());
   }
 
   public IAbrNode<E, T> get(T valueToFind)
@@ -322,18 +351,7 @@ public class ABR<E extends Comparable<E>, T extends Comparable<T>> implements IA
   // says if valueToFind is in the tree
   public boolean search(T valueToFind)
   {
-    // AbrNode<E, T> nodeChecked = (AbrNode)this.root;
-    //
-    // // search for the node
-    // while((nodeChecked != null) && (valueToFind.compareTo(nodeChecked.getValue()) != 0))
-    // {
-    //   if(valueToFind.compareTo(nodeChecked.getValue()) < 0)
-    //     nodeChecked = (AbrNode)nodeChecked.getLeftChild();
-    //   else
-    //     nodeChecked = (AbrNode)nodeChecked.getRightChild();
-    // }
-
-    if(this.get(valueToFind) != null && ((AbrNode)this.get(valueToFind)).value == valueToFind)
+    if(this.get(valueToFind) != null && ((((AbrNode)this.get(valueToFind)).value).compareTo(valueToFind) == 0))
       return true;
     else
       return false;
