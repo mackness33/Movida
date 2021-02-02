@@ -186,7 +186,6 @@ public class MovieAbr<E extends Movie> implements IMovieAbr<E>
       {
         Array<Integer> indexes = new Array(this.years.getAll((Integer)input));
 
-
         for(i = 0; i < indexes.length; i++)
           if(indexes.get(i) != null)
             moviesByKey.set(i, this.movies.get(indexes.get(i)));
@@ -203,8 +202,7 @@ public class MovieAbr<E extends Movie> implements IMovieAbr<E>
         System.out.println("!! WRONG TYPE: " + input.getClass() + " !!");
         return null;
       }
-
-
+        
       Movie[] moviesByKeyArray = new Movie[this.getLength()];
 
       for(int j = 0; j < this.getLength(); j++)

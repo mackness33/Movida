@@ -248,10 +248,11 @@ public class test {
     System.out.println("\n\rSEARCHBYKEY YEAR: ");
     Movie[] years = mb.searchMoviesInYear(1997);
 
-    if (years != null)
+    if (years != null){
       for(int i = 0; i < years.length; i++)
         if (years[i] != null)
-          System.out.println(years[i]);
+          System.out.println(i);
+    }
     else
       System.out.println(years);
 
@@ -260,10 +261,11 @@ public class test {
     System.out.println("\n\rSEARCHMOSTOF RATES: ");
     Movie[] rates = mb.searchMostVotedMovies(2);
 
-    if (rates != null)
+    if (rates != null){
       for(int i = 0; i < rates.length; i++)
         if (rates[i] != null)
           System.out.println(rates[i]);
+    }
     else
       System.out.println(rates);
 
@@ -272,11 +274,11 @@ public class test {
     System.out.println("\n\rSEARCHCONTAINS TITLE: ");
     Movie[] titles = mb.searchMoviesByTitle("tive");
 
-    if (titles != null)
+    if (titles != null){
       for(int i = 0; i < titles.length; i++)
         if (titles[i] != null)
           System.out.println(titles[i]);
-    else
+    }else
       System.out.println(titles);
 
 
@@ -284,11 +286,11 @@ public class test {
     System.out.println("\n\rSEARCHBYKEY DIRECTORS: ");
     Movie[] dirs = mb.searchMoviesDirectedBy("Martin Scorsese");
 
-    if (dirs != null)
+    if (dirs != null){
       for(int i = 0; i < dirs.length; i++)
         if (dirs[i] != null)
           System.out.println(dirs[i]);
-    else
+    }else
       System.out.println(dirs);
 
 
@@ -296,11 +298,11 @@ public class test {
     System.out.println("\n\rSEARCHMOSTOF YEARS: ");
     Movie[] dates = mb.searchMostRecentMovies(7);
 
-    if (dates != null)
+    if (dates != null){
       for(int i = 0; i < dates.length; i++)
         if (dates[i] != null)
           System.out.println(dates[i]);
-    else
+    }else
       System.out.println(dates);
 
 
@@ -308,22 +310,22 @@ public class test {
     System.out.println("\n\rSEARCHMOSTOF ACTORS: ");
     Movie[] actors = mb.searchMoviesStarredBy("Harrison Ford");
 
-    if (actors != null)
+    if (actors != null){
       for(int i = 0; i < actors.length; i++)
         if (actors[i] != null)
           System.out.println(actors[i]);
-    else
+    }else
       System.out.println(actors);
 
     // SEARCH MOST OF -> ACTIVE
     System.out.println("\n\rSEARCHMOSTACTIVE ACTORS: ");
     Person[] active = mb.searchMostActiveActors(5);
 
-    if (active != null)
+    if (active != null){
       for(int i = 0; i < active.length; i++)
         if (active[i] != null)
           System.out.println(active[i]);
-    else
+    }else
       System.out.println(active);
   }
 
