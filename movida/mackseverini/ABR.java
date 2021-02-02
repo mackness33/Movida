@@ -76,6 +76,9 @@ public class ABR<E extends Comparable<E>, T extends Comparable<T>> implements IA
   }
 
   @Override
+  public void setRoot(IAbrNode<E,T> root) {this.root = root;}
+
+  @Override
   public IAbrNode<E, T> getRoot() {return this.root;}
 
   @Override
@@ -83,10 +86,10 @@ public class ABR<E extends Comparable<E>, T extends Comparable<T>> implements IA
 
   protected Integer getSizeRec(IAbrNode<E, T> node)
   {
-    if(node != null)
-      return 1 + this.getSizeRec(node.getLeftChild()) + this.getSizeRec(node.getRightChild());
-    else
+    if(node == null)
       return 0;
+    else
+      return 1 + this.getSizeRec(node.getLeftChild()) + this.getSizeRec(node.getRightChild());
   }
 
   @Override
@@ -220,6 +223,8 @@ public class ABR<E extends Comparable<E>, T extends Comparable<T>> implements IA
 
   protected boolean deleteIntermediateNode(IAbrNode<E, T> nodeToDelete, IAbrNode<E, T> parent)
   {
+    if(nodeToDelete == null || parent == null)
+      return false;
     // 2 children case
     if(nodeToDelete.getLeftChild() != null && nodeToDelete.getRightChild() != null)
     {
@@ -290,6 +295,9 @@ public class ABR<E extends Comparable<E>, T extends Comparable<T>> implements IA
   @Override
   public Array<E> getAll(T valueToFind)
   {
+    if(valueToFind == null)
+      return null;
+
     Array<E> occurranceArray = new Array<E>(this.getSize());
     AbrNode<E, T> occurrance = (AbrNode<E, T>)this.get(valueToFind);
     ABR<E, T> currentSubTree = new ABR<E, T>();
@@ -297,8 +305,9 @@ public class ABR<E extends Comparable<E>, T extends Comparable<T>> implements IA
 
     while(occurrance != null)
     {
-      currentSubTree.root = (AbrNode<E, T>)occurrance.getLeftChild();
-      occurranceArray.set(i++, occurrance.getKey());
+      currentSubTree.setRoot(occurrance.getLeftChild());
+      occurranceArray.set(i, occurrance.getKey());
+      i++;
       occurrance = (AbrNode<E, T>)currentSubTree.get(valueToFind);
     }
 
@@ -333,6 +342,9 @@ public class ABR<E extends Comparable<E>, T extends Comparable<T>> implements IA
 
   public IAbrNode<E, T> get(T valueToFind)
   {
+    if(valueToFind == null)
+      return null;
+
     AbrNode<E, T> nodeChecked = (AbrNode)this.root;
 
     // search for the node
@@ -359,6 +371,9 @@ public class ABR<E extends Comparable<E>, T extends Comparable<T>> implements IA
 
   protected E getIndex(T valueToFind)
   {
+    if(valueToFind == null)
+      return null;
+
     AbrNode<E, T> nodeChecked = (AbrNode)this.root;
 
     // search for the node

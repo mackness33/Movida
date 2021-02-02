@@ -12,7 +12,7 @@ public class MovieAbr<E extends Movie> implements IMovieAbr<E>
   protected ABR<Integer, String> titles;
   protected ABR<Integer, Integer> years;
   protected ABR<Integer, Integer> votes;
-  protected ABR<Integer, Person> director;
+  protected ABR<Integer, String> director;
 
   public MovieAbr()
   {
@@ -32,7 +32,7 @@ public class MovieAbr<E extends Movie> implements IMovieAbr<E>
     this.director = new ABR();
   }
 
-  public MovieAbr(Array<E> movies, ABR<Integer, String> titles, ABR<Integer, Integer> years, ABR<Integer, Integer> votes, ABR<Integer, Person> director)
+  public MovieAbr(Array<E> movies, ABR<Integer, String> titles, ABR<Integer, Integer> years, ABR<Integer, Integer> votes, ABR<Integer, String> director)
   {
     this.movies = movies;
     this.titles = titles;
@@ -109,8 +109,8 @@ public class MovieAbr<E extends Movie> implements IMovieAbr<E>
     return this.titles.insert(i, movieToInsert.getTitle()) &&
     this.years.insert(i, movieToInsert.getYear()) &&
     this.votes.insert(i, movieToInsert.getVotes()) &&
-    this.director.insert(i, movieToInsert.getDirector());
-  } //                        DA TESTARE
+    this.director.insert(i, movieToInsert.getDirector().getName());
+  }
 
   // delete a movie by title
   @Override
@@ -124,7 +124,7 @@ public class MovieAbr<E extends Movie> implements IMovieAbr<E>
       result =  this.titles.delete(title) &&
                 this.years.delete(this.movies.get(indexToDelete).getYear()) &&
                 this.votes.delete(this.movies.get(indexToDelete).getVotes()) &&
-                this.director.delete(this.movies.get(indexToDelete).getDirector());
+                this.director.delete(this.movies.get(indexToDelete).getDirector().getName());
 
       this.movies.set(indexToDelete, null);
     }
@@ -144,7 +144,13 @@ public class MovieAbr<E extends Movie> implements IMovieAbr<E>
   // update the element if it does already exist else it normally insert it
   @Override
   public int upsert(Movie obj)
-  {return 0;} //                        DA IMPLEMENTARE
+  {
+    if(this.search(obj.getTitle()) != null);
+        this.delete(obj.getTitle());
+
+    this.insert(obj);
+    return (this.titles.get(obj.getTitle())).getKey();
+  } //                        DA IMPLEMENTARE
 
   // search of the element by title
   @Override
@@ -169,35 +175,43 @@ public class MovieAbr<E extends Movie> implements IMovieAbr<E>
   @Override
   public <K extends Comparable<K>> Movie[] searchByKey(K input)
   {
-    Array<Movie> moviesByKey = new Array<Movie>(this.getLength());
-    int i = 0;
-
     if(input == null)
       return null;
-    else if(input instanceof Integer)  // YEAR CASE
-    {
-      Array<Integer> indexes = new Array(this.years.getAll((Integer)input));
-      while(indexes.get(i) != null && i < indexes.length)
-        moviesByKey.set(i, this.movies.get(indexes.get(i++)));
-    }
-    else if(input instanceof Person)  // DIRECTOR CASE
-    {
-      Array<Integer> indexes = new Array(this.director.getAll((Person)input));
-      while(indexes.get(i) != null && i < indexes.length)
-        moviesByKey.set(i, this.movies.get(indexes.get(i++)));
-    }
     else
     {
-      System.out.println("WRONG TYPE");
-      return null;
+      Array<Movie> moviesByKey = new Array<Movie>(this.getLength());
+      int i = 0;
+
+      if(input instanceof Integer)  // YEAR CASE
+      {
+        Array<Integer> indexes = new Array(this.years.getAll((Integer)input));
+
+
+        for(i = 0; i < indexes.length; i++)
+          if(indexes.get(i) != null)
+            moviesByKey.set(i, this.movies.get(indexes.get(i)));
+      }
+      else if(input instanceof String)  // DIRECTOR CASE
+      {//               OUT OF BOUNDS 0 ON 0
+        // Array<Integer> indexes = new Array(this.director.getAll((String)input));
+        //
+        // while(indexes.get(i) != null && i < indexes.length)
+        //   moviesByKey.set(i, this.movies.get(indexes.get(i++)));
+      }
+      else
+      {
+        System.out.println("!! WRONG TYPE: " + input.getClass() + " !!");
+        return null;
+      }
+
+
+      Movie[] moviesByKeyArray = new Movie[this.getLength()];
+
+      for(int j = 0; j < this.getLength(); j++)
+        moviesByKeyArray[j] = moviesByKey.get(j);
+
+      return moviesByKeyArray;
     }
-
-    Movie[] moviesByKeyArray = new Movie[i+1];
-
-    for(; i > -1; i--){
-      moviesByKeyArray[i] = moviesByKey.get(i);
-}
-    return moviesByKeyArray;
   } //                        DA IMPLEMENTARE
 
   // get N elements by key in the input

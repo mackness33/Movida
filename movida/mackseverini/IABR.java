@@ -10,4 +10,5 @@ public interface IABR<E extends Comparable<E>, T extends Comparable<T>> extends 
   public Integer getSize();
   public Array<E> getAll(T valueToFind);
   public boolean update(E keyToUpdate, T valueToUpdate, T valueToFind);
+  public void setRoot(IAbrNode<E,T> root);
 }
