@@ -150,7 +150,7 @@ public class MovieAbr<E extends Movie> implements IMovieAbr<E>
 
     this.insert(obj);
     return (this.titles.get(obj.getTitle())).getKey();
-  } //                        DA IMPLEMENTARE
+  }
 
   // search of the element by title
   @Override
@@ -162,6 +162,7 @@ public class MovieAbr<E extends Movie> implements IMovieAbr<E>
       return null;
   }
 
+  // search of the element
   @Override
   public boolean search(Movie movieToFind)
   {
@@ -191,18 +192,19 @@ public class MovieAbr<E extends Movie> implements IMovieAbr<E>
             moviesByKey.set(i, this.movies.get(indexes.get(i)));
       }
       else if(input instanceof String)  // DIRECTOR CASE
-      {//               OUT OF BOUNDS 0 ON 0
-        // Array<Integer> indexes = new Array(this.director.getAll((String)input));
-        //
-        // while(indexes.get(i) != null && i < indexes.length)
-        //   moviesByKey.set(i, this.movies.get(indexes.get(i++)));
+      {
+        Array<Integer> indexes = new Array(this.director.getAll((String)input));
+
+        for(i = 0; i < indexes.length; i++)
+          if(indexes.get(i) != null)
+            moviesByKey.set(i, this.movies.get(indexes.get(i)));
       }
       else
       {
         System.out.println("!! WRONG TYPE: " + input.getClass() + " !!");
         return null;
       }
-        
+
       Movie[] moviesByKeyArray = new Movie[this.getLength()];
 
       for(int j = 0; j < this.getLength(); j++)
@@ -210,12 +212,47 @@ public class MovieAbr<E extends Movie> implements IMovieAbr<E>
 
       return moviesByKeyArray;
     }
-  } //                        DA IMPLEMENTARE
+  }
 
   // get N elements by key in the input
   @Override
   public Movie[] searchMostOf(Integer num, String type)
-  {return null;} //                        DA IMPLEMENTARE
+  {
+    if(type == null)
+      return null;
+
+    Array<Movie> moviesByKey = new Array<Movie>(this.getLength());
+
+    switch(type)
+    {
+      case "title":
+        for(int i = 0; i < num; i++){}
+        break;
+
+      case "year":
+        for(int i = 0; i < num; i++){}
+        break;
+
+      case "votes":
+        for(int i = 0; i < num; i++){}
+        break;
+
+      case "director":
+        for(int i = 0; i < num; i++){}
+        break;
+
+      default:
+        System.out.println("\n\nWRONG TYPE\n\n");
+        break;
+    }
+
+    Movie[] moviesByKeyArray = new Movie[this.getLength()];
+
+    for(int j = 0; j < this.getLength(); j++)
+      moviesByKeyArray[j] = moviesByKey.get(j);
+
+    return moviesByKeyArray;
+  } //                        DA IMPLEMENTARE
 
   // get all the elements that contains input's string in the title
   @Override

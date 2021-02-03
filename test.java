@@ -251,7 +251,7 @@ public class test {
     if (years != null){
       for(int i = 0; i < years.length; i++)
         if (years[i] != null)
-          System.out.println(i);
+          System.out.println(years[i]);
     }
     else
       System.out.println(years);
