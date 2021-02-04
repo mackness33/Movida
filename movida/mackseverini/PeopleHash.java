@@ -144,10 +144,14 @@ public class PeopleHash<E extends Person> extends KeyHash<Person> implements IPe
     IList<Person> out = new List<Person>();
     int i = 0;
 
+    InsertionSort is = new InsertionSort();
+
+    IList<Integer> sorted_list = is.sort(this.active, false);
+
     // since the only possibile search it's done with the active list
     // it is the only one implemented
     // iterate all the list till it arrives to N elements
-    for (KeyNode<Integer, Integer> iter = (KeyNode<Integer, Integer>)this.active.getHead(); iter != null && i < num; iter = (KeyNode<Integer, Integer>)iter.getNext()){
+    for (KeyNode<Integer, Integer> iter = (KeyNode<Integer, Integer>)sorted_list.getHead(); iter != null && i < num; iter = (KeyNode<Integer, Integer>)iter.getNext()){
       if (this.dom.get(iter.getKey()).isActor()){
         out.addTail(this.dom.get(iter.getKey()));
         i++;

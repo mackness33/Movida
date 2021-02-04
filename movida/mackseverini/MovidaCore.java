@@ -207,8 +207,10 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
   private boolean deleteFromGraphAndMap(String title){
     Movie film = movies.search(title);
     boolean isDeleted =  movies.delete(title);
+
     if (film != null || isDeleted)
       return graph.delMovie(film) && isDeleted;
+
     return false;
   }
 

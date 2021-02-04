@@ -5,6 +5,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import movida.mackseverini.Node2;
 import movida.mackseverini.List;
 import movida.mackseverini.Array;
+import movida.mackseverini.InsertionSort;
 
 
 // Class that implements methods for hash with multiple keys
@@ -86,8 +87,12 @@ public class KeyHash<E extends Comparable<E>> extends Hash2<E>{
     IList<E> output = new KeyList<E, Integer, Integer>();
     int i = 0;
 
+    InsertionSort is = new InsertionSort();
+
+    IList<K> sorted_hash = is.sort(key_hash, false);
+
     // iterate for each node
-    for (IKeyNode<K, Integer> iter = (IKeyNode<K, Integer>)key_hash.getHead(); iter != null && i < num; iter = (IKeyNode<K, Integer>)iter.getNext(), i++)
+    for (IKeyNode<K, Integer> iter = (IKeyNode<K, Integer>)sorted_hash.getHead(); iter != null && i < num; iter = (IKeyNode<K, Integer>)iter.getNext(), i++)
       // add to the output list
       output.addTail(this.dom.get(iter.getKey()));
 
