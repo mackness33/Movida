@@ -232,11 +232,11 @@ public class MovieHash<E extends Movie> extends KeyHash<Movie> implements IMovie
 
   @Override
   // sort all the hashes
-  public void sort(IAlg algorithm){
-    this.major = this.sortListOfList(algorithm, this.major);
-    this.dates = this.sortListOfList(algorithm, this.dates);
-    this.directors = this.sortListOfList(algorithm, this.directors);
-    this.rates = algorithm.sort(this.rates);
+  public void sort(IAlg algorithm, boolean decrescent){
+    this.major = this.sortListOfList(algorithm, this.major, decrescent);
+    this.dates = this.sortListOfList(algorithm, this.dates, decrescent);
+    this.directors = this.sortListOfList(algorithm, this.directors, decrescent);
+    this.rates = algorithm.sort(this.rates, decrescent);
   }
 
   @Override

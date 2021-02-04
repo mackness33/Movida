@@ -159,11 +159,11 @@ public class PeopleHash<E extends Person> extends KeyHash<Person> implements IPe
 
   @Override
   // sort all the hashes
-  public void sort(IAlg algorithm){
+  public void sort(IAlg algorithm, boolean decrescent){
     this.updateActive();
 
-    this.major = this.sortListOfList(algorithm, this.major);
-    this.active = algorithm.sort(this.active);
+    this.major = this.sortListOfList(algorithm, this.major, decrescent);
+    this.active = algorithm.sort(this.active, decrescent);
   }
 
   // update active infos

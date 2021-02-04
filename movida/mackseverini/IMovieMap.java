@@ -44,11 +44,14 @@ public interface IMovieMap<E extends Movie> extends IMap<Movie>, movida.mackseve
   public Movie getFromId (Integer id);
 
   // sort all the hashes
-  public void sort(IAlg algorithm);
+  public void sort(IAlg algorithm, boolean decrescent);
 
   // transform in an array object
   public Array<Movie> toArray();
 
   // transform the hash in an primitive array (arr[])
   public Movie[] toPrimitive();
+
+  // transform the hash in an primitive array (arr[])
+  public void print();
 }

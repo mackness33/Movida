@@ -115,8 +115,8 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
 
     System.out.println("START SORT");
 
-    movies.sort(sortAlgorithm);
-    people.sort(sortAlgorithm);
+    movies.sort(sortAlgorithm, true);
+    people.sort(sortAlgorithm, true);
 
     System.out.println("END SORT");
 

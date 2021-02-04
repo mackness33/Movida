@@ -52,13 +52,13 @@ public class test {
   public static void main(String args[]){
     // test.algTest();
     // test.graphTest();
-    // test.movidaTest();
+    test.movidaTest();
     // test.queueTest();
     // test.stackTest();
     // test.listTest();
     // test.dynamicArrayTest();
     // test.abrTest();
-    test.algTest(new InsertionSort());
+    // test.algTest(new InsertionSort());
     // test.graphMovidaTest();
     // test.priorityQueueTest();
   }
@@ -166,8 +166,8 @@ public class test {
       System.out.println("POS: " + j + "  VAL: " + iterIN.getValue());
 
     InsertionSort is = new InsertionSort();
-    A = is.sort(A);
-    L = is.sort(L);
+    A = is.sort(A, false);
+    L = is.sort(L, true);
 
     System.out.println("SORTED: ");
     for (int i = 0; i < A.length; i++)
@@ -177,6 +177,18 @@ public class test {
     for(INode2<Integer> iterIN = L.getHead(); iterIN != null; iterIN = iterIN.getNext(), j++)
       System.out.println("POS: " + j + "  VAL: " + iterIN.getValue());
 
+  }
+
+  public static void movidaTest(){
+    MovidaCore mb = new MovidaCore();
+
+    movidaConfigTest(mb);
+    System.out.println("");
+    System.out.println("");
+
+    mb.loadFromFile(new File("movida/assets/esempio-formato-dati.txt"));
+    movidaMapTest(mb);
+    // movidaGraphTest(mb);
   }
 
   public static void movidaConfigTest(MovidaCore mb){
