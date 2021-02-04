@@ -192,7 +192,7 @@ public class test {
 
   public static void movidaConfigTest(MovidaCore mb){
     System.out.println("MapChange1: " + mb.setMap(movida.commons.MapImplementation.HashConcatenamento));
-    // System.out.println("MapChange2: " + mb.setMap(movida.commons.MapImplementation.ABR));
+    System.out.println("MapChange2: " + mb.setMap(movida.commons.MapImplementation.ABR));
     System.out.println("MapChange3: " + mb.setMap(movida.commons.MapImplementation.AVL));
 
     System.out.println("AlgChange1: " + mb.setSort(movida.commons.SortingAlgorithm.MergeSort));
