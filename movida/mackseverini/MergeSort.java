@@ -34,13 +34,7 @@ public class MergeSort<T extends Comparable>
   public static int[] merge(<T>[] left, <T>[] right)
   {
     <T>[] merged = new int[left.length + right.length];
-    int l = 0, r = 0, i = 0;
-    /* PER CONTROLLO
-    System.out.print("LEFT = ");
-    printArray(left);
-    System.out.print("RIGHT = ");
-    printArray(right);
-    */
+
 
     // FINCHE' NON VIENE SCORSO INTERAMENTE UNO TRA LEFT E RIGHT
     while(l < left.length && r < right.length)

@@ -59,6 +59,7 @@ public class test {
     // test.dynamicArrayTest();
     // test.abrTest();
     // test.algTest(new InsertionSort());
+    // test.algTest(new MergeSort());
     // test.graphMovidaTest();
     // test.priorityQueueTest();
   }
@@ -187,7 +188,7 @@ public class test {
 
     mb.loadFromFile(new File("movida/assets/esempio-formato-dati.txt"));
     movidaMapTest(mb);
-    // movidaGraphTest(mb);
+    movidaGraphTest(mb);
   }
 
   public static void movidaConfigTest(MovidaCore mb){

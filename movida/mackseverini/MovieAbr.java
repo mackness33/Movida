@@ -45,7 +45,7 @@ public class MovieAbr<E extends Movie> implements IMovieAbr<E>
   public final movida.commons.MapImplementation getType(){ return movida.commons.MapImplementation.ABR; }
 
   public void print(){}
-    
+
   // retrive the amount of elements totally used
   @Override
   public int getSize ()
@@ -253,12 +253,26 @@ public class MovieAbr<E extends Movie> implements IMovieAbr<E>
       moviesByKeyArray[i] = moviesByKey.get(i);
 
     return moviesByKeyArray;
-  } //                        DA TESTARE
+  }
 
   // get all the elements that contains input's string in the title
   @Override
   public <K extends Comparable<K>> Movie[] searchContains(String title)
-  {return null;} //                        DA IMPLEMENTARE
+  {
+    if(title == null)
+      return null;
+
+    Movie[] moviesWithTitle = new Movie[this.movies.length];
+
+    for(int i = 0; i < this.movies.length; i++)
+    {
+      if(this.movies.get(i) != null)
+        if(((this.movies.get(i)).getTitle()).contains(title) == true)
+          moviesWithTitle[i] = this.movies.get(i);
+    }
+
+    return moviesWithTitle;
+  }
 
   // get the element based of the id (position in the main array).
   @Override
@@ -266,8 +280,7 @@ public class MovieAbr<E extends Movie> implements IMovieAbr<E>
 
   // sort all the trees
   @Override
-  public void sort(IAlg algorithm, boolean decrescent)
-  {} //                        DA IMPLEMENTARE
+  public void sort(IAlg algorithm, boolean decrescent){}
 
   // transform in an array object
   @Override
