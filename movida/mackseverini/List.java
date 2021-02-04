@@ -365,6 +365,24 @@ public class List<E extends Comparable<E>> implements movida.mackseverini.IList<
   }
 
   @Override
+  // how to compare two differents list
+  public boolean swap (INode2<E> first, INode2<E> second){
+    if (first == null || second == null || first == second)
+      return false;
+
+    Integer i = this.search(first.getValue()), j = this.search(second.getValue());
+
+    if (i == null || j == null || i == -1 || j == -1)
+      return false;
+
+    E temp = first.getValue();
+    first.setValue(second.getValue());
+    second.setValue(temp);
+
+    return true;
+  }
+
+  @Override
   public void print (){
     System.out.println("KeyList: HEAD => " + this.head);
     if(this.head != null)

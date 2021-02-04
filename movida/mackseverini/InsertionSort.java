@@ -17,7 +17,7 @@ public class InsertionSort implements IAlg{
   public final movida.commons.SortingAlgorithm getType(){ return movida.commons.SortingAlgorithm.InsertionSort; }
 
   // sort of an array
-  public <T extends Comparable<T>> Array<T> sort(Array<T> array) {
+  public <T extends Comparable<T>> Array<T> sort(Array<T> array, boolean isMin) {
     if(array.length <= 1)
       return array;
 
@@ -31,7 +31,8 @@ public class InsertionSort implements IAlg{
       System.out.println("i: " + i);
       // checks
       for(INode2<T> iter = copy.getHead(); iter != null && !over; iter = iter.getNext(), j++){
-        if(array.get(i).compareTo(iter.getValue()) <= 0){
+        if(min_max_compare(array.get(i), iter.getValue(), isMin)){
+        // if(array.get(i).compareTo(iter.getValue()) <= 0){
           copy.addAt(array.get(i), j);
           over = true;
         }
@@ -49,7 +50,7 @@ public class InsertionSort implements IAlg{
 
 
   // sort of an list
-  public <E extends Comparable<E>, T extends Comparable<T>, K extends Comparable<K>> IList<E> sort(IList<E> list) {
+  public <E extends Comparable<E>, T extends Comparable<T>, K extends Comparable<K>> IList<E> sort(IList<E> list, boolean isMin) {
     if(list.getSize() <= 1)
       return list;
 
@@ -75,12 +76,13 @@ public class InsertionSort implements IAlg{
       for(INode2<E> iterCopy = copy.getHead(); iterCopy != null && !over; iterCopy = iterCopy.getNext(), j++){
         // System.out.println("COPY VALUE: " + iterCopy.getValue());
         // System.out.println("RESULT: " + iterIN.getValue().compareTo(iterCopy.getValue()));
-        if(iterIN.getValue().compareTo(iterCopy.getValue()) >= 0){
+        // if(iterIN.getValue().compareTo(iterCopy.getValue()) >= 0){
+        if(min_max_compare(iterIN.getValue(), iterCopy.getValue(), isMin)){
           // different type of insert based of the type of the list
           if (list instanceof KeyList)
               ((KeyList<E, T, K>)copy).addBlue(((IKeyNode<E, T>)iterIN).getKey(), iterIN.getValue(), j);
           else
-            copy.addAt(iterIN.getValue(), i);
+            copy.addAt(iterIN.getValue(), j);
           over = true;
         }
       }
@@ -96,6 +98,8 @@ public class InsertionSort implements IAlg{
 
     return copy;
   }
+
+  protected <T extends Comparable<T>> boolean min_max_compare(T obj, T obj2, boolean isMin){ return (isMin) ? (obj.compareTo(obj2) < 0) : (obj.compareTo(obj2) > 0); }
 
   public <E extends Comparable<E>, T extends Comparable<T>, K extends Comparable<K>> IList<IList<E>> sortListOfList(IList<IList<E>> listOfList) {
     if(listOfList.getSize() < 0)
@@ -149,7 +153,7 @@ public class InsertionSort implements IAlg{
     //   algorithm.sort(iter.getValue());
   }
 
-  public <E extends Comparable<E>, T extends Comparable<T>, K extends Comparable<K>> IList<E> keySort(IKeyList<E, T, K> list) {
+  public <E extends Comparable<E>, T extends Comparable<T>, K extends Comparable<K>> IList<E> keySort(IKeyList<E, T, K> list, boolean isMin) {
     if(list.getSize() <= 1)
       return list;
 
@@ -169,7 +173,7 @@ public class InsertionSort implements IAlg{
         // System.out.println("blip: " + j);
         // System.out.println("j: " + iterCopy.getNext());
         // System.out.println("ITERCOPY: " + iterCopy);
-        if(iterIN.getKey().compareTo(iterCopy.getKey()) >= 0){
+        if(min_max_compare(iterIN.getKey(), iterCopy.getKey(), isMin)){
           // System.out.println("SCARED");
           copy.addBlue(iterIN.getKey(), iterIN.getValue(), j);
           over = true;

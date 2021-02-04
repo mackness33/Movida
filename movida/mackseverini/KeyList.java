@@ -258,4 +258,26 @@ public class KeyList<E extends Comparable<E>, T extends Comparable<T>, K extends
       if (iter.getKey() == key)
         iter.setValue(el);
   }
+
+  @Override
+  // how to compare two differents list
+  public boolean swap (IKeyNode<E, K> first, IKeyNode<E, K> second){
+    if (first == null || second == null || first == second)
+      return false;
+
+    Integer i = this.search(first.getValue()), j = this.search(second.getValue());
+
+    if (i == null || j == null || i == -1 || j == -1)
+      return false;
+
+    E temp = first.getValue();
+    first.setValue(second.getValue());
+    second.setValue(temp);
+
+    K key_temp = first.getKey();
+    first.setKey(second.getKey());
+    second.setKey(key_temp);
+
+    return true;
+  }
 }

@@ -44,6 +44,8 @@ public class MovieAbr<E extends Movie> implements IMovieAbr<E>
   @Override
   public final movida.commons.MapImplementation getType(){ return movida.commons.MapImplementation.ABR; }
 
+  public void print(){}
+    
   // retrive the amount of elements totally used
   @Override
   public int getSize ()
@@ -264,7 +266,7 @@ public class MovieAbr<E extends Movie> implements IMovieAbr<E>
 
   // sort all the trees
   @Override
-  public void sort(IAlg algorithm)
+  public void sort(IAlg algorithm, boolean decrescent)
   {} //                        DA IMPLEMENTARE
 
   // transform in an array object

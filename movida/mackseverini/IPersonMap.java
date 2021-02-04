@@ -36,7 +36,7 @@ public interface IPersonMap<E extends Person> extends IMap<Person>, movida.macks
   public Person[] searchMostOf(Integer num);
 
   // sort all the hashes
-  public void sort(IAlg algorithm);
+  public void sort(IAlg algorithm, boolean decrescent);
 
   // transform in an array object
   public Array<Person> toArray();

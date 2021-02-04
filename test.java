@@ -25,6 +25,7 @@ import movida.mackseverini.Vertex;
 import movida.mackseverini.Queue;
 import movida.mackseverini.Stack;
 import movida.mackseverini.DynamicArray;
+import movida.mackseverini.IAlg;
 // import movida.mackseverini.MergeSort;
 import movida.commons.*;
 
@@ -57,7 +58,7 @@ public class test {
     // test.listTest();
     // test.dynamicArrayTest();
     // test.abrTest();
-    // test.AlgTest();
+    // test.algTest(new InsertionSort());
     // test.graphMovidaTest();
     // test.priorityQueueTest();
   }
@@ -149,7 +150,7 @@ public class test {
     System.out.println("\n\nSearch by key 'votes' of value: 1994 =>\n" + movs.searchByKey(spielberg)[0]);
   }
 
-  public static void algTest(){
+  public static void algTest(IAlg alg){
     Array<Integer> A = new Array<Integer>(35);
     IList<Integer> L = new List<Integer>();
 
@@ -164,10 +165,9 @@ public class test {
     for(INode2<Integer> iterIN = L.getHead(); iterIN != null; iterIN = iterIN.getNext(), j++)
       System.out.println("POS: " + j + "  VAL: " + iterIN.getValue());
 
-
     InsertionSort is = new InsertionSort();
-    A = is.sort(A);
-    L = is.sort(L);
+    A = is.sort(A, false);
+    L = is.sort(L, true);
 
     System.out.println("SORTED: ");
     for (int i = 0; i < A.length; i++)
@@ -193,7 +193,7 @@ public class test {
 
   public static void movidaConfigTest(MovidaCore mb){
     System.out.println("MapChange1: " + mb.setMap(movida.commons.MapImplementation.HashConcatenamento));
-    System.out.println("MapChange2: " + mb.setMap(movida.commons.MapImplementation.ABR));
+    // System.out.println("MapChange2: " + mb.setMap(movida.commons.MapImplementation.ABR));
     System.out.println("MapChange3: " + mb.setMap(movida.commons.MapImplementation.AVL));
 
     System.out.println("AlgChange1: " + mb.setSort(movida.commons.SortingAlgorithm.MergeSort));
@@ -263,7 +263,7 @@ public class test {
 
     // SEARCH MOST OF -> RATES
     System.out.println("\n\rSEARCHMOSTOF RATES: ");
-    Movie[] rates = mb.searchMostVotedMovies(2);
+    Movie[] rates = mb.searchMostVotedMovies(3);
 
     if (rates != null){
       for(int i = 0; i < rates.length; i++)
@@ -311,7 +311,7 @@ public class test {
 
 
     // SEARCH MOST OF -> ACTOR
-    System.out.println("\n\rSEARCHMOSTOF ACTORS: ");
+    System.out.println("\n\rSEARCHALLOF ACTORS: ");
     Movie[] actors = mb.searchMoviesStarredBy("Harrison Ford");
 
     if (actors != null){
@@ -740,6 +740,12 @@ public class test {
 
     L.addAt(400000, 3);
 
+    System.out.println("Swap: " + L.swap(L.getHead(), L.getTail()));
+
+
+    System.out.println("List: ");
+    L.print();
+
     L.update(9000, 4);
     L.update(7000, L.getSize()-1);
     System.out.println("Search and get at: " + L.getAt(L.search(7000)));
@@ -769,6 +775,7 @@ public class test {
     L.print();
 
     System.out.println("Search: " + L.search(999000));
+
 
     Array<Integer> test = L.toArray();
 

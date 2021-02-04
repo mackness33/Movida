@@ -141,18 +141,18 @@ public class Hash2<E extends Comparable<E>> implements movida.mackseverini.IHash
   }
 
   // sort the virtual hash first by the hashed value, and the internal list by the values
-  protected <K extends Comparable<K>> IList<IList<K>> sortListOfList(IAlg algorithm, IList<IList<K>> list){
-    list = algorithm.keySort((IKeyList)list);     // sort by keys
+  protected <K extends Comparable<K>> IList<IList<K>> sortListOfList(IAlg algorithm, IList<IList<K>> list, boolean decrescent){
+    list = algorithm.keySort((IKeyList)list, decrescent);     // sort by keys
 
     // sort by value for each list
     for (INode2<IList<K>> iter = list.getHead(); iter != null; iter = iter.getNext())
-      iter.setValue(algorithm.sort((IKeyList<K, Integer, Integer>)iter.getValue()));
+      iter.setValue(algorithm.sort((IKeyList<K, Integer, Integer>)iter.getValue(), decrescent));
 
     return list;
   }
 
   // sort of the major virtual hash
-  public void sort(IAlg algorithm){ this.major = this.sortListOfList(algorithm, this.major); }
+  public void sort(IAlg algorithm, boolean decrescent){ this.major = this.sortListOfList(algorithm, this.major, decrescent); }
 
   // conversion to array
   @Override

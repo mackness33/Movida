@@ -203,8 +203,13 @@ public class MovieHash<E extends Movie> extends KeyHash<Movie> implements IMovie
         if (this.length > 0){
           out = new List<Movie>();
 
+
+          InsertionSort is = new InsertionSort();
+
+          IList<IList<Year>> sorted_list = this.sortListOfList(is, this.dates, false);
+
           // iterate each list of hashed keys and add the ouputs till we arrive to N elements
-          for (KeyNode<IList<Year>, Integer> iter = (KeyNode<IList<Year>, Integer>)this.dates.getHead(); iter != null && i < num; iter = (KeyNode<IList<Year>, Integer>)iter.getNext(), i = out.getSize())
+          for (KeyNode<IList<Year>, Integer> iter = (KeyNode<IList<Year>, Integer>)sorted_list.getHead(); iter != null && i < num; iter = (KeyNode<IList<Year>, Integer>)iter.getNext(), i = out.getSize())
             out.addToEnd(this.searchMostOfHashKey(num, iter.getValue()));
         }
       };break;
@@ -232,11 +237,11 @@ public class MovieHash<E extends Movie> extends KeyHash<Movie> implements IMovie
 
   @Override
   // sort all the hashes
-  public void sort(IAlg algorithm){
-    this.major = this.sortListOfList(algorithm, this.major);
-    this.dates = this.sortListOfList(algorithm, this.dates);
-    this.directors = this.sortListOfList(algorithm, this.directors);
-    this.rates = algorithm.sort(this.rates);
+  public void sort(IAlg algorithm, boolean decrescent){
+    this.major = this.sortListOfList(algorithm, this.major, decrescent);
+    this.dates = this.sortListOfList(algorithm, this.dates, decrescent);
+    this.directors = this.sortListOfList(algorithm, this.directors, decrescent);
+    this.rates = algorithm.sort(this.rates, decrescent);
   }
 
   @Override
