@@ -24,6 +24,7 @@ import movida.mackseverini.PriorityQueue;
 import movida.mackseverini.Vertex;
 import movida.mackseverini.Queue;
 import movida.mackseverini.Stack;
+import movida.mackseverini.DynamicArray;
 // import movida.mackseverini.MergeSort;
 import movida.commons.*;
 
@@ -52,8 +53,9 @@ public class test {
     // test.graphTest();
     // test.movidaTest();
     // test.queueTest();
-    test.stackTest();
+    // test.stackTest();
     // test.listTest();
+    test.dynamicArrayTest();
     // test.abrTest();
     // test.AlgTest();
     // test.graphMovidaTest();
@@ -883,4 +885,73 @@ public class test {
     System.out.println("isEmpty: " + PQ.isEmpty());
   }
 
+  public static void dynamicArrayTest(){
+    DynamicArray<Integer> DA = new DynamicArray<Integer>(9);
+
+    System.out.println("DynamicArray: ");
+    System.out.println("Length: " + DA.length);
+    for (int i = 0; i < DA.length; i++)
+      System.out.println("POS: " + i + "\tVALUE: " + DA.get(i));
+
+    DA.set(5, 5);
+
+    DA.set(8, 8);
+
+    System.out.println("DynamicArray: ");
+    System.out.println("Length: " + DA.length);
+    for (int i = 0; i < DA.length; i++)
+      System.out.println("POS: " + i + "\tVALUE: " + DA.get(i));
+
+    DA = DA.spare();
+
+    System.out.println("DynamicArray: ");
+    System.out.println("Length: " + DA.length);
+    for (int i = 0; i < DA.length; i++)
+      System.out.println("POS: " + i + "\tVALUE: " + DA.get(i));
+
+    DA = DA.ensure();
+
+    System.out.println("DynamicArray: ");
+    System.out.println("Length: " + DA.length);
+    for (int i = 0; i < DA.length; i++)
+      System.out.println("POS: " + i + "\tVALUE: " + DA.get(i));
+
+    DA = DA.trim();
+    
+    System.out.println("DynamicArray: ");
+    System.out.println("Length: " + DA.length);
+    for (int i = 0; i < DA.length; i++)
+      System.out.println("POS: " + i + "\tVALUE: " + DA.get(i));
+
+    DA = DA.ensure();
+
+    System.out.println("DynamicArray: ");
+    System.out.println("Length: " + DA.length);
+    for (int i = 0; i < DA.length; i++)
+      System.out.println("POS: " + i + "\tVALUE: " + DA.get(i));
+
+    DA.set(2, 2);
+
+    System.out.println("DynamicArray: ");
+    System.out.println("Length: " + DA.length);
+    for (int i = 0; i < DA.length; i++)
+      System.out.println("POS: " + i + "\tVALUE: " + DA.get(i));
+
+    
+    DA = DA.ensure();
+    DA = DA.spare();
+    DA = DA.ensure();
+    DA = DA.spare();
+    DA = DA.ensure();
+    DA = DA.spare();
+    DA = DA.ensure();
+    DA = DA.spare();
+    DA = DA.ensure();
+
+
+    System.out.println("DynamicArray: ");
+    System.out.println("Length: " + DA.length);
+    for (int i = 0; i < DA.length; i++)
+      System.out.println("POS: " + i + "\tVALUE: " + DA.get(i));    
+  }
 }
