@@ -55,10 +55,10 @@ public class test {
     // test.movidaTest();
     // test.queueTest();
     // test.stackTest();
-    test.listTest();
+    // test.listTest();
     // test.dynamicArrayTest();
     // test.abrTest();
-    // test.algTest(new InsertionSort());
+    test.algTest(new InsertionSort());
     // test.graphMovidaTest();
     // test.priorityQueueTest();
   }

@@ -80,7 +80,7 @@ public class InsertionSort implements IAlg{
           if (list instanceof KeyList)
               ((KeyList<E, T, K>)copy).addBlue(((IKeyNode<E, T>)iterIN).getKey(), iterIN.getValue(), j);
           else
-            copy.addAt(iterIN.getValue(), i);
+            copy.addAt(iterIN.getValue(), j);
           over = true;
         }
       }
