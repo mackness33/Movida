@@ -25,6 +25,7 @@ import movida.mackseverini.Vertex;
 import movida.mackseverini.Queue;
 import movida.mackseverini.Stack;
 import movida.mackseverini.DynamicArray;
+import movida.mackseverini.IAlg;
 // import movida.mackseverini.MergeSort;
 import movida.commons.*;
 
@@ -54,10 +55,10 @@ public class test {
     // test.movidaTest();
     // test.queueTest();
     // test.stackTest();
-    // test.listTest();
-    test.dynamicArrayTest();
+    test.listTest();
+    // test.dynamicArrayTest();
     // test.abrTest();
-    // test.AlgTest();
+    // test.algTest(new InsertionSort());
     // test.graphMovidaTest();
     // test.priorityQueueTest();
   }
@@ -149,7 +150,7 @@ public class test {
     System.out.println("\n\nSearch by key 'votes' of value: 1994 =>\n" + movs.searchByKey(spielberg)[0]);
   }
 
-  public static void algTest(){
+  public static void algTest(IAlg alg){
     Array<Integer> A = new Array<Integer>(35);
     IList<Integer> L = new List<Integer>();
 
@@ -164,7 +165,6 @@ public class test {
     for(INode2<Integer> iterIN = L.getHead(); iterIN != null; iterIN = iterIN.getNext(), j++)
       System.out.println("POS: " + j + "  VAL: " + iterIN.getValue());
 
-
     InsertionSort is = new InsertionSort();
     A = is.sort(A);
     L = is.sort(L);
@@ -177,18 +177,6 @@ public class test {
     for(INode2<Integer> iterIN = L.getHead(); iterIN != null; iterIN = iterIN.getNext(), j++)
       System.out.println("POS: " + j + "  VAL: " + iterIN.getValue());
 
-  }
-
-  public static void movidaTest(){
-    MovidaCore mb = new MovidaCore();
-
-    movidaConfigTest(mb);
-    System.out.println("");
-    System.out.println("");
-
-    mb.loadFromFile(new File("movida/assets/esempio-formato-dati.txt"));
-    movidaMapTest(mb);
-    // movidaGraphTest(mb);
   }
 
   public static void movidaConfigTest(MovidaCore mb){
@@ -740,6 +728,12 @@ public class test {
 
     L.addAt(400000, 3);
 
+    System.out.println("Swap: " + L.swap(L.getHead(), L.getTail()));
+
+
+    System.out.println("List: ");
+    L.print();
+
     L.update(9000, 4);
     L.update(7000, L.getSize()-1);
     System.out.println("Search and get at: " + L.getAt(L.search(7000)));
@@ -769,6 +763,7 @@ public class test {
     L.print();
 
     System.out.println("Search: " + L.search(999000));
+
 
     Array<Integer> test = L.toArray();
 
@@ -917,7 +912,7 @@ public class test {
       System.out.println("POS: " + i + "\tVALUE: " + DA.get(i));
 
     DA = DA.trim();
-    
+
     System.out.println("DynamicArray: ");
     System.out.println("Length: " + DA.length);
     for (int i = 0; i < DA.length; i++)
@@ -937,7 +932,7 @@ public class test {
     for (int i = 0; i < DA.length; i++)
       System.out.println("POS: " + i + "\tVALUE: " + DA.get(i));
 
-    
+
     DA = DA.ensure();
     DA = DA.spare();
     DA = DA.ensure();
@@ -952,6 +947,6 @@ public class test {
     System.out.println("DynamicArray: ");
     System.out.println("Length: " + DA.length);
     for (int i = 0; i < DA.length; i++)
-      System.out.println("POS: " + i + "\tVALUE: " + DA.get(i));    
+      System.out.println("POS: " + i + "\tVALUE: " + DA.get(i));
   }
 }

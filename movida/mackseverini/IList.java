@@ -27,6 +27,8 @@ public interface IList<E extends Comparable<E>> extends Comparable<IList<E>>{
   public void print ();
   public void printAll ();
 
+  public boolean swap (INode2<E> first, INode2<E> second);
+
   public void reset ();
 
   public int compareTo (IList<E> el);

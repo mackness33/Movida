@@ -24,4 +24,6 @@ public interface IKeyList<E extends Comparable<E>, T extends Comparable<T>, K ex
   public void addHead (T k, E el);
 
   public void addBlue (T k, E el, Integer pos);
+
+  public boolean swap (IKeyNode<E, K> first, IKeyNode<E, K> second);
 }
