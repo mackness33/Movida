@@ -218,27 +218,28 @@ public class MovieAbr<E extends Movie> implements IMovieAbr<E>
   @Override
   public Movie[] searchMostOf(Integer num, String type)
   {
-    if(type == null)
+    if(type == null || num < 1)
       return null;
+    else if(num > this.getLength())
+      num = this.getLength();
 
-    Array<Movie> moviesByKey = new Array<Movie>(this.getLength());
+    Array<Movie> moviesByKey = new Array<Movie>(num);
+    Movie[] moviesByKeyArray = new Movie[num];
+    Array<Integer> indexes;
+    int i = 0;
 
     switch(type)
     {
-      case "title":
-        for(int i = 0; i < num; i++){}
-        break;
-
       case "year":
-        for(int i = 0; i < num; i++){}
+        indexes = new Array<Integer>(this.years.getNumMax(num));
+        for(i = 0; i < num; i++)
+          moviesByKey.set(i, this.movies.get(indexes.get(i)));
         break;
 
       case "votes":
-        for(int i = 0; i < num; i++){}
-        break;
-
-      case "director":
-        for(int i = 0; i < num; i++){}
+        indexes = new Array<Integer>(this.votes.getNumMax(num));
+        for(i = 0; i < num; i++)
+          moviesByKey.set(i, this.movies.get(indexes.get(i)));
         break;
 
       default:
@@ -246,13 +247,11 @@ public class MovieAbr<E extends Movie> implements IMovieAbr<E>
         break;
     }
 
-    Movie[] moviesByKeyArray = new Movie[this.getLength()];
-
-    for(int j = 0; j < this.getLength(); j++)
-      moviesByKeyArray[j] = moviesByKey.get(j);
+    for(i = 0; i < num; i++)
+      moviesByKeyArray[i] = moviesByKey.get(i);
 
     return moviesByKeyArray;
-  } //                        DA IMPLEMENTARE
+  } //                        DA TESTARE
 
   // get all the elements that contains input's string in the title
   @Override

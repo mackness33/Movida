@@ -51,11 +51,11 @@ public class test {
   public static void main(String args[]){
     // test.algTest();
     // test.graphTest();
-    // test.movidaTest();
+    test.movidaTest();
     // test.queueTest();
     // test.stackTest();
     // test.listTest();
-    test.dynamicArrayTest();
+    // test.dynamicArrayTest();
     // test.abrTest();
     // test.AlgTest();
     // test.graphMovidaTest();
@@ -917,7 +917,7 @@ public class test {
       System.out.println("POS: " + i + "\tVALUE: " + DA.get(i));
 
     DA = DA.trim();
-    
+
     System.out.println("DynamicArray: ");
     System.out.println("Length: " + DA.length);
     for (int i = 0; i < DA.length; i++)
@@ -937,7 +937,7 @@ public class test {
     for (int i = 0; i < DA.length; i++)
       System.out.println("POS: " + i + "\tVALUE: " + DA.get(i));
 
-    
+
     DA = DA.ensure();
     DA = DA.spare();
     DA = DA.ensure();
@@ -952,6 +952,6 @@ public class test {
     System.out.println("DynamicArray: ");
     System.out.println("Length: " + DA.length);
     for (int i = 0; i < DA.length; i++)
-      System.out.println("POS: " + i + "\tVALUE: " + DA.get(i));    
+      System.out.println("POS: " + i + "\tVALUE: " + DA.get(i));
   }
 }

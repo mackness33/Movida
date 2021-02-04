@@ -1,6 +1,6 @@
 package movida.mackseverini;
 
-public interface IAbrNode<E extends Comparable<E>, T extends Comparable<T>>
+public interface IAbrNode<E extends Comparable<E>, T extends Comparable<T>> extends Comparable<IAbrNode<E, T>>
 {
   public void setKey(E key);
 
