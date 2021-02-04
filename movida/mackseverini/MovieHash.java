@@ -203,7 +203,6 @@ public class MovieHash<E extends Movie> extends KeyHash<Movie> implements IMovie
         if (this.length > 0){
           out = new List<Movie>();
 
-
           InsertionSort is = new InsertionSort();
 
           IList<IList<Year>> sorted_list = this.sortListOfList(is, this.dates, false);

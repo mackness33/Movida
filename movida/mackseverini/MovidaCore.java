@@ -425,7 +425,6 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
 	 * @return <code>true</code> se la configurazione e' stata modificata, <code>false</code> in caso contrario
 	 */
 	public boolean setSort(SortingAlgorithm alg){
-    // if ()
     System.out.println("actual Alg: " + ((this.sortAlgorithm != null) ? this.sortAlgorithm.getType() : null));
     System.out.println("input Alg: " + alg);
     if (alg == null)

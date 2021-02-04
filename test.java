@@ -165,9 +165,8 @@ public class test {
     for(INode2<Integer> iterIN = L.getHead(); iterIN != null; iterIN = iterIN.getNext(), j++)
       System.out.println("POS: " + j + "  VAL: " + iterIN.getValue());
 
-    InsertionSort is = new InsertionSort();
-    A = is.sort(A, false);
-    L = is.sort(L, true);
+    A = alg.sort(A, false);
+    L = alg.sort(L, true);
 
     System.out.println("SORTED: ");
     for (int i = 0; i < A.length; i++)
@@ -320,6 +319,7 @@ public class test {
           System.out.println(actors[i]);
     }else
       System.out.println(actors);
+
 
     // SEARCH MOST OF -> ACTIVE
     System.out.println("\n\rSEARCHMOSTACTIVE ACTORS: ");
