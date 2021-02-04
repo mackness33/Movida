@@ -10,15 +10,15 @@ import movida.commons.Movie;
 import movida.commons.Person;
 import movida.mackseverini.IKeyList;
 
-public class Queue<E extends Comparable<E>>{
+public class Stack<E extends Comparable<E>>{
   protected IList<E> elements;
 
   @SuppressWarnings("unchecked")
-  public Queue() {
+  public Stack() {
     this.elements = new List<E>();
   }
 
-  public Queue(E el) {
+  public Stack(E el) {
     this.elements = new List<E>(el);
   }
 
@@ -32,16 +32,16 @@ public class Queue<E extends Comparable<E>>{
 
   // @Override
   // insert of a element. A lot similar to KeyHash.addHashKey(..)
-  public boolean enqueue(E obj){ return this.addTail(obj); }
+  public boolean push(E obj){ return this.addHead(obj); }
 
-  private boolean addTail(E obj){
-    this.elements.addTail(obj);
+  private boolean addHead(E obj){
+    this.elements.addHead(obj);
     return true;
   }
 
   public boolean isEmpty(){ return (this.elements.getHead() == null); }
 
-  public E dequeue(){
+  public E pop(){
     INode2<E> el_to_retrive = this.elements.getHead();
 
     if (el_to_retrive != null)
@@ -57,13 +57,13 @@ public class Queue<E extends Comparable<E>>{
   public void print (){
     System.out.println("Size: " + this.elements.getSize());
 
-    int i = this.elements.getSize() - 1;
-    for (INode2<E> iter = this.elements.getHead(); iter != null; iter = iter.getNext(), i--)
+    int i = 0;
+    for (INode2<E> iter = this.elements.getHead(); iter != null; iter = iter.getNext(), i++)
       System.out.print("POS => " + i + "  " + iter.getValue() + "\n\r");
   }
 
 
-  // @Override
+  // @OverrideQueue
   // trasform the list into an array object
   public Array<E> toArray(){ return this.elements.toArray(); }
 }

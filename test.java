@@ -23,6 +23,7 @@ import movida.mackseverini.Set;
 import movida.mackseverini.PriorityQueue;
 import movida.mackseverini.Vertex;
 import movida.mackseverini.Queue;
+import movida.mackseverini.Stack;
 // import movida.mackseverini.MergeSort;
 import movida.commons.*;
 
@@ -49,8 +50,9 @@ public class test {
   public static void main(String args[]){
     // test.algTest();
     // test.graphTest();
-    test.movidaTest();
+    // test.movidaTest();
     // test.queueTest();
+    test.stackTest();
     // test.listTest();
     // test.abrTest();
     // test.AlgTest();
@@ -767,6 +769,39 @@ public class test {
     System.out.println("Search: " + L.search(999000));
 
     Array<Integer> test = L.toArray();
+
+    System.out.println("Array: ");
+
+    for(int i = 0; i < test.length; i++)
+      System.out.println(test.get(i));
+  }
+
+  public static void stackTest(){
+    Stack<Integer> S = new Stack<Integer>();
+
+    S.print();
+
+    S.push(5);
+
+    S.push(8);
+
+    System.out.println("Stack: ");
+    S.print();
+
+    S.push(4000);
+    System.out.println("Pop: " + S.pop());
+    System.out.println("Pop: " + S.pop());
+    // System.out.println("Search of 5: " + Q.search(5));
+    // System.out.println("Search of 7000: " + Q.search(7000));
+    // System.out.println("Get at 0 get at: " + Q.getAt(0));
+    // System.out.println("Get at 1 get at: " + Q.getAt(1));
+    // System.out.println("Get at 2 get at: " + Q.getAt(2));
+
+    System.out.println("Stack: ");
+    S.print();
+
+
+    Array<Integer> test = S.toArray();
 
     System.out.println("Array: ");
 
