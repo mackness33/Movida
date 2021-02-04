@@ -197,6 +197,7 @@ public class test {
 
     System.out.println("AlgChange1: " + mb.setSort(movida.commons.SortingAlgorithm.MergeSort));
     System.out.println("AlgChange2: " + mb.setSort(movida.commons.SortingAlgorithm.InsertionSort));
+    System.out.println("AlgChange3: " + mb.setSort(movida.commons.SortingAlgorithm.HeapSort));
   }
 
   public static void movidaMapTest(MovidaCore mb){
