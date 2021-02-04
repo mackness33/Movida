@@ -188,7 +188,9 @@ public class test {
 
     mb.loadFromFile(new File("movida/assets/esempio-formato-dati.txt"));
     movidaMapTest(mb);
-    movidaGraphTest(mb);
+    // movidaGraphTest(mb);
+
+    mb.saveToFile(new File("movida/assets/output.txt"));
   }
 
   public static void movidaConfigTest(MovidaCore mb){
