@@ -124,6 +124,7 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
           case "": this.addMovie(movie); break;
           default: System.out.println("Something went wrong!");
         }
+        br.close();
       }
 
       br.close();
