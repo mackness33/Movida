@@ -6,7 +6,9 @@ import java.util.Iterator;
 
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.BufferedReader;
+import java.io.IOException;
 
 import java.lang.Integer;
 
@@ -15,6 +17,7 @@ import movida.commons.Person;
 import movida.commons.MapImplementation;
 import movida.commons.SortingAlgorithm;
 import movida.commons.Collaboration;
+import movida.commons.MovidaFileException;
 
 import movida.mackseverini.Search;
 import movida.mackseverini.MovieAbr;
@@ -79,12 +82,30 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
   @Override
   public void loadFromFile(File f){
     System.out.println("START STREAM");
-    Integer i = 0;
+    try{
+      this.actOfRead(f);
+    }
+    catch(MovidaFileException mfe){
+      System.out.println(mfe.getMessage());
+    }
+
+    System.out.println("START SORT");
+
+    movies.sort(sortAlgorithm, true);
+    people.sort(sortAlgorithm, true);
+
+    System.out.println("END SORT");
+
+    System.out.println("END STREAM");
+  }
+
+  protected void actOfRead(File f){
     try{
       BufferedReader br = new BufferedReader(new FileReader(f));
       String [] movie = new String [5];
       String [] line = new String [2];
       String stream = "";
+      Integer i = 0;
 
       while ((stream = br.readLine()) != null){
         System.out.println(stream);
@@ -104,26 +125,19 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
         }
       }
 
+      br.close();
+
       this.addMovie(movie);
 
       graph.print();
-      br.close();
     }
-    catch(Exception e){
-      System.out.println(e);
+    catch(IOException io){
+      // io.printStackTrace();
+      throw new MovidaFileException();
     }
-
-    System.out.println("START SORT");
-
-    movies.sort(sortAlgorithm, true);
-    people.sort(sortAlgorithm, true);
-
-    System.out.println("END SORT");
-
-    System.out.println("END STREAM");
   }
 
-  private void addMovie(String [] movie){
+  protected void addMovie(String [] movie){
     Person [] cast = new Person [10];
     String [] cast_name = movie[3].split(",");
     int pos = -1;
@@ -147,7 +161,7 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
     graph.addMovie(temp);
   }
 
-  private void addPerson(String name, boolean type, int id){
+  protected void addPerson(String name, boolean type, int id){
     people.upsert(new Person(name, type, id), id);
 
     System.out.println("Add of person!");
@@ -165,7 +179,36 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
   * @throws MovidaFileException in caso di errore di salvataggio
   */
   @Override
-	public void saveToFile(File f){}
+	public void saveToFile(File f){
+    try{
+      this.actOfSave(f);
+    }
+    catcprivateh(MovidaFileException mfe){
+      System.out.println(mfe.getMessage());
+    }
+  }
+
+  protected void actOfSave(File f){
+    try{
+      FileWriter fw = new FileWriter(f, false);
+      Array<Movie> allMovies = movies.toArray();
+
+      for (int i = 0; i < allMovies.length; i++){
+        if (allMovies.get(i) != null){
+          fw.write(allMovies.get(i).toString());
+          fw.write("\n\r\n\r");
+          fw.flush();
+        }
+      }
+
+      fw.close();
+      System.out.println("Output Written to file");
+    }
+    catch (IOException io){
+      // io.printStackTrace();
+      throw new MovidaFileException();
+    }
+  }
 
   /**
   * Cancella tutti i dati.
@@ -202,7 +245,7 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
   * 		   <code>false</code> in caso contrario
   */
 	@Override
-	public boolean deleteMovieByTitle(String title){ return this.deleteFromGraphAndMap(title); }
+	public boolean deleteMovieByTitle(String title){ return (movies != null) ? this.deleteFromGraphAndMap(title) : false; }
 
   private boolean deleteFromGraphAndMap(String title){
     Movie film = movies.search(title);
@@ -221,7 +264,7 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
   * @return record associato ad un film
   */
   @Override
-	public Movie getMovieByTitle(String title){ return movies.search(title); }
+	public Movie getMovieByTitle(String title){ return (movies != null) ? movies.search(title) : null; }
 
   /**
   * Restituisce il record associato ad una persona, attore o regista
@@ -230,7 +273,7 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
   * @return record associato ad una persona
   */
   @Override
-	public Person getPersonByName(String name){ return people.search(name); }
+	public Person getPersonByName(String name){ return (people != null) ? people.search(name) : null; }
 
 
   /**
@@ -239,7 +282,7 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
   * @return array di film
   */
   @Override
-  public Movie[] getAllMovies(){ return movies.toPrimitive(); }
+  public Movie[] getAllMovies(){ return (movies != null) ? movies.toPrimitive() : null; }
 
   /**
   * Restituisce il vettore di tutte le persone
@@ -247,7 +290,7 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
   * @return array di persone
   */
 	@Override
-	public Person[] getAllPeople(){ return people.toPrimitive(); }
+	public Person[] getAllPeople(){ return (people != null) ? people.toPrimitive() : null; }
 
   /**
 	 * Ricerca film per titolo.
@@ -263,7 +306,7 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
 	 * @return array di film
 	 */
   @Override
-	public Movie[] searchMoviesByTitle(String title){ return movies.searchContains(title); }
+	public Movie[] searchMoviesByTitle(String title){ return (movies != null) ? movies.searchContains(title) : null; }
 
 	/**
 	 * Ricerca film per anno.
@@ -277,7 +320,7 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
 	 * @return array di film
 	 */
   @Override
-	public Movie[] searchMoviesInYear(Integer year){ return movies.searchByKey(year); }
+	public Movie[] searchMoviesInYear(Integer year){ return (movies != null) ? movies.searchByKey(year) : null; }
 
 	/**
 	 * Ricerca film per regista.
@@ -290,7 +333,7 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
 	 * @return array di film
 	 */
 	@Override
-  public Movie[] searchMoviesDirectedBy(String name){ return movies.searchByKey(name); }
+  public Movie[] searchMoviesDirectedBy(String name){ return (movies != null) ? movies.searchByKey(name) : null; }
 
 	/**
 	 * Ricerca film per attore.
@@ -305,9 +348,12 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
 	 */
 	@Override
   public Movie[] searchMoviesStarredBy(String name){
+    if (movies ==  null || people == null)
+      return null;
+
     Person actor = people.search(name);
 
-    if (actor.getMovieSize() <= 0)
+    if (actor == null || actor.getMovieSize() <= 0)
       return null;
 
     IList<Integer> ids = actor.getMovies();
@@ -335,7 +381,7 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
 	 * @return array di film
 	 */
 	@Override
-  public Movie[] searchMostVotedMovies(Integer N){ return movies.searchMostOf(N, "votes"); }
+  public Movie[] searchMostVotedMovies(Integer N){ return (movies != null) ? movies.searchMostOf(N, "votes") : null; }
 
 	/**
 	 * Ricerca film pi� recenti.
@@ -350,7 +396,7 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
 	 * @return array di film
 	 */
 	@Override
-  public Movie[] searchMostRecentMovies(Integer N){ return movies.searchMostOf(N, "year"); }
+  public Movie[] searchMostRecentMovies(Integer N){ return (movies != null) ? movies.searchMostOf(N, "year") : null; }
 
 	/**
 	 * Ricerca gli attori pi� attivi.
@@ -365,7 +411,7 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
 	 * @return array di attori
 	 */
 	@Override
-  public Person[] searchMostActiveActors(Integer N){ return people.searchMostOf(N); }
+  public Person[] searchMostActiveActors(Integer N){ return (people != null) ? people.searchMostOf(N) : null; }
 
   /**
 	 * Seleziona l'implementazione del dizionario
@@ -456,7 +502,7 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
 	 * @param actor attore di cui cercare i collaboratori diretti
 	 * @return array di persone
 	 */
-	public Person[] getDirectCollaboratorsOf(Person actor) { return graph.getAdiacencesOf(actor); }
+	public Person[] getDirectCollaboratorsOf(Person actor) { return (graph != null) ? graph.getAdiacencesOf(actor) : null; }
 
 	/**
 	 * Identificazione del team di un attore
@@ -470,7 +516,7 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
 	 * @param actor attore di cui individuare il team
 	 * @return array di persone
 	 */
-	public Person[] getTeamOf(Person actor) { return graph.visitStartingFrom(actor); }
+	public Person[] getTeamOf(Person actor) { return (graph != null) ? graph.visitStartingFrom(actor) : null; }
 
 	/**
 	 * Identificazione dell'insieme di collaborazioni
@@ -485,5 +531,5 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
 	 * @param actor attore di cui individuare il team
 	 * @return array di collaborazioni
 	 */
-	public Collaboration[] maximizeCollaborationsInTheTeamOf(Person actor){ return graph.getCollaborationMaxST(actor); }
+	public Collaboration[] maximizeCollaborationsInTheTeamOf(Person actor){ return (graph != null) ? graph.getCollaborationMaxST(actor) : null; }
 }

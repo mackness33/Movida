@@ -41,12 +41,6 @@ public class Collaboration {
 
 	public void print(){
 		System.out.println("Collaboration:  ACTOR A => " + this.actorA + "  ACTOR B => " + this.actorB + "  SCORE => " + this.getScore());
-		// System.out.print("MOVIES => ");
-		// if (this.movies != null)
-		// 	this.printMovies();
-		// else
-		// 	System.out.println("null");
-		// System.out.println("\n\r");
 	}
 
 	private void printMovies(){

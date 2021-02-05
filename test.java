@@ -188,7 +188,9 @@ public class test {
 
     mb.loadFromFile(new File("movida/assets/esempio-formato-dati.txt"));
     movidaMapTest(mb);
-    movidaGraphTest(mb);
+    // movidaGraphTest(mb);
+
+    mb.saveToFile(new File("movida/assets/output.txt"));
   }
 
   public static void movidaConfigTest(MovidaCore mb){
@@ -198,6 +200,7 @@ public class test {
 
     System.out.println("AlgChange1: " + mb.setSort(movida.commons.SortingAlgorithm.MergeSort));
     System.out.println("AlgChange2: " + mb.setSort(movida.commons.SortingAlgorithm.InsertionSort));
+    System.out.println("AlgChange3: " + mb.setSort(movida.commons.SortingAlgorithm.HeapSort));
   }
 
   public static void movidaMapTest(MovidaCore mb){

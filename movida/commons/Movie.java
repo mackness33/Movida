@@ -65,16 +65,20 @@ public class Movie implements Comparable<Movie>{
 
 	public String toString(){
 		String s = "Title => " + this.title + "\n\rYear => " + this.year + "\n\rVotes => " + this.votes + "\n\rDirector => " + this.director.getName() + "\n\rCast => ";
-
+		String output = "Title: " + this.title + "\n\rYear: " + this.year + "\n\rDirector: " + this.director.getName() + "\n\rCast: ";
 		// System.out.println("Cast: " + this.cast.length);
 		for (Person p : this.cast){
 			if (p == null)
 				break;
 
-			s += p.getName() + ", ";
+			output += p.getName() + ", ";
 		}
 
-		return s;
+		output = output.substring(0, output.length() - 2);
+
+		output = output + "\n\rVotes: " + this.votes;
+
+		return output;
 	}
 
 	public void update(Movie obj){
