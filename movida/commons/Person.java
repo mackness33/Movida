@@ -49,16 +49,21 @@ public class Person implements Comparable<Person>{
 
 	public String getName(){ return this.name; }
 
+	// check if the person is an actor or a director
 	public boolean isActor(){ return this.type;	}
 
+	// add a new index of a movie
 	public void addMovie(Integer movie_id){ this.movies.addTail(movie_id); }
 
+	// get all the indexes of the movies in which the person worked on
 	public IList<Integer> getMovies(){ return this.movies; }
 
+	// get the size of the list of indexes of movies
 	public Integer getMovieSize(){ return this.movies.getSize(); }
 
 	public String toString(){ return "Name : " + this.name; }
 
+	// CLEAN
 	public void print(){
 		System.out.println("Name => " + this.name);
 		System.out.print("Movies => ");
