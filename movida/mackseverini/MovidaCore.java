@@ -183,7 +183,7 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
     try{
       this.actOfSave(f);
     }
-    catcprivateh(MovidaFileException mfe){
+    catch(MovidaFileException mfe){
       System.out.println(mfe.getMessage());
     }
   }
