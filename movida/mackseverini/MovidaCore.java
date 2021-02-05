@@ -123,8 +123,9 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
           case "": this.addMovie(movie); break;
           default: System.out.println("Something went wrong!");
         }
-        br.close();
       }
+
+      br.close();
 
       this.addMovie(movie);
 
@@ -195,7 +196,6 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
       for (int i = 0; i < allMovies.length; i++){
         if (allMovies.get(i) != null){
           fw.write(allMovies.get(i).toString());
-          fw.close();
           fw.write("\n\r\n\r");
           fw.flush();
         }
