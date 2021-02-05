@@ -2,6 +2,11 @@ package movida.mackseverini;
 
 import movida.mackseverini.IArch;
 
+/**
+ * Classe usata per rappresentare un generico arco.
+ *
+ * Ogni arco e' formato da un peso, e due vertici che devono essere dello stesso tipo.
+ */
 public class Arch<E extends Comparable<E>, K extends Comparable<K>> implements IArch<E, K>{
   protected K weight;             // weight of the arch
   protected E vertex1;            // first vertex
@@ -44,8 +49,9 @@ public class Arch<E extends Comparable<E>, K extends Comparable<K>> implements I
 
 
   // compare the input with this arch. Weight is not counted
-  // for now it just understand if the arches are the exactly the same
-  // TODO: decide a int for null and major and minor
+  // it understands if the arches have the same verteces
+  // it will return 1 if they're different, 0 if equal
+  // there's no way to decide if one arch is "greater" of the other
   @Override
   public int compareTo (IArch<E, K> input) {
     // if input is null return fixed number
@@ -61,11 +67,6 @@ public class Arch<E extends Comparable<E>, K extends Comparable<K>> implements I
 
     // if the difference between the verteces is minor of 2 for both the verteces
     if (Math.abs(x1) + Math.abs(x2) < 2 && Math.abs(y1) + Math.abs(y2) < 2){
-      // System.out.print("input: ");
-      // input.print();
-      // System.out.print("arch: ");
-      // this.print();
-      // System.out.println("RES in arch: " + comp1 + comp2);
       // check to find comparison with a same-vertex arch
       if (comp1 == comp2)
         return Math.abs(comp1 + comp2) / 2;   // return 1 or 0
@@ -84,6 +85,7 @@ public class Arch<E extends Comparable<E>, K extends Comparable<K>> implements I
     this.vertex1 = this.vertex2 = null;
   }
 
+  // CLEAN
   @Override
   public void print(){
     System.out.println("Arch: WEIGHT => " + this.weight + "  FIRST VERTEX => " + this.vertex1 + "  SECOND VERTEX => " + this.vertex2);
