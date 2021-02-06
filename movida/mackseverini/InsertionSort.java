@@ -50,50 +50,125 @@ public class InsertionSort implements IAlg{
 
 
   // sort of an list
-  public <E extends Comparable<E>, T extends Comparable<T>, K extends Comparable<K>> IList<E> sort(IList<E> list, boolean isMin) {
+  // public <E extends Comparable<E>, T extends Comparable<T>, K extends Comparable<K>> IList<E> sort(IList<E> list, boolean isMin) {
+  //   if(list.getSize() <= 1)
+  //     return list;
+  //
+  //   IList<E> copy = (list instanceof IKeyList) ? new KeyList<E, T, K>(0, ((IKeyNode<E, T>)list.getHead()).getKey(), list.getHead().getValue()) : new List<E>(list.getHead().getValue());
+  //
+  //   // check the type of list
+  //   // if (list instanceof KeyList){
+  //   //   copy = new KeyList<E, T, K>();
+  //   //   ((KeyList<E, T, K>)copy).addTail(((KeyNode<E, T>)list.getHead()).getKey(), list.getHead().getValue());
+  //   // }
+  //   // else
+  //   //   copy = new List<E>(list.getHead().getValue());
+  //
+  //   int j = 0, i = 1;
+  //   boolean over = false;
+  //
+  //   System.out.println("SIZE: " + list.getSize());
+  //   // for each node of the input
+  //   for(INode2<E> iterIN = list.getHead().getNext(); iterIN != null; iterIN = iterIN.getNext(), i++, j = 0, over = false){
+  //     // System.out.println("i: " + i);
+  //     // System.out.println("INPUT VALUE: " + iterIN.getValue());
+  //     // for each node of the copy
+  //     for(INode2<E> iterCopy = copy.getHead(); iterCopy != null && !over; iterCopy = iterCopy.getNext(), j++){
+  //       // System.out.println("COPY VALUE: " + iterCopy.getValue());
+  //       // System.out.println("RESULT: " + iterIN.getValue().compareTo(iterCopy.getValue()));
+  //       // if(iterIN.getValue().compareTo(iterCopy.getValue()) >= 0){
+  //       if(min_max_compare(iterIN.getValue(), iterCopy.getValue(), isMin)){
+  //         // different type of insert based of the type of the list
+  //         if (list instanceof KeyList)
+  //             ((KeyList<E, T, K>)copy).addAt(((IKeyNode<E, T>)iterIN).getKey(), iterIN.getValue(), j);
+  //         else
+  //           copy.addAt(iterIN.getValue(), j);
+  //         over = true;
+  //       }
+  //     }
+  //
+  //     // if not added at at the end of the list
+  //     if (!over){
+  //       if (list instanceof KeyList)
+  //           ((KeyList<E, T, K>)copy).addAt(((IKeyNode<E, T>)iterIN).getKey(), iterIN.getValue(), i);
+  //       else
+  //         copy.addAt(iterIN.getValue(), i);
+  //     }
+  //   }
+  //
+  //   return copy;
+  // }
+
+  public <E extends Comparable<E>, T extends Comparable<T>, K extends Comparable<K>> IList<E> sort(IList<E> list, boolean isMin) { return this.sort(list, isMin, false); }
+
+  public <E extends Comparable<E>, T extends Comparable<T>, K extends Comparable<K>> IKeyList<E, T, K> keySort(IKeyList<E, T, K> list, boolean isMin) { return (IKeyList<E, T, K>)this.sort(list, isMin, true); }
+
+  // public <E extends Comparable<E>, T extends Comparable<T>, K extends Comparable<K>> IList<E> keySort(IKeyList<E, T, K> list, boolean isMin) {
+  //   if(list.getSize() <= 1)
+  //     return list;
+  //
+  //   System.out.println("CLASS LIST: " + list.getClass());
+  //
+  //   IKeyList<E, T, K> copy = new KeyList<E, T, K>();
+  //   int j = 0, i = 1;
+  //   boolean over = false;
+  //
+  //   copy.addTail(((IKeyNode<E, T>)list.getHead()).getKey(), list.getHead().getValue());
+  //
+  //   System.out.println("SIZE: " + list.getSize());
+  //   for(IKeyNode<E, T> iterIN = (IKeyNode<E, T>)list.getHead().getNext(); iterIN != null; iterIN = (IKeyNode<E, T>)iterIN.getNext(), i++, j = 0, over = false){
+  //     // System.out.println("i: " + i);
+  //     // System.out.println("i: " + copy.getHead());
+  //     for(IKeyNode<E, T> iterCopy = (IKeyNode<E, T>)copy.getHead(); iterCopy != null && !over; iterCopy = (IKeyNode<E, T>)iterCopy.getNext(), j++){
+  //       // System.out.println("blip: " + j);
+  //       // System.out.println("j: " + iterCopy.getNext());
+  //       // System.out.println("ITERCOPY: " + iterCopy);
+  //       if(min_max_compare(iterIN.getKey(), iterCopy.getKey(), isMin)){
+  //         // System.out.println("SCARED");
+  //         copy.addAt(iterIN.getKey(), iterIN.getValue(), j);
+  //         over = true;
+  //       }
+  //       // System.out.println("shish: " + i);
+  //     }
+  //
+  //     // System.out.println("qhat: " + iterIN);
+  //     if (!over)
+  //       copy.addAt(iterIN.getKey(), iterIN.getValue(), i);
+  //   }
+  //
+  //   return copy;
+  // }
+
+  protected <E extends Comparable<E>, T extends Comparable<T>, K extends Comparable<K>> IList<E> sort(IList<E> list, boolean isMin, boolean isKey) {
     if(list.getSize() <= 1)
       return list;
 
-    IList<E> copy;
+    System.out.println("CLASS LIST: " + list.getClass());
 
     // check the type of list
-    if (list instanceof KeyList){
-      copy = new KeyList<E, T, K>();
-      ((KeyList<E, T, K>)copy).addTail(((KeyNode<E, T>)list.getHead()).getKey(), list.getHead().getValue());
-    }
-    else
-      copy = new List<E>(list.getHead().getValue());
-
+    IList<E> copy = (list instanceof IKeyList) ? new KeyList<E, T, K>(null, ((IKeyNode<E, T>)list.getHead()).getKey(), list.getHead().getValue()) : new List<E>(list.getHead().getValue());
     int j = 0, i = 1;
     boolean over = false;
 
     System.out.println("SIZE: " + list.getSize());
-    // for each node of the input
     for(INode2<E> iterIN = list.getHead().getNext(); iterIN != null; iterIN = iterIN.getNext(), i++, j = 0, over = false){
       // System.out.println("i: " + i);
-      // System.out.println("INPUT VALUE: " + iterIN.getValue());
-      // for each node of the copy
+      // System.out.println("i: " + copy.getHead());
       for(INode2<E> iterCopy = copy.getHead(); iterCopy != null && !over; iterCopy = iterCopy.getNext(), j++){
-        // System.out.println("COPY VALUE: " + iterCopy.getValue());
-        // System.out.println("RESULT: " + iterIN.getValue().compareTo(iterCopy.getValue()));
-        // if(iterIN.getValue().compareTo(iterCopy.getValue()) >= 0){
-        if(min_max_compare(iterIN.getValue(), iterCopy.getValue(), isMin)){
-          // different type of insert based of the type of the list
-          if (list instanceof KeyList)
-              ((KeyList<E, T, K>)copy).addBlue(((IKeyNode<E, T>)iterIN).getKey(), iterIN.getValue(), j);
-          else
-            copy.addAt(iterIN.getValue(), j);
-          over = true;
+        // System.out.println("blip: " + j);
+        // System.out.println("j: " + iterCopy.getNext());
+        // System.out.println("ITERCOPY: " + iterCopy);
+        if((isKey) ? min_max_compare(((IKeyNode)iterIN).getKey(), ((IKeyNode)iterCopy).getKey(), isMin) : min_max_compare(iterIN.getValue(), iterCopy.getValue(), isMin)){
+        // different type of insert based of the type of the list
+        // if(min_max_compare(iterIN.getValue(), iterCopy.getValue(), isMin)){
+          over = this.addAt(copy, iterIN, j);
         }
+        // System.out.println("shish: " + i);
       }
 
-      // if not added at at the end of the list
-      if (!over){
-        if (list instanceof KeyList)
-            ((KeyList<E, T, K>)copy).addBlue(((IKeyNode<E, T>)iterIN).getKey(), iterIN.getValue(), i);
-        else
-          copy.addAt(iterIN.getValue(), i);
-      }
+      // System.out.println("qhat: " + iterIN);
+      if (!over)
+        this.addAt(copy, iterIN, i);
     }
 
     return copy;
@@ -101,140 +176,17 @@ public class InsertionSort implements IAlg{
 
   protected <T extends Comparable<T>> boolean min_max_compare(T obj, T obj2, boolean isMin){ return (isMin) ? (obj.compareTo(obj2) < 0) : (obj.compareTo(obj2) > 0); }
 
-  // protected <E extends Comparable<E>, T extends Comparable<T>, K extends Comparable<K>> void addTail(IList<E> list, INode2<E> nodeToAdd){
-  //   if (list instanceof IKeyList<E, T, K>)
-  //     ((IKeyList<E, T, K>)list).addTail(((IKeyNode<E, T>)nodeToAdd).getKey(), nodeToAdd.getValue());
-  //   else
-  //     list.addTail(nodeToAdd.getValue());
-  // }
-  //
-  //
-  // protected <E extends Comparable<E>, T extends Comparable<T>, K extends Comparable<K>> void addHead(IList<E> list, INode2<E> nodeToAdd){
-  //   if (list instanceof IKeyList<E, T, K>)
-  //     ((IKeyList<E, T, K>)list).addHead(((IKeyNode<E, T>)nodeToAdd).getKey(), nodeToAdd.getValue());
-  //   else
-  //     list.addHead(nodeToAdd.getValue());
-  // }
+  protected <E extends Comparable<E>, T extends Comparable<T>, K extends Comparable<K>> void addTail(IList<E> list, INode2<E> nodeToAdd){
+    if (list instanceof IKeyList)
+      ((IKeyList<E, T, K>)list).addTail(((IKeyNode<E, T>)nodeToAdd).getKey(), nodeToAdd.getValue());
 
-  public <E extends Comparable<E>, T extends Comparable<T>, K extends Comparable<K>> IList<IList<E>> sortListOfList(IList<IList<E>> listOfList) {
-    if(listOfList.getSize() < 0)
-      return listOfList;
-
-    System.out.println("CLASS LIST: " + listOfList.getClass());
-    IList<IList<E>> copy;
-    if (listOfList instanceof KeyList){
-      // return this.keySort(list);
-      System.out.println("HERE i AM: ");
-      copy = new KeyList<IList<E>, T, K>();
-      ((KeyList<IList<E>, T, K>)copy).addTail(((KeyNode<IList<E>, T>)listOfList.getHead()).getKey(), listOfList.getHead().getValue());
-    }
-    else
-      copy = new List<IList<E>>(listOfList.getHead().getValue());
-
-    // int j = 0, i = 1;
-    // boolean over = false;
-    //
-    // System.out.println("SIZE: " + list.getSize());
-    // for(INode2<T> iterIN = list.getHead().getNext(); iterIN != null; iterIN = iterIN.getNext(), i++, j = 0, over = false){
-    //   // System.out.println("i: " + i);
-    //   // System.out.println("INPUT VALUE: " + iterIN.getValue());
-    //   for(INode2<T> iterCopy = copy.getHead(); iterCopy != null && !over; iterCopy = iterCopy.getNext(), j++){
-    //     // System.out.println("COPY VALUE: " + iterCopy.getValue());
-    //     // System.out.println("RESULT: " + iterIN.getValue().compareTo(iterCopy.getValue()));
-    //     if(iterIN.getValue().compareTo(iterCopy.getValue()) <= 0){
-    //       if (list instanceof KeyList)
-    //           ((KeyList<T>)copy).addBlue(((IKeyNode<T>)iterIN).getKey(), iterIN.getValue(), j);
-    //       else
-    //         copy.addAt(iterIN.getValue(), i);
-    //       over = true;
-    //     }
-    //   }
-    //
-    //   if (!over){
-    //     if (list instanceof KeyList)
-    //         ((KeyList<T>)copy).addBlue(((IKeyNode<T>)iterIN).getKey(), iterIN.getValue(), i);
-    //     else
-    //       copy.addAt(iterIN.getValue(), i);
-    //   }
-    // }
-
-    return listOfList;
+    list.addTail(nodeToAdd.getValue());
   }
 
-  protected <K extends Comparable<K>> void sortListOfList(IAlg algorithm, IList<IList<K>> list){
-    // this.keySort(list);
-    //
-    // for (INode2<IList<K>> iter = list.getHead(); iter != null; iter = iter.getNext())
-    //   algorithm.sort(iter.getValue());
+  protected <E extends Comparable<E>, T extends Comparable<T>, K extends Comparable<K>> boolean addAt(IList<E> list, INode2<E> nodeToAdd, int pos){
+    if (list instanceof IKeyList)
+      return ((IKeyList<E, T, K>)list).addAt(((IKeyNode<E, T>)nodeToAdd).getKey(), nodeToAdd.getValue(), pos);
+
+    return list.addAt(nodeToAdd.getValue(), pos);
   }
-
-  public <E extends Comparable<E>, T extends Comparable<T>, K extends Comparable<K>> IList<E> keySort(IKeyList<E, T, K> list, boolean isMin) {
-    if(list.getSize() <= 1)
-      return list;
-
-    System.out.println("CLASS LIST: " + list.getClass());
-
-    IKeyList<E, T, K> copy = new KeyList<E, T, K>();
-    int j = 0, i = 1;
-    boolean over = false;
-
-    copy.addTail(((IKeyNode<E, T>)list.getHead()).getKey(), list.getHead().getValue());
-
-    System.out.println("SIZE: " + list.getSize());
-    for(IKeyNode<E, T> iterIN = (IKeyNode<E, T>)list.getHead().getNext(); iterIN != null; iterIN = (IKeyNode<E, T>)iterIN.getNext(), i++, j = 0, over = false){
-      // System.out.println("i: " + i);
-      // System.out.println("i: " + copy.getHead());
-      for(IKeyNode<E, T> iterCopy = (IKeyNode<E, T>)copy.getHead(); iterCopy != null && !over; iterCopy = (IKeyNode<E, T>)iterCopy.getNext(), j++){
-        // System.out.println("blip: " + j);
-        // System.out.println("j: " + iterCopy.getNext());
-        // System.out.println("ITERCOPY: " + iterCopy);
-        if(min_max_compare(iterIN.getKey(), iterCopy.getKey(), isMin)){
-          // System.out.println("SCARED");
-          copy.addBlue(iterIN.getKey(), iterIN.getValue(), j);
-          over = true;
-        }
-        // System.out.println("shish: " + i);
-      }
-
-      // System.out.println("qhat: " + iterIN);
-      if (!over)
-        copy.addBlue(iterIN.getKey(), iterIN.getValue(), i);
-    }
-
-    return copy;
-  }
-
-  // public <K extends Comparable<K>> IList<IList<K>> sortListOfList(IList<IList<K>> list) {
-  //   if(list.getSize() <= 1)
-  //     return list;
-  //
-  //   KeyList<IList<K>> copy = new KeyList<IList<K>>();
-  //   int j = 0, i = 1;
-  //   boolean over = false;
-  //
-  //   copy.addTail(((KeyNode<IList<K>>)list.getHead()).getKey(), list.getHead().getValue());
-  //
-  //   System.out.println("SIZE: " + list.getSize());
-  //   for(KeyNode<IList<K>> iterIN = (KeyNode<IList<K>>)list.getHead().getNext(); iterIN != null; iterIN = (KeyNode<IList<K>>)iterIN.getNext(), i++, j = 0, over = false){
-  //     System.out.println("i: " + i);
-  //     System.out.println("i: " + copy.getHead());
-  //     for(KeyNode<IList<K>> iterCopy = (KeyNode<IList<K>>)copy.getHead(); iterCopy != null && !over; iterCopy = (KeyNode<IList<K>>)iterCopy.getNext(), j++){
-  //       System.out.println("blip: " + j);
-  //       System.out.println("j: " + iterCopy.getNext());
-  //       System.out.println("ITERCOPY: " + iterCopy);
-  //       if(iterIN.getKey().compareTo(iterCopy.getKey()) <= 0){
-  //         System.out.println("SCARED");
-  //         copy.addBlue(iterIN.getKey(), iterIN.getValue(), j);
-  //         over = true;
-  //       }
-  //       System.out.println("shish: " + i);
-  //     }
-  //
-  //     System.out.println("qhat: " + iterIN);
-  //     if (!over)
-  //       copy.addBlue(iterIN.getKey(), iterIN.getValue(), i);
-  //   }
-  //
-  //   return copy;
-  // }
 }

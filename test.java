@@ -59,8 +59,8 @@ public class test {
     // test.listTest();
     // test.dynamicArrayTest();
     // test.abrTest();
-    // test.algTest(new InsertionSort());
-    test.algTest(new MergeSort());
+    test.algTest(new InsertionSort());
+    // test.algTest(new MergeSort());
     // test.graphMovidaTest();
     // test.priorityQueueTest();
   }
@@ -172,9 +172,9 @@ public class test {
     KL.printAll();
 
     A = alg.sort(A, true);
-    L = alg.sort(L, false);
-    // KL = (IKeyList)alg.sort(KL, false);
-    KL = (IKeyList)alg.keySort(KL, false);
+    L = alg.sort(L, true);
+    // KL = (IKeyList)alg.sort(KL, true);
+    KL = (IKeyList)alg.keySort(KL, true);
 
     System.out.println("SORTED: ");
     for (int i = 0; i < A.length; i++)

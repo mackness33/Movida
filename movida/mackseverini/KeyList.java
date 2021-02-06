@@ -202,22 +202,22 @@ public class KeyList<E extends Comparable<E>, T extends Comparable<T>, K extends
 
   @Override
   // add element and key at a specified position of the list
-  public void addBlue (T k, E el, Integer pos){
+  public boolean addAt (T k, E el, Integer pos){
     if (k == null || el == null || pos == null)
-      return;
+      return false;
 
     // check if the position is valid
     if (pos <= 0 || pos >= size){
       if (pos == 0){
         this.addHead(k, el);
-        return;
+        return true;
       }
       else if (pos == size){
         this.addTail(k, el);
-        return;
+        return true;
       }
 
-      return;
+      return false;
     }
 
     int i = 1;
@@ -232,6 +232,8 @@ public class KeyList<E extends Comparable<E>, T extends Comparable<T>, K extends
       iter.setNext(temp);
       this.size++;
     }
+
+    return true;
   }
 
   // Update an element by having its key as the input

@@ -73,22 +73,22 @@ public class List<E extends Comparable<E>> implements movida.mackseverini.IList<
 
   // Add element at a position of the list
   @Override
-  public void addAt (E el, int pos){
+  public boolean addAt (E el, int pos){
     if (el == null)
-      return;
+      return false;
 
     // check if the position is valid
     if (pos <= 0 || pos >= size){
       if (pos == 0){
         this.addHead(el);
-        return;
+        return true;
       }
       else if (pos == size){
         this.addTail(el);
-        return;
+        return true;
       }
 
-      return;
+      return false;
     }
 
     int i = 1;
@@ -103,6 +103,8 @@ public class List<E extends Comparable<E>> implements movida.mackseverini.IList<
       iter.setNext(temp);
       this.size++;
     }
+
+    return true;
   }
 
   @Override
