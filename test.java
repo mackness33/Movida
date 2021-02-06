@@ -53,13 +53,13 @@ public class test {
 
   public static void main(String args[]){
     // test.graphTest();
-    // test.movidaTest();
+    test.movidaTest();
     // test.queueTest();
     // test.stackTest();
     // test.listTest();
     // test.dynamicArrayTest();
     // test.abrTest();
-    test.algTest(new InsertionSort());
+    // test.algTest(new InsertionSort());
     // test.algTest(new MergeSort());
     // test.graphMovidaTest();
     // test.priorityQueueTest();
