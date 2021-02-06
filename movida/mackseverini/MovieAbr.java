@@ -125,10 +125,10 @@ public class MovieAbr<E extends Movie> implements IMovieAbr<E>
 
     if(indexToDelete != null)
     {
-      result =  this.titles.delete(title) &&
-                this.years.delete(this.movies.get(indexToDelete).getYear()) &&
-                this.votes.delete(this.movies.get(indexToDelete).getVotes()) &&
-                this.director.delete(this.movies.get(indexToDelete).getDirector().getName());
+      result =  this.titles.deleteByKey(title, indexToDelete) &&
+                this.years.deleteByKey(this.movies.get(indexToDelete).getYear(), indexToDelete) &&
+                this.votes.deleteByKey(this.movies.get(indexToDelete).getVotes(), indexToDelete) &&
+                this.director.deleteByKey(this.movies.get(indexToDelete).getDirector().getName(), indexToDelete);
 
       this.movies.set(indexToDelete, null);
     }
@@ -187,10 +187,10 @@ public class MovieAbr<E extends Movie> implements IMovieAbr<E>
   @Override
   public <K extends Comparable<K>> Movie[] searchByKey(K input)
   {
-    System.out.println("\n\n\n\n");
-    for(int j = 0; j < this.movies.length; j++)
-      System.out.println(this.movies.get(j));
-    System.out.println("\n\n\n\n");
+    // System.out.println("\n\n\n\n");
+    // for(int j = 0; j < this.movies.length; j++)
+    //   System.out.println(this.movies.get(j));
+    // System.out.println("\n\n\n\n");
 
     if(input == null)
       return null;
@@ -203,10 +203,10 @@ public class MovieAbr<E extends Movie> implements IMovieAbr<E>
       {
         Array<Integer> indexes = new Array(this.years.getAll((Integer)input));
 
-        System.out.println("\n\n\n\nINDEXES:");
-        for(i = 0; i < indexes.length; i++)
-          System.out.println(indexes.get(i));
-        System.out.println("\n\n\n\n");
+        // System.out.println("\n\n\n\nINDEXES:");
+        // for(i = 0; i < indexes.length; i++)
+        //   System.out.println(indexes.get(i));
+        // System.out.println("\n\n\n\n");
 
         for(i = 0; i < indexes.length; i++)
           if(indexes.get(i) != null)
@@ -228,10 +228,10 @@ public class MovieAbr<E extends Movie> implements IMovieAbr<E>
 
       Movie[] moviesByKeyArray = new Movie[this.getLength()];
 
-      System.out.println("\n\n\n\nMOVIES BY KEY:");
-      for(int j = 0; j < moviesByKey.length; j++)
-        System.out.println(moviesByKey.get(j));
-      System.out.println("\n\n\n\n");
+      // System.out.println("\n\n\n\nMOVIES BY KEY:");
+      // for(int j = 0; j < moviesByKey.length; j++)
+      //   System.out.println(moviesByKey.get(j));
+      // System.out.println("\n\n\n\n");
 
       for(int j = 0; j < this.getLength(); j++)
         moviesByKeyArray[j] = moviesByKey.get(j);

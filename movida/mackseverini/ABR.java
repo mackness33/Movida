@@ -125,7 +125,7 @@ public class ABR<E extends Comparable<E>, T extends Comparable<T>> implements IA
         i++;
       }
 
-      if(node.getLeftChild() != null)
+      if (node.getLeftChild() != null)
       {
         node = (AbrNode<E,T>)node.getLeftChild();
         movies.push(node);
@@ -207,6 +207,49 @@ public class ABR<E extends Comparable<E>, T extends Comparable<T>> implements IA
           else
             nodeToFind = (AbrNode)nodeToFind.getRightChild();
         }
+        // if the node to be deleted isn't in the tree
+        if(nodeToFind == null)
+          return false;
+        // LEAF case
+        else if(nodeToFind.getLeftChild() == null && nodeToFind.getRightChild() == null)
+        {
+          if(parent.getLeftChild() == nodeToFind)
+            parent.setLeftChild(null);
+          else
+            parent.setRightChild(null);
+
+          return true;
+        }
+        // INTERMEDIATE NODE case
+        else
+          return this.deleteIntermediateNode(nodeToFind, parent);
+      }
+  }
+
+  public boolean deleteByKey(T valueToDelete, E keyToDelete)
+  {
+      if((this.root == null) || (valueToDelete == null))
+      {
+        System.out.println("NOTHING TO DELETE");
+        return false;
+      }
+      // ROOT case
+      if(valueToDelete.compareTo(this.root.getValue()) == 0 && keyToDelete.compareTo(this.root.getKey()) == 0)
+        return deleteRoot();
+      else
+      {
+        AbrNode<E, T> nodeToFind = (AbrNode<E,T>)this.root;
+        AbrNode<E, T> parent = null;
+        // search for the node to be deleted
+        while(nodeToFind != null && keyToDelete.compareTo(nodeToFind.getKey()) != 0)
+        {
+          parent = nodeToFind;
+          if(valueToDelete.compareTo(nodeToFind.getValue()) <= 0)
+            nodeToFind = (AbrNode<E,T>)nodeToFind.getLeftChild();
+          else
+            nodeToFind = (AbrNode<E,T>)nodeToFind.getRightChild();
+        }
+
         // if the node to be deleted isn't in the tree
         if(nodeToFind == null)
           return false;
@@ -422,18 +465,18 @@ public class ABR<E extends Comparable<E>, T extends Comparable<T>> implements IA
     if(valueToFind == null)
       return null;
 
-    AbrNode<E, T> nodeChecked = (AbrNode)this.root;
+    AbrNode<E, T> nodeChecked = (AbrNode<E,T>)this.root;
 
     // search for the node
     while((nodeChecked != null) && (valueToFind.compareTo(nodeChecked.getValue()) != 0))
     {
       if(valueToFind.compareTo(nodeChecked.getValue()) < 0)
-        nodeChecked = (AbrNode)nodeChecked.getLeftChild();
+        nodeChecked = (AbrNode<E,T>)nodeChecked.getLeftChild();
       else
-        nodeChecked = (AbrNode)nodeChecked.getRightChild();
+        nodeChecked = (AbrNode<E,T>)nodeChecked.getRightChild();
     }
 
-    if(nodeChecked != null && (nodeChecked.value).compareTo(valueToFind) == 0)
+    if(nodeChecked != null && (nodeChecked.getValue()).compareTo(valueToFind) == 0)
       return nodeChecked.getKey();
     else
       return null;
