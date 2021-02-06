@@ -53,14 +53,14 @@ public class test {
 
   public static void main(String args[]){
     // test.graphTest();
-    test.movidaTest();
+    // test.movidaTest();
     // test.queueTest();
     // test.stackTest();
     // test.listTest();
     // test.dynamicArrayTest();
     // test.abrTest();
     // test.algTest(new InsertionSort());
-    // test.algTest(new MergeSort());
+    test.algTest(new MergeSort());
     // test.graphMovidaTest();
     // test.priorityQueueTest();
   }
@@ -164,32 +164,31 @@ public class test {
       KL.addTail(ThreadLocalRandom.current().nextInt(-1000, 1001), i);
     }
 
+    // PRINT
     for (int i = 0; i < A.length; i++)
       System.out.println("POS: " + i + "  VAL: " + A.get(i));
-    int j = 0;
-    for(INode2<Integer> iterIN = L.getHead(); iterIN != null; iterIN = iterIN.getNext(), j++)
-      System.out.println("POS: " + j + "  VAL: " + iterIN.getValue());
 
+    L.printAll();
     KL.printAll();
 
     A = alg.sort(A, true);
     L = alg.sort(L, false);
     // KL = (IKeyList)alg.sort(KL, false);
-    KL = (IKeyList)alg.keySort(KL, true);
+    KL = (IKeyList)alg.keySort(KL, false);
 
     System.out.println("SORTED: ");
     for (int i = 0; i < A.length; i++)
       System.out.println("POS: " + i + "  VAL: " + A.get(i));
 
-    j = 0;
-    for(INode2<Integer> iterIN = L.getHead(); iterIN != null; iterIN = iterIN.getNext(), j++)
-      System.out.println("POS: " + j + "  VAL: " + iterIN.getValue());
+    if (L == null)
+      System.out.println("sort: " + null);
+    else
+      L.printAll();
 
     if (KL == null)
       System.out.println("keySort: " + null);
     else
       KL.printAll();
-
   }
 
   public static void movidaTest(){
