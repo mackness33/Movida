@@ -53,14 +53,14 @@ public class test {
 
   public static void main(String args[]){
     // test.graphTest();
-    // test.movidaTest();
+    test.movidaTest();
     // test.queueTest();
     // test.stackTest();
     // test.listTest();
     // test.dynamicArrayTest();
     // test.abrTest();
     // test.algTest(new InsertionSort());
-    test.algTest(new MergeSort());
+    // test.algTest(new MergeSort());
     // test.graphMovidaTest();
     // test.priorityQueueTest();
   }
@@ -211,8 +211,8 @@ public class test {
     System.out.println("MapChange2: " + mb.setMap(movida.commons.MapImplementation.ABR));
     System.out.println("MapChange3: " + mb.setMap(movida.commons.MapImplementation.AVL));
 
-    System.out.println("AlgChange1: " + mb.setSort(movida.commons.SortingAlgorithm.MergeSort));
     System.out.println("AlgChange2: " + mb.setSort(movida.commons.SortingAlgorithm.InsertionSort));
+    System.out.println("AlgChange1: " + mb.setSort(movida.commons.SortingAlgorithm.MergeSort));
     System.out.println("AlgChange3: " + mb.setSort(movida.commons.SortingAlgorithm.HeapSort));
   }
 

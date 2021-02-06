@@ -25,6 +25,7 @@ import movida.mackseverini.MovieHash;
 import movida.mackseverini.PeopleHash;
 import movida.mackseverini.CollabGraph;
 import movida.mackseverini.InsertionSort;
+import movida.mackseverini.MergeSort;
 
 public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMovidaSearch, movida.commons.IMovidaConfig, movida.commons.IMovidaCollaborations{
   private IMovieMap<Movie> movies;
@@ -439,7 +440,6 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
         this.people = new PeopleHash();
       }break;
 
-      // case ABR: System.out.println("Tring ABR!");
       case ABR: {
         this.movies = new MovieAbr();
         this.people = new PeopleHash();
@@ -480,7 +480,7 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
 
     switch (alg){
       case InsertionSort: this.sortAlgorithm = new InsertionSort();break;
-      case MergeSort: System.out.println("Tring MergeSort!");//this.sortAlgorithm = new MergeSort();break;
+      case MergeSort: this.sortAlgorithm = new MergeSort();break;
       default: {
         System.out.println("This sort has not been implemented!");
         return false;
