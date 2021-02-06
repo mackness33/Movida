@@ -22,12 +22,6 @@ Title: Cape Fear
 Cast: Jodie Foster, Matthew McConaughey, Tom Skerritt
 Votes: 244372
 
-Title: Die Hard
-Year: 1988
-Director: John McTiernan
-Cast: Bruce Willis, Alan Rickman, Bonnie Bedelia
-Votes: 755228
-
 Title: The Sixth Sense
 Year: 1999
 Director: M. Night Shyamalan
@@ -46,12 +40,6 @@ Title: Cape Fear
 Cast: Harrison Ford, Tommy Lee Jones, Sela Ward
 Votes: 256217
 
-Title: The Junitive
-Year: 1997
-Director: Andrew Davis
-Cast: Harrison Ford, Tommy Lee Jones
-Votes: 2
-
 Title: The Tunitive
 Year: 2111
 Director: Andrew Davis
@@ -69,18 +57,6 @@ Title: Cape Fear
 Director: Robert Zemeckis
 Cast: Harrison Ford, Michelle Pfeiffer, Katharine Towne
 Votes: 114295
-
-Title: The Fugitive
-Year: 2111
-Director: Wolfgang Petersen
-Cast: Harrison Ford, Sela Ward
-Votes: 1
-
-Title: Air Force One
-Year: 1997
-Director: Wolfgang Petersen
-Cast: Harrison Ford, Gary Oldman, Glenn Close
-Votes: 173540
 
 Title: The Fugitive
 Year: 1993
