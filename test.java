@@ -20,6 +20,7 @@ import movida.mackseverini.Graph;
 import movida.mackseverini.CollabGraph;
 import movida.mackseverini.Arch;
 import movida.mackseverini.IArch;
+import movida.mackseverini.IKeyList;
 import movida.mackseverini.Set;
 import movida.mackseverini.PriorityQueue;
 import movida.mackseverini.Vertex;
@@ -154,10 +155,13 @@ public class test {
   public static void algTest(IAlg alg){
     Array<Integer> A = new Array<Integer>(35);
     IList<Integer> L = new List<Integer>();
+    IKeyList<Integer, Integer, Integer> KL = new KeyList<Integer, Integer, Integer>();
 
     for (int i = 0; i < A.length; i++){
       A.set(i, ThreadLocalRandom.current().nextInt(-1000, 1001));
       L.addTail(ThreadLocalRandom.current().nextInt(-1000, 1001));
+      KL.addTail(i, ThreadLocalRandom.current().nextInt(-1000, 1001));
+      // KL.addTail(ThreadLocalRandom.current().nextInt(-1000, 1001), i);
     }
 
     for (int i = 0; i < A.length; i++)
@@ -166,8 +170,12 @@ public class test {
     for(INode2<Integer> iterIN = L.getHead(); iterIN != null; iterIN = iterIN.getNext(), j++)
       System.out.println("POS: " + j + "  VAL: " + iterIN.getValue());
 
+    KL.printAll();
+
     A = alg.sort(A, true);
-    L = alg.sort(L, true);
+    L = alg.sort(L, false);
+    KL = (IKeyList)alg.sort(KL, false);
+    // KL = (IKeyList)alg.keySort(KL, false);
 
     System.out.println("SORTED: ");
     for (int i = 0; i < A.length; i++)
@@ -176,6 +184,11 @@ public class test {
     j = 0;
     for(INode2<Integer> iterIN = L.getHead(); iterIN != null; iterIN = iterIN.getNext(), j++)
       System.out.println("POS: " + j + "  VAL: " + iterIN.getValue());
+
+    if (KL == null)
+      System.out.println("keySort: " + null);
+    else
+      KL.printAll();
 
   }
 

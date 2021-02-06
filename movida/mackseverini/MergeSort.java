@@ -79,15 +79,14 @@ public class MergeSort implements IAlg
     // division of initial array in left part and right part
     for(int i = 0; i < pivot; iter = iter.getNext(), i++)
       this.addTail(left, iter);
+
     for(; iter != null; iter = iter.getNext())
       this.addTail(right, iter);
 
-    System.out.println("pre sorts");
     // recursion on left and right parts
     left = this.sort(left, isMin);
     right = this.sort(right, isMin);
 
-    System.out.println("pre merge");
     // once divided array in left and right part merge them to sort
     return this.merge(left, right, isMin);
   }
@@ -104,9 +103,7 @@ public class MergeSort implements IAlg
     else
       merged = new List<E>();
 
-
     while(iterLeft != null && iterRight != null){
-      // this.addTail(merged, (min_max_compare(iterLeft.getValue(), iterRight.getValue(), isMin)) ? iterLeft : iterRight);
       if(min_max_compare(iterLeft.getValue(), iterRight.getValue(), isMin)){
         this.addTail(merged, iterLeft);
         iterLeft = iterLeft.getNext();
@@ -117,13 +114,12 @@ public class MergeSort implements IAlg
       }
     }
 
-
     // sort remaining elements of not fully sorted array
-    if(iterLeft == null)
-      while(iterLeft != null)
+    if(iterLeft != null)
+      for(; iterLeft != null; iterLeft = iterLeft.getNext())
         this.addTail(merged, iterLeft);
     else
-      while(iterRight != null)
+      for(; iterRight != null; iterRight = iterRight.getNext())
         this.addTail(merged, iterRight);
 
     return merged;
