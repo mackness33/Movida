@@ -11,6 +11,7 @@ import movida.mackseverini.INode2;
 import movida.mackseverini.Array;
 import movida.mackseverini.KeyHash;
 import movida.mackseverini.InsertionSort;
+import movida.mackseverini.MergeSort;
 import movida.mackseverini.KeyNode;
 import movida.mackseverini.KeyList;
 import movida.mackseverini.ABR;
@@ -50,16 +51,15 @@ public class test {
   }
 
   public static void main(String args[]){
-    // test.algTest();
     // test.graphTest();
-    test.movidaTest();
+    // test.movidaTest();
     // test.queueTest();
     // test.stackTest();
     // test.listTest();
     // test.dynamicArrayTest();
     // test.abrTest();
     // test.algTest(new InsertionSort());
-    // test.algTest(new MergeSort());
+    test.algTest(new MergeSort());
     // test.graphMovidaTest();
     // test.priorityQueueTest();
   }
@@ -153,29 +153,29 @@ public class test {
 
   public static void algTest(IAlg alg){
     Array<Integer> A = new Array<Integer>(35);
-    IList<Integer> L = new List<Integer>();
+    // IList<Integer> L = new List<Integer>();
 
     for (int i = 0; i < A.length; i++){
       A.set(i, ThreadLocalRandom.current().nextInt(-1000, 1001));
-      L.addTail(ThreadLocalRandom.current().nextInt(-1000, 1001));
+      // L.addTail(ThreadLocalRandom.current().nextInt(-1000, 1001));
     }
 
     for (int i = 0; i < A.length; i++)
       System.out.println("POS: " + i + "  VAL: " + A.get(i));
-    int j = 0;
-    for(INode2<Integer> iterIN = L.getHead(); iterIN != null; iterIN = iterIN.getNext(), j++)
-      System.out.println("POS: " + j + "  VAL: " + iterIN.getValue());
+    // int j = 0;
+    // for(INode2<Integer> iterIN = L.getHead(); iterIN != null; iterIN = iterIN.getNext(), j++)
+    //   System.out.println("POS: " + j + "  VAL: " + iterIN.getValue());
 
     A = alg.sort(A, false);
-    L = alg.sort(L, true);
+    // L = alg.sort(L, true);
 
     System.out.println("SORTED: ");
     for (int i = 0; i < A.length; i++)
       System.out.println("POS: " + i + "  VAL: " + A.get(i));
 
-    j = 0;
-    for(INode2<Integer> iterIN = L.getHead(); iterIN != null; iterIN = iterIN.getNext(), j++)
-      System.out.println("POS: " + j + "  VAL: " + iterIN.getValue());
+    // j = 0;
+    // for(INode2<Integer> iterIN = L.getHead(); iterIN != null; iterIN = iterIN.getNext(), j++)
+    //   System.out.println("POS: " + j + "  VAL: " + iterIN.getValue());
 
   }
 
