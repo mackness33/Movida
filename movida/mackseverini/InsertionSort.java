@@ -101,6 +101,21 @@ public class InsertionSort implements IAlg{
 
   protected <T extends Comparable<T>> boolean min_max_compare(T obj, T obj2, boolean isMin){ return (isMin) ? (obj.compareTo(obj2) < 0) : (obj.compareTo(obj2) > 0); }
 
+  // protected <E extends Comparable<E>, T extends Comparable<T>, K extends Comparable<K>> void addTail(IList<E> list, INode2<E> nodeToAdd){
+  //   if (list instanceof IKeyList<E, T, K>)
+  //     ((IKeyList<E, T, K>)list).addTail(((IKeyNode<E, T>)nodeToAdd).getKey(), nodeToAdd.getValue());
+  //   else
+  //     list.addTail(nodeToAdd.getValue());
+  // }
+  //
+  //
+  // protected <E extends Comparable<E>, T extends Comparable<T>, K extends Comparable<K>> void addHead(IList<E> list, INode2<E> nodeToAdd){
+  //   if (list instanceof IKeyList<E, T, K>)
+  //     ((IKeyList<E, T, K>)list).addHead(((IKeyNode<E, T>)nodeToAdd).getKey(), nodeToAdd.getValue());
+  //   else
+  //     list.addHead(nodeToAdd.getValue());
+  // }
+
   public <E extends Comparable<E>, T extends Comparable<T>, K extends Comparable<K>> IList<IList<E>> sortListOfList(IList<IList<E>> listOfList) {
     if(listOfList.getSize() < 0)
       return listOfList;

@@ -12,19 +12,13 @@ public class MergeSort implements IAlg
       return array;
 
     int pivot = array.length / 2;       // WARING: make sure to approximate for defect
-    int i = 0;
     Array<T> left = new Array<T>(pivot);
-    Array<T> right;
-
-    if(array.length % 2 == 0)
-      right = new Array<T>(pivot);
-    else
-      right = new Array<T>(pivot + 1);
+    Array<T> right = new Array<T>((array.length % 2 == 0) ? pivot : pivot+1);
 
     // division of initial array in left part and right part
-    for(i = 0; i < pivot; i++)
+    for(int i = 0; i < pivot; i++)
       left.set(i, array.get(i));
-    for(i = 0; i < right.length; i++)
+    for(int i = 0; i < right.length; i++)
       right.set(i, array.get(pivot + i));
 
     // recursion on left and right parts
@@ -35,9 +29,104 @@ public class MergeSort implements IAlg
     return this.merge(left, right, isMin);
   }
 
+  protected <T extends Comparable<T>> Array<T> merge(Array<T> left, Array<T> right, boolean isMin)
+  {
+    Array<T> merged = new Array<T>(left.length + right.length);
+    int l = 0, r = 0, i = 0;
+    while(l < left.length && r < right.length){
+      if(min_max_compare(left.get(l), right.get(r), isMin))
+      merged.set(i++, right.get(r++));
+      else
+      merged.set(i++, left.get(l++));
+    }
+
+
+    // sort remaining elements of not fully sorted array
+    if(l < left.length)
+    while(l < left.length)
+    merged.set(i++, left.get(l++));
+    else
+    while(r < right.length)
+    merged.set(i++, right.get(r++));
+
+    return merged;
+  }
+
   public <E extends Comparable<E>, T extends Comparable<T>, K extends Comparable<K>> IList<E> sort(IList<E> list, boolean isMin)
   {
-    return null;
+    if(list.getSize() < 2)
+      return list;
+
+    int pivot = list.getSize() / 2;       // WARING: make sure to approximate for defect
+    IList<E> left = null;
+    IList<E> right = null;
+    INode2<E> iter = list.getHead();
+
+    if (list instanceof KeyList){
+      left = new KeyList<E, T, K>();
+      right = new KeyList<E, T, K>();
+    }
+    else{
+      left = new List<E>();
+      right = new List<E>();
+    }
+
+    // if(list.getSize() % 2 == 0)
+    //   right = new Array<T>(pivot);
+    // else
+    //   right = new Array<T>(pivot + 1);
+
+    // division of initial array in left part and right part
+    for(int i = 0; i < pivot; iter = iter.getNext(), i++)
+      this.addTail(left, iter);
+    for(; iter != null; iter = iter.getNext())
+      this.addTail(right, iter);
+
+    System.out.println("pre sorts");
+    // recursion on left and right parts
+    left = this.sort(left, isMin);
+    right = this.sort(right, isMin);
+
+    System.out.println("pre merge");
+    // once divided array in left and right part merge them to sort
+    return this.merge(left, right, isMin);
+  }
+
+  protected <E extends Comparable<E>, T extends Comparable<T>, K extends Comparable<K>> IList<E> merge(IList<E> left, IList<E> right, boolean isMin)
+  {
+    IList<E> merged = null;
+    int l = 0, r = 0, i = 0;
+    INode2<E> iterLeft = left.getHead();
+    INode2<E> iterRight = right.getHead();
+
+    if (left instanceof IKeyList)
+      merged = new KeyList<E, T, K>();
+    else
+      merged = new List<E>();
+
+
+    while(iterLeft != null && iterRight != null){
+      // this.addTail(merged, (min_max_compare(iterLeft.getValue(), iterRight.getValue(), isMin)) ? iterLeft : iterRight);
+      if(min_max_compare(iterLeft.getValue(), iterRight.getValue(), isMin)){
+        this.addTail(merged, iterLeft);
+        iterLeft = iterLeft.getNext();
+      }
+      else{
+        this.addTail(merged, iterRight);
+        iterRight = iterRight.getNext();
+      }
+    }
+
+
+    // sort remaining elements of not fully sorted array
+    if(iterLeft == null)
+      while(iterLeft != null)
+        this.addTail(merged, iterLeft);
+    else
+      while(iterRight != null)
+        this.addTail(merged, iterRight);
+
+    return merged;
   }
 
   public <E extends Comparable<E>, T extends Comparable<T>, K extends Comparable<K>> IList<E> keySort(IKeyList<E, T, K> list, boolean isMin)
@@ -45,32 +134,14 @@ public class MergeSort implements IAlg
     return null;
   }
 
-
-  public <T extends Comparable<T>> Array<T> merge(Array<T> left, Array<T> right, boolean isMin)
-  {
-    Array<T> merged = new Array<T>(left.length + right.length);
-    int l = 0, r = 0, i = 0;
-    while(l < left.length && r < right.length){
-      if(min_max_compare(left.get(l), right.get(r), isMin))
-        merged.set(i++, right.get(r++));
-      else
-        merged.set(i++, left.get(l++));
-    }
-
-
-    // sort remaining elements of not fully sorted array
-    if(l < left.length)
-      while(l < left.length)
-        merged.set(i++, left.get(l++));
-    else
-      while(r < right.length)
-        merged.set(i++, right.get(r++));
-
-    return merged;
-  }
-
   protected <T extends Comparable<T>> boolean min_max_compare(T obj, T obj2, boolean isMin){ return (isMin) ? (obj.compareTo(obj2) < 0) : (obj.compareTo(obj2) > 0); }
 
+  protected <E extends Comparable<E>, T extends Comparable<T>, K extends Comparable<K>> void addTail(IList<E> list, INode2<E> nodeToAdd){
+    if (list instanceof KeyList)
+    ((IKeyList<E, T, K>)list).addTail(((IKeyNode<E, T>)nodeToAdd).getKey(), nodeToAdd.getValue());
+    else
+    list.addTail(nodeToAdd.getValue());
+  }
 
   // public static Array<T> mergeSort(Array<T> vector)
   // {
