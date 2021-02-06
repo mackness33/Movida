@@ -49,51 +49,22 @@ public class MergeSort implements IAlg
   public <T extends Comparable<T>> Array<T> merge(Array<T> left, Array<T> right, boolean isMin)
   {
     Array<T> merged = new Array<T>(left.length + right.length);
-    int l = 0;
-    int r = 0;
-
-    // until sorted all of left or all of right
-    // decreasing order
-    // if(isMin == true)
-    // {
-    // if((left.get(l)).compareTo(right.get(r)) < 0)
-    // }
-    // increasing order
-    // else
-    // {
-    //   while(l < left.length && r < right.length)
-    //   {
-    //     // first the smaller, if r < l then r else l
-    //     if((left.get(l)).compareTo(right.get(r)) > 0)
-    //       merged.set(i++, right.get(r++));
-    //     else
-    //       merged.set(i++, left.get(l++));
-    //   }
-    // }
-
-    for(int i = 0; l < left.length && r < right.length; i++)
-    {
-      // first the greater, if r > l then r else l
+    int l = 0, r = 0, i = 0;
+    while(l < left.length && r < right.length){
       if(min_max_compare(left.get(l), right.get(r), isMin))
-        merged.set(i, right.get(r++));
+        merged.set(i++, right.get(r++));
       else
-        merged.set(i, left.get(l++));
+        merged.set(i++, left.get(l++));
     }
 
 
     // sort remaining elements of not fully sorted array
     if(l < left.length)
-    {
-      for(int i = 0; l < left.length; i++)
-      // while(l < left.length)
-        merged.set(i, left.get(l++));
-    }
+      while(l < left.length)
+        merged.set(i++, left.get(l++));
     else
-    {
-      for(int i = 0; r < right.length; i++)
-      // while(r < right.length)
-        merged.set(i, right.get(r++));
-    }
+      while(r < right.length)
+        merged.set(i++, right.get(r++));
 
     return merged;
   }
