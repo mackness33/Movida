@@ -101,30 +101,41 @@ public class ABR<E extends Comparable<E>, T extends Comparable<T>> implements IA
 
     Stack<IAbrNode<E, T>> movies = new Stack<IAbrNode<E, T>>();
     Array<E> maxIndexes = new Array<E>(num);
-    AbrNode<E, T> node = (AbrNode)this.root;
-    AbrNode<E, T> poppedNode = new AbrNode<E, T>();
+    AbrNode<E, T> node = (AbrNode<E,T>)this.root;
     int i = 0;
 
     movies.push(node);
 
-    while(movies.isEmpty() == false && i < num)
+    while(!movies.isEmpty() && i < num)
     {
       while(node.getRightChild() != null)
       {
-        node = (AbrNode)node.getRightChild();
+        node = (AbrNode<E,T>)node.getRightChild();
         movies.push(node);
       }
 
-      node = (AbrNode)movies.pop();
+      node = (AbrNode<E,T>)movies.pop();
       maxIndexes.set(i, node.getKey());
       i++;
 
+      while(node.getLeftChild() == null && !movies.isEmpty() && i < num)
+      {
+        node = (AbrNode<E,T>)movies.pop();
+        maxIndexes.set(i, node.getKey());
+        i++;
+      }
+
       if(node.getLeftChild() != null)
       {
-        node = (AbrNode)node.getLeftChild();
+        node = (AbrNode<E,T>)node.getLeftChild();
         movies.push(node);
       }
     }
+
+    // System.out.println("\n\n\n\n");
+    // for(int j = 0; j < maxIndexes.length; j++)
+    //   System.out.println(maxIndexes.get(j));
+    // System.out.println("\n\n\n\n");
 
     return maxIndexes;
   }
@@ -422,7 +433,7 @@ public class ABR<E extends Comparable<E>, T extends Comparable<T>> implements IA
         nodeChecked = (AbrNode)nodeChecked.getRightChild();
     }
 
-    if(nodeChecked != null && nodeChecked.value == valueToFind)
+    if(nodeChecked != null && (nodeChecked.value).compareTo(valueToFind) == 0)
       return nodeChecked.getKey();
     else
       return null;

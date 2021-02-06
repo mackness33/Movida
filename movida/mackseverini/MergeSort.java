@@ -4,6 +4,7 @@ public class MergeSort implements IAlg
 {
   public MergeSort(){}
 
+  public final movida.commons.SortingAlgorithm getType() {return movida.commons.SortingAlgorithm.MergeSort;}
 
   public <T extends Comparable<T>> Array<T> sort(Array<T> array, boolean isMin)
   {
@@ -31,7 +32,7 @@ public class MergeSort implements IAlg
     right = this.sort(right, isMin);
 
     // once divided array in left and right part merge them to sort
-    return merge(left, right, siMin);
+    return merge(left, right, isMin);
   }
 
   public <E extends Comparable<E>, T extends Comparable<T>, K extends Comparable<K>> IList<E> sort(IList<E> list, boolean isMin)
