@@ -101,30 +101,41 @@ public class ABR<E extends Comparable<E>, T extends Comparable<T>> implements IA
 
     Stack<IAbrNode<E, T>> movies = new Stack<IAbrNode<E, T>>();
     Array<E> maxIndexes = new Array<E>(num);
-    AbrNode<E, T> node = (AbrNode)this.root;
-    AbrNode<E, T> poppedNode = new AbrNode<E, T>();
+    AbrNode<E, T> node = (AbrNode<E,T>)this.root;
     int i = 0;
 
     movies.push(node);
 
-    while(movies.isEmpty() == false && i < num)
+    while(!movies.isEmpty() && i < num)
     {
       while(node.getRightChild() != null)
       {
-        node = (AbrNode)node.getRightChild();
+        node = (AbrNode<E,T>)node.getRightChild();
         movies.push(node);
       }
 
-      node = (AbrNode)movies.pop();
+      node = (AbrNode<E,T>)movies.pop();
       maxIndexes.set(i, node.getKey());
       i++;
 
-      if(node.getLeftChild() != null)
+      while(node.getLeftChild() == null && !movies.isEmpty() && i < num)
       {
-        node = (AbrNode)node.getLeftChild();
+        node = (AbrNode<E,T>)movies.pop();
+        maxIndexes.set(i, node.getKey());
+        i++;
+      }
+
+      if (node.getLeftChild() != null)
+      {
+        node = (AbrNode<E,T>)node.getLeftChild();
         movies.push(node);
       }
     }
+
+    // System.out.println("\n\n\n\n");
+    // for(int j = 0; j < maxIndexes.length; j++)
+    //   System.out.println(maxIndexes.get(j));
+    // System.out.println("\n\n\n\n");
 
     return maxIndexes;
   }
@@ -196,6 +207,49 @@ public class ABR<E extends Comparable<E>, T extends Comparable<T>> implements IA
           else
             nodeToFind = (AbrNode)nodeToFind.getRightChild();
         }
+        // if the node to be deleted isn't in the tree
+        if(nodeToFind == null)
+          return false;
+        // LEAF case
+        else if(nodeToFind.getLeftChild() == null && nodeToFind.getRightChild() == null)
+        {
+          if(parent.getLeftChild() == nodeToFind)
+            parent.setLeftChild(null);
+          else
+            parent.setRightChild(null);
+
+          return true;
+        }
+        // INTERMEDIATE NODE case
+        else
+          return this.deleteIntermediateNode(nodeToFind, parent);
+      }
+  }
+
+  public boolean deleteByKey(T valueToDelete, E keyToDelete)
+  {
+      if((this.root == null) || (valueToDelete == null))
+      {
+        System.out.println("NOTHING TO DELETE");
+        return false;
+      }
+      // ROOT case
+      if(valueToDelete.compareTo(this.root.getValue()) == 0 && keyToDelete.compareTo(this.root.getKey()) == 0)
+        return deleteRoot();
+      else
+      {
+        AbrNode<E, T> nodeToFind = (AbrNode<E,T>)this.root;
+        AbrNode<E, T> parent = null;
+        // search for the node to be deleted
+        while(nodeToFind != null && keyToDelete.compareTo(nodeToFind.getKey()) != 0)
+        {
+          parent = nodeToFind;
+          if(valueToDelete.compareTo(nodeToFind.getValue()) <= 0)
+            nodeToFind = (AbrNode<E,T>)nodeToFind.getLeftChild();
+          else
+            nodeToFind = (AbrNode<E,T>)nodeToFind.getRightChild();
+        }
+
         // if the node to be deleted isn't in the tree
         if(nodeToFind == null)
           return false;
@@ -411,18 +465,18 @@ public class ABR<E extends Comparable<E>, T extends Comparable<T>> implements IA
     if(valueToFind == null)
       return null;
 
-    AbrNode<E, T> nodeChecked = (AbrNode)this.root;
+    AbrNode<E, T> nodeChecked = (AbrNode<E,T>)this.root;
 
     // search for the node
     while((nodeChecked != null) && (valueToFind.compareTo(nodeChecked.getValue()) != 0))
     {
       if(valueToFind.compareTo(nodeChecked.getValue()) < 0)
-        nodeChecked = (AbrNode)nodeChecked.getLeftChild();
+        nodeChecked = (AbrNode<E,T>)nodeChecked.getLeftChild();
       else
-        nodeChecked = (AbrNode)nodeChecked.getRightChild();
+        nodeChecked = (AbrNode<E,T>)nodeChecked.getRightChild();
     }
 
-    if(nodeChecked != null && nodeChecked.value == valueToFind)
+    if(nodeChecked != null && (nodeChecked.getValue()).compareTo(valueToFind) == 0)
       return nodeChecked.getKey();
     else
       return null;

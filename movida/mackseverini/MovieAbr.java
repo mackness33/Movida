@@ -118,15 +118,17 @@ public class MovieAbr<E extends Movie> implements IMovieAbr<E>
   @Override
   public boolean delete(String title)
   {
+    // System.out.println("\n\n\n\nDELETE: " + title + "\n\n\n\n");
+
     boolean result = false;
     Integer indexToDelete = this.titles.getIndex(title);
 
     if(indexToDelete != null)
     {
-      result =  this.titles.delete(title) &&
-                this.years.delete(this.movies.get(indexToDelete).getYear()) &&
-                this.votes.delete(this.movies.get(indexToDelete).getVotes()) &&
-                this.director.delete(this.movies.get(indexToDelete).getDirector().getName());
+      result =  this.titles.deleteByKey(title, indexToDelete) &&
+                this.years.deleteByKey(this.movies.get(indexToDelete).getYear(), indexToDelete) &&
+                this.votes.deleteByKey(this.movies.get(indexToDelete).getVotes(), indexToDelete) &&
+                this.director.deleteByKey(this.movies.get(indexToDelete).getDirector().getName(), indexToDelete);
 
       this.movies.set(indexToDelete, null);
     }
@@ -147,9 +149,16 @@ public class MovieAbr<E extends Movie> implements IMovieAbr<E>
   @Override
   public int upsert(Movie obj)
   {
-    if(this.search(obj.getTitle()) != null);
-        this.delete(obj.getTitle());
+    // System.out.println("\n\n\n\nUPSERT: " + obj.getTitle() + "\nYEAR: " + obj.getYear() + "\nSEARCH: " + this.search(obj.getTitle()) + "\n\n\n\n");
 
+    if(this.search(obj.getTitle()) != null)
+    {
+        // System.out.println("\n\n\n\nUDELETE FROM UPSERT\n\n\n\n");
+
+        this.delete(obj.getTitle());
+    }
+
+    // System.out.println("\n\n\n\nINSERT: " + obj.getTitle() + "\n\n\n\n");
     this.insert(obj);
     return (this.titles.get(obj.getTitle())).getKey();
   }
@@ -178,6 +187,11 @@ public class MovieAbr<E extends Movie> implements IMovieAbr<E>
   @Override
   public <K extends Comparable<K>> Movie[] searchByKey(K input)
   {
+    // System.out.println("\n\n\n\n");
+    // for(int j = 0; j < this.movies.length; j++)
+    //   System.out.println(this.movies.get(j));
+    // System.out.println("\n\n\n\n");
+
     if(input == null)
       return null;
     else
@@ -188,6 +202,11 @@ public class MovieAbr<E extends Movie> implements IMovieAbr<E>
       if(input instanceof Integer)  // YEAR CASE
       {
         Array<Integer> indexes = new Array(this.years.getAll((Integer)input));
+
+        // System.out.println("\n\n\n\nINDEXES:");
+        // for(i = 0; i < indexes.length; i++)
+        //   System.out.println(indexes.get(i));
+        // System.out.println("\n\n\n\n");
 
         for(i = 0; i < indexes.length; i++)
           if(indexes.get(i) != null)
@@ -208,6 +227,11 @@ public class MovieAbr<E extends Movie> implements IMovieAbr<E>
       }
 
       Movie[] moviesByKeyArray = new Movie[this.getLength()];
+
+      // System.out.println("\n\n\n\nMOVIES BY KEY:");
+      // for(int j = 0; j < moviesByKey.length; j++)
+      //   System.out.println(moviesByKey.get(j));
+      // System.out.println("\n\n\n\n");
 
       for(int j = 0; j < this.getLength(); j++)
         moviesByKeyArray[j] = moviesByKey.get(j);
@@ -230,6 +254,13 @@ public class MovieAbr<E extends Movie> implements IMovieAbr<E>
     Array<Integer> indexes;
     int i = 0;
 
+    // System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nMOVIES IN ABR\n\n");
+    // this.years.printAbr();
+    // System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nMOVIES IN ARRAY\n\n");
+    // for(i = 0; i < this.movies.length; i++)
+    //   System.out.println(this.movies.get(i));
+    // System.out.println("\n\n\n\n");
+
     switch(type)
     {
       case "year":
@@ -248,6 +279,11 @@ public class MovieAbr<E extends Movie> implements IMovieAbr<E>
         System.out.println("\n\nWRONG TYPE\n\n");
         break;
     }
+
+    // System.out.println("\n\n\n\n");
+    // for(i = 0; i < num; i++)
+    //   System.out.println(moviesByKey.get(i));
+    // System.out.println("\n\n\n\n");
 
     for(i = 0; i < num; i++)
       moviesByKeyArray[i] = moviesByKey.get(i);

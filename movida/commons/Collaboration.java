@@ -1,7 +1,5 @@
 package movida.commons;
 
-// import movida.mackseverini.ArrayList;
-
 import java.util.ArrayList;
 
 public class Collaboration {
@@ -39,10 +37,13 @@ public class Collaboration {
 		return score / movies.size();
 	}
 
+
+	// CLEAN:
 	public void print(){
 		System.out.println("Collaboration:  ACTOR A => " + this.actorA + "  ACTOR B => " + this.actorB + "  SCORE => " + this.getScore());
 	}
 
+	// CLEAN:
 	private void printMovies(){
     int count = 0;
     for (Movie i : this.movies){
