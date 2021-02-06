@@ -125,9 +125,58 @@ public class MergeSort implements IAlg
     return merged;
   }
 
-  public <E extends Comparable<E>, T extends Comparable<T>, K extends Comparable<K>> IList<E> keySort(IKeyList<E, T, K> list, boolean isMin)
+  protected <E extends Comparable<E>, T extends Comparable<T>, K extends Comparable<K>> IKeyList<E, T, K> keyMerge(IKeyList<E, T, K> left, IKeyList<E, T, K> right, boolean isMin)
   {
-    return null;
+    IKeyList<E, T, K> merged = new KeyList<E, T, K>();
+    int l = 0, r = 0, i = 0;
+    IKeyNode<E, T> iterLeft = (IKeyNode<E, T>)left.getHead();
+    IKeyNode<E, T> iterRight = (IKeyNode<E, T>)right.getHead();
+
+    while(iterLeft != null && iterRight != null){
+      if(min_max_compare(iterLeft.getKey(), iterRight.getKey(), isMin)){
+        this.addTail(merged, iterLeft);
+        iterLeft = (IKeyNode<E, T>)iterLeft.getNext();
+      }
+      else{
+        this.addTail(merged, iterRight);
+        iterRight = (IKeyNode<E, T>)iterRight.getNext();
+      }
+    }
+
+    // sort remaining elements of not fully sorted array
+    if(iterLeft != null)
+      for(; iterLeft != null; iterLeft = (IKeyNode<E, T>)iterLeft.getNext())
+        this.addTail(merged, iterLeft);
+    else
+      for(; iterRight != null; iterRight = (IKeyNode<E, T>)iterRight.getNext())
+        this.addTail(merged, iterRight);
+
+    return merged;
+  }
+
+  public <E extends Comparable<E>, T extends Comparable<T>, K extends Comparable<K>> IKeyList<E, T, K> keySort(IKeyList<E, T, K> list, boolean isMin)
+  {
+    if(list.getSize() < 2)
+      return list;
+
+    int pivot = list.getSize() / 2;       // WARING: make sure to approximate for defect
+    IKeyList<E, T, K> left = new KeyList<E, T, K>();
+    IKeyList<E, T, K> right = new KeyList<E, T, K>();
+    INode2<E> iter = list.getHead();
+
+    // division of initial array in left part and right part
+    for(int i = 0; i < pivot; iter = iter.getNext(), i++)
+      this.addTail(left, iter);
+
+    for(; iter != null; iter = iter.getNext())
+      this.addTail(right, iter);
+
+    // recursion on left and right parts
+    left = this.keySort(left, isMin);
+    right = this.keySort(right, isMin);
+
+    // once divided array in left and right part merge them to sort
+    return this.keyMerge(left, right, isMin);
   }
 
   protected <T extends Comparable<T>> boolean min_max_compare(T obj, T obj2, boolean isMin){ return (isMin) ? (obj.compareTo(obj2) < 0) : (obj.compareTo(obj2) > 0); }

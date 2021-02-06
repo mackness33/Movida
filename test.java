@@ -160,8 +160,8 @@ public class test {
     for (int i = 0; i < A.length; i++){
       A.set(i, ThreadLocalRandom.current().nextInt(-1000, 1001));
       L.addTail(ThreadLocalRandom.current().nextInt(-1000, 1001));
-      KL.addTail(i, ThreadLocalRandom.current().nextInt(-1000, 1001));
-      // KL.addTail(ThreadLocalRandom.current().nextInt(-1000, 1001), i);
+      // KL.addTail(i, ThreadLocalRandom.current().nextInt(-1000, 1001));
+      KL.addTail(ThreadLocalRandom.current().nextInt(-1000, 1001), i);
     }
 
     for (int i = 0; i < A.length; i++)
@@ -174,8 +174,8 @@ public class test {
 
     A = alg.sort(A, true);
     L = alg.sort(L, false);
-    KL = (IKeyList)alg.sort(KL, false);
-    // KL = (IKeyList)alg.keySort(KL, false);
+    // KL = (IKeyList)alg.sort(KL, false);
+    KL = (IKeyList)alg.keySort(KL, true);
 
     System.out.println("SORTED: ");
     for (int i = 0; i < A.length; i++)
