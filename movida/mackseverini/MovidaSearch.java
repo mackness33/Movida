@@ -1,3 +1,5 @@
+// CLEAN
+
 package movida.mackseverini;
 
 import java.util.LinkedList;
