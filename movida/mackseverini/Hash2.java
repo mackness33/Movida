@@ -9,7 +9,7 @@ import movida.mackseverini.Set;
 import movida.commons.Movie;
 import movida.commons.Person;
 
-
+// Implementation of an external hash
 public class Hash2<E extends Comparable<E>> implements movida.mackseverini.IHash<E> {
   protected Array<E> dom;                   // Array with all the elements
   protected IList<IList<Integer>> major;    // List of list that virtually operates as the hash
@@ -17,7 +17,7 @@ public class Hash2<E extends Comparable<E>> implements movida.mackseverini.IHash
   protected int size;                       // Max position occupied in the array
   protected int length;                     // Counts the num of the elements currently in the hash
 
-  @SuppressWarnings("unchecked")
+  // constructor
   public Hash2() {
     this.size = 0;
     this.length = 0;
@@ -129,6 +129,7 @@ public class Hash2<E extends Comparable<E>> implements movida.mackseverini.IHash
 
   // print of the whole hash
   // FOR TEST USE ONLY
+  // CLEAN
   public void print (){
     System.out.println("Length: " + this.dom.length);
     E temp = null;
@@ -154,8 +155,8 @@ public class Hash2<E extends Comparable<E>> implements movida.mackseverini.IHash
   // sort of the major virtual hash
   public void sort(IAlg algorithm, boolean decrescent){ this.major = this.sortListOfList(algorithm, this.major, decrescent); }
 
-  // conversion to array
   @Override
+  // conversion to array
   public Array<E> toArray() {
     if (this.length < 0)
       return null;
