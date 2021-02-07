@@ -84,6 +84,7 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
     System.out.println("END STREAM");
   }
 
+  // the real read of a file
   protected void actOfRead(File f){
     try{
       BufferedReader br = new BufferedReader(new FileReader(f));
@@ -92,9 +93,11 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
       String stream = "";
       Integer i = 0;
 
+      // read the file till the end
       while ((stream = br.readLine()) != null){
         System.out.println(stream);
 
+        // split by :
         line = stream.split(":");
 
         // Using a switch so even though the movie is describe in a unordered way
@@ -112,6 +115,7 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
 
       br.close();
 
+      // add the last movie
       this.addMovie(movie);
 
       graph.print();
@@ -121,28 +125,29 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
     }
   }
 
+  // method that add a new movie to the data structeres
   protected void addMovie(String [] movie){
     Person [] cast = new Person [10];
     String [] cast_name = movie[3].split(",");
     int pos = -1;
     Movie temp = null;
 
+    // for each person in the cast
     for(int i = 0; i < 10; i++)
       if (i < cast_name.length)
         cast[i] = new Person(cast_name[i].trim());
       else
         cast[i] = null;
 
-
     temp = new Movie(movie[0], new Integer(movie[1]), new Integer(movie[2]), cast, new Person(movie[4], false, movies.getSize()));
 
-    int id_el = movies.upsert(temp);
-    people.upsert(new Person(movie[4].trim(), false, id_el), id_el);
+    int id_el = movies.upsert(temp);    // update or insert the movie
+    people.upsert(new Person(movie[4].trim(), false, id_el), id_el);    // update or insert the director
     for(int i = 0; i < 10; i++)
       if (i < cast_name.length)
-        people.upsert(new Person(cast_name[i].trim(), true, id_el), id_el);
+        people.upsert(new Person(cast_name[i].trim(), true, id_el), id_el);   // update or insert an actor
 
-    graph.addMovie(temp);
+    graph.addMovie(temp);     // add the movie to the graph
   }
 
   /**
@@ -166,11 +171,13 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
     }
   }
 
+  // the real save of the file
   protected void actOfSave(File f){
     try{
       FileWriter fw = new FileWriter(f, false);
       Array<Movie> allMovies = movies.toArray();
 
+      // for each movie print in the output file
       for (int i = 0; i < allMovies.length; i++){
         if (allMovies.get(i) != null){
           fw.write(allMovies.get(i).toString());
@@ -183,7 +190,6 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
       System.out.println("Output Written to file");
     }
     catch (IOException io){
-      // io.printStackTrace();
       throw new MovidaFileException();
     }
   }
@@ -225,16 +231,17 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
 	@Override
 	public boolean deleteMovieByTitle(String title){ return (movies != null) ? this.deleteFromGraphAndMap(title) : false; }
 
+  // delete the movie from all the data structures
   private boolean deleteFromGraphAndMap(String title){
-    Movie film = movies.search(title);
-    Integer posDelMovie = movies.getPosFromMovie(film);
-    boolean isDeleted = movies.delete(title);
+    Movie film = movies.search(title);      // get the movie
+    Integer posDelMovie = movies.getPosFromMovie(film);   // get the position in the map
+    boolean isDeleted = movies.delete(title);     // delete the movie
 
     if (film != null || isDeleted){
       Person[] cast = film.getCast();
       for (int i = 0; i < cast.length; i++)
-        people.decreaseMovie(cast[i], posDelMovie);
-      return graph.delMovie(film) && isDeleted;
+        people.decreaseMovie(cast[i], posDelMovie);   // decrease the movie or delete the actor
+      return graph.delMovie(film) && isDeleted;           // delete the movie from the graph
     }
 
     return false;
@@ -334,8 +341,9 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
     if (movies ==  null || people == null)
       return null;
 
-    Person actor = people.search(name);
+    Person actor = people.search(name);       // find the actor
 
+    // check on the actor found
     if (actor == null || actor.getMovieSize() <= 0)
       return null;
 
@@ -343,10 +351,9 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
     Movie[] out = new Movie[ids.getSize()];
     int i = 0;
 
+    // iterate the list of movie inside movies and get the id from the MovieMap
     for (INode2<Integer> iter = ids.getHead(); iter != null; iter = iter.getNext(), i++)
       out[i] = movies.getFromId(iter.getValue());
-
-    System.out.println("Size: " + out.length);
 
     return (out.length > 0) ?  out : null;
   }
@@ -406,16 +413,16 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
 	 * @return <code>true</code> se la configurazione e' stata modificata, <code>false</code> in caso contrario
 	 */
 	public boolean setMap(MapImplementation map){
-    System.out.println("actual Map: " + ((this.movies != null) ? this.movies.getType() : null));
-    System.out.println("input Map: " + map);
     if (map == null)
       return false;
     else if (this.movies != null && map == this.movies.getType())
       return false;
 
+    // get all the movies and persons in the maps
     Movie[] films = (this.movies != null) ? this.movies.toPrimitive() : null;
     Person[] persons = (this.people != null) ? this.people.toPrimitive() : null;
 
+    // assign the right map based on the MapImplementation in input
     switch (map){
       case HashConcatenamento: {
         this.movies = new MovieHash();
@@ -433,6 +440,7 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
       }
     }
 
+    // if present copy all the movies and persons in the new maps
     if (films != null && persons != null){
       for (int  i = 0; i < films.length; i++)
         this.movies.insert(films[i]);
@@ -453,13 +461,12 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
 	 * @return <code>true</code> se la configurazione e' stata modificata, <code>false</code> in caso contrario
 	 */
 	public boolean setSort(SortingAlgorithm alg){
-    System.out.println("actual Alg: " + ((this.sortAlgorithm != null) ? this.sortAlgorithm.getType() : null));
-    System.out.println("input Alg: " + alg);
     if (alg == null)
       return false;
     else if (this.sortAlgorithm != null && alg == this.sortAlgorithm.getType())
       return false;
 
+    // assign the right alg based on the SortingAlgorithm in input
     switch (alg){
       case InsertionSort: this.sortAlgorithm = new InsertionSort();break;
       case MergeSort: this.sortAlgorithm = new MergeSort();break;
