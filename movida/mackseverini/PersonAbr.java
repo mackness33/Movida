@@ -75,12 +75,19 @@ public class PersonAbr<E extends Person> implements IPersonAbr<E>
     {
       Integer indexToUpdate = this.names.getIndex(personToInsert.getName());
 
-      if(indexToUpdate != null)
+      if(indexToUpdate != null && this.people.get(indexToUpdate).isActor())
       {
-        Person updatedPerson = this.people.get(indexToUpdate);
-        updatedPerson.addMovie(movie);
-        this.numMovsParticipated.update(indexToUpdate, indexToUpdate, updatedPerson.getMovieSize(), personToInsert.getMovieSize());
-        this.people.set(indexToUpdate, (E)updatedPerson);
+        // Person updatedPerson = this.people.get(indexToUpdate);
+        // updatedPerson.addMovie(movie);
+        // this.numMovsParticipated.update(indexToUpdate, indexToUpdate, updatedPerson.getMovieSize(), this.people.get(indexToUpdate).getMovieSize());
+        // this.people.set(indexToUpdate, (E)updatedPerson);
+
+        Integer numMovies = this.people.get(indexToUpdate).getMovieSize();
+        this.people.get(indexToUpdate).addMovie(movie);
+        this.numMovsParticipated.update(indexToUpdate, indexToUpdate, this.people.get(indexToUpdate).getMovieSize(), numMovies);
+
+        // updatedPerson.addMovie(movie);
+        // this.people.set(indexToUpdate, (E)updatedPerson);
         // Person personUpdated = this.people.get(indexToUpdate);
         // System.out.println("\n\n\n\nMOVIES SIZE"+personUpdated.getMovieSize());
         // this.numMovsParticipated.deleteByKey(personUpdated.getMovieSize(), indexToUpdate);
@@ -131,8 +138,33 @@ public class PersonAbr<E extends Person> implements IPersonAbr<E>
       this.people.set(i, (E)personToInsert);
 
     // inserting in the ABRs
-    return this.names.insert(i, personToInsert.getName()) && this.numMovsParticipated.insert(i, personToInsert.getMovieSize());
+    return this.names.insert(i, personToInsert.getName()) && ((personToInsert.isActor()) ? (this.numMovsParticipated.insert(i, personToInsert.getMovieSize())) : true);
   }
+
+  @Override
+  public boolean decreaseMovie(Person obj, Integer movie){
+    if (obj == null || movie == null)
+      return false;
+
+    if(this.search(personToInsert))
+    {
+      Integer indexToUpdate = this.names.getIndex(personToInsert.getName());
+
+      if(indexToUpdate != null && this.people.get(indexToUpdate).isActor())
+      {
+        Integer numMovies = this.people.get(indexToUpdate).getMovieSize();
+        this.people.get(indexToUpdate).addMovie(movie);
+        this.numMovsParticipated.update(indexToUpdate, indexToUpdate, this.people.get(indexToUpdate).getMovieSize(), numMovies);
+
+        return true;
+      }
+
+      return false;
+    }
+    else
+      return this.insert(personToInsert);
+  }
+
 
 
   // delete of a element in the main hash and the keys ABR/array
@@ -199,7 +231,7 @@ public class PersonAbr<E extends Person> implements IPersonAbr<E>
     this.numMovsParticipated = null;
   }
 
-  // get N elements by key in the input
+  // get N actors by key in the input
   @Override
   public Person[] searchMostOf(Integer num)
   {
