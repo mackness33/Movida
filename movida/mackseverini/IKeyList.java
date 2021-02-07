@@ -2,10 +2,6 @@ package movida.mackseverini;
 
 // interfacec that describe the basic operation of List with keys
 public interface IKeyList<E extends Comparable<E>, T extends Comparable<T>, K extends Comparable<K>> extends IList<E>{
-  public void print();  // CLEAN
-
-  public void printAll(); // CLEAN
-
   public K getKey();  // get the key of the list
 
   public void setKey (K k); // set the key of the list

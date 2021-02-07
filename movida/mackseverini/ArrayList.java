@@ -16,19 +16,8 @@ public class ArrayList<E extends Comparable<E>> extends java.util.ArrayList<E> i
       row += col;
     }
 
-    // even if they're not in the same order it will still return 0 
+    // even if they're not in the same order it will still return 0
     return (row == 0) ? 0 : (row < 0) ? -1 : 1;
   }
 
-  // CLEAN:
-  public void print(){
-    int count = 0;
-    for (E i : this){
-      if (i == null)
-        System.out.println("Pos: " + count + " El: null");
-      else
-        System.out.println("Pos: " + count + " El: " + i);
-      count++;
-    }
-  }
 }

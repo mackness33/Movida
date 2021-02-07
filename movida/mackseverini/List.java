@@ -393,20 +393,4 @@ public class List<E extends Comparable<E>> implements movida.mackseverini.IList<
 
     return true;
   }
-
-  // CLEAN
-  @Override
-  public void print (){
-    System.out.println("KeyList: HEAD => " + this.head);
-    if(this.head != null)
-      ((Node2<E>)this.head).printAll();
-  }
-
-  // CLEAN
-  @Override
-  public void printAll (){
-    System.out.println("KeyList: HEAD => " + this.head);
-    if(this.head != null)
-      ((Node2<E>)this.head).printAll();
-  }
 }

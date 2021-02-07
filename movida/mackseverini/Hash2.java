@@ -129,20 +129,6 @@ public class Hash2<E extends Comparable<E>> implements movida.mackseverini.IHash
     return false;
   }
 
-  // print of the whole hash
-  // FOR TEST USE ONLY
-  // CLEAN
-  public void print (){
-    System.out.println("Length: " + this.dom.length);
-    E temp = null;
-
-    for (int i = 0; i < this.dom.length; i++)
-      if ((temp = this.dom.get(i)) != null)
-        System.out.println("VALUE => " + this.dom.get(i));
-
-    this.major.print();
-  }
-
   // sort the virtual hash first by the hashed value, and the internal list by the values
   protected <K extends Comparable<K>> IList<IList<K>> sortListOfList(IAlg algorithm, IList<IList<K>> list, boolean decrescent){
     list = algorithm.keySort((IKeyList)list, decrescent);     // sort by keys

@@ -73,13 +73,6 @@ public class Vertex<E extends Comparable<E>, K extends Comparable<K>> implements
 
   public int compareTo (E input) { return this.value.compareTo(input); }
 
-  // CLEAN
-  @Override
-  public void print(){
-    System.out.println("Vertex: VALUE => " + this.value + " \n\r\t ADIACENCE => ");
-    this.adiacence.printAll();
-  }
-
   @Override
   public String toString(){ return this.value.toString(); }
 }

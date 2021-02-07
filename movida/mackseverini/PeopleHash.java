@@ -144,13 +144,6 @@ public class PeopleHash<E extends Person> extends KeyHash<Person> implements IPe
     return true;
   }
 
-  // CLEAN
-  public void print (){
-    this.major.printAll();
-    System.out.println("ACTIVE: ");
-    this.active.printAll();
-  }
-
   @Override
   // search of the element by title
   public Person search(String name){

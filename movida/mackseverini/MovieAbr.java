@@ -34,8 +34,6 @@ public class MovieAbr<E extends Movie> implements IMovieAbr<E>
   @Override
   public final movida.commons.MapImplementation getType() {return movida.commons.MapImplementation.ABR;}
 
-  public void print(){}
-
   // retrive the amount of elements totally used
   @Override
   public int getSize() {return 0;}
@@ -193,7 +191,6 @@ public class MovieAbr<E extends Movie> implements IMovieAbr<E>
       }
       else
       {
-        System.out.println("!! WRONG TYPE: " + input.getClass() + " !!");
         return null;
       }
 
@@ -235,8 +232,6 @@ public class MovieAbr<E extends Movie> implements IMovieAbr<E>
         break;
 
       default:
-        System.out.println("\n\nWRONG TYPE\n\n");
-        break;
     }
 
     for(i = 0; i < num; i++)

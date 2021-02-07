@@ -153,23 +153,6 @@ public class CollabGraph extends movida.mackseverini.Graph<Person, ArrayList<Mov
 		return false;
   }
 
-	// CLEAN
-	public void print(){
-    for(int i = 0, size = 0; i < this.verteces.length; i++){
-			if (this.verteces.get(i) != null){
-				System.out.println("POS: " + size);
-				this.verteces.get(i).print();
-				size += 1;
-			}
-		}
-
-    System.out.println("\n\rArch length: " + this.arches.getSize());
-
-    for (INode2<IArch<Integer, ArrayList<Movie>>> iter = (INode2<IArch<Integer, ArrayList<Movie>>>)this.arches.getHead(); iter != null; iter = (Node2<IArch<Integer, ArrayList<Movie>>>)iter.getNext())
-      if (iter.getValue() != null)
-        iter.getValue().print();
-  }
-
 	// add a new actor
 	public boolean addVertex(Person vertex){ return this.addGenericVertex(this.verteces, vertex); }
 
@@ -381,15 +364,5 @@ public class CollabGraph extends movida.mackseverini.Graph<Person, ArrayList<Mov
 			return (input.getScore() == this.getScore()) ? 0 : ((input.getScore() < this.getScore()) ? 1 : -1);
     }
 
-		// CLEAN
-		@Override
-	  public void print(){
-			System.out.print("Arch: WEIGHT => ");
-			if (this.weight != null)
-				this.weight.print();
-			else
-				System.out.println("NULL");
-	    System.out.println("FIRST VERTEX => " + this.vertex1 + "  SECOND VERTEX => " + this.vertex2 + "\n\r");
-	  }
   }
 }

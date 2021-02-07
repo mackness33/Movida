@@ -349,29 +349,6 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
     return false;
   }
 
-
-  // CLEAN
-  // print all the verteces
-  @Override
-  public void printVerteces(){
-    for (int i = 0; i < this.verteces.length; i++)
-      if (this.verteces.get(i) != null)
-        this.verteces.get(i).print();
-  }
-
-  // CLEAN
-  public void print(){
-    for(int i = 0; i < this.verteces.length; i++)
-      if (this.verteces.get(i) != null)
-        this.verteces.get(i).print();
-
-    System.out.println("\n\rArch length: " + this.arches.getSize());
-
-    for (INode2<IArch<Integer, K>> iter = (INode2<IArch<Integer, K>>)this.arches.getHead(); iter != null; iter = (Node2<IArch<Integer, K>>)iter.getNext())
-      if (iter.getValue() != null)
-        iter.getValue().print();
-  }
-
   @Override
   public Array<E> BFS(E vertex){
     Integer pos_vertex = this.findVertex(this.verteces, vertex);                                      // pos of the selected vertex
@@ -451,8 +428,7 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
     for(Integer pos_arch = 0, last_arch = 1; !PQ.isEmpty(); arch.reset()){
       // find min and delete it
       pos_vertex = PQ.find();
-      PQ.delete();
-      PQ.print();
+      PQ.delete()
       arch.setSecondVertex(this.verteces.get(pos_vertex).getValue());        // set second arch vertex to the selected one
 
       // for each adiacence of the vertex
@@ -485,7 +461,6 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
   protected <T extends Comparable<T>> Integer MSTsetArch(Array<IVertex<E, T>> list_of_vtx, Array<IArch<E,K>> A, PriorityQueue<Integer, T> PQ, IKeyNode<Integer, T> iter, IArch<E,K> arch){
     // set first vertex of the temporary arch
     arch.setFirstVertex(list_of_vtx.get(iter.getValue()).getValue());
-    System.out.println("Checkin on: " + arch.getFirstVertex());
     // if the arch is already present pass to the next vertex
     for (int i = 0; i < A.length; i++){
       // if the element at the index is null than no need to continue
@@ -590,8 +565,5 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
 
       return 1;
     }
-
-    // CLEAN
-    public void print(){ System.out.println("GraphPair: VALUE => " + this.value1 + " VALUE2 => " + this.value2); }
   }
 }

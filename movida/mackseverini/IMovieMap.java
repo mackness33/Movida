@@ -47,7 +47,4 @@ public interface IMovieMap<E extends Movie> extends IMap<Movie>, movida.mackseve
 
   // transform the hash in an primitive array (arr[])
   public Movie[] toPrimitive();
-
-  // transform the hash in an primitive array (arr[])
-  public void print();
 }

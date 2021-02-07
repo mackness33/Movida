@@ -284,19 +284,6 @@ public class PriorityQueue<E extends Comparable<E>, K extends Comparable<K>>{
   // compare the two elements based on the order in input (isMin)
   protected <T extends Comparable<T>> boolean min_max_compareEqual(T obj, T obj2){ return (isMin) ? (obj.compareTo(obj2) <= 0) : (obj.compareTo(obj2) >= 0); }
 
-  // print of the whole hash
-  // FOR TEST USE ONLY
-  // CLEAN
-  public void print (){
-    System.out.println("Size: " + this.size);
-    Pair<E, K> temp = null;
-
-    for (int i = 0; i < this.size; i++)
-      if ((temp = this.binaryHeap.get(i)) != null){
-        System.out.print("POS => " + i + "  ");
-        temp.print();
-      }
-  }
 
   // class for pair value and key
   protected class Pair <E extends Comparable<E>, K extends Comparable<K>> implements Comparable<Pair<E, K>>{
@@ -323,7 +310,5 @@ public class PriorityQueue<E extends Comparable<E>, K extends Comparable<K>>{
       return this.key.compareTo(input.getKey());
     }
 
-    // CLEAN
-    public void print(){ System.out.println("Pair: VALUE => " + this.value + " KEY => " + this.key); }
   }
 }

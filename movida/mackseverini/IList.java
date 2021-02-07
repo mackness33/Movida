@@ -23,10 +23,7 @@ public interface IList<E extends Comparable<E>> extends Comparable<IList<E>>{
   public E get (E el);        // get the saved element by giving the element in input
 
   public E getAt (int pos);   // get the element of the position in input
-
-  public void print ();       // CLEAN
-  public void printAll ();    // CLEAN
-
+  
   public boolean swap (INode2<E> first, INode2<E> second);    // swap two nodes
 
   public void reset ();

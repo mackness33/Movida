@@ -39,17 +39,6 @@ public class KeyList<E extends Comparable<E>, T extends Comparable<T>, K extends
     this.key = shallow.getKey();
   }
 
-  // CLEAN
-  @Override
-  public void print(){ System.out.println("KeyList: KEY => " + this.key + " HEAD => " + this.head); }
-
-  // CLEAN
-  public void printAll(){
-    System.out.println("KeyList: KEY => " + this.key + " HEAD => " + this.head);
-    if (this.head != null && this.head instanceof KeyNode)
-      ((KeyNode<E, T>)this.head).printAll();
-  }
-
   @Override
   public K getKey() { return this.key; }
 

@@ -14,5 +14,4 @@ public interface IArch<E extends Comparable<E>, K extends Comparable<K>> extends
 
   public int compareTo (IArch<E, K> input);   // compare to an IArch in input
 
-  public void print();      // CLEAN
 }

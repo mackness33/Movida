@@ -98,17 +98,6 @@ public class MovieHash<E extends Movie> extends KeyHash<Movie> implements IMovie
   // delete by title. just checkin the existance of a movie with that title
   public boolean delete(String title){ return this.delete(this.search(title)); }
 
-  // CLEAN
-  public void print (){
-    this.major.printAll();
-    System.out.println("YEAR!: ");
-    this.dates.printAll();
-    System.out.println("DIRECTOR!: ");
-    this.directors.printAll();
-    System.out.println("VOTES!: ");
-    this.rates.printAll();
-  }
-
   @Override
   // update the element if it does already exist else it normally insert it
   public int upsert(Movie obj){
@@ -206,7 +195,7 @@ public class MovieHash<E extends Movie> extends KeyHash<Movie> implements IMovie
             out.addToEnd(this.searchMostOfHashKey(num, iter.getValue()));
         }
       };break;
-      default: System.out.println("Wrong input");
+      default:
     }
 
     return (out != null && out.getSize() > 0) ?  this.listToPrimitive(out) : null;

@@ -53,17 +53,6 @@ public class Stack<E extends Comparable<E>>{
   // return the value of the head
   public E top(){ return this.elements.getHead().getValue(); }
 
-  // print of the whole hash
-  // FOR TEST USE ONLY
-  // CLEAN
-  public void print (){
-    System.out.println("Size: " + this.elements.getSize());
-
-    int i = 0;
-    for (INode2<E> iter = this.elements.getHead(); iter != null; iter = iter.getNext(), i++)
-      System.out.print("POS => " + i + "  " + iter.getValue() + "\n\r");
-  }
-
   // trasform the list into an array object
   public Array<E> toArray(){ return this.elements.toArray(); }
 }

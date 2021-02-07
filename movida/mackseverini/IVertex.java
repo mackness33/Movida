@@ -14,7 +14,6 @@ public interface IVertex<E extends Comparable<E>, K extends Comparable<K>> exten
   public boolean updAdiacence (Integer v, K w);   // update adiacence
   public boolean delAdiacence (Integer v);  // delete adiacence
 
-  public void print();  // CLEAN
   public String toString();
   public int compareTo (IVertex<E, K> input);
 }

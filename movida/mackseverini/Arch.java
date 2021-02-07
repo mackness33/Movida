@@ -85,9 +85,4 @@ public class Arch<E extends Comparable<E>, K extends Comparable<K>> implements I
     this.vertex1 = this.vertex2 = null;
   }
 
-  // CLEAN
-  @Override
-  public void print(){
-    System.out.println("Arch: WEIGHT => " + this.weight + "  FIRST VERTEX => " + this.vertex1 + "  SECOND VERTEX => " + this.vertex2);
-  }
 }

@@ -24,19 +24,4 @@ public class KeyNode<E extends Comparable<E>, K extends Comparable<K>> extends m
 
   @Override
   public void setKey (K k) { this.key = k; }
-
-  // CLEAN
-  @Override
-  public void print(){ System.out.println("KeyNode: KEY => " + this.key + " VALUE => " + this.value); }
-
-  // CLEAN
-  public void printAll(){
-    System.out.println("KeyList: KEY => " + this.key + " VALUE => " + this.value);
-
-    if (this.value instanceof IList)
-      ((KeyList)this.value).printAll();
-
-    if (this.next != null)
-      ((KeyNode)this.next).printAll();
-  }
 }

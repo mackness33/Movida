@@ -25,8 +25,6 @@ public interface IGraph<E extends Comparable<E>, K extends Comparable<K>>{
   public boolean containsArch(IArch<E, K> arch);
   public boolean containsVertex(E vertex);
 
-  public void printVerteces();
-
   public Array<E> BFS(E vertex);      // Breadth First Search
   public Array<IArch<E, K>> MSTPrim(E vertex, boolean isMin); // Max(Min) Spinning Tree
 }
