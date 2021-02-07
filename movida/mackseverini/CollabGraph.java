@@ -278,14 +278,14 @@ public class CollabGraph extends movida.mackseverini.Graph<Person, ArrayList<Mov
     // if there's no weight associated to the vertex
     if (arch.getWeight() == null){
 			PQ.insert(iter.getValue(), iter.getKey());      // insert the vertex to the PriorityQueue
-      arch.setWeight(((CollabArch<Integer>)this.searchArch(this.arches, new GraphPair<Integer>(iter.getValue(), pos_vertex))).getWeight());                  // set the weight of the arch
+      arch.setWeight(((CollabArch<Integer>)this.searchArch(this.arches, new GraphPair<Integer>(iter.getValue(), pos_vertex))).getWeight());		// set the weight of the arch
       A.set(last_arch, new CollabArch<Person>(arch));       // add the arch to the output arch
 
       return last_arch+1;                                            // increment pos of the last arch in the output array
     }
     // else if weight of the adiacence minor than the weight of the arch AND the vertex of the adiacence is in the PriorityQueue
 		else if (this.min_max_compare(iter.getKey(), ((CollabArch<Person>)A.get(pos_arch)).getScore(), isMin) && PQ.check(iter.getValue())){
-      A.get(pos_arch).setWeight(((CollabArch<Integer>)this.searchArch(this.arches, new GraphPair<Integer>(iter.getValue(), pos_vertex))).getWeight());                                   // set weight with the adiacence
+      A.get(pos_arch).setWeight(((CollabArch<Integer>)this.searchArch(this.arches, new GraphPair<Integer>(iter.getValue(), pos_vertex))).getWeight());	// set weight with the adiacence
       A.get(pos_arch).setSecondVertex(this.verteces.get(pos_vertex).getValue());        // set the new second Vertex
       PQ.decreaseKey(iter.getValue(), iter.getKey());                             // decreaseKey by weight of the adiacence weight
     }
@@ -294,13 +294,14 @@ public class CollabGraph extends movida.mackseverini.Graph<Person, ArrayList<Mov
   }
 
 
-  // TODO:
+	// CHECK
+	// special class to manage the Collaboration arches in the MSTPrim
+	// slightly different arch
   public class CollabArch<E extends Comparable<E>> extends Arch<E, ArrayList<Movie>>{
     public CollabArch(E a1, E a2, Movie m){
       this.vertex1 = a1;
       this.vertex2 = a2;
-      this.weight = new ArrayList<Movie>();
-      this.weight.add(m);
+			this.initWeight(m);
     }
 
 		public CollabArch(E a1, E a2, ArrayList<Movie> M){
@@ -321,18 +322,7 @@ public class CollabGraph extends movida.mackseverini.Graph<Person, ArrayList<Mov
       this.weight = shallow.getWeight();
     }
 
-    // @Override
-    // public Person getActorA() {
-    //   return this.vertex1;
-    // }
-		//
-    // @Override
-    // public Person getActorB() {
-    //   return this.vertex2;
-    // }
-		//
-    // @Override
-
+		// get the score method of the Collaboration
     public Double getScore(){
 			if (this.weight == null)
 				return -1.0;
@@ -348,23 +338,28 @@ public class CollabGraph extends movida.mackseverini.Graph<Person, ArrayList<Mov
       return score / this.weight.size();
     }
 
+		// increse of the weight (in this case add of a movie)
     public Double incWeight (Movie m) {
-			System.out.println("Add of movie: " + m + " to:");
-			// this.print();
+			// if the weight of the arch is null, inizialize it and add the movie
       if (this.weight == null)
         this.initWeight(m);
+			// else upsert the movie
       else{
-				int index = this.findMovie(m);
+				int index = this.findMovie(m);		// get the position of the movie
 
+				// if not found add the movie
 				if (index == -1)
 					this.weight.add(m);
+				// else update the movie
 				else
 					this.weight.set(index, m);
 			}
 
+			// return the new score
 			return this.getScore();
     }
 
+		// search the movie in the ArrayList of Movie
 		private int findMovie(Movie input){
 			int index = -1, i = 0;
 			for (Movie film : this.weight){
@@ -376,29 +371,36 @@ public class CollabGraph extends movida.mackseverini.Graph<Person, ArrayList<Mov
 			return index;
 		}
 
+		// decrease of the weight (in this case delete of a movie)
     public Double decWeight (Movie m) {
+			// if the weight isn't null remove the movie from it
       if (this.weight != null)
         this.weight.remove(m);
 
+			// return of the new score
 			return this.getScore();
     }
 
+		// init of the weight and add of a movie
     public void initWeight(Movie m){
       this.weight = new ArrayList<Movie>();
       this.weight.add(m);
     }
 
+		// compare of two CollabArch
     public int compareTo (CollabArch input){
 			if (input == null)
 				return -2;
 
 			int i = 0;
-			if ((i = super.compareTo(input)) != 0)
+			if ((i = super.compareTo(input)) != 0)	// compare the verteces of the input arch
 				return i;
 
+			// compare of the score of the input arch
 			return (input.getScore() == this.getScore()) ? 0 : ((input.getScore() < this.getScore()) ? 1 : -1);
     }
 
+		// CLEAN
 		@Override
 	  public void print(){
 			System.out.print("Arch: WEIGHT => ");
