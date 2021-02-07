@@ -1,5 +1,4 @@
 // import movida.mackseverini.*;
-import movida.mackseverini.MovidaDB;
 import movida.mackseverini.MovidaCore;
 import movida.mackseverini.Hash2;
 import movida.mackseverini.MovieHash;
@@ -29,7 +28,6 @@ import movida.mackseverini.Queue;
 import movida.mackseverini.Stack;
 import movida.mackseverini.DynamicArray;
 import movida.mackseverini.IAlg;
-// import movida.mackseverini.MergeSort;
 import movida.commons.*;
 
 import java.io.File;
@@ -419,7 +417,7 @@ public class test {
     else
       System.out.println("Tom mst LENGTH: " + 0 + "\n\rTO ARRAY: " + mst_of_Tom);
   }
-  // 
+  //
   // public static void graphTest(){
   //   Graph<Integer, Double> G = new Graph<Integer, Double>();
   //

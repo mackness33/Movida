@@ -1,0 +1,85 @@
+PROGETTO MOVIDA
+
+
+
+GRUPPO: mackseverini
+
+
+
+MEMBRI:	Mack David 	Severini Alessandro
+
+Questo gruppo è composto da David Mack e Alessandro Severini entrambi studenti di Informatica
+
+
+
+L’interfaccia con l’utente è gestita da MovidaCore da cui sono disponibili i vari metodi di caricamento da file e salvataggio a file, inserimento, ricerca, eliminazione e settaggio delle strutture dati e algoritmi di ordinamento. Implementa quindi tutte le funzioni delle interfacce IMovidaConfig, IMovidaDB e IMovidaSearch.
+
+
+
+Esiste già un file di prova che evidenzia i possibili risultati di ogni singolo test, è quindi possibile utilizzare tale file per effettuare dei test.
+
+
+
+STRUTTURE DATI
+
+- Alberi Binari di Ricerca (ABR)
+
+- Hash
+
+- Grafi
+
+
+STRUTTURE DATI SUPPLEMENTARI
+
+- Queue
+
+- Stack
+
+- Set (non utilizzato)
+
+- Array
+
+- DynamicArray (non utilizzato)
+
+- PriorityQueue
+
+
+Tali strutture dati non sono state sviluppate allo stesso modo da quelle richieste per il progetto, pertanto hanno solo le funzionalità base e/o utili per i fini del progetto.
+
+Per rendere possibile la facile scelta tra l’uso di una struttura tra ABR e Hash sono state create delle interfacce apposite per definire genericamente una struttura dati dizionario.
+
+
+
+ALGORITMI DI ORDINAMENTO
+
+- MergeSort
+
+- InsertionSort
+
+
+
+Analogamente a quanto fatto per le strutture dati sono state realizzare delle interfacce per definire un generico algoritmo di ordinamento.
+
+
+
+ABR
+
+Gli ABR sono gestiti in modo tale da consentire ricerche per ogni attributo di Movie e Person con i vantaggi che si hanno dall’uso di un abr combinandolo con un array che consente il collegamento tra un attributo e il suo oggetto in tempo costante con risparmio di spazio.
+
+
+
+
+
+HASH
+
+Hash sono gestiti utilizzando delle liste di liste che "virtualmente" corrispondono ad un hash. Grazie a questo tipo di gestione, la combinazione con le richieste del progetto sono risultate più facili oltre a semplificare di molte le complessita delle varie operazioni
+
+
+
+
+
+GRAFI
+
+I grafi sono gestiti utilizzando Vertex e Arch che sono due classi complesse. Per il vero utilizzo di tale classe si necessita per forza di tutte e due le classi perché una è complementare dell'altra anche nelle varie operazioni possibili per il grafo.
+Un esempio può essere dato dal fatto che per gestire il grafo di collaborazioni si hanno la lista di Movie all'interno di Arch, ma allo stesso tempo Arch non possiede informazioni riguardanti i propri vertici. Mentre i vertici possiedono l'informazione sul peso dell'arco dei suoi adiacenti,
+senza però sapere quali sono i Movie presenti sull'arco. Pertanto per realizzare le Collaborazione servono necessariamente tutte e due le classi.
