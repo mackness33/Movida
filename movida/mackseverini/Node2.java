@@ -38,8 +38,10 @@ public class Node2<T extends Comparable<T>> implements movida.mackseverini.INode
   public void setNext (INode2<T> n) { this.next = n; }
   public void setNext (Node2<T> n) { this.next = n; }
 
+  // CLEAN
   public void print(){ System.out.println("Node2: VALUE => " + this.value); }
 
+  // CLEAN
   public void printAll(){
     this.print();
 

@@ -1,6 +1,7 @@
 package movida.mackseverini;
 
-import java.util.concurrent.ThreadLocalRandom;
+import movida.commons.Movie;
+import movida.commons.Person;
 
 import movida.mackseverini.Node2;
 import movida.mackseverini.Array;
@@ -8,15 +9,11 @@ import movida.mackseverini.Set;
 import movida.mackseverini.Hash2;
 import movida.mackseverini.KeyHash;
 
-import movida.commons.Movie;
-import movida.commons.Person;
-
 // Class created specially for the Person
 public class PeopleHash<E extends Person> extends KeyHash<Person> implements IPersonMap<Person>{
   protected IList<IList<String>> major;
   protected IList<Integer> active;
 
-  @SuppressWarnings("unchecked")
   public PeopleHash() {
     super();
     this.major = new KeyList<IList<String>, Integer, Integer>();
@@ -88,20 +85,23 @@ public class PeopleHash<E extends Person> extends KeyHash<Person> implements IPe
     // get the position of the element in the main array of element
     pos = ((KeyList<String, Integer, Integer>)node).searchKey(obj.getName());
 
+    // checks on the position found
     if (pos == null || pos == -1)
       return false;
 
-    boolean delmovie = this.dom.get(pos).delMovie(movie);
-    System.out.println("deleting: " + this.dom.get(pos).getName() + "\tmovie: " + movie);
-    System.out.println("res: " + delmovie);
-    System.out.println("sizeListOfMovie: " + this.dom.get(pos).getMovieSize());
-    // if(!this.dom.get(pos).delMovie(movie))
-    if(!delmovie)
+    // if the person found has the list of movie empty than delete the person from the hash
+    if(this.dom.get(pos).getMovieSize() <= 0)
+      return this.delete(obj.getName());
+
+    // if the movie is not found than return false
+    if(!this.dom.get(pos).delMovie(movie))
       return false;
 
+    // if the person found has the list of movie not empty than all went well
     if(this.dom.get(pos).getMovieSize() > 0)
       return true;
 
+    // else delete the person in input because the list of movie now is empty
     return this.delete(obj.getName());
   }
 
@@ -144,6 +144,7 @@ public class PeopleHash<E extends Person> extends KeyHash<Person> implements IPe
     return true;
   }
 
+  // CLEAN
   public void print (){
     this.major.printAll();
     System.out.println("ACTIVE: ");
@@ -256,8 +257,9 @@ public class PeopleHash<E extends Person> extends KeyHash<Person> implements IPe
   // protected method to convet a list of movie into a primitive array
   protected Person[] listToPrimitive (IList<Person> list){
     Person[] prim = new Person[list.getSize()];
-
     int i = 0;
+
+    // iterate all the list and insert in the array
     for (INode2<Person> iter = list.getHead(); iter != null; iter = iter.getNext(), i++)
       prim[i] = iter.getValue();
 
