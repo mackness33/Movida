@@ -207,8 +207,8 @@ public class test {
   }
 
   public static void movidaConfigTest(MovidaCore mb){
-    System.out.println("MapChange1: " + mb.setMap(movida.commons.MapImplementation.HashConcatenamento));
     System.out.println("MapChange2: " + mb.setMap(movida.commons.MapImplementation.ABR));
+    System.out.println("MapChange1: " + mb.setMap(movida.commons.MapImplementation.HashConcatenamento));
     System.out.println("MapChange3: " + mb.setMap(movida.commons.MapImplementation.AVL));
 
     System.out.println("AlgChange1: " + mb.setSort(movida.commons.SortingAlgorithm.MergeSort));
@@ -328,7 +328,7 @@ public class test {
 
     // SEARCH MOST OF -> ACTOR
     System.out.println("\n\rSEARCHALLOF ACTORS: ");
-    Movie[] actors = mb.searchMoviesStarredBy("Bruce Willis");
+    Movie[] actors = mb.searchMoviesStarredBy("Harrison Ford");
 
     if (actors != null){
       for(int i = 0; i < actors.length; i++)

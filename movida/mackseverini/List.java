@@ -3,6 +3,7 @@ import movida.mackseverini.Node2;
 import movida.mackseverini.INode2;
 import movida.mackseverini.Array;
 
+// class that implements basic operation of a list
 public class List<E extends Comparable<E>> implements movida.mackseverini.IList<E>{
   protected INode2<E> head;
   protected INode2<E> tail;
@@ -39,6 +40,7 @@ public class List<E extends Comparable<E>> implements movida.mackseverini.IList<
     if (el == null)
       return;
 
+    // it the list is empty
     if (this.size <= 0){
       this.head = new Node2<E>(el);
       this.tail = this.head;
@@ -58,6 +60,7 @@ public class List<E extends Comparable<E>> implements movida.mackseverini.IList<
     if (el == null)
       return;
 
+    // it the list is empty
     if (this.size <= 0){
       this.head = new Node2<E>(el);
       this.tail = this.head;
@@ -113,6 +116,7 @@ public class List<E extends Comparable<E>> implements movida.mackseverini.IList<
     if (L == null)
       return;
 
+    // add each node of the list in the input at the end of this
     for (INode2<E> iter = L.getHead(); iter != null; iter = iter.getNext())
       this.addTail(iter.getValue());
     return;
@@ -124,6 +128,7 @@ public class List<E extends Comparable<E>> implements movida.mackseverini.IList<
     if (this.size <= 0)
       return;
 
+    // it the list has only one node
     if (this.size == 1){
       this.tail = null;
       this.head = null;
@@ -141,6 +146,7 @@ public class List<E extends Comparable<E>> implements movida.mackseverini.IList<
     if (this.size <= 0)
       return;
 
+    // it the list has only one node
     if (this.size == 1){
       this.tail = null;
       this.head = null;
@@ -350,21 +356,21 @@ public class List<E extends Comparable<E>> implements movida.mackseverini.IList<
   }
 
   @Override
+  // reset all the list
   public void reset (){
     if (this.size <= 0)
       return;
 
-    for (int i = 0; i < this.size; i++)
-      this.delHead();
+    this.head = null;
+    this.tail = null;
+    this.size = 0;
 
     return;
   }
 
   @Override
   // how to compare two differents list
-  public int compareTo (IList<E> el){
-    return this.hashCode() - el.hashCode();
-  }
+  public int compareTo (IList<E> el){ return this.hashCode() - el.hashCode(); }
 
   @Override
   // how to compare two differents list
@@ -372,11 +378,14 @@ public class List<E extends Comparable<E>> implements movida.mackseverini.IList<
     if (first == null || second == null || first == second)
       return false;
 
+    // get the position of the two nodes in input
     Integer i = this.search(first.getValue()), j = this.search(second.getValue());
 
+    // check the position of the two nodes
     if (i == null || j == null || i == -1 || j == -1)
       return false;
 
+    // swap the two values of the nodes
     E temp = first.getValue();
     first.setValue(second.getValue());
     second.setValue(temp);
@@ -384,6 +393,7 @@ public class List<E extends Comparable<E>> implements movida.mackseverini.IList<
     return true;
   }
 
+  // CLEAN
   @Override
   public void print (){
     System.out.println("KeyList: HEAD => " + this.head);
@@ -391,6 +401,7 @@ public class List<E extends Comparable<E>> implements movida.mackseverini.IList<
       ((Node2<E>)this.head).printAll();
   }
 
+  // CLEAN
   @Override
   public void printAll (){
     System.out.println("KeyList: HEAD => " + this.head);
