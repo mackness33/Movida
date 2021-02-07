@@ -132,11 +132,6 @@ public class ABR<E extends Comparable<E>, T extends Comparable<T>> implements IA
       }
     }
 
-    // System.out.println("\n\n\n\n");
-    // for(int j = 0; j < maxIndexes.length; j++)
-    //   System.out.println(maxIndexes.get(j));
-    // System.out.println("\n\n\n\n");
-
     return maxIndexes;
   }
 

@@ -16,6 +16,7 @@ import movida.mackseverini.KeyNode;
 import movida.mackseverini.KeyList;
 import movida.mackseverini.ABR;
 import movida.mackseverini.MovieAbr;
+import movida.mackseverini.PersonAbr;
 import movida.mackseverini.Graph;
 import movida.mackseverini.CollabGraph;
 import movida.mackseverini.Arch;

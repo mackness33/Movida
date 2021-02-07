@@ -21,6 +21,7 @@ import movida.commons.MovidaFileException;
 
 import movida.mackseverini.Search;
 import movida.mackseverini.MovieAbr;
+import movida.mackseverini.PersonAbr;
 import movida.mackseverini.MovieHash;
 import movida.mackseverini.PeopleHash;
 import movida.mackseverini.CollabGraph;
@@ -42,7 +43,7 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
     this.people = null;
     // else
       // this.movies = new MovieAbr();
-      // this.people = new PeopleAbr();
+      // this.people = new PersonAbr();
     // if("MovidaConfig usa InsertionSort")
     // this.sortAlgorithm = new InsertionSort();
     this.sortAlgorithm = null;
@@ -447,7 +448,7 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
 
       case ABR: {
         this.movies = new MovieAbr();
-        this.people = new PeopleHash();
+        this.people = new PersonAbr();
       }break;
 
       default: {

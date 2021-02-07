@@ -3,7 +3,6 @@ package movida.mackseverini;
 import movida.commons.Movie;
 import movida.commons.Person;
 import movida.mackseverini.Array;
-import movida.mackseverini.List;
 import movida.mackseverini.ABR;
 
 public class MovieAbr<E extends Movie> implements IMovieAbr<E>
@@ -23,15 +22,6 @@ public class MovieAbr<E extends Movie> implements IMovieAbr<E>
     this.director = new ABR();
   }
 
-  public MovieAbr(Array<E> movies)
-  {
-    this.movies = movies;
-    this.titles = new ABR();
-    this.years = new ABR();
-    this.votes = new ABR();
-    this.director = new ABR();
-  }
-
   public MovieAbr(Array<E> movies, ABR<Integer, String> titles, ABR<Integer, Integer> years, ABR<Integer, Integer> votes, ABR<Integer, String> director)
   {
     this.movies = movies;
@@ -42,7 +32,7 @@ public class MovieAbr<E extends Movie> implements IMovieAbr<E>
   }
 
   @Override
-  public final movida.commons.MapImplementation getType(){ return movida.commons.MapImplementation.ABR; }
+  public final movida.commons.MapImplementation getType() {return movida.commons.MapImplementation.ABR;}
 
   public void print(){}
 
@@ -118,8 +108,6 @@ public class MovieAbr<E extends Movie> implements IMovieAbr<E>
   @Override
   public boolean delete(String title)
   {
-    // System.out.println("\n\n\n\nDELETE: " + title + "\n\n\n\n");
-
     boolean result = false;
     Integer indexToDelete = this.titles.getIndex(title);
 
@@ -254,13 +242,6 @@ public class MovieAbr<E extends Movie> implements IMovieAbr<E>
     Array<Integer> indexes;
     int i = 0;
 
-    // System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nMOVIES IN ABR\n\n");
-    // this.years.printAbr();
-    // System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nMOVIES IN ARRAY\n\n");
-    // for(i = 0; i < this.movies.length; i++)
-    //   System.out.println(this.movies.get(i));
-    // System.out.println("\n\n\n\n");
-
     switch(type)
     {
       case "year":
@@ -279,11 +260,6 @@ public class MovieAbr<E extends Movie> implements IMovieAbr<E>
         System.out.println("\n\nWRONG TYPE\n\n");
         break;
     }
-
-    // System.out.println("\n\n\n\n");
-    // for(i = 0; i < num; i++)
-    //   System.out.println(moviesByKey.get(i));
-    // System.out.println("\n\n\n\n");
 
     for(i = 0; i < num; i++)
       moviesByKeyArray[i] = moviesByKey.get(i);
