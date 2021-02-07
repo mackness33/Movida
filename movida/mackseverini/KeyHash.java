@@ -1,7 +1,5 @@
 package movida.mackseverini;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 import movida.mackseverini.Node2;
 import movida.mackseverini.List;
 import movida.mackseverini.Array;

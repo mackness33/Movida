@@ -1,4 +1,5 @@
 package movida.mackseverini;
+
 import movida.mackseverini.Node2;
 import movida.mackseverini.INode2;
 import movida.mackseverini.Array;
