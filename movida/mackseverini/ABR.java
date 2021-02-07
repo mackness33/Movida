@@ -93,6 +93,7 @@ public class ABR<E extends Comparable<E>, T extends Comparable<T>> implements IA
       return 1 + this.getSizeRec(node.getLeftChild()) + this.getSizeRec(node.getRightChild());
   }
 
+  // retrieves the keys of the num nodes with greater value
   @Override
   public Array<E> getNumMax(Integer num)
   {
@@ -108,6 +109,7 @@ public class ABR<E extends Comparable<E>, T extends Comparable<T>> implements IA
 
     while(!movies.isEmpty() && i < num)
     {
+      // maximum is always at the very right
       while(node.getRightChild() != null)
       {
         node = (AbrNode<E,T>)node.getRightChild();
@@ -118,6 +120,7 @@ public class ABR<E extends Comparable<E>, T extends Comparable<T>> implements IA
       maxIndexes.set(i, node.getKey());
       i++;
 
+      // if the maximum examined t has no children, go back
       while(node.getLeftChild() == null && !movies.isEmpty() && i < num)
       {
         node = (AbrNode<E,T>)movies.pop();
@@ -125,6 +128,7 @@ public class ABR<E extends Comparable<E>, T extends Comparable<T>> implements IA
         i++;
       }
 
+      // if the maximum examined t has a left subtree the next maximum (t predecessor) is in there
       if (node.getLeftChild() != null)
       {
         node = (AbrNode<E,T>)node.getLeftChild();
@@ -175,52 +179,11 @@ public class ABR<E extends Comparable<E>, T extends Comparable<T>> implements IA
       return false;
   }
 
+  // deletes a node by its key
   @Override
   public boolean deleteByKey(E keyToDelete) {return this.delete(searchByKeyRecursive(keyToDelete, this.root).getValue());}
 
-  @Override
-  public boolean delete(T valueToDelete)
-  {
-      if((this.root == null) || (valueToDelete == null))
-      {
-        System.out.println("NOTHING TO DELETE");
-        return false;
-      }
-      // ROOT case
-      if(valueToDelete.compareTo(this.root.getValue()) == 0)
-        return deleteRoot();
-      else
-      {
-        AbrNode<E, T> nodeToFind = (AbrNode)this.root;
-        AbrNode<E, T> parent = null;
-        // search for the node to be deleted
-        while(nodeToFind != null && valueToDelete.compareTo(nodeToFind.getValue()) != 0)
-        {
-          parent = nodeToFind;
-          if(valueToDelete.compareTo(nodeToFind.getValue()) < 0)
-            nodeToFind = (AbrNode)nodeToFind.getLeftChild();
-          else
-            nodeToFind = (AbrNode)nodeToFind.getRightChild();
-        }
-        // if the node to be deleted isn't in the tree
-        if(nodeToFind == null)
-          return false;
-        // LEAF case
-        else if(nodeToFind.getLeftChild() == null && nodeToFind.getRightChild() == null)
-        {
-          if(parent.getLeftChild() == nodeToFind)
-            parent.setLeftChild(null);
-          else
-            parent.setRightChild(null);
-
-          return true;
-        }
-        // INTERMEDIATE NODE case
-        else
-          return this.deleteIntermediateNode(nodeToFind, parent);
-      }
-  }
-
+  // deletes by value (used in case of possible duplicated values)
   public boolean deleteByKey(T valueToDelete, E keyToDelete)
   {
       if((this.root == null) || (valueToDelete == null))
@@ -245,6 +208,50 @@ public class ABR<E extends Comparable<E>, T extends Comparable<T>> implements IA
             nodeToFind = (AbrNode<E,T>)nodeToFind.getRightChild();
         }
 
+        // if the node to be deleted isn't in the tree
+        if(nodeToFind == null)
+          return false;
+        // LEAF case
+        else if(nodeToFind.getLeftChild() == null && nodeToFind.getRightChild() == null)
+        {
+          if(parent.getLeftChild() == nodeToFind)
+            parent.setLeftChild(null);
+          else
+            parent.setRightChild(null);
+
+          return true;
+        }
+        // INTERMEDIATE NODE case
+        else
+          return this.deleteIntermediateNode(nodeToFind, parent);
+      }
+  }
+
+  // deletes a node by its value
+  @Override
+  public boolean delete(T valueToDelete)
+  {
+      if((this.root == null) || (valueToDelete == null))
+      {
+        System.out.println("NOTHING TO DELETE");
+        return false;
+      }
+      // ROOT case
+      if(valueToDelete.compareTo(this.root.getValue()) == 0)
+        return deleteRoot();
+      else
+      {
+        AbrNode<E, T> nodeToFind = (AbrNode)this.root;
+        AbrNode<E, T> parent = null;
+        // search for the node to be deleted
+        while(nodeToFind != null && valueToDelete.compareTo(nodeToFind.getValue()) != 0)
+        {
+          parent = nodeToFind;
+          if(valueToDelete.compareTo(nodeToFind.getValue()) < 0)
+            nodeToFind = (AbrNode)nodeToFind.getLeftChild();
+          else
+            nodeToFind = (AbrNode)nodeToFind.getRightChild();
+        }
         // if the node to be deleted isn't in the tree
         if(nodeToFind == null)
           return false;
@@ -360,7 +367,7 @@ public class ABR<E extends Comparable<E>, T extends Comparable<T>> implements IA
     }
     // only left child case
     else if(nodeToDelete.getLeftChild() != null && nodeToDelete.getRightChild() == null)
-    {// SI POTREBBE TOGLIERE IL PRIMO CONTROLLO E LASCIARE SOLO IL SECONDO
+    {
       if(nodeToDelete == parent.getLeftChild())
         parent.setLeftChild(nodeToDelete.getLeftChild());
       else
@@ -378,6 +385,7 @@ public class ABR<E extends Comparable<E>, T extends Comparable<T>> implements IA
     return true;
   }
 
+  // retrieves the indexes of all the occurrences of the value valueToFind
   @Override
   public Array<E> getAll(T valueToFind)
   {
@@ -389,6 +397,7 @@ public class ABR<E extends Comparable<E>, T extends Comparable<T>> implements IA
     ABR<E, T> currentSubTree = new ABR<E, T>();
     int i = 0;
 
+    // since by construction of insert method, all equals values will be in the left subtree, so repeat there till all occurrences are found
     while(occurrance != null)
     {
       currentSubTree.setRoot(occurrance.getLeftChild());
@@ -400,6 +409,7 @@ public class ABR<E extends Comparable<E>, T extends Comparable<T>> implements IA
     return occurranceArray;
   }
 
+  // retrieves node by its key
   @Override
   public boolean searchByKey(E keyToFind)
   {
@@ -409,6 +419,7 @@ public class ABR<E extends Comparable<E>, T extends Comparable<T>> implements IA
       return false;
   }
 
+  // checks every node
   protected IAbrNode<E, T> searchByKeyRecursive(E keyToFind, IAbrNode<E, T> nodeChecked)
   {
     AbrNode<E, T> leftRecursiveCall = new AbrNode<E, T>();
@@ -426,6 +437,7 @@ public class ABR<E extends Comparable<E>, T extends Comparable<T>> implements IA
     }
   }
 
+  // retrieves the element with value valueToFind
   public IAbrNode<E, T> get(T valueToFind)
   {
     if(valueToFind == null)
@@ -445,8 +457,8 @@ public class ABR<E extends Comparable<E>, T extends Comparable<T>> implements IA
     return nodeChecked;
   }
 
-  @Override
   // says if valueToFind is in the tree
+  @Override
   public boolean search(T valueToFind)
   {
     if(this.get(valueToFind) != null && ((((AbrNode)this.get(valueToFind)).value).compareTo(valueToFind) == 0))
@@ -455,6 +467,7 @@ public class ABR<E extends Comparable<E>, T extends Comparable<T>> implements IA
       return false;
   }
 
+  // retrieves the index of the node with value valueToFind
   protected E getIndex(T valueToFind)
   {
     if(valueToFind == null)
@@ -477,6 +490,7 @@ public class ABR<E extends Comparable<E>, T extends Comparable<T>> implements IA
       return null;
   }
 
+  // updates node with key keyToFind and value valueToFind
   @Override
   public boolean update(E keyToUpdate, E keyToFind, T valueToUpdate, T valueToFind)
   {
@@ -485,52 +499,4 @@ public class ABR<E extends Comparable<E>, T extends Comparable<T>> implements IA
     else
       return false;
   }
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-//                                              USEFUL ONLY FOR TESTING                                           //
-  public void printAbr()
-  {
-    if(this.root == null) {System.out.println("EMPTY TREE");}
-    else
-    {
-      int height = this.abrHeight(this.root, 0);
-      for(int i = 0; i <= height; i++)
-        levelOrderTraversal(root, i);
-    }
-  }
-
-
-  protected int abrHeight(IAbrNode<E, T> node, int level)
-  {
-      if(node == null) {return level;}
-      else if(node.getLeftChild() != null && node.getRightChild() != null)
-       return max(abrHeight(node.getLeftChild(), level + 1), abrHeight(node.getRightChild(), level + 1));
-      else if(node.getLeftChild() == null && node.getRightChild() != null)
-        return abrHeight(node.getRightChild(), level + 1);
-      else if(node.getLeftChild() != null && node.getRightChild() == null)
-        return abrHeight(node.getLeftChild(), level + 1);
-      else
-        return level;
-   }
-
-  protected int max(int value1, int value2)
-  {
-    if(value1 - value2 <= 0)
-      return value2;
-    else
-      return value1;
-  }
-
-   protected void levelOrderTraversal(IAbrNode<E, T> node, int level)
-   {
-      if(node == null) {}
-      else if(level == 0) {System.out.println("Key: " + ((AbrNode)node).getKey() + " Value: " + ((AbrNode)node).getValue());}
-      else
-      {
-        levelOrderTraversal((AbrNode)node.getLeftChild(), level-1);
-        levelOrderTraversal((AbrNode)node.getRightChild(), level-1);
-      }
-   }
 }

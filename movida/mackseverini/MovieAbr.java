@@ -42,7 +42,7 @@ public class MovieAbr<E extends Movie> implements IMovieAbr<E>
 
   // retrive the amount of elements actually inside
   @Override
-  public int getLength ()
+  public int getLength()
   {
     int length = 0;
 
@@ -57,7 +57,7 @@ public class MovieAbr<E extends Movie> implements IMovieAbr<E>
 
   // resetting all the abr and main array
   @Override
-  public void reset ()
+  public void reset()
   {
     this.titles = new ABR();
     this.years = new ABR();
@@ -83,7 +83,7 @@ public class MovieAbr<E extends Movie> implements IMovieAbr<E>
       for(int i = this.movies.length; i < newMovies.length; i++)
         newMovies.set(i, null);
 
-        this.movies = new Array<E>(newMovies);
+      this.movies = new Array<E>(newMovies);
     }
 
     int i = 0;
@@ -123,6 +123,7 @@ public class MovieAbr<E extends Movie> implements IMovieAbr<E>
     return result;
   }
 
+  // delete a given movie
   @Override
   public boolean delete(Movie movieToDelete)
   {
@@ -136,16 +137,9 @@ public class MovieAbr<E extends Movie> implements IMovieAbr<E>
   @Override
   public int upsert(Movie obj)
   {
-    // System.out.println("\n\n\n\nUPSERT: " + obj.getTitle() + "\nYEAR: " + obj.getYear() + "\nSEARCH: " + this.search(obj.getTitle()) + "\n\n\n\n");
-
     if(this.search(obj.getTitle()) != null)
-    {
-        // System.out.println("\n\n\n\nUDELETE FROM UPSERT\n\n\n\n");
+      this.delete(obj.getTitle());
 
-        this.delete(obj.getTitle());
-    }
-
-    // System.out.println("\n\n\n\nINSERT: " + obj.getTitle() + "\n\n\n\n");
     this.insert(obj);
     return (this.titles.get(obj.getTitle())).getKey();
   }
@@ -170,7 +164,7 @@ public class MovieAbr<E extends Movie> implements IMovieAbr<E>
       return this.search(movieToFind.getTitle()) != null;
   }
 
-  // search of the element by key in the input
+  // search of all the element by key in the input
   @Override
   public <K extends Comparable<K>> Movie[] searchByKey(K input)
   {
@@ -212,7 +206,7 @@ public class MovieAbr<E extends Movie> implements IMovieAbr<E>
     }
   }
 
-  // get N elements by key in the input
+  // get num elements by key in the input
   @Override
   public Movie[] searchMostOf(Integer num, String type)
   {
@@ -251,7 +245,7 @@ public class MovieAbr<E extends Movie> implements IMovieAbr<E>
     return moviesByKeyArray;
   }
 
-  // get all the elements that contains input's string in the title
+  // get all the elements that contains title string in the title
   @Override
   public <K extends Comparable<K>> Movie[] searchContains(String title)
   {
@@ -275,7 +269,7 @@ public class MovieAbr<E extends Movie> implements IMovieAbr<E>
   public Movie getFromId (Integer id) {return this.movies.get(id);}
 
   // get the position based of the movie in input (position in the main array). Done for PersonHash.
-  public Integer getPosFromMovie (Movie input) { return (input == null) ? -1 : (this.titles.get(input.getTitle()) != null) ? (this.titles.get(input.getTitle())).getKey() : -1; }
+  public Integer getPosFromMovie (Movie input) {return (input == null) ? -1 : (this.titles.get(input.getTitle()) != null) ? (this.titles.get(input.getTitle())).getKey() : -1;}
 
   // sort all the trees
   @Override
@@ -302,53 +296,5 @@ public class MovieAbr<E extends Movie> implements IMovieAbr<E>
     }
 
     return moviesArray;
-  }
-
-  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-  //                                              USEFUL ONLY FOR TESTING                                           //
-
-  public void printTree(int treeType)
-  {
-    switch(treeType)
-    {
-      case(0):
-        System.out.println("ALL TREES\n\n");
-        System.out.println("\n\nTITLES TREE\n\n");
-        this.titles.printAbr();
-        System.out.println("\n\nYEARS TREE\n\n");
-        this.years.printAbr();
-        System.out.println("\n\nVOTES TREE\n\n");
-        this.votes.printAbr();
-        System.out.println("\n\nDIRECTORS TREE\n\n");
-        this.director.printAbr();
-        break;
-
-      case(1):
-        System.out.println("TITLES TREE\n\n");
-        this.titles.printAbr();
-        break;
-
-      case(2):
-        System.out.println("YEARS TREE\n\n");
-        this.years.printAbr();
-        break;
-
-      case(3):
-        System.out.println("VOTES TREE\n\n");
-        this.votes.printAbr();
-        break;
-
-      case(4):
-        System.out.println("DIRECTORS TREE\n\n");
-        this.director.printAbr();
-        break;
-
-      default:
-        System.out.println("WRONG NUMBER YOU DUMB");
-        break;
-    }
   }
 }
