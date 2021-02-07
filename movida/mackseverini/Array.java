@@ -5,7 +5,7 @@ import java.util.Arrays;
 // Class used to virtually implements an array without its costraints
 public class Array<E> {
 
-	private final Object[] arr;
+	protected final Object[] arr;
 	public final int length;
 
 	// constructor

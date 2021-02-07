@@ -13,14 +13,13 @@ import movida.mackseverini.INode2;
 
 import java.util.Arrays;
 
-// Class used to virtually implements an array without its costraints
+// Implementation of a Graph
 public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements movida.mackseverini.IGraph<E, K>{
   protected Array<IVertex<E, K>> verteces;                      // Array of verteces
   protected IList<IArch<Integer, K>> arches;   // List of Arches
   protected int numVertex;                                          // Number of Vertex inserted
   protected int numArch;                                            // Number of Arches
   protected int size;                                               // Max position occupied in the array
-
 
 	// constructor
 	public Graph(){
@@ -34,26 +33,9 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
       this.verteces.set(i, null);
 	}
 
-  // TODO:
-	// constructor
-	// public Graph(Graph<E, K> shallow)
-	// {
-	// 	// Creates a new Object array of specified length
-	// 	arr = shallow.toPrimitive();
-	// 	this.length = shallow.length;
-	// }
-  // TODO: trasform Array<Arch <>> in IKeyList<Pair<>, ..>
-  // public Graph(Array<E> V, Array<Arch<E, K>> A)
-	// {
-	// 	this.verteces = new Array<E>(V);
-  //  this.arches = new IKeyList<Pair<Vertex<E,K>>, K, Integer>();
-  //  this.numVertex = 0;
-  //  this.numArch = 0;
-  //  this.size = 0;
-	// }
-
   @Override
   public Array<IVertex<E, K>> getVerteces () { return this.verteces; }
+
   // trasform the list of nodes and weight into an array of arch object
   @Override
   public Array<IArch<E, K>> getArches(){
@@ -98,6 +80,7 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
     return true;
   }
 
+  // check if the array is present or add it
   protected <T extends Comparable<T>> boolean checkAndAddVertex(Array<IVertex<E, T>> list_of_vtx, IVertex<E, T> vtx_to_add){
     // if already present do not add up
     for (int i = 0; i < list_of_vtx.length; i++)
@@ -110,17 +93,14 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
     return true;
   }
 
-  // add an arch
   @Override
+  // add a new arch
   public boolean addArch(IArch<E, K> arch){
     if (arch == null)
       return false;
 
     // create a pair with the verteces
     GraphPair<Integer> nodes = this.findVerteces(this.verteces, arch.getFirstVertex(), arch.getSecondVertex());
-
-    if(nodes == null)
-       return false;
 
     if (this.containsArch(this.arches, nodes))
       return false;
