@@ -1,19 +1,14 @@
 package movida.mackseverini;
 
-
 import movida.commons.Movie;
 import movida.commons.Person;
 import movida.commons.Collaboration;
-import movida.commons.MapImplementation;
-import movida.commons.SortingAlgorithm;
-import movida.mackseverini.Arch;
-import movida.mackseverini.PriorityQueue;
-import movida.mackseverini.Vertex;
-import movida.mackseverini.IList;
+
 import movida.mackseverini.List;
-import movida.mackseverini.IKeyList;
+import movida.mackseverini.Vertex;
 import movida.mackseverini.KeyList;
 import movida.mackseverini.ArrayList;
+import movida.mackseverini.PriorityQueue;
 
 
 // This class implements a Graph specifically used for the collaboration of the project
@@ -76,8 +71,8 @@ public class CollabGraph extends movida.mackseverini.Graph<Person, ArrayList<Mov
 		return output;
 	}
 
-	//		True: Add the movie to the Arch
-	//		False: Add the arch as it is
+	// True: Add the movie to the Arch
+	// False: Add the arch as it is
   public boolean addArch(Person actor1, Person actor2, Movie movie){
     if (actor1 == null || actor2 == null || movie == null)
       return false;
@@ -260,7 +255,6 @@ public class CollabGraph extends movida.mackseverini.Graph<Person, ArrayList<Mov
     return A;
   }
 
-	// @Override
 	protected Integer MSTaction(Array<IArch<Person,ArrayList<Movie>>> A, PriorityQueue<Integer, Double> PQ, IKeyNode<Integer, Double> iter, CollabArch<Person> arch, Integer pos_arch, Integer last_arch, Integer pos_vertex, boolean isMin){
     // if there's no weight associated to the vertex
     if (arch.getWeight() == null){
@@ -281,10 +275,9 @@ public class CollabGraph extends movida.mackseverini.Graph<Person, ArrayList<Mov
   }
 
 
-	// CHECK
 	// special class to manage the Collaboration arches in the MSTPrim
 	// slightly different arch
-  public class CollabArch<E extends Comparable<E>> extends Arch<E, ArrayList<Movie>>{
+  public class CollabArch<E extends Comparable<E>> extends movida.mackseverini.Arch<E, ArrayList<Movie>>{
     public CollabArch(E a1, E a2, Movie m){
       this.vertex1 = a1;
       this.vertex2 = a2;
@@ -380,7 +373,8 @@ public class CollabGraph extends movida.mackseverini.Graph<Person, ArrayList<Mov
 				return -2;
 
 			int i = 0;
-			if ((i = super.compareTo(input)) != 0)	// compare the verteces of the input arch
+			// compare the verteces of the input arch
+			if ((i = super.compareTo(input)) != 0)
 				return i;
 
 			// compare of the score of the input arch
