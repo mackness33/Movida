@@ -39,9 +39,11 @@ public class KeyList<E extends Comparable<E>, T extends Comparable<T>, K extends
     this.key = shallow.getKey();
   }
 
+  // CLEAN
   @Override
   public void print(){ System.out.println("KeyList: KEY => " + this.key + " HEAD => " + this.head); }
 
+  // CLEAN
   public void printAll(){
     System.out.println("KeyList: KEY => " + this.key + " HEAD => " + this.head);
     if (this.head != null && this.head instanceof KeyNode)
@@ -131,7 +133,7 @@ public class KeyList<E extends Comparable<E>, T extends Comparable<T>, K extends
   }
 
   @Override
-  // get the key by having the element as the input
+  // update the key by having the element as the input
   public boolean updElKey (E el, T k){
     if (this.size <= 0 || el == null)
       return false;
@@ -267,15 +269,19 @@ public class KeyList<E extends Comparable<E>, T extends Comparable<T>, K extends
     if (first == null || second == null || first == second)
       return false;
 
+    // get the position of the two nodes
     Integer i = this.search(first.getValue()), j = this.search(second.getValue());
 
+    // checks the position of the two nodes
     if (i == null || j == null || i == -1 || j == -1)
       return false;
 
+    // first: swap the two values
     E temp = first.getValue();
     first.setValue(second.getValue());
     second.setValue(temp);
 
+    // second: swap the two keys
     K key_temp = first.getKey();
     first.setKey(second.getKey());
     second.setKey(key_temp);
