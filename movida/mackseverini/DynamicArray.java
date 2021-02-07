@@ -13,15 +13,18 @@ public class DynamicArray<E extends Comparable<E>> extends movida.mackseverini.A
 
 	public DynamicArray(DynamicArray<E> shallow){ super((Array)shallow); }
 
+	// trim the array to delete all the null node
 	public DynamicArray trim() {
 		Queue<Integer> Q = new Queue();
 
+		// enqueue the values not null of the array
 		for(Integer i = 0; i < this.length; i++)
 			if (this.arr[i] != null)
 				Q.enqueue(i);
 
 		DynamicArray<E> trimmed = new DynamicArray(Q.getSize());
 
+		// insert them on the same order
 		int size_queue = Q.getSize();
 		for(int i = 0; i < size_queue; i++)
 			trimmed.set(i, (E)this.arr[Q.dequeue()]);
