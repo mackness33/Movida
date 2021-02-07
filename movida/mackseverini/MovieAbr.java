@@ -38,8 +38,7 @@ public class MovieAbr<E extends Movie> implements IMovieAbr<E>
 
   // retrive the amount of elements totally used
   @Override
-  public int getSize ()
-  {return 0;} //                        DA IMPLEMENTARE
+  public int getSize() {return 0;}
 
   // retrive the amount of elements actually inside
   @Override
@@ -175,11 +174,6 @@ public class MovieAbr<E extends Movie> implements IMovieAbr<E>
   @Override
   public <K extends Comparable<K>> Movie[] searchByKey(K input)
   {
-    // System.out.println("\n\n\n\n");
-    // for(int j = 0; j < this.movies.length; j++)
-    //   System.out.println(this.movies.get(j));
-    // System.out.println("\n\n\n\n");
-
     if(input == null)
       return null;
     else
@@ -190,11 +184,6 @@ public class MovieAbr<E extends Movie> implements IMovieAbr<E>
       if(input instanceof Integer)  // YEAR CASE
       {
         Array<Integer> indexes = new Array(this.years.getAll((Integer)input));
-
-        // System.out.println("\n\n\n\nINDEXES:");
-        // for(i = 0; i < indexes.length; i++)
-        //   System.out.println(indexes.get(i));
-        // System.out.println("\n\n\n\n");
 
         for(i = 0; i < indexes.length; i++)
           if(indexes.get(i) != null)
@@ -215,11 +204,6 @@ public class MovieAbr<E extends Movie> implements IMovieAbr<E>
       }
 
       Movie[] moviesByKeyArray = new Movie[this.getLength()];
-
-      // System.out.println("\n\n\n\nMOVIES BY KEY:");
-      // for(int j = 0; j < moviesByKey.length; j++)
-      //   System.out.println(moviesByKey.get(j));
-      // System.out.println("\n\n\n\n");
 
       for(int j = 0; j < this.getLength(); j++)
         moviesByKeyArray[j] = moviesByKey.get(j);

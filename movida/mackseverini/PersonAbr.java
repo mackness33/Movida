@@ -51,23 +51,6 @@ public class PersonAbr<E extends Person> implements IPersonAbr<E>
   @Override
   public boolean upsert(Person personToInsert, Integer movie)
   {
-    // if(personToInsert == null)
-    //   return false;
-    //
-    // Person personToUpdate = null;
-    //
-    // if(this.names.getIndex(personToInsert.getName()) != null)
-    // {
-    //   personToUpdate = this.people.get(this.names.getIndex(personToInsert.getName()));
-    //   personToUpdate.addMovie(movie);
-    // }
-    //
-    // if(this.search(personToInsert))
-    //   this.delete(personToInsert);
-    //
-    // this.insert(personToUpdate);
-    // return false;
-
     if(personToInsert == null || movie == null)
       return false;
 
@@ -77,24 +60,9 @@ public class PersonAbr<E extends Person> implements IPersonAbr<E>
 
       if(indexToUpdate != null && this.people.get(indexToUpdate).isActor())
       {
-        // Person updatedPerson = this.people.get(indexToUpdate);
-        // updatedPerson.addMovie(movie);
-        // this.numMovsParticipated.update(indexToUpdate, indexToUpdate, updatedPerson.getMovieSize(), this.people.get(indexToUpdate).getMovieSize());
-        // this.people.set(indexToUpdate, (E)updatedPerson);
-
         Integer numMovies = this.people.get(indexToUpdate).getMovieSize();
         this.people.get(indexToUpdate).addMovie(movie);
         this.numMovsParticipated.update(indexToUpdate, indexToUpdate, this.people.get(indexToUpdate).getMovieSize(), numMovies);
-
-        // updatedPerson.addMovie(movie);
-        // this.people.set(indexToUpdate, (E)updatedPerson);
-        // Person personUpdated = this.people.get(indexToUpdate);
-        // System.out.println("\n\n\n\nMOVIES SIZE"+personUpdated.getMovieSize());
-        // this.numMovsParticipated.deleteByKey(personUpdated.getMovieSize(), indexToUpdate);
-        // personUpdated.addMovie(movie);
-        // System.out.println("\nNEW MOVIES SIZE"+personUpdated.getMovieSize()+"\n\n\n\n");
-        // this.numMovsParticipated.insert(personUpdated.getMovieSize());
-        // this.people.set(indexToUpdate, (E)personUpdated);
 
         return true;
       }
@@ -142,27 +110,31 @@ public class PersonAbr<E extends Person> implements IPersonAbr<E>
   }
 
   @Override
-  public boolean decreaseMovie(Person obj, Integer movie){
-    if (obj == null || movie == null)
+  public boolean decreaseMovie(Person personToDecrease, Integer movie){
+    if (personToDecrease == null || movie == null)
       return false;
 
-    if(this.search(personToInsert))
+    if(this.search(personToDecrease))
     {
-      Integer indexToUpdate = this.names.getIndex(personToInsert.getName());
+      Integer indexToUpdate = this.names.getIndex(personToDecrease.getName());
 
       if(indexToUpdate != null && this.people.get(indexToUpdate).isActor())
       {
         Integer numMovies = this.people.get(indexToUpdate).getMovieSize();
-        this.people.get(indexToUpdate).addMovie(movie);
-        this.numMovsParticipated.update(indexToUpdate, indexToUpdate, this.people.get(indexToUpdate).getMovieSize(), numMovies);
+        this.people.get(indexToUpdate).delMovie(movie);
+
+        if(this.people.get(indexToUpdate).getMovieSize() == 0)
+          this.delete(this.people.get(indexToUpdate));
+        else
+          this.numMovsParticipated.update(indexToUpdate, indexToUpdate, this.people.get(indexToUpdate).getMovieSize(), numMovies);
 
         return true;
       }
-
-      return false;
+      else
+        return false;
     }
     else
-      return this.insert(personToInsert);
+      return false;
   }
 
 
