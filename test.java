@@ -66,92 +66,92 @@ public class test {
     // test.priorityQueueTest();
   }
 
-  public static void abrTest()
-  {
-    MovieAbr movs = new MovieAbr();
-
-    Person darabont = new Person("Frank Darabont", true, 2);
-    Person coppola = new Person("Francis Ford Coppola", true, 1);
-    Person nolan = new Person("Christopher Nolan", true, 3);
-    Person jackson = new Person("Peter Jackson", true, 4);
-    Person fincher = new Person("David Fincher", true, 5);
-    Person tarantino = new Person("Quentin Tarantino", true, 6);
-    Person spielberg = new Person("Stephen Spielberg", true, 7);
-    Person lumet = new Person("Sidney Lumet", true, 8);
-    Person brando = new Person("Marlon Brando", false, 1);
-    Person freeman = new Person("Morgan Freeman", false, 2);
-    Person gunton = new Person("Bob Gunton", false, 2);
-    Person pacino = new Person("Al Pacino", false, 3);
-    Person bloom = new Person("Orlando Bloom", false, 4);
-    Person bale = new Person("Christian Bale", false, 5);
-    Person travolta = new Person("Jhon Travolta", false, 6);
-    Person neeson = new Person("Liam Neeson", false, 7);
-    Person fonda = new Person("Henry Fonda", false, 8);
-
-    Person[] cast1 = new Person[1];
-    cast1[0] = brando;
-    Person[] cast2 = new Person[2];
-    cast2[0] = gunton;
-    cast2[1] = freeman;
-    Person[] cast3 = new Person[1];
-    cast3[0] = pacino;
-    Person[] cast4 = new Person[1];
-    cast4[0] = bloom;
-    Person[] cast5 = new Person[1];
-    cast5[0] = bale;
-    Person[] cast6 = new Person[1];
-    cast6[0] = travolta;
-    Person[] cast7 = new Person[1];
-    cast7[0] = neeson;
-    Person[] cast8 = new Person[1];
-    cast8[0] = fonda;
-
-    // Top 8 movies according to Imdb
-    Movie aliLiberta = new Movie("Le ali della libertà", 1994, 93, cast2, darabont);
-    Movie padrino = new Movie("Il padrino", 1972, 92, cast1, coppola);
-    Movie cavaliereOscuro = new Movie("Il cavaliere oscuro", 2008, 90, cast5, fincher);
-    Movie padrino2 = new Movie("Il padrino - Parte 2", 1974, 90, cast3, nolan);
-    Movie parolaGiurati = new Movie("La parola ai giurati", 1957, 90, cast8, lumet);
-    Movie signoreAnelliRitornoRe = new Movie("Il signore degli anelli - Il ritorno del re", 2003, 89, cast4, jackson);
-    Movie pulpFiction = new Movie("Pulp fiction", 1994, 89, cast6, spielberg);
-    Movie schindler = new Movie("Schindler's list", 1993, 89, cast7, spielberg);
-
-    // INSERT
-    movs.insert(padrino);
-    movs.insert(aliLiberta);
-    movs.insert(padrino2);
-    movs.insert(signoreAnelliRitornoRe);
-    movs.insert(cavaliereOscuro);
-    movs.insert(pulpFiction);
-    movs.insert(schindler);
-    movs.insert(parolaGiurati);
-
-    // movs.printTree(0);
-
-
-    // DELETE (by title)
-    System.out.println("\n\n");
-    System.out.println(movs.delete("Il padrin")); // movie not present in tree OK
-    System.out.println(movs.delete("Il padrino"));
-    // DELETE (by movie)
-    System.out.println(movs.delete(padrino)); // movie not present in tree OK
-    System.out.println(movs.delete(padrino2));
-    System.out.println("\n\n");
-
-    movs.printTree(0);
-
-    // SEARCH (title)
-    System.out.println("Search for 'Il padrino': " + movs.search("Il padrino")); // movie not present in tree OK
-    System.out.println("\nSearch for 'Il cavaliere oscuro': " + movs.search("Il cavaliere oscuro"));
-
-    // SEARCH (movie)
-    System.out.println("\n\nSearch for 'Il padrino': " + movs.search(padrino)); // movie not present in tree OK
-    System.out.println("\nSearch for 'Il cavaliere oscuro': " + movs.search(cavaliereOscuro));
-
-    // SEARCH (by key)
-    System.out.println("\n\nSearch by key 'votes' of value: 1994 =>\n" + movs.searchByKey(1994)[1]);
-    System.out.println("\n\nSearch by key 'votes' of value: 1994 =>\n" + movs.searchByKey(spielberg)[0]);
-  }
+  // public static void abrTest()
+  // {
+  //   MovieAbr movs = new MovieAbr();
+  //
+  //   Person darabont = new Person("Frank Darabont", true, 2);
+  //   Person coppola = new Person("Francis Ford Coppola", true, 1);
+  //   Person nolan = new Person("Christopher Nolan", true, 3);
+  //   Person jackson = new Person("Peter Jackson", true, 4);
+  //   Person fincher = new Person("David Fincher", true, 5);
+  //   Person tarantino = new Person("Quentin Tarantino", true, 6);
+  //   Person spielberg = new Person("Stephen Spielberg", true, 7);
+  //   Person lumet = new Person("Sidney Lumet", true, 8);
+  //   Person brando = new Person("Marlon Brando", false, 1);
+  //   Person freeman = new Person("Morgan Freeman", false, 2);
+  //   Person gunton = new Person("Bob Gunton", false, 2);
+  //   Person pacino = new Person("Al Pacino", false, 3);
+  //   Person bloom = new Person("Orlando Bloom", false, 4);
+  //   Person bale = new Person("Christian Bale", false, 5);
+  //   Person travolta = new Person("Jhon Travolta", false, 6);
+  //   Person neeson = new Person("Liam Neeson", false, 7);
+  //   Person fonda = new Person("Henry Fonda", false, 8);
+  //
+  //   Person[] cast1 = new Person[1];
+  //   cast1[0] = brando;
+  //   Person[] cast2 = new Person[2];
+  //   cast2[0] = gunton;
+  //   cast2[1] = freeman;
+  //   Person[] cast3 = new Person[1];
+  //   cast3[0] = pacino;
+  //   Person[] cast4 = new Person[1];
+  //   cast4[0] = bloom;
+  //   Person[] cast5 = new Person[1];
+  //   cast5[0] = bale;
+  //   Person[] cast6 = new Person[1];
+  //   cast6[0] = travolta;
+  //   Person[] cast7 = new Person[1];
+  //   cast7[0] = neeson;
+  //   Person[] cast8 = new Person[1];
+  //   cast8[0] = fonda;
+  //
+  //   // Top 8 movies according to Imdb
+  //   Movie aliLiberta = new Movie("Le ali della libertà", 1994, 93, cast2, darabont);
+  //   Movie padrino = new Movie("Il padrino", 1972, 92, cast1, coppola);
+  //   Movie cavaliereOscuro = new Movie("Il cavaliere oscuro", 2008, 90, cast5, fincher);
+  //   Movie padrino2 = new Movie("Il padrino - Parte 2", 1974, 90, cast3, nolan);
+  //   Movie parolaGiurati = new Movie("La parola ai giurati", 1957, 90, cast8, lumet);
+  //   Movie signoreAnelliRitornoRe = new Movie("Il signore degli anelli - Il ritorno del re", 2003, 89, cast4, jackson);
+  //   Movie pulpFiction = new Movie("Pulp fiction", 1994, 89, cast6, spielberg);
+  //   Movie schindler = new Movie("Schindler's list", 1993, 89, cast7, spielberg);
+  //
+  //   // INSERT
+  //   movs.insert(padrino);
+  //   movs.insert(aliLiberta);
+  //   movs.insert(padrino2);
+  //   movs.insert(signoreAnelliRitornoRe);
+  //   movs.insert(cavaliereOscuro);
+  //   movs.insert(pulpFiction);
+  //   movs.insert(schindler);
+  //   movs.insert(parolaGiurati);
+  //
+  //   // movs.printTree(0);
+  //
+  //
+  //   // DELETE (by title)
+  //   System.out.println("\n\n");
+  //   System.out.println(movs.delete("Il padrin")); // movie not present in tree OK
+  //   System.out.println(movs.delete("Il padrino"));
+  //   // DELETE (by movie)
+  //   System.out.println(movs.delete(padrino)); // movie not present in tree OK
+  //   System.out.println(movs.delete(padrino2));
+  //   System.out.println("\n\n");
+  //
+  //   movs.printTree(0);
+  //
+  //   // SEARCH (title)
+  //   System.out.println("Search for 'Il padrino': " + movs.search("Il padrino")); // movie not present in tree OK
+  //   System.out.println("\nSearch for 'Il cavaliere oscuro': " + movs.search("Il cavaliere oscuro"));
+  //
+  //   // SEARCH (movie)
+  //   System.out.println("\n\nSearch for 'Il padrino': " + movs.search(padrino)); // movie not present in tree OK
+  //   System.out.println("\nSearch for 'Il cavaliere oscuro': " + movs.search(cavaliereOscuro));
+  //
+  //   // SEARCH (by key)
+  //   System.out.println("\n\nSearch by key 'votes' of value: 1994 =>\n" + movs.searchByKey(1994)[1]);
+  //   System.out.println("\n\nSearch by key 'votes' of value: 1994 =>\n" + movs.searchByKey(spielberg)[0]);
+  // }
 
   public static void algTest(IAlg alg){
     Array<Integer> A = new Array<Integer>(35);
@@ -201,14 +201,14 @@ public class test {
 
     mb.loadFromFile(new File("movida/assets/esempio-formato-dati.txt"));
     movidaMapTest(mb);
-    // movidaGraphTest(mb);
+    movidaGraphTest(mb);
 
     mb.saveToFile(new File("movida/assets/output.txt"));
   }
 
   public static void movidaConfigTest(MovidaCore mb){
-    System.out.println("MapChange2: " + mb.setMap(movida.commons.MapImplementation.ABR));
     System.out.println("MapChange1: " + mb.setMap(movida.commons.MapImplementation.HashConcatenamento));
+    System.out.println("MapChange2: " + mb.setMap(movida.commons.MapImplementation.ABR));
     System.out.println("MapChange3: " + mb.setMap(movida.commons.MapImplementation.AVL));
 
     System.out.println("AlgChange1: " + mb.setSort(movida.commons.SortingAlgorithm.MergeSort));

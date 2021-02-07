@@ -207,15 +207,6 @@ public class PersonAbr<E extends Person> implements IPersonAbr<E>
   @Override
   public Person[] searchMostOf(Integer num)
   {
-    System.out.println("\n\n\n\n");
-    for(int j = 0; j < this.people.length; j++)
-      if(this.people.get(j) != null)
-        System.out.println(this.people.get(j) + " \t\tMOVIES PARTICIPATED: " + this.people.get(j).getMovieSize() +" \t\tPERSON KEY: "+ j);
-
-    System.out.println("PRINT ABR NUM MOVIES");
-    this.numMovsParticipated.printAbr();
-    System.out.println("\n\n\n\n");
-
     if(num < 1)
       return null;
     else if(num > this.getLength())
