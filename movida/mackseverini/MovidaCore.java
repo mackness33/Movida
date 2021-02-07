@@ -95,7 +95,6 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
 
       // read the file till the end
       while ((stream = br.readLine()) != null){
-        System.out.println(stream);
 
         // split by :
         line = stream.split(":");
@@ -117,8 +116,6 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
 
       // add the last movie
       this.addMovie(movie);
-
-      graph.print();
     }
     catch(IOException io){
       throw new MovidaFileException();

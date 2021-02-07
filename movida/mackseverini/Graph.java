@@ -428,7 +428,7 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
     for(Integer pos_arch = 0, last_arch = 1; !PQ.isEmpty(); arch.reset()){
       // find min and delete it
       pos_vertex = PQ.find();
-      PQ.delete()
+      PQ.delete();
       arch.setSecondVertex(this.verteces.get(pos_vertex).getValue());        // set second arch vertex to the selected one
 
       // for each adiacence of the vertex
