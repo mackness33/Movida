@@ -1,16 +1,11 @@
-
 package movida.mackseverini;
-
-import java.util.concurrent.ThreadLocalRandom;
-
-import movida.mackseverini.Node2;
-import movida.mackseverini.Array;
-import movida.mackseverini.Set;
-import movida.mackseverini.Hash2;
-import movida.mackseverini.KeyHash;
 
 import movida.commons.Movie;
 import movida.commons.Person;
+
+import movida.mackseverini.Node2;
+import movida.mackseverini.Array;
+import movida.mackseverini.KeyHash;
 
 // Class created specially for the Movies
 public class MovieHash<E extends Movie> extends KeyHash<Movie> implements IMovieMap<Movie>{
@@ -101,10 +96,9 @@ public class MovieHash<E extends Movie> extends KeyHash<Movie> implements IMovie
 
   @Override
   // delete by title. just checkin the existance of a movie with that title
-  public boolean delete(String title){
-    return this.delete(this.search(title));
-  }
+  public boolean delete(String title){ return this.delete(this.search(title)); }
 
+  // CLEAN
   public void print (){
     this.major.printAll();
     System.out.println("YEAR!: ");
