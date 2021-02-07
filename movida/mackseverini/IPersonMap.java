@@ -1,17 +1,10 @@
 package movida.mackseverini;
 
-import java.util.concurrent.ThreadLocalRandom;
-
-import movida.mackseverini.Node2;
 import movida.mackseverini.Array;
-import movida.mackseverini.Set;
-import movida.mackseverini.Hash2;
-import movida.mackseverini.KeyHash;
 
-import movida.commons.Movie;
 import movida.commons.Person;
 
-// Class created specially for the Movies
+// interface that describe the operation of Map specifically created for Movies
 public interface IPersonMap<E extends Person> extends IMap<Person>, movida.mackseverini.IConfig<movida.commons.MapImplementation>{
 
   // retrive the amount of elements totally used

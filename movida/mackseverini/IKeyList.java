@@ -2,22 +2,23 @@ package movida.mackseverini;
 
 import movida.mackseverini.INode;
 
+// interfacec that describe the basic operation of List with keys
 public interface IKeyList<E extends Comparable<E>, T extends Comparable<T>, K extends Comparable<K>> extends IList<E>{
-  public void print();
+  public void print();  // CLEAN
 
-  public void printAll();
+  public void printAll(); // CLEAN
 
-  public K getKey();
+  public K getKey();  // get the key of the list
 
-  public void setKey (K k);
+  public void setKey (K k); // set the key of the list
 
-  public E getByKey (T k);
+  public E getByKey (T k);    // get the element by the key in input
 
-  public boolean delByKey (T k);
+  public boolean delByKey (T k);    // delete an element by the key in input
 
-  public T searchKey (E el);
+  public T searchKey (E el);    // get the key by an element in input
 
-  public boolean updElKey (E el, T k);
+  public boolean updElKey (E el, T k);  // update the key of an element
 
   public void addTail (T k, E el);
 
@@ -25,5 +26,5 @@ public interface IKeyList<E extends Comparable<E>, T extends Comparable<T>, K ex
 
   public boolean addAt (T k, E el, Integer pos);
 
-  public boolean swap (IKeyNode<E, K> first, IKeyNode<E, K> second);
+  public boolean swap (IKeyNode<E, K> first, IKeyNode<E, K> second);  // swap two nodes
 }

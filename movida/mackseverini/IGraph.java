@@ -11,7 +11,7 @@ import movida.mackseverini.KeyList;
 
 import java.util.Arrays;
 
-// Class used to virtually implements an array without its costraints
+// interface that describe the basic operation of a generic Graph
 public interface IGraph<E extends Comparable<E>, K extends Comparable<K>>{
   public Array<IVertex<E, K>> getVerteces ();
   public Array<IArch<E, K>> getArches();
@@ -32,6 +32,6 @@ public interface IGraph<E extends Comparable<E>, K extends Comparable<K>>{
 
   public void printVerteces();
 
-  public Array<E> BFS(E vertex);
-  public Array<IArch<E, K>> MSTPrim(E vertex, boolean isMin);
+  public Array<E> BFS(E vertex);      // Breadth First Search
+  public Array<IArch<E, K>> MSTPrim(E vertex, boolean isMin); // Max(Min) Spinning Tree
 }

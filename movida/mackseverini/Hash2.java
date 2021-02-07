@@ -28,7 +28,9 @@ public class Hash2<E extends Comparable<E>> implements movida.mackseverini.IHash
       this.dom.set(i, null);
   }
 
+  @Override
   public int getSize() { return this.size; }
+  @Override
   public int getLength() { return this.length; }
 
 
@@ -85,8 +87,8 @@ public class Hash2<E extends Comparable<E>> implements movida.mackseverini.IHash
     return true;
   }
 
-  // delete of a element. A lot similar to KeyHash.delHashKey(..)
   @Override
+  // delete of a element. A lot similar to KeyHash.delHashKey(..)
   public boolean delete(E obj){
     Integer key = this.hash(obj);
     IList<Integer> node = null;
@@ -110,8 +112,8 @@ public class Hash2<E extends Comparable<E>> implements movida.mackseverini.IHash
     return false;
   }
 
-  // search of the element
   @Override
+  // search of the element
   public boolean search(E obj){
     Integer key = this.hash(obj);
     IList<Integer> node = null;
@@ -153,6 +155,7 @@ public class Hash2<E extends Comparable<E>> implements movida.mackseverini.IHash
   }
 
   // sort of the major virtual hash
+  @Override
   public void sort(IAlg algorithm, boolean decrescent){ this.major = this.sortListOfList(algorithm, this.major, decrescent); }
 
   @Override
