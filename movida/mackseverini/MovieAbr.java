@@ -314,6 +314,9 @@ public class MovieAbr<E extends Movie> implements IMovieAbr<E>
   @Override
   public Movie getFromId (Integer id) {return this.movies.get(id);}
 
+  // get the position based of the movie in input (position in the main array). Done for PersonHash.
+  public Integer getPosFromMovie (Movie input) { return (input == null) ? -1 : (this.titles.get(input.getTitle()) != null) ? (this.titles.get(input.getTitle())).getKey() : -1; }
+
   // sort all the trees
   @Override
   public void sort(IAlg algorithm, boolean decrescent){}

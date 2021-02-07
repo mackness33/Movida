@@ -16,6 +16,8 @@ public interface IPersonMap<E extends Person> extends IMap<Person>, movida.macks
   // update the element if it does already exist else it normally insert it
   public boolean upsert(Person obj, Integer movie);
 
+  public boolean decreaseMovie(Person obj, Integer movie);
+
   // delete of a element in the main hash and the keys hash/array
   public boolean delete(String name);
 

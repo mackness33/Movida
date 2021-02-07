@@ -36,6 +36,9 @@ public interface IMovieMap<E extends Movie> extends IMap<Movie>, movida.mackseve
   // get the element based of the id (position in the main array). Done for PersonHash.
   public Movie getFromId (Integer id);
 
+  // get the position based of the movie in input (position in the main array). Done for PersonHash.
+  public Integer getPosFromMovie (Movie input);
+
   // sort all the hashes
   public void sort(IAlg algorithm, boolean decrescent);
 

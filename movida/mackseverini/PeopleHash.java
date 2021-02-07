@@ -50,6 +50,9 @@ public class PeopleHash<E extends Person> extends KeyHash<Person> implements IPe
   @Override
   // update the element if it does already exist else it normally insert it
   public boolean upsert(Person obj, Integer movie){
+    if (obj == null || movie == null)
+      return false;
+
     Integer key = this.hash(obj.getName());
     IList<String> node = null;
 
@@ -69,6 +72,40 @@ public class PeopleHash<E extends Person> extends KeyHash<Person> implements IPe
     return false;
   }
 
+  // @Override
+  // delete by the obj. It's the same as the other method "delete"
+  public boolean decreaseMovie(Person obj, Integer movie){
+    if (obj == null || movie == null)
+      return false;
+
+    Integer hash_key = this.hash(obj.getName()), pos = -1;
+    IList<String> node = null;
+
+    // check if the list of the hashed key exist
+    if ((node = ((KeyList<IList<String>, Integer, Integer>)this.major).getByKey(hash_key)) == null)
+      return false;
+
+    // get the position of the element in the main array of element
+    pos = ((KeyList<String, Integer, Integer>)node).searchKey(obj.getName());
+
+    if (pos == null || pos == -1)
+      return false;
+
+    boolean delmovie = this.dom.get(pos).delMovie(movie);
+    System.out.println("deleting: " + this.dom.get(pos).getName() + "\tmovie: " + movie);
+    System.out.println("res: " + delmovie);
+    System.out.println("sizeListOfMovie: " + this.dom.get(pos).getMovieSize());
+    // if(!this.dom.get(pos).delMovie(movie))
+    if(!delmovie)
+      return false;
+
+    if(this.dom.get(pos).getMovieSize() > 0)
+      return true;
+
+    return this.delete(obj.getName());
+  }
+
+
   @Override
   // delete by the obj. It's the same as the other method "delete"
   public boolean delete(Person obj){
@@ -86,7 +123,6 @@ public class PeopleHash<E extends Person> extends KeyHash<Person> implements IPe
 
     Integer hash_key = this.hash(name), pos = 0;
     IList<String> node = null;
-    Person movie_to_be_deleted = null;
 
     // check if the list of the hashed key exist
     if ((node = ((KeyList<IList<String>, Integer, Integer>)this.major).getByKey(hash_key)) == null)
@@ -145,6 +181,8 @@ public class PeopleHash<E extends Person> extends KeyHash<Person> implements IPe
     int i = 0;
 
     InsertionSort is = new InsertionSort();
+
+    this.updateActive();
 
     IList<Integer> sorted_list = is.sort(this.active, false);
 

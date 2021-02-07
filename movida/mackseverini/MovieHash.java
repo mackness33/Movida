@@ -234,6 +234,23 @@ public class MovieHash<E extends Movie> extends KeyHash<Movie> implements IMovie
   // get the element based of the id (position in the main array). Done for PersonHash.
   public Movie getFromId (Integer id){ return (id > this.size || id < 0) ? null : this.dom.get(id); }
 
+  // get the position based of the movie in input (position in the main array). Done for PersonHash.
+  public Integer getPosFromMovie (Movie input){
+    if (input == null)
+      return -1;
+
+    Integer key = this.hash(input.getTitle()), el_key = -1;
+    IList<String> node = null;
+
+    // check if the list of the hashed value of the key in input already exist
+    if ((node = ((KeyList<IList<String>, Integer, Integer>)this.major).getByKey(key)) != null){
+      el_key = ((KeyList<String, Integer, Integer>)node).searchKey(input.getTitle());
+    }
+
+    // check if th pos of the element is null
+    return (el_key == null) ? -1 : el_key;
+  }
+
   @Override
   // sort all the hashes
   public void sort(IAlg algorithm, boolean decrescent){

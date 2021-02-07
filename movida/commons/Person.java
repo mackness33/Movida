@@ -55,6 +55,9 @@ public class Person implements Comparable<Person>{
 	// add a new index of a movie
 	public void addMovie(Integer movie_id){ this.movies.addTail(movie_id); }
 
+	// del a movie
+	public boolean delMovie(Integer movie_id){ return this.movies.delEl(movie_id); }
+
 	// get all the indexes of the movies in which the person worked on
 	public IList<Integer> getMovies(){ return this.movies; }
 

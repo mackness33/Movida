@@ -200,7 +200,7 @@ public class test {
 
     mb.loadFromFile(new File("movida/assets/esempio-formato-dati.txt"));
     movidaMapTest(mb);
-    movidaGraphTest(mb);
+    // movidaGraphTest(mb);
 
     mb.saveToFile(new File("movida/assets/output.txt"));
   }
@@ -210,8 +210,8 @@ public class test {
     System.out.println("MapChange2: " + mb.setMap(movida.commons.MapImplementation.ABR));
     System.out.println("MapChange3: " + mb.setMap(movida.commons.MapImplementation.AVL));
 
-    System.out.println("AlgChange2: " + mb.setSort(movida.commons.SortingAlgorithm.InsertionSort));
     System.out.println("AlgChange1: " + mb.setSort(movida.commons.SortingAlgorithm.MergeSort));
+    System.out.println("AlgChange2: " + mb.setSort(movida.commons.SortingAlgorithm.InsertionSort));
     System.out.println("AlgChange3: " + mb.setSort(movida.commons.SortingAlgorithm.HeapSort));
   }
 
@@ -327,7 +327,7 @@ public class test {
 
     // SEARCH MOST OF -> ACTOR
     System.out.println("\n\rSEARCHALLOF ACTORS: ");
-    Movie[] actors = mb.searchMoviesStarredBy("Harrison Ford");
+    Movie[] actors = mb.searchMoviesStarredBy("Bruce Willis");
 
     if (actors != null){
       for(int i = 0; i < actors.length; i++)
@@ -339,7 +339,7 @@ public class test {
 
     // SEARCH MOST OF -> ACTIVE
     System.out.println("\n\rSEARCHMOSTACTIVE ACTORS: ");
-    Person[] active = mb.searchMostActiveActors(5);
+    Person[] active = mb.searchMostActiveActors(10);
 
     if (active != null){
       for(int i = 0; i < active.length; i++)
