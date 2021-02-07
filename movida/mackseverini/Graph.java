@@ -79,15 +79,20 @@ public class Graph<E extends Comparable<E>, K extends Comparable<K>> implements 
   @Override
   public int numVerteces() { return this.numVertex; }
 
-  // add a vertex
   @Override
-  public boolean addVertex(E vertex){
+  // add a vertex
+  public boolean addVertex(E vertex){ return this.addGenericVertex(this.verteces, vertex); }
+
+  // add a new generic vertex
+	protected <T extends Comparable<T>> boolean addGenericVertex(Array<IVertex<E, T>> list_of_vtx, E vertex){
     if (vertex == null)
       return false;
 
-    if (!this.checkAndAddVertex(this.verteces, new Vertex<E, K>(vertex)))
-      return false;
+		// if the vertex is not present in the array add it else return false
+    if (!this.checkAndAddVertex(list_of_vtx, new Vertex<E, T>(vertex)))
+			return false;
 
+		// increse number of verteces present in the graph
     this.numVertex++;
 
     return true;

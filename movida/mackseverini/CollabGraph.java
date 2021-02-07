@@ -93,9 +93,9 @@ public class CollabGraph extends movida.mackseverini.Graph<Person, ArrayList<Mov
 			if (pos > -1){
 				Double score = ((CollabArch<Integer>)this.arches.getAt(pos)).incWeight(movie);			// increase and get the score of the arch
 				// upsert the adiacence of the verteces
-				((CollabVertex)this.verteces.get(nodes.getFirstValue())).upsertAdiacence(nodes.getSecondValue(), score);
+				this.verteces.get(nodes.getFirstValue()).upsertAdiacence(nodes.getSecondValue(), score);
 		    if (nodes.getFirstValue() != nodes.getSecondValue())    // if the verteces are equal don't add it twice
-		      ((CollabVertex)this.verteces.get(nodes.getSecondValue())).upsertAdiacence(nodes.getFirstValue(), score);
+		      this.verteces.get(nodes.getSecondValue()).upsertAdiacence(nodes.getFirstValue(), score);
 
 				return true;
 			}
@@ -158,7 +158,6 @@ public class CollabGraph extends movida.mackseverini.Graph<Person, ArrayList<Mov
 		return false;
   }
 
-
 	// CLEAN
 	public void print(){
     for(int i = 0, size = 0; i < this.verteces.length; i++){
@@ -177,19 +176,7 @@ public class CollabGraph extends movida.mackseverini.Graph<Person, ArrayList<Mov
   }
 
 	// add a new actor
-	public boolean addVertex(Person vertex){
-    if (vertex == null)
-      return false;
-
-		// if the vertex is not present in the array add it else return false
-    if (!this.checkAndAddVertex(this.verteces, new CollabVertex(vertex)))
-			return false;
-
-		// increse number of verteces present in the graph
-    this.numVertex++;
-
-    return true;
-  }
+	public boolean addVertex(Person vertex){ return this.addGenericVertex(this.verteces, vertex); }
 
 	// visit the Graph from the actor (vertex) in input
   public Person [] visitStartingFrom(Person actor){
@@ -410,29 +397,5 @@ public class CollabGraph extends movida.mackseverini.Graph<Person, ArrayList<Mov
 				System.out.println("NULL");
 	    System.out.println("FIRST VERTEX => " + this.vertex1 + "  SECOND VERTEX => " + this.vertex2 + "\n\r");
 	  }
-  }
-
-	public class CollabVertex extends Vertex<Person, Double>{
-		public CollabVertex(Person actor){
-	    this.value = actor;
-	    this.adiacence = new KeyList<Integer, Double, Integer>();
-	  }
-
-		// public void addAdiacence (Integer v, Movie movie) { this.addScore(v, movie.getVotes()); }
-		//
-		// public boolean addMovie (Integer v, Movie movie) { this.addScore(v, movie.getVotes());}
-
-		public boolean delMovie (Integer v, Movie m) {
-			if (m == null)
-				return false;
-
-			Double score = this.adiacence.searchKey(v);
-
-			if (score == null)
-				return false;
-			// WARNING: not really checked
-			return this.adiacence.updElKey(v, Math.abs(((score == null) ? 0 : score) - m.getVotes()));
-		}
-
   }
 }
