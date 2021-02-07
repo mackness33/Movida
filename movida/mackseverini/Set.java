@@ -232,20 +232,6 @@ public class Set<K extends Comparable<K>, E extends Comparable<E>> {
       this.key = -1;
 		}
 
-		// @SuppressWarnings("unchecked")
-		// public SetNode (INode2<E> n, INode2<E> l){
-    //   super();
-		// 	this.next = (SetNode<E>)n;
-		// 	this.leader = (SetNode<E>)l;
-		// }
-		//
-		// @SuppressWarnings("unchecked")
-		// public SetNode (Integer k, E v, SetNode<E> n, SetNode<E> l){
-    //   super(k, v);
-		// 	this.next = n;
-		// 	this.leader = l;
-		// }
-
 		public SetNode (Integer k, E v){
       super(v);
 			this.next = null;
