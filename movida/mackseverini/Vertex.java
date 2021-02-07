@@ -46,20 +46,11 @@ public class Vertex<E extends Comparable<E>, K extends Comparable<K>> implements
     if (v == null || weight == null)
       return false;
 
-		// K old_weight = this.adiacence.searchKey(v);
-    // if (this.updAdiacence(v, k))
-    //
-		// if (old_weight == null){
-    //   this.adiacence.addHead(weight, v);
-    //   return true;
-    // }
-
-    System.out.println("The v is: " + v);
-    // System.out.println("The old_weight is: " + old_weight);
-    System.out.println("The this is: " + this.value);
+    // if the node hasn't been updated than add a new one
     return (this.updAdiacence(v, weight)) ? true : this.addHead(weight, v);
   }
 
+  // let the addHead of list return a boolean
   private boolean addHead(K weight, Integer vertex){
     this.adiacence.addHead(weight, vertex);
     return true;
@@ -70,14 +61,7 @@ public class Vertex<E extends Comparable<E>, K extends Comparable<K>> implements
     if (v == null)
       return false;
 
-		// K old_weight = this.adiacence.searchKey(v);
-
-    // if (old_weight == null)
-    //   return false;
-
-    System.out.println("The this is: " + this.value);
-    System.out.println("The v is: " + v);
-    // System.out.println("The old_weight is: " + old_weight);
+    // if the node is found, uppdate the node
     return (this.adiacence.searchKey(v) == null) ? false : this.adiacence.updElKey(v, weight);
   }
 
@@ -89,6 +73,7 @@ public class Vertex<E extends Comparable<E>, K extends Comparable<K>> implements
 
   public int compareTo (E input) { return this.value.compareTo(input); }
 
+  // CLEAN
   @Override
   public void print(){
     System.out.println("Vertex: VALUE => " + this.value + " \n\r\t ADIACENCE => ");
@@ -97,36 +82,4 @@ public class Vertex<E extends Comparable<E>, K extends Comparable<K>> implements
 
   @Override
   public String toString(){ return this.value.toString(); }
-
-  // CLEAN:
-  protected class Pair <E extends Comparable<E>, K extends Comparable<K>> implements Comparable<Pair<E, K>>{
-    protected E value;
-		protected K key;
-
-    public Pair(){
-      this.value = null;
-      this.key = null;
-    }
-
-    public Pair(E v, K k){
-      this.value = v;
-      this.key = k;
-    }
-
-    //@Override
-    public E getValue() { return this.value; }
-    //@Override
-    public K getKey() { return this.key; }
-
-    //@Override
-    public void setValue (E v) { this.value = v; }
-    //@Override
-    public void setKey (K k) { this.key = k; }
-
-    //@Override
-    public int compareTo (Pair<E, K> input) { return this.key.compareTo(input.getKey()); }
-
-    //@Override
-    public void print(){ System.out.println("Pair: VALUE => " + this.value + " KEY => " + this.key); }
-  }
 }

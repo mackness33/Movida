@@ -64,7 +64,6 @@ public class Stack<E extends Comparable<E>>{
       System.out.print("POS => " + i + "  " + iter.getValue() + "\n\r");
   }
 
-
   // trasform the list into an array object
   public Array<E> toArray(){ return this.elements.toArray(); }
 }
