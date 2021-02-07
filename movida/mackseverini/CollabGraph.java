@@ -214,8 +214,8 @@ public class CollabGraph extends movida.mackseverini.Graph<Person, ArrayList<Mov
 		return temp;
 	}
 
-  // it return the Minimum Spinnig Tree of the graph using Primm's algorithm
   @Override
+	// it return the Minimum Spinnig Tree of the graph using Primm's algorithm
   public Array<IArch<Person, ArrayList<Movie>>> MSTPrim(Person vertex, boolean isMin){
     Integer pos_vertex = this.findVertex(this.verteces, vertex);       // get the position of the selected vertex
     if (pos_vertex == null)
