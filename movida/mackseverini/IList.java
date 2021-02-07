@@ -1,5 +1,4 @@
 package movida.mackseverini;
-import movida.mackseverini.INode;
 
 // interface that describe the basic operation of List
 public interface IList<E extends Comparable<E>> extends Comparable<IList<E>>{

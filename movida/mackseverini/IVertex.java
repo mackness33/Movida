@@ -1,6 +1,5 @@
 package movida.mackseverini;
 
-import movida.mackseverini.KeyList;
 import movida.mackseverini.IKeyList;
 
 // interface that describe the basic operation of a Vertex

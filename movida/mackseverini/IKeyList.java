@@ -1,7 +1,5 @@
 package movida.mackseverini;
 
-import movida.mackseverini.INode;
-
 // interfacec that describe the basic operation of List with keys
 public interface IKeyList<E extends Comparable<E>, T extends Comparable<T>, K extends Comparable<K>> extends IList<E>{
   public void print();  // CLEAN
