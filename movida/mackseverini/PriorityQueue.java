@@ -1,14 +1,9 @@
 package movida.mackseverini;
 
-import java.util.concurrent.ThreadLocalRandom;
-
-import movida.mackseverini.Node2;
-import movida.mackseverini.List;
-import movida.mackseverini.Array;
-import movida.mackseverini.Set;
 import movida.commons.Movie;
 import movida.commons.Person;
-import movida.mackseverini.IKeyList;
+
+import movida.mackseverini.Array;
 
 public class PriorityQueue<E extends Comparable<E>, K extends Comparable<K>>{
   protected Array<Pair<E, K>> binaryHeap;
@@ -17,7 +12,6 @@ public class PriorityQueue<E extends Comparable<E>, K extends Comparable<K>>{
   protected int height;
   protected boolean isMin;
 
-  @SuppressWarnings("unchecked")
   public PriorityQueue(boolean min) {
     this.binaryHeap = new Array<Pair<E, K>>(this.MAX_LENGTH);
     this.size = 0;
@@ -40,8 +34,8 @@ public class PriorityQueue<E extends Comparable<E>, K extends Comparable<K>>{
 
   public int getSize() { return this.size; }
 
-  // reset of all the data structure
   // @Override
+  // reset of all the data structure
   public void reset (){
     this.size = 0;
     this.height = 0;
@@ -56,12 +50,15 @@ public class PriorityQueue<E extends Comparable<E>, K extends Comparable<K>>{
     if (obj == null || key == null)
       return false;
 
+    // add a new node at the end of the binaryheap
     this.binaryHeap.set(this.size, new Pair<E, K>(obj, key));
     this.size++;
 
+    // increase the height if needed
     if (this.size > Math.pow(2, this.height) - 1)
       this.height++;
 
+    // move up the new node added
     this.moveUp(this.size-1);
 
     return true;
@@ -69,7 +66,9 @@ public class PriorityQueue<E extends Comparable<E>, K extends Comparable<K>>{
 
   public boolean isEmpty(){ return (this.height == 0) ? true : false; }
 
+  // move up a node to its right position
   protected void moveUp(int pos){
+    // if position is right and the has a node inside than continue
     if (pos >= 0 && pos < this.size){
       if (this.binaryHeap.get(pos) == null)
         return;
@@ -77,9 +76,11 @@ public class PriorityQueue<E extends Comparable<E>, K extends Comparable<K>>{
     else
       return;
 
+    // iterate till the node is in the right position
     for (int i = ((pos+1)/2)-1; i >= 0; i=((pos+1)/2)-1){
-      if (min_max_compare(this.binaryHeap.get(pos), this.binaryHeap.get(i))){                      // here
-      // if (this.binaryHeap.get(pos).compareTo(this.binaryHeap.get(i)) < 0){        // here
+      // compare the input node with the iter one
+      if (min_max_compare(this.binaryHeap.get(pos), this.binaryHeap.get(i))){
+        // swap the two node
         Pair<E, K> temp = this.binaryHeap.get(i);
         this.binaryHeap.set(i, this.binaryHeap.get(pos));
         this.binaryHeap.set(pos, temp);
@@ -91,6 +92,7 @@ public class PriorityQueue<E extends Comparable<E>, K extends Comparable<K>>{
     return;
   }
 
+  // move up a node to its right position
   protected void moveDown(int pos){
     if (pos >= 0 && pos < this.size){
       if (this.binaryHeap.get(pos) == null)
@@ -98,10 +100,12 @@ public class PriorityQueue<E extends Comparable<E>, K extends Comparable<K>>{
     }
     else return;
 
-    for (int i = (pos*2)+1; i < this.size; i=(pos*2)+1){
+    // iterate till the node is in the right position
+    for (int i = (pos*2)+1; i < this.size; i = (pos*2)+1){
+      // if i+1 doesn't exceed the size of the binaryHeap
       if (i+1 < this.size){
-        if (min_max_compare(this.binaryHeap.get(i), this.binaryHeap.get(i+1))){                      // here
-        // if (this.binaryHeap.get(i).compareTo(this.binaryHeap.get(i+1)) < 0){        // here
+        // check (and swap) the bigger (lesser) of the nodes in i and i+1
+        if (min_max_compare(this.binaryHeap.get(i), this.binaryHeap.get(i+1))){
           if (this.compareAndSwap(pos, i))
             pos = i;
           else break;
@@ -112,6 +116,7 @@ public class PriorityQueue<E extends Comparable<E>, K extends Comparable<K>>{
           else break;
         }
       }
+      // else just check (and swap) the node in i
       else{
         if (this.compareAndSwap(pos, i))
           pos = i;
@@ -122,9 +127,9 @@ public class PriorityQueue<E extends Comparable<E>, K extends Comparable<K>>{
     return;
   }
 
+  // compare and swap the node in the first position in input with the second based of which one is bigger (lesser)
   private boolean compareAndSwap(int pos, int pos2){
-    if (min_max_compareEqual(this.binaryHeap.get(pos2), this.binaryHeap.get(pos))){                    // here
-    // if (this.binaryHeap.get(pos).compareTo(this.binaryHeap.get(pos2)) > 0){         // here
+    if (min_max_compareEqual(this.binaryHeap.get(pos2), this.binaryHeap.get(pos))){
       Pair<E, K> temp = this.binaryHeap.get(pos2);
       this.binaryHeap.set(pos2, this.binaryHeap.get(pos));
       this.binaryHeap.set(pos, temp);
@@ -135,65 +140,75 @@ public class PriorityQueue<E extends Comparable<E>, K extends Comparable<K>>{
   }
 
   // delete of a element. A lot similar to KeyHash.delHashKey(..)
-  // @Override
   public boolean delete(E obj){
     if (obj == null)
       return false;
 
     int pos = -1;
 
+    // get and check the position of the object in input
     if ((pos = this.search(obj, 1)) < 0)
       return false;
 
+    // swap with the last node of the binaryHeap
     Pair<E, K> temp = this.binaryHeap.get(this.size-1);
     this.binaryHeap.set(pos, temp);
     this.binaryHeap.set(this.size-1, null);
 
     this.size--;
 
+    // decrease the height if needed
     if (this.size < Math.pow(2, this.height) - 1)
       this.height--;
 
+    // move down the new node in the position of the deleted one
     this.moveDown(pos);
 
     return true;
   }
 
+  // recursive search of the obj in input. It return the position of the obj if found else -1
   protected int search(E obj, int pos){
+    // checks on the input
     if (obj == null || pos < 1 || this.binaryHeap.get(pos-1) == null || pos > this.size)
       return -1;
 
+    // check the el with the position in input
     if (obj.compareTo(this.binaryHeap.get(pos-1).getValue()) == 0)
       return pos-1;
-    else  if (min_max_compare(obj, this.binaryHeap.get(pos-1).getValue()))                      // here
-    // else if (obj.compareTo(this.binaryHeap.get(pos-1).getValue()) < 0)            // here
+    // if the object exceed the value on the position, return not found
+    else  if (min_max_compare(obj, this.binaryHeap.get(pos-1).getValue()))
       return -1;
-    else
-      return Math.max(this.search(obj, pos*2), this.search(obj, (pos*2)+1));
+    // else get the bigger results of the recursive call
+    return Math.max(this.search(obj, pos*2), this.search(obj, (pos*2)+1));
   }
 
+  // check if the object is present
   public boolean check(E obj){
     if (obj == null)
       return false;
-    System.out.println("Check obj: " + obj);
-    for (int i = 0; i < this.size; i++){
-      System.out.println("Binary at pos: " + i + "\tobj " + this.binaryHeap.get(i).getValue());
+
+    // check the binaryheap as a normal array
+    for (int i = 0; i < this.size; i++)
       if (obj.compareTo(this.binaryHeap.get(i).getValue()) == 0)
         return true;
-    }
 
     return false;
   }
 
+  // recursive search of the key of the input object
   public K getKey(E obj, int pos){
     if (obj == null || pos < 1 || this.binaryHeap.get(pos-1) == null || pos > this.size)
       return null;
 
+
+    // check the el with the position in input
     if (obj.compareTo(this.binaryHeap.get(pos-1).getValue()) == 0)
       return this.binaryHeap.get(pos-1).getKey();
-    else  if (min_max_compare(obj, this.binaryHeap.get(pos-1).getValue()))                      // here
-    // else if (obj.compareTo(this.binaryHeap.get(pos-1).getValue()) < 0)                        // here
+    // if the object exceed the value on the position, return not found
+    else  if (min_max_compare(obj, this.binaryHeap.get(pos-1).getValue()))
       return null;
+    // else get the bigger results of the recursive call and check
     else{
       K first = this.getKey(obj, pos*2);
       K second = this.getKey(obj, (pos*2)+1);
@@ -202,25 +217,31 @@ public class PriorityQueue<E extends Comparable<E>, K extends Comparable<K>>{
     }
   }
 
+  // return the value at the top
   public E find() { return this.binaryHeap.get(0).getValue();}
 
+  // delete the value at the top
   public boolean delete() { return this.delete(this.binaryHeap.get(0).getValue());}
 
+  // increase the key of the object in input
   public boolean increaseKey(E obj, K key){
     if (obj == null || key == null)
       return false;
 
     int pos = -1;
 
+    // check if the object is present
     if ((pos = this.search(obj, 1)) < 0)
       return false;
 
-    if (min_max_compareEqual(key, this.binaryHeap.get(pos).getKey()))                      // here
-    // if (key.compareTo(this.binaryHeap.get(pos).getKey()) <= 0)                          // here
+    // check the key of the node found
+    if (min_max_compareEqual(key, this.binaryHeap.get(pos).getKey()))
       return false;
 
+    // set the new object
     this.binaryHeap.set(pos, new Pair<E, K>(obj, key));
-    // (isMin) ? this.moveDown(pos) : this.moveUp(pos);
+
+    // move based on the order decided
     if (isMin)
       this.moveUp(pos);
     else
@@ -229,20 +250,25 @@ public class PriorityQueue<E extends Comparable<E>, K extends Comparable<K>>{
     return true;
   }
 
+  // decrease the key of the object in input
   public boolean decreaseKey(E obj, K key){
     if (obj == null || key == null)
       return false;
 
     int pos = -1;
 
+    // check if the object is present
     if ((pos = this.search(obj, 1)) < 0)
       return false;
 
-    if (min_max_compare(this.binaryHeap.get(pos).getKey(), key))                      // here
-    // if (key.compareTo(this.binaryHeap.get(pos).getKey()) >= 0)                      // here
+    // check the key of the node found
+    if (min_max_compare(this.binaryHeap.get(pos).getKey(), key))
       return false;
 
+    // set the new object
     this.binaryHeap.set(pos, new Pair<E, K>(obj, key));
+
+    // move based on the order decided
     if (isMin)
       this.moveUp(pos);
     else
@@ -251,8 +277,11 @@ public class PriorityQueue<E extends Comparable<E>, K extends Comparable<K>>{
     return true;
   }
 
+
+  // compare the two elements based on the order in input (isMin)
   protected <T extends Comparable<T>> boolean min_max_compare(T obj, T obj2){ return (isMin) ? (obj.compareTo(obj2) < 0) : (obj.compareTo(obj2) > 0); }
 
+  // compare the two elements based on the order in input (isMin)
   protected <T extends Comparable<T>> boolean min_max_compareEqual(T obj, T obj2){ return (isMin) ? (obj.compareTo(obj2) <= 0) : (obj.compareTo(obj2) >= 0); }
 
   // print of the whole hash
@@ -268,6 +297,7 @@ public class PriorityQueue<E extends Comparable<E>, K extends Comparable<K>>{
       }
   }
 
+  // class for pair value and key
   protected class Pair <E extends Comparable<E>, K extends Comparable<K>> implements Comparable<Pair<E, K>>{
     protected E value;
 		protected K key;
@@ -282,22 +312,17 @@ public class PriorityQueue<E extends Comparable<E>, K extends Comparable<K>>{
       this.key = k;
     }
 
-    //@Override
     public E getValue() { return this.value; }
-    //@Override
     public K getKey() { return this.key; }
 
-    //@Override
     public void setValue (E v) { this.value = v; }
-    //@Override
     public void setKey (K k) { this.key = k; }
 
-    //@Override
     public int compareTo (Pair<E, K> input) {
       return this.key.compareTo(input.getKey());
     }
 
-    //@Override
+    // CLEAN
     public void print(){ System.out.println("Pair: VALUE => " + this.value + " KEY => " + this.key); }
   }
 }
