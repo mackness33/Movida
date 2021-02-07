@@ -286,6 +286,7 @@ public class PriorityQueue<E extends Comparable<E>, K extends Comparable<K>>{
 
   // print of the whole hash
   // FOR TEST USE ONLY
+  // CLEAN
   public void print (){
     System.out.println("Size: " + this.size);
     Pair<E, K> temp = null;
