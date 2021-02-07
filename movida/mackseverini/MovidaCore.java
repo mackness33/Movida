@@ -1,16 +1,10 @@
 package movida.mackseverini;
 
-import java.util.LinkedList;
-import java.util.ArrayList;
-import java.util.Iterator;
-
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.BufferedReader;
 import java.io.IOException;
-
-import java.lang.Integer;
 
 import movida.commons.Movie;
 import movida.commons.Person;
@@ -19,14 +13,13 @@ import movida.commons.SortingAlgorithm;
 import movida.commons.Collaboration;
 import movida.commons.MovidaFileException;
 
-import movida.mackseverini.Search;
 import movida.mackseverini.MovieAbr;
 import movida.mackseverini.PersonAbr;
 import movida.mackseverini.MovieHash;
 import movida.mackseverini.PeopleHash;
 import movida.mackseverini.CollabGraph;
-import movida.mackseverini.InsertionSort;
 import movida.mackseverini.MergeSort;
+import movida.mackseverini.InsertionSort;
 
 public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMovidaSearch, movida.commons.IMovidaConfig, movida.commons.IMovidaCollaborations{
   private IMovieMap<Movie> movies;
@@ -36,19 +29,9 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
 
   public MovidaCore(){
     this.graph = new CollabGraph();
-    // if("MovidaConfig usa hash")
-    // this.movies = new MovieHash();
     this.movies = null;
-    // this.people = new PeopleHash();
     this.people = null;
-    // else
-      // this.movies = new MovieAbr();
-      // this.people = new PersonAbr();
-    // if("MovidaConfig usa InsertionSort")
-    // this.sortAlgorithm = new InsertionSort();
     this.sortAlgorithm = null;
-    // else
-      // this.sortAlgorithm = new MergeSort();
   }
 
   public MovidaCore(IMovieMap M, IPersonMap P ){
@@ -134,7 +117,6 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
       graph.print();
     }
     catch(IOException io){
-      // io.printStackTrace();
       throw new MovidaFileException();
     }
   }
@@ -155,18 +137,12 @@ public class MovidaCore implements movida.commons.IMovidaDB, movida.commons.IMov
     temp = new Movie(movie[0], new Integer(movie[1]), new Integer(movie[2]), cast, new Person(movie[4], false, movies.getSize()));
 
     int id_el = movies.upsert(temp);
-    this.addPerson(movie[4], false, id_el);
+    people.upsert(new Person(movie[4].trim(), false, id_el), id_el);
     for(int i = 0; i < 10; i++)
       if (i < cast_name.length)
-        this.addPerson(cast_name[i].trim(), true, id_el);
+        people.upsert(new Person(cast_name[i].trim(), true, id_el), id_el);
 
     graph.addMovie(temp);
-  }
-
-  protected void addPerson(String name, boolean type, int id){
-    people.upsert(new Person(name, type, id), id);
-
-    System.out.println("Add of person!");
   }
 
   /**
