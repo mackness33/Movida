@@ -77,13 +77,17 @@ public class PersonAbr<E extends Person> implements IPersonAbr<E>
 
       if(indexToUpdate != null)
       {
-        Person personUpdated = this.people.get(indexToUpdate);
-        System.out.println("\n\n\n\nMOVIES SIZE"+personUpdated.getMovieSize());
-        this.numMovsParticipated.deleteByKey(personUpdated.getMovieSize(), indexToUpdate);
-        personUpdated.addMovie(movie);
-        System.out.println("\nNEW MOVIES SIZE"+personUpdated.getMovieSize()+"\n\n\n\n");
-        this.numMovsParticipated.insert(personUpdated.getMovieSize());
-        this.people.set(indexToUpdate, (E)personUpdated);
+        Person updatedPerson = this.people.get(indexToUpdate);
+        updatedPerson.addMovie(movie);
+        this.numMovsParticipated.update(indexToUpdate, indexToUpdate, updatedPerson.getMovieSize(), personToInsert.getMovieSize());
+        this.people.set(indexToUpdate, (E)updatedPerson);
+        // Person personUpdated = this.people.get(indexToUpdate);
+        // System.out.println("\n\n\n\nMOVIES SIZE"+personUpdated.getMovieSize());
+        // this.numMovsParticipated.deleteByKey(personUpdated.getMovieSize(), indexToUpdate);
+        // personUpdated.addMovie(movie);
+        // System.out.println("\nNEW MOVIES SIZE"+personUpdated.getMovieSize()+"\n\n\n\n");
+        // this.numMovsParticipated.insert(personUpdated.getMovieSize());
+        // this.people.set(indexToUpdate, (E)personUpdated);
 
         return true;
       }

@@ -478,9 +478,9 @@ public class ABR<E extends Comparable<E>, T extends Comparable<T>> implements IA
   }
 
   @Override
-  public boolean update(E keyToUpdate, T valueToUpdate, T valueToFind)
+  public boolean update(E keyToUpdate, E keyToFind, T valueToUpdate, T valueToFind)
   {
-    if(this.delete(valueToFind))
+    if(this.deleteByKey(valueToFind, keyToFind))
       return this.insert(keyToUpdate, valueToUpdate);
     else
       return false;
